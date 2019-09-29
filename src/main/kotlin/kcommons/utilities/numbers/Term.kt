@@ -1,4 +1,4 @@
-package bvanseg.utilities.numbers
+package kcommons.utilities.numbers
 
 class Term(var term: String) {
 

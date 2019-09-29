@@ -1,6 +1,6 @@
-package bvanseg.utilities.numbers
+package kcommons.utilities.numbers
 
-import bvanseg.utilities.string.UTFBuffer
+import kcommons.utilities.string.UTFBuffer
 
 class Expression(expression: String) {
 

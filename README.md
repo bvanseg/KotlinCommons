@@ -1,2 +1,2 @@
-# UTFBuffer
- A buffer object that can parse strings more effectively.
+# KotlinCommons
+ A collection of utilities for Kotlin projects.

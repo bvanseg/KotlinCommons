@@ -1,4 +1,4 @@
-package bvanseg.utilities.numbers
+package kcommons.utilities.numbers
 
 enum class Op {
     ADD {

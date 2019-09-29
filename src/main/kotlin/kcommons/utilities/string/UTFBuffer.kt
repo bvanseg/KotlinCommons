@@ -1,6 +1,6 @@
-package bvanseg.utilities.string
+package kcommons.utilities.string
 
-import bvanseg.utilities.numbers.clamp
+import kcommons.utilities.numbers.clamp
 import java.lang.StringBuilder
 import java.nio.ByteBuffer
 
