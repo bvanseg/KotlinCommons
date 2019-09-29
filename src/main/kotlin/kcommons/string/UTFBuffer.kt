@@ -1,6 +1,6 @@
-package kcommons.utilities.string
+package kcommons.string
 
-import kcommons.utilities.numbers.clamp
+import kcommons.numbers.clamp
 import java.lang.StringBuilder
 import java.nio.ByteBuffer
 
