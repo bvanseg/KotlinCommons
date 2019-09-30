@@ -2,6 +2,7 @@ package kcommons.buffers
 
 import kcommons.projects.Version
 import java.nio.ByteBuffer
+import java.util.*
 
 fun ByteBuffer.getBytes(buffer: ByteBuffer): ByteArray = this.getBytes(this, this.short.toInt())
 
@@ -10,6 +11,8 @@ fun ByteBuffer.getBytes(buffer: ByteBuffer, num: Int): ByteArray {
     buffer.get(bytes)
     return bytes
 }
+
+fun ByteBuffer.getUUID(): UUID = UUID(long, long)
 
 fun ByteBuffer.getString(): String = String(this.getBytes(this))
 
