@@ -1,4 +1,4 @@
-package kcommons.projects
+package bvanseg.kcommons.projects
 
 import org.apache.commons.lang3.builder.HashCodeBuilder
 

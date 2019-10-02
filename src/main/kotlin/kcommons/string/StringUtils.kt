@@ -1,2 +1,0 @@
-package kcommons.string
-

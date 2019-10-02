@@ -1,4 +1,4 @@
-import kcommons.string.UTFBuffer
+import bvanseg.kcommons.string.UTFBuffer
 
 fun main() {
     val buffer = UTFBuffer.wrap("The fat cat jumped over the lazy dog.")

@@ -1,4 +1,4 @@
-package kcommons.logging
+package bvanseg.kcommons.logging
 
 import org.slf4j.Logger
 

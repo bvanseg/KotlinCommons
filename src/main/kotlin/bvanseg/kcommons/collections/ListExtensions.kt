@@ -1,4 +1,4 @@
-package kcommons.collections
+package bvanseg.kcommons.collections
 
 fun <E> List<E>.containsAny(list: List<E>): Boolean {
     list.forEach {

@@ -1,0 +1,2 @@
+package bvanseg.kcommons.string
+

@@ -1,4 +1,4 @@
-package kcommons.classes
+package bvanseg.kcommons.classes
 
 import java.lang.reflect.Constructor
 

@@ -1,4 +1,4 @@
-package kcommons.string
+package bvanseg.kcommons.string
 
 fun List<String>.joinStrings(startIndex: Int = 0, endIndex: Int = -1): String {
     val sb = StringBuilder()

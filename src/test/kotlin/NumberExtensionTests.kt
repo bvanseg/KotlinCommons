@@ -1,4 +1,4 @@
-import kcommons.numbers.clamp
+import bvanseg.kcommons.numbers.clamp
 import org.junit.jupiter.api.Test
 
 class NumberExtensionTests{

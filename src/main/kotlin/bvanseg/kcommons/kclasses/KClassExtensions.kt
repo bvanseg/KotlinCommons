@@ -1,4 +1,4 @@
-package kcommons.kclasses
+package bvanseg.kcommons.kclasses
 
 import kotlin.reflect.KClass
 import kotlin.reflect.KType

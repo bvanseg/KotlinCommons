@@ -1,6 +1,6 @@
-package kcommons.buffers
+package bvanseg.kcommons.buffers
 
-import kcommons.projects.Version
+import bvanseg.kcommons.projects.Version
 import java.nio.ByteBuffer
 import java.util.*
 

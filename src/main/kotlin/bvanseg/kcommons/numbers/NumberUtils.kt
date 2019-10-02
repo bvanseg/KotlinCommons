@@ -1,4 +1,4 @@
-package kcommons.numbers
+package bvanseg.kcommons.numbers
 
 fun <T: Number> clamp(value: T, min: T, max: T): T  = when {
     value.toDouble() < min.toDouble() -> min
