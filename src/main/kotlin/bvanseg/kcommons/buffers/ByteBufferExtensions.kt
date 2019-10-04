@@ -9,7 +9,8 @@ fun ByteBuffer.getBytes(): ByteArray = getBytes(this.short.toInt())
 
 fun ByteBuffer.getBytes(num: Int): ByteArray {
     val bytes = ByteArray(num)
-    this.get(bytes)
+    if(this.remaining() > 0)
+        this.get(bytes)
     return bytes
 }
 
