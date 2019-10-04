@@ -8,12 +8,6 @@ import java.util.*
  * @author Bright_Spark
  */
 
-fun Packet.putBytes(byteArr: ByteArray) {
-    byteArr.forEach {
-        this.putByte(it.toInt())
-    }
-}
-
 fun Packet.putUUID(uuid: UUID) {
     this.putLong(uuid.mostSignificantBits)
     this.putLong(uuid.leastSignificantBits)
