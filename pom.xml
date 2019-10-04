@@ -53,6 +53,12 @@
             <artifactId>slf4j-api</artifactId>
             <version>${slf4j.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.jhg023</groupId>
+            <artifactId>SimpleNet</artifactId>
+            <version>1.5.1</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>
