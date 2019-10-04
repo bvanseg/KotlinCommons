@@ -34,7 +34,7 @@ class Version: Comparable<Version> {
             && this.patch == other.patch
             && this.label == other.label
 
-    override fun toString(): String = "$major.$minor.$patch-$label"
+    override fun toString(): String = "$major.$minor.$patch" + if(label != "") "-$label" else ""
     override fun hashCode(): Int = HashCodeBuilder().append(major).append(minor).append(patch).append(label).toHashCode()
 
     override fun compareTo(other: Version): Int {
