@@ -52,6 +52,7 @@ fun Packet.putUBObject(o: UBObject?): Packet {
     }
 
     bytes?.let {
+        this.putShort(it.size)
         this.putBytes(*it)
     }
     return this
