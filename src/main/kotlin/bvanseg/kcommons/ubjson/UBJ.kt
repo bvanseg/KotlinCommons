@@ -31,7 +31,7 @@ class UBJ {
     /**
      * Wraps the given [UBObject]
      */
-    constructor(ubObject: UBObject) {
+    constructor(ubObject: UBObject?) {
         this.wrappedUBObject = ubObject
     }
 

@@ -33,7 +33,7 @@ fun Packet.putVector3f(vector3fc: Vector3fc): Packet = this.putFloat(vector3fc.x
 fun Packet.putVector3d(vector3dc: Vector3dc): Packet = this.putDouble(vector3dc.x()).putDouble(vector3dc.y()).putDouble(vector3dc.z())
 
 /** UBJ Helper Functions **/
-fun Packet.putUBObjectWrapper(o: UBJ): Packet =
+fun Packet.putUBJ(o: UBJ): Packet =
     putUBObject(o.wrappedUBObject)
 
 fun Packet.putUBObject(o: UBObject?): Packet {
@@ -41,7 +41,9 @@ fun Packet.putUBObject(o: UBObject?): Packet {
     var bytes: ByteArray? = null
     try {
         UBWriter(os).use { writer ->
-            writer.write(o!!)
+            o?.let {
+                writer.write(it)
+            }
             bytes = os.toByteArray()
             os.close()
         }
@@ -49,8 +51,8 @@ fun Packet.putUBObject(o: UBObject?): Packet {
         e.printStackTrace()
     }
 
-    if (bytes != null) {
-        this.putBytes(*bytes!!)
+    bytes?.let {
+        this.putBytes(*it)
     }
     return this
 }
