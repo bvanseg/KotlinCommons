@@ -1,9 +1,6 @@
 package bvanseg.kcommons.ubjson
 
-import com.devsmart.ubjson.UBArray
-import com.devsmart.ubjson.UBObject
-import com.devsmart.ubjson.UBValue
-import com.devsmart.ubjson.UBValueFactory
+import com.devsmart.ubjson.*
 import java.util.*
 
 /**
@@ -84,6 +81,51 @@ class UBJ {
      * Sets a [String] to the wrapped [UBObject]
      */
     fun setString(key: String, value: String) = set(key, UBValueFactory.createString(value))
+
+	/**
+	 * Sets an array of [UBValue]s to the wrapped [UBObject]
+	 */
+	fun setArray(key: String, vararg values: UBValue) = set(key, UBValueFactory.createArray(*values))
+
+	/**
+	 * Sets an array of [Boolean]s to the wrapped [UBObject]
+	 */
+	fun setBooleanArray(key: String, vararg values: Boolean) = set(key, UBValueFactory.createArray(values))
+
+	/**
+	 * Sets an array of [Byte]s to the wrapped [UBObject]
+	 */
+	fun setByteArray(key: String, vararg values: Byte) = set(key, UBValueFactory.createArray(values))
+
+	/**
+	 * Sets an array of [Short]s to the wrapped [UBObject]
+	 */
+	fun setShortArray(key: String, vararg values: Short) = set(key, UBValueFactory.createArray(values))
+
+	/**
+	 * Sets an array of [Int]s to the wrapped [UBObject]
+	 */
+	fun setIntArray(key: String, vararg values: Int) = set(key, UBValueFactory.createArray(values))
+
+	/**
+	 * Sets an array of [Long]s to the wrapped [UBObject]
+	 */
+	fun setLongArray(key: String, vararg values: Long) = set(key, UBValueFactory.createArray(values))
+
+	/**
+	 * Sets an array of [Float]s to the wrapped [UBObject]
+	 */
+	fun setFloatArray(key: String, vararg values: Float) = set(key, UBValueFactory.createArray(values))
+
+	/**
+	 * Sets an array of [Double]s to the wrapped [UBObject]
+	 */
+	fun setDoubleArray(key: String, vararg values: Double) = set(key, UBValueFactory.createArray(values))
+
+	/**
+	 * Sets an array of [String]s to the wrapped [UBObject]
+	 */
+	fun setStringArray(key: String, vararg values: String) = set(key, UBValueFactory.createArray(values))
 
     /**
      * Sets a [UUID] to the wrapped [UBObject]
@@ -263,6 +305,141 @@ class UBJ {
      * If the value was null, then will return an empty String
      */
     fun getStringSafe(key: String): String = getString(key) ?: ""
+
+	/**
+	 * Gets a [UBArray] from the wrapped [UBObject]
+	 * Returns null if the value was not an array or the key-value pair did not exist
+	 */
+	fun getArray(key: String): UBArray? {
+		val value = get(key)
+		return if (value != null && value.isArray) value.asArray() else null
+	}
+
+	/**
+	 * Gets a [UBArray] from the wrapped [UBObject]
+	 * If the value was null, then will return an empty [UBArray]
+	 */
+	fun getArraySafe(key: String): UBArray = getArray(key) ?: UBValueFactory.createArray()
+
+	/**
+	 * Gets a [BooleanArray] from the wrapped [UBObject]
+	 * Returns null if the value was not an array, the key-value pair did not exist or the array type was not a [Boolean]
+	 */
+	fun getBooleanArray(key: String): BooleanArray? {
+		val array = getByteArray(key)
+		return if (array != null) BooleanArray(array.size) { i -> array[i] == 1.toByte() } else null
+	}
+
+	/**
+	 * Gets a [BooleanArray] from the wrapped [UBObject]
+	 * If the value was null, then will return an empty [BooleanArray]
+	 */
+	fun getBooleanArraySafe(key: String): BooleanArray = getBooleanArray(key) ?: booleanArrayOf()
+
+	/**
+	 * Gets a [ByteArray] from the wrapped [UBObject]
+	 * Returns null if the value was not an array, the key-value pair did not exist or the array type was not a [Byte]
+	 */
+	fun getByteArray(key: String): ByteArray? {
+		val array = getArray(key)
+		return if (array != null && array.strongType == UBArray.ArrayType.Int8) (array as UBInt8Array).values else null
+	}
+
+	/**
+	 * Gets a [ByteArray] from the wrapped [UBObject]
+	 * If the value was null, then will return an empty [ByteArray]
+	 */
+	fun getByteArraySafe(key: String): ByteArray = getByteArray(key) ?: byteArrayOf()
+
+	/**
+	 * Gets a [ShortArray] from the wrapped [UBObject]
+	 * Returns null if the value was not an array, the key-value pair did not exist or the array type was not a [Short]
+	 */
+	fun getShortArray(key: String): ShortArray? {
+		val array = getArray(key)
+		return if (array != null && array.strongType == UBArray.ArrayType.Int16) (array as UBInt16Array).values else null
+	}
+
+	/**
+	 * Gets a [ShortArray] from the wrapped [UBObject]
+	 * If the value was null, then will return an empty [ShortArray]
+	 */
+	fun getShortArraySafe(key: String): ShortArray = getShortArray(key) ?: shortArrayOf()
+
+	/**
+	 * Gets a [IntArray] from the wrapped [UBObject]
+	 * Returns null if the value was not an array, the key-value pair did not exist or the array type was not an [Int]
+	 */
+	fun getIntArray(key: String): IntArray? {
+		val array = getArray(key)
+		return if (array != null && array.strongType == UBArray.ArrayType.Int32) (array as UBInt32Array).values else null
+	}
+
+	/**
+	 * Gets a [IntArray] from the wrapped [UBObject]
+	 * If the value was null, then will return an empty [IntArray]
+	 */
+	fun getIntArraySafe(key: String): IntArray = getIntArray(key) ?: intArrayOf()
+
+	/**
+	 * Gets a [LongArray] from the wrapped [UBObject]
+	 * Returns null if the value was not an array, the key-value pair did not exist or the array type was not a [Long]
+	 */
+	fun getLongArray(key: String): LongArray? {
+		val array = getArray(key)
+		return if (array != null && array.strongType == UBArray.ArrayType.Int64) (array as UBInt64Array).values else null
+	}
+
+	/**
+	 * Gets a [LongArray] from the wrapped [UBObject]
+	 * If the value was null, then will return an empty [LongArray]
+	 */
+	fun getLongArraySafe(key: String): LongArray = getLongArray(key) ?: longArrayOf()
+
+	/**
+	 * Gets a [FloatArray] from the wrapped [UBObject]
+	 * Returns null if the value was not an array, the key-value pair did not exist or the array type was not a [Float]
+	 */
+	fun getFloatArray(key: String): FloatArray? {
+		val array = getArray(key)
+		return if (array != null && array.strongType == UBArray.ArrayType.Float32) (array as UBFloat32Array).values else null
+	}
+
+	/**
+	 * Gets a [FloatArray] from the wrapped [UBObject]
+	 * If the value was null, then will return an empty [FloatArray]
+	 */
+	fun getFloatArraySafe(key: String): FloatArray = getFloatArray(key) ?: floatArrayOf()
+
+	/**
+	 * Gets a [DoubleArray] from the wrapped [UBObject]
+	 * Returns null if the value was not an array, the key-value pair did not exist or the array type was not a [Double]
+	 */
+	fun getDoubleArray(key: String): DoubleArray? {
+		val array = getArray(key)
+		return if (array != null && array.strongType == UBArray.ArrayType.Float64) (array as UBFloat64Array).values else null
+	}
+
+	/**
+	 * Gets a [DoubleArray] from the wrapped [UBObject]
+	 * If the value was null, then will return an empty [DoubleArray]
+	 */
+	fun getDoubleArraySafe(key: String): DoubleArray = getDoubleArray(key) ?: doubleArrayOf()
+
+	/**
+	 * Gets a [String] [Array] from the wrapped [UBObject]
+	 * Returns null if the value was not an array, the key-value pair did not exist or the array type was not a [String]
+	 */
+	fun getStringArray(key: String): Array<String>? {
+		val array = getArray(key)
+		return if (array != null && array.strongType == UBArray.ArrayType.String) (array as UBStringArray).values else null
+	}
+
+	/**
+	 * Gets a [String] [Array] from the wrapped [UBObject]
+	 * If the value was null, then will return an empty [String] [Array]
+	 */
+	fun getStringArraySafe(key: String): Array<String> = getStringArray(key) ?: arrayOf()
 
     /**
      * Gets a [UUID] from the wrapped [UBObject]
