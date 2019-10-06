@@ -33,7 +33,7 @@ fun ByteBuffer.getVector3f(): Vector3fc = Vector3f(this.float, this.float, this.
 fun ByteBuffer.getVector3d(): Vector3dc = Vector3d(this.double, this.double, this.double)
 
 /** UBJ Helper Functions **/
-fun ByteBuffer.getUBJ(): UBJ? = UBJ(getUBObject())
+fun ByteBuffer.getUBJ(): UBJ? = getUBObject()?.let { UBJ(it) }
 
 fun ByteBuffer.getUBObject(): UBObject? {
     val bytes = this.getBytes()
