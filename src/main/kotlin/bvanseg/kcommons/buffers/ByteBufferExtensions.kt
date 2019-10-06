@@ -6,9 +6,12 @@ import com.devsmart.ubjson.UBObject
 import com.devsmart.ubjson.UBReader
 import org.joml.*
 import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.nio.ByteBuffer
 import java.util.*
+import java.util.zip.DeflaterOutputStream
+import java.util.zip.InflaterInputStream
 
 fun ByteBuffer.getBytes(): ByteArray = getBytes(this.short.toInt())
 
@@ -38,7 +41,7 @@ fun ByteBuffer.getUBJ(): UBJ? = getUBObject()?.let { UBJ(it) }
 fun ByteBuffer.getUBObject(): UBObject? {
     val bytes = this.getBytes()
     try {
-        UBReader(ByteArrayInputStream(bytes)).use { reader -> return reader.read().asObject() }
+        UBReader(InflaterInputStream(ByteArrayInputStream(bytes))).use { reader -> return reader.read().asObject() }
     } catch (e: IOException) {
         e.printStackTrace()
     }
