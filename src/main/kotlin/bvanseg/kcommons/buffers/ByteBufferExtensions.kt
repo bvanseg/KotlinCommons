@@ -28,9 +28,9 @@ fun ByteBuffer.getVersion(): Version = Version(int, int, int)
 fun ByteBuffer.getBoolean(): Boolean  = get().toInt() == 1
 
 /** JOML Helper Functions **/
-fun ByteBuffer.getVector3i(): Vector3ic = Vector3i(this.int, this.int, this.int)
-fun ByteBuffer.getVector3f(): Vector3fc = Vector3f(this.float, this.float, this.float)
-fun ByteBuffer.getVector3d(): Vector3dc = Vector3d(this.double, this.double, this.double)
+fun ByteBuffer.getVector3i(): Vector3i = Vector3i(this.int, this.int, this.int)
+fun ByteBuffer.getVector3f(): Vector3f = Vector3f(this.float, this.float, this.float)
+fun ByteBuffer.getVector3d(): Vector3d = Vector3d(this.double, this.double, this.double)
 
 /** UBJ Helper Functions **/
 fun ByteBuffer.getUBJ(): UBJ? = getUBObject()?.let { UBJ(it) }
