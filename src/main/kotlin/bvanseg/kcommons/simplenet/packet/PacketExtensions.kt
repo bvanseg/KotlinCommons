@@ -11,7 +11,6 @@ import org.joml.Vector3ic
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.util.*
-import java.util.zip.DeflaterOutputStream
 
 /**
  * @author Bright_Spark
@@ -38,16 +37,16 @@ fun Packet.putUBJ(o: UBJ): Packet =
     putUBObject(o.wrappedUBObject)
 
 fun Packet.putUBObject(o: UBObject?): Packet {
-    val out = ByteArrayOutputStream()
+    val os = ByteArrayOutputStream()
     var bytes: ByteArray? = null
     try {
-        UBWriter(DeflaterOutputStream(out)).use { writer ->
+        UBWriter(os).use { writer ->
             o?.let {
                 writer.write(it)
             }
-            bytes = out.toByteArray()
+            bytes = os.toByteArray()
+            os.close()
         }
-        out.close()
     } catch (e: IOException) {
         e.printStackTrace()
     }
