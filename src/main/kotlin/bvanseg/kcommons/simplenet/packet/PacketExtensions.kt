@@ -1,5 +1,7 @@
 package bvanseg.kcommons.simplenet.packet
 
+import bvanseg.kcommons.compression.compress
+import bvanseg.kcommons.compression.decompress
 import bvanseg.kcommons.projects.Version
 import bvanseg.kcommons.ubjson.UBJ
 import com.devsmart.ubjson.UBObject
@@ -51,9 +53,11 @@ fun Packet.putUBObject(o: UBObject?): Packet {
         e.printStackTrace()
     }
 
+
     bytes?.let {
-        this.putShort(it.size)
-        this.putBytes(*it)
+        val compBytes = compress(it)
+        this.putShort(compBytes.size)
+        this.putBytes(*compBytes)
     }
     return this
 }
