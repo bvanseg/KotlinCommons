@@ -1,19 +1,24 @@
 package bvanseg.kcommons.bytes
 
-import kotlin.math.pow
+enum class ByteUnit {
+	B,
+	KB,
+	MB,
+	GB,
+	TB;
 
-enum class ByteUnit(private val power: Int) {
-    B(0),
-    KB(1),
-    MB(2),
-    GB(3),
-    TB(4);
+	fun to(value: Long, unit: ByteUnit): Long {
+		val diff = ordinal - unit.ordinal
+		return when {
+			diff == 0 -> value
+			diff > 0 -> value.shl(diff * 10)
+			else -> value.shr(diff * -10)
+		}
+	}
 
-    fun getBytes(bytes: Int = 1): Int {
-        return 1024.0.pow(power.toDouble()).toInt() * bytes
-    }
-
-    fun to(type: ByteUnit, count: Long = 1): Double {
-        return 1024.0.pow(power) / 1024.0.pow(type.power) * count
-    }
+	fun toBytes(value: Long): Long = to(value, B)
+	fun toKilobytes(value: Long): Long = to(value, KB)
+	fun toMegabytes(value: Long): Long = to(value, MB)
+	fun toGigabytes(value: Long): Long = to(value, GB)
+	fun toTerabytes(value: Long): Long = to(value, TB)
 }
