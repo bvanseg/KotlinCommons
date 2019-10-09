@@ -1,5 +1,6 @@
 package bvanseg.kcommons.buffers
 
+import bvanseg.kcommons.compression.decompress
 import bvanseg.kcommons.projects.Version
 import bvanseg.kcommons.ubjson.UBJ
 import com.devsmart.ubjson.UBObject
@@ -36,7 +37,7 @@ fun ByteBuffer.getVector3d(): Vector3d = Vector3d(this.double, this.double, this
 fun ByteBuffer.getUBJ(): UBJ? = getUBObject()?.let { UBJ(it) }
 
 fun ByteBuffer.getUBObject(): UBObject? {
-    val bytes = this.getBytes()
+    val bytes = decompress(this.getBytes())
     try {
         UBReader(ByteArrayInputStream(bytes)).use { reader -> return reader.read().asObject() }
     } catch (e: IOException) {
