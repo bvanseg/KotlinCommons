@@ -24,7 +24,7 @@ fun ByteBuffer.getUUID(): UUID = UUID(long, long)
 
 fun ByteBuffer.getString(): String = String(this.getBytes())
 
-fun ByteBuffer.getVersion(): Version = Version(int, int, int)
+fun ByteBuffer.getVersion(): Version = Version(int, int, int, getString())
 
 fun ByteBuffer.getBoolean(): Boolean  = get().toInt() == 1
 

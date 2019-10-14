@@ -27,6 +27,7 @@ fun Packet.putVersion(version: Version) {
     putInt(version.major)
     putInt(version.minor)
     putInt(version.patch)
+    putString(version.label)
 }
 
 /** JOML Helper Functions **/
