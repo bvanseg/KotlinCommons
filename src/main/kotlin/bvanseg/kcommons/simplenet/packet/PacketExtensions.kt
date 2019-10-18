@@ -18,12 +18,12 @@ import java.util.*
  * @author Bright_Spark
  */
 
-fun Packet.putUUID(uuid: UUID) {
+fun Packet.putUUID(uuid: UUID): Packet = this.apply {
     this.putLong(uuid.mostSignificantBits)
     this.putLong(uuid.leastSignificantBits)
 }
 
-fun Packet.putVersion(version: Version) {
+fun Packet.putVersion(version: Version): Packet = this.apply {
     putInt(version.major)
     putInt(version.minor)
     putInt(version.patch)
