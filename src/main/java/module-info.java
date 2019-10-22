@@ -4,6 +4,10 @@ module kotlincommons {
     requires static ubjson;
     requires static org.joml;
     requires static com.github.simplenet;
+    requires org.slf4j;
+
+    requires kotlin.stdlib;
+    requires java.management;
 
     exports bvanseg.kcommons.any;
     exports bvanseg.kcommons.assets;
