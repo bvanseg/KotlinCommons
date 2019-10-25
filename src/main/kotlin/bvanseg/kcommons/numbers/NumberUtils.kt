@@ -1,16 +1,14 @@
 package bvanseg.kcommons.numbers
 
-fun <T: Number> clamp(value: T, min: T, max: T): T  = when {
-    value.toDouble() < min.toDouble() -> min
-    value.toDouble() > max.toDouble() -> max
+fun <T : Comparable<T>> clamp(value: T, min: T, max: T): T = when {
+    value < min -> min
+    value > max -> max
     else -> value
 }
 
-fun <T: Number> clampOrNull(value: T?, min: T, max: T): T? {
-    if(value == null) return null
-    return when {
-        value.toDouble() < min.toDouble() -> min
-        value.toDouble() > max.toDouble() -> max
-        else -> value
-    }
+fun <T : Comparable<T>> clampOrNull(value: T?, min: T, max: T): T? = when {
+    value == null -> null
+    value < min -> min
+    value > max -> max
+    else -> value
 }
