@@ -10,8 +10,15 @@ private val numberFormat = NumberFormat.getNumberInstance()
  */
 fun Number.format(): String = numberFormat.format(this)
 
-fun <T: Number> Number.clamp(min: T, max: T): T = when {
-    this.toDouble() < min.toDouble() -> min
-    this.toDouble() > max.toDouble() -> max
-    else -> (this as T)
+fun <T : Comparable<T>> T.clamp(min: T, max: T): T = when {
+    this < min -> min
+    this > max -> max
+    else -> this
+}
+
+fun <T : Comparable<T>> T?.clampOrNull(min: T, max: T): T? = when {
+    this == null -> null
+    this < min -> min
+    this > max -> max
+    else -> this
 }
