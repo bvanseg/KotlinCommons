@@ -1,6 +1,6 @@
 package bvanseg.kcommons.string
 
-import bvanseg.kcommons.numbers.clamp
+import bvanseg.kcommons.comparable.clamp
 import java.nio.ByteBuffer
 
 class UTFBuffer private constructor() {

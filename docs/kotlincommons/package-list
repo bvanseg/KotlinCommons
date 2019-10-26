@@ -28,7 +28,6 @@ $dokka.location:bvanseg.kcommons.logging$error(org.slf4j.Logger, kotlin.Any)bva
 $dokka.location:bvanseg.kcommons.logging$info(org.slf4j.Logger, kotlin.Any)bvanseg.kcommons.logging/org.slf4j.-logger/info.html
 $dokka.location:bvanseg.kcommons.logging$trace(org.slf4j.Logger, kotlin.Any)bvanseg.kcommons.logging/org.slf4j.-logger/trace.html
 $dokka.location:bvanseg.kcommons.logging$warn(org.slf4j.Logger, kotlin.Any)bvanseg.kcommons.logging/org.slf4j.-logger/warn.html
-$dokka.location:bvanseg.kcommons.numbers$clamp(kotlin.Number, bvanseg.kcommons.numbers.clamp.T, bvanseg.kcommons.numbers.clamp.T)bvanseg.kcommons.numbers/kotlin.-number/clamp.html
 $dokka.location:bvanseg.kcommons.numbers$format(kotlin.Number)bvanseg.kcommons.numbers/kotlin.-number/format.html
 $dokka.location:bvanseg.kcommons.simplenet.packet$putUBJ(com.github.simplenet.packet.Packet, bvanseg.kcommons.ubjson.UBJ)bvanseg.kcommons.simplenet.packet/com.github.simplenet.packet.-packet/put-u-b-j.html
 $dokka.location:bvanseg.kcommons.simplenet.packet$putUBObject(com.github.simplenet.packet.Packet, com.devsmart.ubjson.UBObject)bvanseg.kcommons.simplenet.packet/com.github.simplenet.packet.-packet/put-u-b-object.html
@@ -40,12 +39,14 @@ $dokka.location:bvanseg.kcommons.simplenet.packet$putVersion(com.github.simplene
 $dokka.location:bvanseg.kcommons.string$joinStrings(kotlin.collections.List((kotlin.String)), kotlin.Int, kotlin.Int)bvanseg.kcommons.string/kotlin.collections.-list/join-strings.html
 $dokka.location:bvanseg.kcommons.string$replaceSeparators(kotlin.String)bvanseg.kcommons.string/kotlin.-string/replace-separators.html
 $dokka.location:bvanseg.kcommons.time$toFileSafeString(java.time.LocalDateTime)bvanseg.kcommons.time/java.time.-local-date-time/to-file-safe-string.html
+bvanseg.kcommons
 bvanseg.kcommons.any
 bvanseg.kcommons.assets
 bvanseg.kcommons.buffers
 bvanseg.kcommons.bytes
 bvanseg.kcommons.classes
 bvanseg.kcommons.collections
+bvanseg.kcommons.comparable
 bvanseg.kcommons.compression
 bvanseg.kcommons.joml.vectors
 bvanseg.kcommons.kclasses

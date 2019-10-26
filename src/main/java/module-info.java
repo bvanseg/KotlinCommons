@@ -1,3 +1,8 @@
+/**
+ * The module info for KotlinCommons.
+ *
+ * @author Boston Vanseghi
+ */
 module kotlincommons {
     requires org.apache.commons.lang3;
 
