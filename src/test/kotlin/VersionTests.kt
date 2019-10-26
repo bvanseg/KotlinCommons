@@ -1,4 +1,4 @@
-import bvanseg.kcommons.projects.Version
+import bvanseg.kotlincommons.projects.Version
 import org.junit.jupiter.api.Test
 
 class VersionTests {

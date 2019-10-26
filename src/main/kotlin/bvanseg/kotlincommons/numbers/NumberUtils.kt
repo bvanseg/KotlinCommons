@@ -1,0 +1,1 @@
+package bvanseg.kotlincommons.numbers

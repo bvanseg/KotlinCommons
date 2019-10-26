@@ -1,60 +1,60 @@
 $dokka.format:html
 $dokka.linkExtension:html
-$dokka.location:bvanseg.kcommons.any$getLogger(kotlin.Any)bvanseg.kcommons.any/kotlin.-any/get-logger.html
-$dokka.location:bvanseg.kcommons.buffers$getBoolean(java.nio.ByteBuffer)bvanseg.kcommons.buffers/java.nio.-byte-buffer/get-boolean.html
-$dokka.location:bvanseg.kcommons.buffers$getBytes(java.nio.ByteBuffer)bvanseg.kcommons.buffers/java.nio.-byte-buffer/get-bytes.html
-$dokka.location:bvanseg.kcommons.buffers$getBytes(java.nio.ByteBuffer, kotlin.Int)bvanseg.kcommons.buffers/java.nio.-byte-buffer/get-bytes.html
-$dokka.location:bvanseg.kcommons.buffers$getString(java.nio.ByteBuffer)bvanseg.kcommons.buffers/java.nio.-byte-buffer/get-string.html
-$dokka.location:bvanseg.kcommons.buffers$getUBJ(java.nio.ByteBuffer)bvanseg.kcommons.buffers/java.nio.-byte-buffer/get-u-b-j.html
-$dokka.location:bvanseg.kcommons.buffers$getUBObject(java.nio.ByteBuffer)bvanseg.kcommons.buffers/java.nio.-byte-buffer/get-u-b-object.html
-$dokka.location:bvanseg.kcommons.buffers$getUUID(java.nio.ByteBuffer)bvanseg.kcommons.buffers/java.nio.-byte-buffer/get-u-u-i-d.html
-$dokka.location:bvanseg.kcommons.buffers$getVector3d(java.nio.ByteBuffer)bvanseg.kcommons.buffers/java.nio.-byte-buffer/get-vector3d.html
-$dokka.location:bvanseg.kcommons.buffers$getVector3f(java.nio.ByteBuffer)bvanseg.kcommons.buffers/java.nio.-byte-buffer/get-vector3f.html
-$dokka.location:bvanseg.kcommons.buffers$getVector3i(java.nio.ByteBuffer)bvanseg.kcommons.buffers/java.nio.-byte-buffer/get-vector3i.html
-$dokka.location:bvanseg.kcommons.buffers$getVersion(java.nio.ByteBuffer)bvanseg.kcommons.buffers/java.nio.-byte-buffer/get-version.html
-$dokka.location:bvanseg.kcommons.collections$containsAny(kotlin.collections.List((bvanseg.kcommons.collections.containsAny.E)), kotlin.collections.List((bvanseg.kcommons.collections.containsAny.E)))bvanseg.kcommons.collections/kotlin.collections.-list/contains-any.html
-$dokka.location:bvanseg.kcommons.joml.vectors$isWithinRadius(org.joml.Vector3dc, org.joml.Vector3ic, kotlin.Double)bvanseg.kcommons.joml.vectors/org.joml.-vector3dc/is-within-radius.html
-$dokka.location:bvanseg.kcommons.joml.vectors$isWithinRadius(org.joml.Vector3fc, org.joml.Vector3ic, kotlin.Float)bvanseg.kcommons.joml.vectors/org.joml.-vector3fc/is-within-radius.html
-$dokka.location:bvanseg.kcommons.joml.vectors$isWithinRadius(org.joml.Vector3ic, org.joml.Vector3ic, kotlin.Int)bvanseg.kcommons.joml.vectors/org.joml.-vector3ic/is-within-radius.html
-$dokka.location:bvanseg.kcommons.joml.vectors$toVector3d(org.joml.Vector3fc)bvanseg.kcommons.joml.vectors/org.joml.-vector3fc/to-vector3d.html
-$dokka.location:bvanseg.kcommons.joml.vectors$toVector3d(org.joml.Vector3ic)bvanseg.kcommons.joml.vectors/org.joml.-vector3ic/to-vector3d.html
-$dokka.location:bvanseg.kcommons.joml.vectors$toVector3f(org.joml.Vector3dc)bvanseg.kcommons.joml.vectors/org.joml.-vector3dc/to-vector3f.html
-$dokka.location:bvanseg.kcommons.joml.vectors$toVector3f(org.joml.Vector3ic)bvanseg.kcommons.joml.vectors/org.joml.-vector3ic/to-vector3f.html
-$dokka.location:bvanseg.kcommons.joml.vectors$toVector3i(org.joml.Vector3dc)bvanseg.kcommons.joml.vectors/org.joml.-vector3dc/to-vector3i.html
-$dokka.location:bvanseg.kcommons.joml.vectors$toVector3i(org.joml.Vector3fc)bvanseg.kcommons.joml.vectors/org.joml.-vector3fc/to-vector3i.html
-$dokka.location:bvanseg.kcommons.kclasses$getKClass(kotlin.reflect.KType)bvanseg.kcommons.kclasses/kotlin.reflect.-k-type/get-k-class.html
-$dokka.location:bvanseg.kcommons.logging$debug(org.slf4j.Logger, kotlin.Any)bvanseg.kcommons.logging/org.slf4j.-logger/debug.html
-$dokka.location:bvanseg.kcommons.logging$error(org.slf4j.Logger, kotlin.Any)bvanseg.kcommons.logging/org.slf4j.-logger/error.html
-$dokka.location:bvanseg.kcommons.logging$info(org.slf4j.Logger, kotlin.Any)bvanseg.kcommons.logging/org.slf4j.-logger/info.html
-$dokka.location:bvanseg.kcommons.logging$trace(org.slf4j.Logger, kotlin.Any)bvanseg.kcommons.logging/org.slf4j.-logger/trace.html
-$dokka.location:bvanseg.kcommons.logging$warn(org.slf4j.Logger, kotlin.Any)bvanseg.kcommons.logging/org.slf4j.-logger/warn.html
-$dokka.location:bvanseg.kcommons.numbers$format(kotlin.Number)bvanseg.kcommons.numbers/kotlin.-number/format.html
-$dokka.location:bvanseg.kcommons.simplenet.packet$putUBJ(com.github.simplenet.packet.Packet, bvanseg.kcommons.ubjson.UBJ)bvanseg.kcommons.simplenet.packet/com.github.simplenet.packet.-packet/put-u-b-j.html
-$dokka.location:bvanseg.kcommons.simplenet.packet$putUBObject(com.github.simplenet.packet.Packet, com.devsmart.ubjson.UBObject)bvanseg.kcommons.simplenet.packet/com.github.simplenet.packet.-packet/put-u-b-object.html
-$dokka.location:bvanseg.kcommons.simplenet.packet$putUUID(com.github.simplenet.packet.Packet, java.util.UUID)bvanseg.kcommons.simplenet.packet/com.github.simplenet.packet.-packet/put-u-u-i-d.html
-$dokka.location:bvanseg.kcommons.simplenet.packet$putVector3d(com.github.simplenet.packet.Packet, org.joml.Vector3dc)bvanseg.kcommons.simplenet.packet/com.github.simplenet.packet.-packet/put-vector3d.html
-$dokka.location:bvanseg.kcommons.simplenet.packet$putVector3f(com.github.simplenet.packet.Packet, org.joml.Vector3fc)bvanseg.kcommons.simplenet.packet/com.github.simplenet.packet.-packet/put-vector3f.html
-$dokka.location:bvanseg.kcommons.simplenet.packet$putVector3i(com.github.simplenet.packet.Packet, org.joml.Vector3ic)bvanseg.kcommons.simplenet.packet/com.github.simplenet.packet.-packet/put-vector3i.html
-$dokka.location:bvanseg.kcommons.simplenet.packet$putVersion(com.github.simplenet.packet.Packet, bvanseg.kcommons.projects.Version)bvanseg.kcommons.simplenet.packet/com.github.simplenet.packet.-packet/put-version.html
-$dokka.location:bvanseg.kcommons.string$joinStrings(kotlin.collections.List((kotlin.String)), kotlin.Int, kotlin.Int)bvanseg.kcommons.string/kotlin.collections.-list/join-strings.html
-$dokka.location:bvanseg.kcommons.string$replaceSeparators(kotlin.String)bvanseg.kcommons.string/kotlin.-string/replace-separators.html
-$dokka.location:bvanseg.kcommons.time$toFileSafeString(java.time.LocalDateTime)bvanseg.kcommons.time/java.time.-local-date-time/to-file-safe-string.html
-bvanseg.kcommons
-bvanseg.kcommons.any
-bvanseg.kcommons.assets
-bvanseg.kcommons.buffers
-bvanseg.kcommons.bytes
-bvanseg.kcommons.classes
-bvanseg.kcommons.collections
-bvanseg.kcommons.comparable
-bvanseg.kcommons.compression
-bvanseg.kcommons.joml.vectors
-bvanseg.kcommons.kclasses
-bvanseg.kcommons.logging
-bvanseg.kcommons.numbers
-bvanseg.kcommons.projects
-bvanseg.kcommons.simplenet.packet
-bvanseg.kcommons.string
-bvanseg.kcommons.system
-bvanseg.kcommons.time
-bvanseg.kcommons.ubjson
+$dokka.location:bvanseg.kotlincommons.any$getLogger(kotlin.Any)bvanseg.kotlincommons.any/kotlin.-any/get-logger.html
+$dokka.location:bvanseg.kotlincommons.buffers$getBoolean(java.nio.ByteBuffer)bvanseg.kotlincommons.buffers/java.nio.-byte-buffer/get-boolean.html
+$dokka.location:bvanseg.kotlincommons.buffers$getBytes(java.nio.ByteBuffer)bvanseg.kotlincommons.buffers/java.nio.-byte-buffer/get-bytes.html
+$dokka.location:bvanseg.kotlincommons.buffers$getBytes(java.nio.ByteBuffer, kotlin.Int)bvanseg.kotlincommons.buffers/java.nio.-byte-buffer/get-bytes.html
+$dokka.location:bvanseg.kotlincommons.buffers$getString(java.nio.ByteBuffer)bvanseg.kotlincommons.buffers/java.nio.-byte-buffer/get-string.html
+$dokka.location:bvanseg.kotlincommons.buffers$getUBJ(java.nio.ByteBuffer)bvanseg.kotlincommons.buffers/java.nio.-byte-buffer/get-u-b-j.html
+$dokka.location:bvanseg.kotlincommons.buffers$getUBObject(java.nio.ByteBuffer)bvanseg.kotlincommons.buffers/java.nio.-byte-buffer/get-u-b-object.html
+$dokka.location:bvanseg.kotlincommons.buffers$getUUID(java.nio.ByteBuffer)bvanseg.kotlincommons.buffers/java.nio.-byte-buffer/get-u-u-i-d.html
+$dokka.location:bvanseg.kotlincommons.buffers$getVector3d(java.nio.ByteBuffer)bvanseg.kotlincommons.buffers/java.nio.-byte-buffer/get-vector3d.html
+$dokka.location:bvanseg.kotlincommons.buffers$getVector3f(java.nio.ByteBuffer)bvanseg.kotlincommons.buffers/java.nio.-byte-buffer/get-vector3f.html
+$dokka.location:bvanseg.kotlincommons.buffers$getVector3i(java.nio.ByteBuffer)bvanseg.kotlincommons.buffers/java.nio.-byte-buffer/get-vector3i.html
+$dokka.location:bvanseg.kotlincommons.buffers$getVersion(java.nio.ByteBuffer)bvanseg.kotlincommons.buffers/java.nio.-byte-buffer/get-version.html
+$dokka.location:bvanseg.kotlincommons.collections$containsAny(kotlin.collections.List((bvanseg.kotlincommons.collections.containsAny.E)), kotlin.collections.List((bvanseg.kotlincommons.collections.containsAny.E)))bvanseg.kotlincommons.collections/kotlin.collections.-list/contains-any.html
+$dokka.location:bvanseg.kotlincommons.joml.vectors$isWithinRadius(org.joml.Vector3dc, org.joml.Vector3ic, kotlin.Double)bvanseg.kotlincommons.joml.vectors/org.joml.-vector3dc/is-within-radius.html
+$dokka.location:bvanseg.kotlincommons.joml.vectors$isWithinRadius(org.joml.Vector3fc, org.joml.Vector3ic, kotlin.Float)bvanseg.kotlincommons.joml.vectors/org.joml.-vector3fc/is-within-radius.html
+$dokka.location:bvanseg.kotlincommons.joml.vectors$isWithinRadius(org.joml.Vector3ic, org.joml.Vector3ic, kotlin.Int)bvanseg.kotlincommons.joml.vectors/org.joml.-vector3ic/is-within-radius.html
+$dokka.location:bvanseg.kotlincommons.joml.vectors$toVector3d(org.joml.Vector3fc)bvanseg.kotlincommons.joml.vectors/org.joml.-vector3fc/to-vector3d.html
+$dokka.location:bvanseg.kotlincommons.joml.vectors$toVector3d(org.joml.Vector3ic)bvanseg.kotlincommons.joml.vectors/org.joml.-vector3ic/to-vector3d.html
+$dokka.location:bvanseg.kotlincommons.joml.vectors$toVector3f(org.joml.Vector3dc)bvanseg.kotlincommons.joml.vectors/org.joml.-vector3dc/to-vector3f.html
+$dokka.location:bvanseg.kotlincommons.joml.vectors$toVector3f(org.joml.Vector3ic)bvanseg.kotlincommons.joml.vectors/org.joml.-vector3ic/to-vector3f.html
+$dokka.location:bvanseg.kotlincommons.joml.vectors$toVector3i(org.joml.Vector3dc)bvanseg.kotlincommons.joml.vectors/org.joml.-vector3dc/to-vector3i.html
+$dokka.location:bvanseg.kotlincommons.joml.vectors$toVector3i(org.joml.Vector3fc)bvanseg.kotlincommons.joml.vectors/org.joml.-vector3fc/to-vector3i.html
+$dokka.location:bvanseg.kotlincommons.kclasses$getKClass(kotlin.reflect.KType)bvanseg.kotlincommons.kclasses/kotlin.reflect.-k-type/get-k-class.html
+$dokka.location:bvanseg.kotlincommons.logging$debug(org.slf4j.Logger, kotlin.Any)bvanseg.kotlincommons.logging/org.slf4j.-logger/debug.html
+$dokka.location:bvanseg.kotlincommons.logging$error(org.slf4j.Logger, kotlin.Any)bvanseg.kotlincommons.logging/org.slf4j.-logger/error.html
+$dokka.location:bvanseg.kotlincommons.logging$info(org.slf4j.Logger, kotlin.Any)bvanseg.kotlincommons.logging/org.slf4j.-logger/info.html
+$dokka.location:bvanseg.kotlincommons.logging$trace(org.slf4j.Logger, kotlin.Any)bvanseg.kotlincommons.logging/org.slf4j.-logger/trace.html
+$dokka.location:bvanseg.kotlincommons.logging$warn(org.slf4j.Logger, kotlin.Any)bvanseg.kotlincommons.logging/org.slf4j.-logger/warn.html
+$dokka.location:bvanseg.kotlincommons.numbers$format(kotlin.Number)bvanseg.kotlincommons.numbers/kotlin.-number/format.html
+$dokka.location:bvanseg.kotlincommons.simplenet.packet$putUBJ(com.github.simplenet.packet.Packet, bvanseg.kotlincommons.ubjson.UBJ)bvanseg.kotlincommons.simplenet.packet/com.github.simplenet.packet.-packet/put-u-b-j.html
+$dokka.location:bvanseg.kotlincommons.simplenet.packet$putUBObject(com.github.simplenet.packet.Packet, com.devsmart.ubjson.UBObject)bvanseg.kotlincommons.simplenet.packet/com.github.simplenet.packet.-packet/put-u-b-object.html
+$dokka.location:bvanseg.kotlincommons.simplenet.packet$putUUID(com.github.simplenet.packet.Packet, java.util.UUID)bvanseg.kotlincommons.simplenet.packet/com.github.simplenet.packet.-packet/put-u-u-i-d.html
+$dokka.location:bvanseg.kotlincommons.simplenet.packet$putVector3d(com.github.simplenet.packet.Packet, org.joml.Vector3dc)bvanseg.kotlincommons.simplenet.packet/com.github.simplenet.packet.-packet/put-vector3d.html
+$dokka.location:bvanseg.kotlincommons.simplenet.packet$putVector3f(com.github.simplenet.packet.Packet, org.joml.Vector3fc)bvanseg.kotlincommons.simplenet.packet/com.github.simplenet.packet.-packet/put-vector3f.html
+$dokka.location:bvanseg.kotlincommons.simplenet.packet$putVector3i(com.github.simplenet.packet.Packet, org.joml.Vector3ic)bvanseg.kotlincommons.simplenet.packet/com.github.simplenet.packet.-packet/put-vector3i.html
+$dokka.location:bvanseg.kotlincommons.simplenet.packet$putVersion(com.github.simplenet.packet.Packet, bvanseg.kotlincommons.projects.Version)bvanseg.kotlincommons.simplenet.packet/com.github.simplenet.packet.-packet/put-version.html
+$dokka.location:bvanseg.kotlincommons.string$joinStrings(kotlin.collections.List((kotlin.String)), kotlin.Int, kotlin.Int)bvanseg.kotlincommons.string/kotlin.collections.-list/join-strings.html
+$dokka.location:bvanseg.kotlincommons.string$replaceSeparators(kotlin.String)bvanseg.kotlincommons.string/kotlin.-string/replace-separators.html
+$dokka.location:bvanseg.kotlincommons.time$toFileSafeString(java.time.LocalDateTime)bvanseg.kotlincommons.time/java.time.-local-date-time/to-file-safe-string.html
+bvanseg.kotlincommons
+bvanseg.kotlincommons.any
+bvanseg.kotlincommons.assets
+bvanseg.kotlincommons.buffers
+bvanseg.kotlincommons.bytes
+bvanseg.kotlincommons.classes
+bvanseg.kotlincommons.collections
+bvanseg.kotlincommons.comparable
+bvanseg.kotlincommons.compression
+bvanseg.kotlincommons.joml.vectors
+bvanseg.kotlincommons.kclasses
+bvanseg.kotlincommons.logging
+bvanseg.kotlincommons.numbers
+bvanseg.kotlincommons.projects
+bvanseg.kotlincommons.simplenet.packet
+bvanseg.kotlincommons.string
+bvanseg.kotlincommons.system
+bvanseg.kotlincommons.time
+bvanseg.kotlincommons.ubjson
