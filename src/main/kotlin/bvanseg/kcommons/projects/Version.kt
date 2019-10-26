@@ -50,12 +50,6 @@ class Version: Comparable<Version> {
             1
         }else if(this.major == other.major && this.minor == other.minor && this.patch < other.patch) {
             -1
-        }else {
-            when(this.label.compareTo(other.label)) {
-                1 -> 1
-                -1 -> -1
-                else -> 0
-            }
-        }
+        }else 0
     }
 }
