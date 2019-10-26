@@ -1,6 +1,6 @@
 package bvanseg.kcommons.collections
 
-import java.util.ArrayList
+import java.util.*
 
 
 fun <T> cartesianProduct(lists: List<List<T>>): List<List<T>> {

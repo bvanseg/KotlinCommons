@@ -1,7 +1,6 @@
 package bvanseg.kcommons.collections
 
 import java.util.*
-import kotlin.collections.ArrayList
 
 /**
  * A very minimal class that limits the number of elements that can be added to it.
@@ -9,7 +8,7 @@ import kotlin.collections.ArrayList
  * @author bright_spark
  * @since 1.0.1
  */
-class SizedList<T>(private val maxSize: Int): LinkedList<T>() {
+class SizedList<T>(private val maxSize: Int) : LinkedList<T>() {
 
     /**
      * Adds an element to the list. If the current size of the list exceeds the max size, the head element of the list

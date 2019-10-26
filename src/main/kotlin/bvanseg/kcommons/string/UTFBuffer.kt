@@ -1,7 +1,6 @@
 package bvanseg.kcommons.string
 
 import bvanseg.kcommons.numbers.clamp
-import java.lang.StringBuilder
 import java.nio.ByteBuffer
 
 class UTFBuffer private constructor() {
@@ -104,7 +103,7 @@ class UTFBuffer private constructor() {
      * Returns the next number in the buffer.
      */
     fun nextNumber(): Number? {
-        val d =  numberRegex.find(this.data)
+        val d = numberRegex.find(this.data)
         val capture = d?.value?.toDoubleOrNull()
         d?.let {
 
@@ -128,9 +127,9 @@ class UTFBuffer private constructor() {
         var index = 0
         var selector = ""
         candidates.forEach {
-            if(data.contains(it)) {
+            if (data.contains(it)) {
                 index = data.trim().indexOf(it, 0)
-                if(index == -1) index = data.length
+                if (index == -1) index = data.length
 
                 match = data.trim().substring(0, index)
                 selector = it
@@ -167,6 +166,7 @@ class UTFBuffer private constructor() {
     /** ############################ UTILITY FUNCTIONS ############################ **/
 
     fun isEmpty(): Boolean = data.isEmpty()
+
     fun isNotEmpty(): Boolean = data.isNotEmpty()
 
     private fun toByteBuffer(): ByteBuffer = ByteBuffer.wrap(data.toString().toByteArray())
@@ -180,9 +180,9 @@ class UTFBuffer private constructor() {
      */
     private fun upUntil(char: Char): String {
         var index = data.trim().indexOfFirst { it == char }
-        if(index == -1) index = data.length
+        if (index == -1) index = data.length
         val match =
-            if(index == -1 || data.isEmpty())
+            if (index == -1 || data.isEmpty())
                 data.trim().toString()
             else
                 data.trim().substring(0, clamp(index, 0, data.length))
@@ -197,7 +197,7 @@ class UTFBuffer private constructor() {
      */
     private fun upUntil(string: String): String {
         var index = data.trim().indexOf(string, 0)
-        if(index == -1) index = data.length
+        if (index == -1) index = data.length
 
         val match = data.trim().substring(0, index)
 

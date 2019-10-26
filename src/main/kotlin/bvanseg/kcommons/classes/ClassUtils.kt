@@ -11,7 +11,7 @@ fun <T> createNewInstance(clazz: Class<T>, parameterTypes: Array<Class<*>>?, var
             clazz.getDeclaredConstructor()
         else
             clazz.getDeclaredConstructor(*parameterTypes)
-    } catch(e: Exception) {
+    } catch (e: Exception) {
         e.printStackTrace()
     }
     return constructor.newInstance(*arguments)

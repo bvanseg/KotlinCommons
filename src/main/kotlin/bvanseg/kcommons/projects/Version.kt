@@ -2,7 +2,7 @@ package bvanseg.kcommons.projects
 
 import org.apache.commons.lang3.builder.HashCodeBuilder
 
-class Version: Comparable<Version> {
+class Version : Comparable<Version> {
 
     val major: Int
     val minor: Int
@@ -15,7 +15,7 @@ class Version: Comparable<Version> {
         minor = data[1].toInt()
         patch = data[2].toInt()
 
-        label = if(data.size > 3)
+        label = if (data.size > 3)
             data[3]
         else
             ""
@@ -34,22 +34,23 @@ class Version: Comparable<Version> {
             && this.patch == other.patch
             && this.label == other.label
 
-    override fun toString(): String = "$major.$minor.$patch" + if(label != "") "-$label" else ""
-    override fun hashCode(): Int = HashCodeBuilder().append(major).append(minor).append(patch).append(label).toHashCode()
+    override fun toString(): String = "$major.$minor.$patch" + if (label != "") "-$label" else ""
+    override fun hashCode(): Int =
+        HashCodeBuilder().append(major).append(minor).append(patch).append(label).toHashCode()
 
     override fun compareTo(other: Version): Int {
-        return if(this.major > other.major) {
+        return if (this.major > other.major) {
             1
-        }else if(this.major < other.major) {
+        } else if (this.major < other.major) {
             -1
-        }else if(this.major == other.major && this.minor > other.minor) {
+        } else if (this.major == other.major && this.minor > other.minor) {
             1
-        }else if(this.major == other.major && this.minor < other.minor) {
+        } else if (this.major == other.major && this.minor < other.minor) {
             -1
-        }else if(this.major == other.major && this.minor == other.minor && this.patch > other.patch) {
+        } else if (this.major == other.major && this.minor == other.minor && this.patch > other.patch) {
             1
-        }else if(this.major == other.major && this.minor == other.minor && this.patch < other.patch) {
+        } else if (this.major == other.major && this.minor == other.minor && this.patch < other.patch) {
             -1
-        }else 0
+        } else 0
     }
 }
