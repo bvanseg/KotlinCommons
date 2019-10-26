@@ -6,6 +6,7 @@
 module kotlincommons {
     requires org.apache.commons.lang3;
 
+    requires static org.junit.jupiter;
     requires static ubjson;
     requires static org.joml;
     requires static com.github.simplenet;
