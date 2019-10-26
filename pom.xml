@@ -12,7 +12,7 @@
 
     <groupId>com.github.bvanseg</groupId>
     <artifactId>kotlincommons</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 
     <name>KotlinCommons</name>
     <description>A collection of utilities for Kotlin and various dependencies.</description>
