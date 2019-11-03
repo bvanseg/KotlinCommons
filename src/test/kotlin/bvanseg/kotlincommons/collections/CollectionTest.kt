@@ -1,7 +1,7 @@
 package bvanseg.kotlincommons.collections
 
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import kotlin.test.assertTrue
 
 /**
  * @author Boston Vanseghi
@@ -9,16 +9,37 @@ import kotlin.test.assertTrue
 internal class CollectionTest {
 
 	@Test
-	fun testMapReversal() {
+	fun mapReversal() {
         val hashMap: MutableMap<Int, String> = hashMapOf()
         hashMap[0] = "foo"
         hashMap[1] = "bar"
         hashMap[2] = "foobar"
 
-        val reverse = hashMap.reverse()
+        val reverse = hashMap.reversedMutable()
+        reverse["rada"] = 3
 
-        assert(reverse["foo"] == 0)
-        assert(reverse["bar"] == 1)
-        assert(reverse["foobar"] == 2)
+        assertEquals(0, reverse["foo"])
+        assertEquals(1, reverse["bar"])
+        assertEquals(2, reverse["foobar"])
 	}
+
+    @Test
+    fun mapReversalEditing() {
+        val hashMap: MutableMap<Int, String> = hashMapOf()
+
+        val reverse = hashMap.reversedMutable()
+        reverse["rada"] = 3
+
+        assertEquals(3, reverse["rada"])
+    }
+
+    @Test
+    fun originalMapEdit() {
+        val hashMap: MutableMap<Int, String> = hashMapOf()
+
+        val reverse = hashMap.reversedMutable()
+        reverse["rada"] = 3
+
+        assertEquals(hashMap[3], "rada")
+    }
 }
