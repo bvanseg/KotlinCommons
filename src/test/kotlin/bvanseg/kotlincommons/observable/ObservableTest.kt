@@ -3,7 +3,6 @@ package bvanseg.kotlincommons.observable
 import bvanseg.kotlincommons.any.toObservable
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import java.net.Authenticator
 
 /**
  * @author bright_spark
