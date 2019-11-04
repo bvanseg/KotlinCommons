@@ -1,7 +1,9 @@
 package bvanseg.kotlincommons.observable
 
+import bvanseg.kotlincommons.any.toObservable
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import java.net.Authenticator
 
 /**
  * @author bright_spark
@@ -59,5 +61,16 @@ internal class ObservableTest {
         // When
         // Then
         observable.set(value2)
+    }
+
+    @Test
+    fun conversion() {
+        // Given
+        val value = "Hello, world!"
+        val obs = value.toObservable()
+
+        // When
+        // Then
+        assertEquals("Hello, world!", obs.get())
     }
 }
