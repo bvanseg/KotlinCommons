@@ -1,4 +1,4 @@
-package bvanseg.kotlincommons.bytes
+package bvanseg.kotlincommons.measurement
 
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.params.ParameterizedTest

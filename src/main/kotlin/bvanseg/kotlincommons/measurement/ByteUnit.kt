@@ -1,4 +1,4 @@
-package bvanseg.kotlincommons.bytes
+package bvanseg.kotlincommons.measurement
 
 enum class ByteUnit {
     B,
