@@ -1,4 +1,4 @@
-package bvanseg.kotlincommons.primitives
+package bvanseg.kotlincommons.booleans
 
 /**
  * Will execute [block] if this [Boolean] is true
