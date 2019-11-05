@@ -7,7 +7,6 @@ import java.util.zip.Inflater
 /**
  * Compresses a [ByteArray] under standard compression.
  *
- * @param data - The [ByteArray] to compress
  * @param bufferSize - The maximum size of the compressed [ByteArray]
  *
  * @return The compressed [ByteArray]
@@ -15,10 +14,10 @@ import java.util.zip.Inflater
  * @author Boston Vanseghi
  * @since 1.0.0
  */
-fun compress(data: ByteArray, bufferSize: Int = 20000): ByteArray {
+fun ByteArray.compress(bufferSize: Int = 20000): ByteArray {
     val deflater = Deflater()
-    deflater.setInput(data)
-    val outputStream = ByteArrayOutputStream(data.size)
+    deflater.setInput(this)
+    val outputStream = ByteArrayOutputStream(this.size)
     deflater.finish()
     val buffer = ByteArray(bufferSize)
     while (!deflater.finished()) {
@@ -32,7 +31,6 @@ fun compress(data: ByteArray, bufferSize: Int = 20000): ByteArray {
 /**
  * Decompresses a [ByteArray] under standard decompression.
  *
- * @param data - The [ByteArray] to decompress
  * @param bufferSize - The maximum size of the decompressed [ByteArray]
  *
  * @return The decompressed [ByteArray]
@@ -40,10 +38,10 @@ fun compress(data: ByteArray, bufferSize: Int = 20000): ByteArray {
  * @author Boston Vanseghi
  * @since 1.0.0
  */
-fun decompress(data: ByteArray, bufferSize: Int = 20000): ByteArray {
+fun ByteArray.decompress(bufferSize: Int = 20000): ByteArray {
     val inflater = Inflater()
-    inflater.setInput(data)
-    val outputStream = ByteArrayOutputStream(data.size)
+    inflater.setInput(this)
+    val outputStream = ByteArrayOutputStream(this.size)
     val buffer = ByteArray(bufferSize)
     while (!inflater.finished()) {
         val count = inflater.inflate(buffer)
