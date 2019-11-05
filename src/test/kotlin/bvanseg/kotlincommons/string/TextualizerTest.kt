@@ -33,8 +33,6 @@ internal class TextualizerTest {
     @Test
     fun textualize() {
         // Given
-        val textualizer = Textualizer.builder()
-
         // When
         val person = Person()
         val data = person.toString()

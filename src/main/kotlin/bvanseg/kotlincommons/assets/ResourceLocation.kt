@@ -43,20 +43,20 @@ class ResourceLocation {
         return result
     }
 
-    override fun equals(obj: Any?): Boolean {
-        if (obj == null) {
+    override fun equals(other: Any?): Boolean {
+        if (other == null) {
             return false
         }
-        if (this === obj) {
+        if (this === other) {
             return true
         }
-        if (this.javaClass != obj.javaClass) {
+        if (this.javaClass != other.javaClass) {
             return false
         }
-        val other = obj as ResourceLocation?
+        val o = other as ResourceLocation?
         return EqualsBuilder()
-            .append(this.domain, other!!.domain)
-            .append(this.location, other.location)
+            .append(this.domain, o!!.domain)
+            .append(this.location, o.location)
             .isEquals
     }
 

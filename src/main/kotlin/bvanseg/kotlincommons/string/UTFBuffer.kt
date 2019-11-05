@@ -124,7 +124,7 @@ class UTFBuffer private constructor() {
      */
     fun uptoWithSelector(vararg candidates: String): Pair<String, String> {
         var match = ""
-        var index = 0
+        var index: Int
         var selector = ""
         candidates.forEach {
             if (data.contains(it)) {
