@@ -43,7 +43,7 @@ bvanseg.kotlincommons
 bvanseg.kotlincommons.any
 bvanseg.kotlincommons.assets
 bvanseg.kotlincommons.buffers
-bvanseg.kotlincommons.bytes
+bvanseg.kotlincommons.measurement
 bvanseg.kotlincommons.classes
 bvanseg.kotlincommons.collections
 bvanseg.kotlincommons.comparable
