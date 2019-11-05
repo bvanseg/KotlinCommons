@@ -8,6 +8,8 @@ package bvanseg.kotlincommons.comparable
  * @param max The maximum that the value can not go over.
  *
  * @return The [Comparable] value between the minimum or maximum.
+ *
+ * @author bright_spark
  * @since 1.0.1
  */
 fun <T : Comparable<T>> clamp(value: T, min: T, max: T): T = when {
@@ -24,6 +26,8 @@ fun <T : Comparable<T>> clamp(value: T, min: T, max: T): T = when {
  * @param max The maximum that the value can not go over.
  *
  * @return The [Comparable] value between the minimum or maximum or null if the value is null.
+ *
+ * @author bright_spark
  * @since 1.0.1
  */
 fun <T : Comparable<T>> clampOrNull(value: T?, min: T, max: T): T? = when {
