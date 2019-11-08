@@ -1,5 +1,6 @@
 package bvanseg.kotlincommons.numbers
 
+import bvanseg.kotlincommons.graphics.Color
 import java.text.NumberFormat
 
 
@@ -19,3 +20,5 @@ fun Number.format(): String = numberFormat.format(this)
  * @since 2.0.1
  */
 fun Number.isEven(): Boolean = this.toDouble() % 2 == 0.0
+
+fun Number.toColor(): Color = Color(this.toInt())
