@@ -16,6 +16,7 @@ module kotlincommons {
     requires java.management;
 
     exports bvanseg.kotlincommons.any;
+    exports bvanseg.kotlincommons.arrays;
     exports bvanseg.kotlincommons.assets;
     exports bvanseg.kotlincommons.booleans;
     exports bvanseg.kotlincommons.buffers;

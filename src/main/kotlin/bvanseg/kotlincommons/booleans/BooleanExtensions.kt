@@ -1,7 +1,9 @@
 package bvanseg.kotlincommons.booleans
 
 /**
- * Will execute [block] if this [Boolean] is true
+ * Will execute [block] if this [Boolean] is true.
+ *
+ * @return This boolean
  *
  * @author bright_spark
  * @since 2.0.1
@@ -12,7 +14,9 @@ inline fun Boolean.ifTrue(block: () -> Unit): Boolean {
 }
 
 /**
- * Will execute [block] if this [Boolean] is false
+ * Will execute [block] if this [Boolean] is false.
+ *
+ * @return This boolean
  *
  * @author bright_spark
  * @since 2.0.1
