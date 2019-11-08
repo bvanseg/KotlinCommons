@@ -12,26 +12,17 @@ class Color: Serializable {
 
     var color: Int = 0
 
-    private var usesAlpha = false
-
-    constructor(color: Int, hasAlpha: Boolean = false) {
-        this.usesAlpha = hasAlpha
+    constructor(color: Int, alpha: Int = 0xFF) {
         this.color = color
+        this.color = this.color or (alpha shl 24)
     }
 
     constructor(red: Int, green: Int, blue: Int, alpha: Int = 0xFF) {
-
-        this.color += red shl 24
-        this.color += green shl 16
-        this.color += blue shl 8
-        this.color += alpha
+        this.color = this.color or (red shl 16) or (green shl 8) or blue or (alpha shl 24)
     }
 
     constructor(red: Float, green: Float, blue: Float, alpha: Float = 1.0f) {
-        this.color += (255 * red).toInt()
-        this.color += (255 * green).toInt()
-        this.color = (255 * blue).toInt()
-        this.color += (255 * alpha).toInt()
+        this.color = this.color or ((255 * red).toInt() shl 16) or ((255 * green).toInt() shl 8) or (255 * blue).toInt() or ((255 * alpha).toInt() shl 24)
     }
 
     /**
@@ -42,15 +33,13 @@ class Color: Serializable {
      * @return The shaded [Color].
      */
     fun shade(shadeFactor: Float): Color = this.apply {
-        var red: Int = (color shr 24) and 0xFF
-        var green: Int = (color shr 16) and 0xFF
-        var blue: Int = (color shr 8) and 0xFF
+        var red: Int = (color shr 16) and 0xFF
+        var green: Int = (color shr 8) and 0xFF
+        var blue: Int = color and 0xFF
         red = (red * (1 - shadeFactor)).toInt()
         green = (green * (1 - shadeFactor)).toInt()
         blue = (blue * (1 - shadeFactor)).toInt()
-        color += red shl 24
-        color += green shl 16
-        color += blue shl 8
+        color = 0 or (red shl 16) or (green shl 8) or blue or (getAlpha())
     }
 
 
@@ -62,47 +51,45 @@ class Color: Serializable {
      * @return The tinted [Color].
      */
     fun tint(tintFactor: Float): Color = this.apply {
-        var red: Int = (color shr 24) and 0xFF
-        var green: Int = (color shr 16) and 0xFF
-        var blue: Int = (color shr 8) and 0xFF
+        var red: Int = (color shr 16) and 0xFF
+        var green: Int = (color shr 8) and 0xFF
+        var blue: Int = color and 0xFF
         red = (red * tintFactor).toInt()
         green = (green * tintFactor).toInt()
         blue = (blue * tintFactor).toInt()
-        color += red shl 24
-        color += green shl 16
-        color += blue shl 8
+        color = 0 or (red shl 16) or (green shl 8) or blue or (getAlpha())
     }
 
     /** OPERATORS **/
 
     operator fun plus(otherColor: Color) = this.apply {
-        color + otherColor.color
+        color += otherColor.color
     }
 
     operator fun minus(otherColor: Color) = this.apply {
-        color - otherColor.color
+        color -= otherColor.color
     }
 
     /** COLOR MANIPULATION **/
-    fun getRed(): Int = (color shr 24) and 0xFF
-    fun getGreen(): Int = (color shr 16) and 0xFF
-    fun getBlue(): Int = (color shr 8) and 0xFF
-    fun getAlpha(): Int = color and 0xFF
+    fun getAlpha(): Int = (color shr 24) and 0xFF
+    fun getRed(): Int = (color shr 16) and 0xFF
+    fun getGreen(): Int = (color shr 8) and 0xFF
+    fun getBlue(): Int = color and 0xFF
+
+    fun setAlpha(value: Int) {
+        this.color = 0 or (getRed() shl 16) or (getGreen() shl 8) or getBlue() or (value shl 24)
+    }
 
     fun setRed(value: Int) {
-        this.color += value shl 24
+        this.color = 0 or (value shl 16) or (getGreen() shl 8) or getBlue() or (getAlpha() shl 24)
     }
 
     fun setGreen(value: Int) {
-        this.color += value shl 16
+        this.color = 0 or (getRed() shl 16) or (value shl 8) or getBlue() or (getAlpha() shl 24)
     }
 
     fun setBlue(value: Int) {
-        this.color += value shl 8
-    }
-
-    fun setAlpha(value: Int) {
-        this.color += value
+        this.color = 0 or (getRed() shl 16) or (getGreen() shl 8) or value or (getAlpha() shl 24)
     }
 
     companion object {
