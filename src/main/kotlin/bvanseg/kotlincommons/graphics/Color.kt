@@ -134,50 +134,50 @@ class Color: Serializable {
     }
 
     companion object {
-        val BLACK = Color(0, 0, 0)
-        val WHITE = Color(0xFF, 0xFF, 0xFF)
+        val BLACK by lazy { Color(0, 0, 0) }
+        val WHITE by lazy { Color(0xFF, 0xFF, 0xFF) }
 
-        val RED = Color(0xFF, 0, 0)
-        val GREEN = Color(0, 0xFF, 0)
-        val BLUE = Color(0, 0, 0xFF)
+        val RED by lazy { Color(0xFF, 0, 0) }
+        val GREEN by lazy { Color(0, 0xFF, 0) }
+        val BLUE by lazy { Color(0, 0, 0xFF) }
 
         /** BROWSER-COMPLIANT COLORS **/
-        val ALICE_BLUE = Color(0xF0F8FF)
-        val ANTIQUE_WHITE = Color(0xFAEBD7)
-        val AQUA = Color(0x00FFFF)
-        val AQUAMARINE = Color(0x7FFFD4)
-        val AZURE = Color(0xF0FFFF)
+        val ALICE_BLUE by lazy { Color(0xF0F8FF) }
+        val ANTIQUE_WHITE by lazy { Color(0xFAEBD7) }
+        val AQUA by lazy { Color(0x00FFFF) }
+        val AQUAMARINE by lazy { Color(0x7FFFD4) }
+        val AZURE by lazy { Color(0xF0FFFF) }
 
-        val BEIGE = Color(0xF5F5DC)
-        val BISQUE = Color(0xFFE4C4)
-        val BLANCHED_ALMOND = Color(0xFFEBCD)
-        val BLUE_VIOLET = Color(0x8A2BE2)
-        val BROWN = Color(0xA52A2A)
-        val BURLY_WOOD = Color(0xDEB887)
+        val BEIGE by lazy { Color(0xF5F5DC) }
+        val BISQUE by lazy { Color(0xFFE4C4) }
+        val BLANCHED_ALMOND by lazy { Color(0xFFEBCD) }
+        val BLUE_VIOLET by lazy { Color(0x8A2BE2) }
+        val BROWN by lazy { Color(0xA52A2A) }
+        val BURLY_WOOD by lazy { Color(0xDEB887) }
 
-        val CADET_BLUE = Color(0x5F9EA0)
-        val CHARTREUSE = Color(0x7FFF00)
-        val CHOCOLATE = Color(0xD2691E)
-        val CORAL = Color(0xFF7F50)
-        val CORNFLOWER_BLUE = Color(0x6495ED)
-        val CORNSILK = Color(0xFFF8DC)
-        val CRIMSON = Color(0xDC143C)
-        val CYAN = Color(0x00FFFF)
+        val CADET_BLUE by lazy { Color(0x5F9EA0) }
+        val CHARTREUSE by lazy { Color(0x7FFF00) }
+        val CHOCOLATE by lazy { Color(0xD2691E) }
+        val CORAL by lazy { Color(0xFF7F50) }
+        val CORNFLOWER_BLUE by lazy { Color(0x6495ED) }
+        val CORNSILK by lazy { Color(0xFFF8DC) }
+        val CRIMSON by lazy { Color(0xDC143C) }
+        val CYAN by lazy { Color(0x00FFFF) }
 
-        val DARK_BLUE = Color(0x0000B8)
-        val DARK_CYAN = Color(0x008B8B)
-        val DARK_GOLDEN_ROD = Color(0xB8860B)
-        val DARK_GRAY = Color(0xA9A9A9)
-        val DARK_GREY = Color(0xA9A9A9)
-        val DARK_GREEN = Color(0x006400)
-        val DARK_KHAKI = Color(0xBDB76B)
-        val DARK_MAGENTA = Color(0x8B008B)
-        val DARK_OLIVE_GREEN = Color(0x556B2F)
-        val DARK_ORANGE = Color(0xFF8C00)
-        val DARK_ORCHID = Color(0x9932CC)
-        val DARK_RED = Color(0x8B0000)
-        val DARK_SALMON = Color(0xE9967A)
-        val DARK_SEA_GREEN = Color(0x8FBC8F)
-        val DARK_SLATE_BLUE = Color(0x8A2BE2)
+        val DARK_BLUE by lazy { Color(0x0000B8) }
+        val DARK_CYAN by lazy { Color(0x008B8B) }
+        val DARK_GOLDEN_ROD by lazy { Color(0xB8860B) }
+        val DARK_GRAY by lazy { Color(0xA9A9A9) }
+        val DARK_GREY by lazy { Color(0xA9A9A9) }
+        val DARK_GREEN by lazy { Color(0x006400) }
+        val DARK_KHAKI by lazy { Color(0xBDB76B) }
+        val DARK_MAGENTA by lazy { Color(0x8B008B) }
+        val DARK_OLIVE_GREEN by lazy { Color(0x556B2F) }
+        val DARK_ORANGE by lazy { Color(0xFF8C00) }
+        val DARK_ORCHID by lazy { Color(0x9932CC) }
+        val DARK_RED by lazy { Color(0x8B0000) }
+        val DARK_SALMON by lazy { Color(0xE9967A) }
+        val DARK_SEA_GREEN by lazy { Color(0x8FBC8F) }
+        val DARK_SLATE_BLUE by lazy { Color(0x8A2BE2) }
     }
 }
