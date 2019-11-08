@@ -1,5 +1,6 @@
 package bvanseg.kotlincommons.graphics
 
+import bvanseg.kotlincommons.tuples.Quad
 import java.io.Serializable
 
 /**
@@ -75,6 +76,8 @@ class Color: Serializable {
     fun getRed(): Int = (color shr 16) and 0xFF
     fun getGreen(): Int = (color shr 8) and 0xFF
     fun getBlue(): Int = color and 0xFF
+    fun getRGB(): Triple<Int, Int, Int> = Triple(getRed(), getGreen(), getBlue())
+    fun getRGBA(): Quad<Int, Int, Int, Int> = Quad(getRed(), getGreen(), getBlue(), getAlpha())
 
     fun setAlpha(value: Int) {
         this.color = 0 or (getRed() shl 16) or (getGreen() shl 8) or getBlue() or (value shl 24)

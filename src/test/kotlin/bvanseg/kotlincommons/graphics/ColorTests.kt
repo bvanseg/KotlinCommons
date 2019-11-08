@@ -51,4 +51,18 @@ class ColorTests {
         assertEquals(0xFF, redColor.getRed())
         assertEquals(0x00, redColor.getGreen())
     }
+
+    @Test
+    fun testQuadColors() {
+        // Given
+        val color = Color(0xFAEBD7)
+        val quad = color.getRGBA()
+
+        // When
+        // Then
+        assertEquals(0xFA, quad.first)
+        assertEquals(0xEB, quad.second)
+        assertEquals(0xD7, quad.third)
+        assertEquals(0xFF, quad.fourth)
+    }
 }
