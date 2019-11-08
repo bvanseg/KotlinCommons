@@ -1,88 +1,37 @@
 package bvanseg.kotlincommons.graphics
 
-import bvanseg.kotlincommons.comparable.clamp
 import java.io.Serializable
 
 /**
- * A simpler implementation of [java.awt.Color] that provides additional functionality.
+ * A cleaner (yet more advanced) implementation of [java.awt.Color] that provides additional functionality.
  *
  * @author Boston Vanseghi
  * @since 2.0.2
  */
 class Color: Serializable {
 
-    var iRed: Int = 0
-        set(value) {
-            fRed = clamp(value / 255f, 0f, 1f)
-            field = value
-        }
-    var fRed: Float = 0f
-        set(value) {
-            iRed = clamp((value * 255).toInt(), 0, 255)
-            field = value
-        }
-
-    var iGreen: Int = 0
-        set(value) {
-            fGreen = clamp(value / 255f, 0f, 1f)
-            field = value
-        }
-    var fGreen: Float = 0f
-        set(value) {
-            iGreen = clamp((value * 255).toInt(), 0, 255)
-            field = value
-        }
-
-    var iBlue: Int = 0
-        set(value) {
-            fBlue = clamp(value / 255f, 0f, 1f)
-            field = value
-        }
-    var fBlue: Float = 0f
-        set(value) {
-            iBlue = clamp((value * 255).toInt(), 0, 255)
-            field = value
-        }
-
-    var iAlpha: Int = 0
-        set(value) {
-            fAlpha = clamp(value / 255f, 0f, 1f)
-            field = value
-        }
-    var fAlpha: Float = 0f
-        set(value) {
-            iAlpha = clamp((value * 255).toInt(), 0, 255)
-            field = value
-        }
+    var color: Int = 0
 
     private var usesAlpha = false
 
     constructor(color: Int, hasAlpha: Boolean = false) {
         this.usesAlpha = hasAlpha
-        if(hasAlpha) {
-            iRed = (color shr 24) and 0xFF
-            iGreen = (color shr 16) and 0xFF
-            iBlue = (color shr 8) and 0xFF
-            iAlpha = color and 0xFF
-        }else {
-            iRed = (color shr 16) and 0xFF
-            iGreen = (color shr 8) and 0xFF
-            iBlue = color and 0xFF
-        }
+        this.color = color
     }
 
     constructor(red: Int, green: Int, blue: Int, alpha: Int = 0xFF) {
-        this.iRed = red
-        this.iGreen = green
-        this.iBlue = blue
-        this.iAlpha = alpha
+
+        this.color += red shl 24
+        this.color += green shl 16
+        this.color += blue shl 8
+        this.color += alpha
     }
 
     constructor(red: Float, green: Float, blue: Float, alpha: Float = 1.0f) {
-        this.iRed = (255 * red).toInt()
-        this.iGreen = (255 * green).toInt()
-        this.iBlue = (255 * blue).toInt()
-        this.iAlpha = (255 * alpha).toInt()
+        this.color += (255 * red).toInt()
+        this.color += (255 * green).toInt()
+        this.color = (255 * blue).toInt()
+        this.color += (255 * alpha).toInt()
     }
 
     /**
@@ -93,9 +42,15 @@ class Color: Serializable {
      * @return The shaded [Color].
      */
     fun shade(shadeFactor: Float): Color = this.apply {
-        fRed *= (1 - shadeFactor)
-        fGreen *= fGreen * (1 - shadeFactor)
-        fBlue *= fBlue * (1 - shadeFactor)
+        var red: Int = (color shr 24) and 0xFF
+        var green: Int = (color shr 16) and 0xFF
+        var blue: Int = (color shr 8) and 0xFF
+        red = (red * (1 - shadeFactor)).toInt()
+        green = (green * (1 - shadeFactor)).toInt()
+        blue = (blue * (1 - shadeFactor)).toInt()
+        color += red shl 24
+        color += green shl 16
+        color += blue shl 8
     }
 
 
@@ -107,30 +62,47 @@ class Color: Serializable {
      * @return The tinted [Color].
      */
     fun tint(tintFactor: Float): Color = this.apply {
-        fRed += (255 - fRed) * tintFactor
-        fGreen += (255 - fGreen) * tintFactor
-        fBlue += (255 - fBlue) * tintFactor
+        var red: Int = (color shr 24) and 0xFF
+        var green: Int = (color shr 16) and 0xFF
+        var blue: Int = (color shr 8) and 0xFF
+        red = (red * tintFactor).toInt()
+        green = (green * tintFactor).toInt()
+        blue = (blue * tintFactor).toInt()
+        color += red shl 24
+        color += green shl 16
+        color += blue shl 8
     }
-
-    /**
-     * Retrieves the color as an [Int]
-     *
-     * @return an [Int] of the color.
-     */
-    fun toInt(): Int = if(usesAlpha) (iRed shl 24) + (iGreen shl 16) + (iBlue shl 8) + iAlpha else (iRed shl 16) + (iGreen shl 8) + iBlue
 
     /** OPERATORS **/
 
     operator fun plus(otherColor: Color) = this.apply {
-        iRed += otherColor.iRed
-        iGreen += otherColor.iGreen
-        iBlue += otherColor.iBlue
+        color + otherColor.color
     }
 
     operator fun minus(otherColor: Color) = this.apply {
-        iRed -= otherColor.iRed
-        iGreen -= otherColor.iGreen
-        iBlue -= otherColor.iBlue
+        color - otherColor.color
+    }
+
+    /** COLOR MANIPULATION **/
+    fun getRed(): Int = (color shr 24) and 0xFF
+    fun getGreen(): Int = (color shr 16) and 0xFF
+    fun getBlue(): Int = (color shr 8) and 0xFF
+    fun getAlpha(): Int = color and 0xFF
+
+    fun setRed(value: Int) {
+        this.color += value shl 24
+    }
+
+    fun setGreen(value: Int) {
+        this.color += value shl 16
+    }
+
+    fun setBlue(value: Int) {
+        this.color += value shl 8
+    }
+
+    fun setAlpha(value: Int) {
+        this.color += value
     }
 
     companion object {
