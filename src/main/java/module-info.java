@@ -25,6 +25,7 @@ module kotlincommons {
     exports bvanseg.kotlincommons.comparable;
     exports bvanseg.kotlincommons.compression;
     exports bvanseg.kotlincommons.files;
+    exports bvanseg.kotlincommons.graphics;
     exports bvanseg.kotlincommons.joml.vectors;
     exports bvanseg.kotlincommons.kclasses;
     exports bvanseg.kotlincommons.logging;
