@@ -8,7 +8,7 @@ class ColorTests {
     @Test
     fun testRGBValues() {
         // Given
-        val color = Color(0xFAEBD7)
+        val color = Color(0x369BE5)
 
         // When
         val red = color.getRed()
@@ -17,11 +17,12 @@ class ColorTests {
         color.setAlpha(0xFA)
         val alpha = color.getAlpha()
 
+
         // Then
         assertEquals(0xFA, alpha)
-        assertEquals(0xFA, red)
-        assertEquals(0xEB, green)
-        assertEquals(0xD7, blue)
+        assertEquals(0x36, red)
+        assertEquals(0x9B, green)
+        assertEquals(0xE5, blue)
     }
 
     @Test

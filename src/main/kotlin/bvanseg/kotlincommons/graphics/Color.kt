@@ -2,6 +2,7 @@ package bvanseg.kotlincommons.graphics
 
 import bvanseg.kotlincommons.tuples.Quad
 import java.io.Serializable
+import kotlin.math.round
 
 /**
  * A cleaner (yet more advanced) implementation of [java.awt.Color] that provides additional functionality.
@@ -71,13 +72,14 @@ class Color: Serializable {
         color -= otherColor.color
     }
 
-    /** COLOR MANIPULATION **/
     fun getAlpha(): Int = (color shr 24) and 0xFF
     fun getRed(): Int = (color shr 16) and 0xFF
     fun getGreen(): Int = (color shr 8) and 0xFF
     fun getBlue(): Int = color and 0xFF
     fun getRGB(): Triple<Int, Int, Int> = Triple(getRed(), getGreen(), getBlue())
     fun getRGBA(): Quad<Int, Int, Int, Int> = Quad(getRed(), getGreen(), getBlue(), getAlpha())
+    fun getHSL(): Triple<Int, Int, Int> = Triple(getHue(), getSaturation(), getLuminance())
+    fun getHSLA(): Quad<Int, Int, Int, Int> = Quad(getHue(), getSaturation(), getLuminance(), getAlpha())
 
     fun setAlpha(value: Int) {
         this.color = 0 or (getRed() shl 16) or (getGreen() shl 8) or getBlue() or (value shl 24)
@@ -95,6 +97,50 @@ class Color: Serializable {
         this.color = 0 or (getRed() shl 16) or (getGreen() shl 8) or value or (getAlpha() shl 24)
     }
 
+    fun getLuminance(): Int {
+        val r = getRed() / 255f
+        val g = getGreen() / 255f
+        val b = getBlue() / 255f
+
+        val max = maxOf(r, g, b)
+        val min = minOf(r, g, b)
+
+        return round(((max + min) / 2f) * 100f).toInt()
+    }
+
+    fun getSaturation(): Int {
+        val r = getRed() / 255f
+        val g = getGreen() / 255f
+        val b = getBlue() / 255f
+        val luminance = getLuminance()
+
+        val max = maxOf(r, g, b)
+        val min = minOf(r, g, b)
+
+        return when {
+            luminance / 100f < 1 -> round(((max-min)/(1 - (2 * (getLuminance()/100f) - 1))) * 100).toInt()
+            else -> 0
+        }
+    }
+
+    fun getHue(): Int {
+        val r = getRed() / 255f
+        val g = getGreen() / 255f
+        val b = getBlue() / 255f
+
+        when {
+            r > g && g >= b -> return round((((g-b)/(r-b))) * 60).toInt()
+            g > r && r >= b -> return round((2.0 - ((r-b)/(g-b))) * 60).toInt()
+            g >= b && b > r -> return round((2.0 + ((b-r)/(g-r))) * 60).toInt()
+            b > g && g > r -> return round((4.0 - ((g-r)/(b-r))) * 60).toInt()
+            b > r && r >= g -> return round((4.0 + ((r-g)/(b-g))) * 60).toInt()
+            r >= b && b > g -> return round((6.0 - ((b-g)/(r-g))) * 60).toInt()
+        }
+
+        return -1
+    }
+
+    @Suppress("unused")
     companion object {
         val BLACK by lazy { Color(0, 0, 0) }
         val WHITE by lazy { Color(0xFF, 0xFF, 0xFF) }
