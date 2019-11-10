@@ -12,15 +12,35 @@ import java.net.URI
  */
 class KFile: File {
 
-    constructor(path: String): super(path)
-    constructor(uri: URI): super(uri)
-    constructor(parent: String, child: String): super(parent, child)
-    constructor(parent: File, path: String): super(parent, path)
+    var fileType: KFileType = KFileType.AMBIGUOUS
+
+    constructor(path: String, type: KFileType = KFileType.AMBIGUOUS): super(path) {
+        this.fileType = type
+    }
+    constructor(uri: URI, type: KFileType = KFileType.AMBIGUOUS): super(uri) {
+        this.fileType = type
+    }
+    constructor(parent: String, child: String, type: KFileType = KFileType.AMBIGUOUS): super(parent, child) {
+        this.fileType = type
+    }
+    constructor(parent: File, path: String, type: KFileType = KFileType.AMBIGUOUS): super(parent, path) {
+        this.fileType = type
+    }
 
     init {
-        if(!exists()) {
-            parentFile.mkdirs()
-            createNewFile()
+        if(!exists())
+            mk()
+    }
+
+    fun mk() {
+        parentFile.mkdirs()
+        when (fileType) {
+            KFileType.DIRECTORY -> mkdir()
+            KFileType.FILE -> createNewFile()
+            KFileType.AMBIGUOUS -> {
+                if(name.contains(".")) createNewFile()
+                else mkdir()
+            }
         }
     }
 
@@ -29,5 +49,17 @@ class KFile: File {
         this.copyTo(newFile)
         this.delete()
         return newFile
+    }
+
+    /**
+     * Used to represent what type of file this [KFile] is.
+     *
+     * @author Boston Vanseghi
+     * @since 2.0.3
+     */
+    enum class KFileType {
+        FILE,
+        DIRECTORY,
+        AMBIGUOUS
     }
 }

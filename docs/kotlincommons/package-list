@@ -3,6 +3,12 @@ $dokka.linkExtension:html
 $dokka.location:bvanseg.kotlincommons.any$getLogger(kotlin.Any)bvanseg.kotlincommons.any/kotlin.-any/get-logger.html
 $dokka.location:bvanseg.kotlincommons.any$toObservable(kotlin.Any)bvanseg.kotlincommons.any/kotlin.-any/to-observable.html
 $dokka.location:bvanseg.kotlincommons.any$toOptional(kotlin.Any)bvanseg.kotlincommons.any/kotlin.-any/to-optional.html
+$dokka.location:bvanseg.kotlincommons.arrays$anyNull(kotlin.Array((bvanseg.kotlincommons.arrays.anyNull.T)))bvanseg.kotlincommons.arrays/kotlin.-array/any-null.html
+$dokka.location:bvanseg.kotlincommons.arrays$anyNull(kotlin.Array((kotlin.Array((bvanseg.kotlincommons.arrays.anyNull.T)))))bvanseg.kotlincommons.arrays/kotlin.-array/any-null.html
+$dokka.location:bvanseg.kotlincommons.arrays$anyNull(kotlin.Array((kotlin.Array((kotlin.Array((bvanseg.kotlincommons.arrays.anyNull.T)))))))bvanseg.kotlincommons.arrays/kotlin.-array/any-null.html
+$dokka.location:bvanseg.kotlincommons.arrays$random(kotlin.Array((bvanseg.kotlincommons.arrays.random.T)), java.util.Random)bvanseg.kotlincommons.arrays/kotlin.-array/random.html
+$dokka.location:bvanseg.kotlincommons.arrays$random(kotlin.Array((kotlin.Array((bvanseg.kotlincommons.arrays.random.T)))), java.util.Random)bvanseg.kotlincommons.arrays/kotlin.-array/random.html
+$dokka.location:bvanseg.kotlincommons.arrays$random(kotlin.Array((kotlin.Array((kotlin.Array((bvanseg.kotlincommons.arrays.random.T)))))), java.util.Random)bvanseg.kotlincommons.arrays/kotlin.-array/random.html
 $dokka.location:bvanseg.kotlincommons.booleans$ifFalse(kotlin.Boolean, kotlin.Function0((kotlin.Unit)))bvanseg.kotlincommons.booleans/kotlin.-boolean/if-false.html
 $dokka.location:bvanseg.kotlincommons.booleans$ifTrue(kotlin.Boolean, kotlin.Function0((kotlin.Unit)))bvanseg.kotlincommons.booleans/kotlin.-boolean/if-true.html
 $dokka.location:bvanseg.kotlincommons.buffers$getBoolean(java.nio.ByteBuffer)bvanseg.kotlincommons.buffers/java.nio.-byte-buffer/get-boolean.html
@@ -41,6 +47,9 @@ $dokka.location:bvanseg.kotlincommons.logging$trace(org.slf4j.Logger, kotlin.Any
 $dokka.location:bvanseg.kotlincommons.logging$warn(org.slf4j.Logger, kotlin.Any)bvanseg.kotlincommons.logging/org.slf4j.-logger/warn.html
 $dokka.location:bvanseg.kotlincommons.numbers$format(kotlin.Number)bvanseg.kotlincommons.numbers/kotlin.-number/format.html
 $dokka.location:bvanseg.kotlincommons.numbers$isEven(kotlin.Number)bvanseg.kotlincommons.numbers/kotlin.-number/is-even.html
+$dokka.location:bvanseg.kotlincommons.numbers$isOdd(kotlin.Number)bvanseg.kotlincommons.numbers/kotlin.-number/is-odd.html
+$dokka.location:bvanseg.kotlincommons.numbers$to(kotlin.Number)bvanseg.kotlincommons.numbers/kotlin.-number/to.html
+$dokka.location:bvanseg.kotlincommons.numbers$toColor(kotlin.Number)bvanseg.kotlincommons.numbers/kotlin.-number/to-color.html
 $dokka.location:bvanseg.kotlincommons.simplenet.packet$putUBJ(com.github.simplenet.packet.Packet, bvanseg.kotlincommons.ubjson.UBJ)bvanseg.kotlincommons.simplenet.packet/com.github.simplenet.packet.-packet/put-u-b-j.html
 $dokka.location:bvanseg.kotlincommons.simplenet.packet$putUBObject(com.github.simplenet.packet.Packet, com.devsmart.ubjson.UBObject)bvanseg.kotlincommons.simplenet.packet/com.github.simplenet.packet.-packet/put-u-b-object.html
 $dokka.location:bvanseg.kotlincommons.simplenet.packet$putUUID(com.github.simplenet.packet.Packet, java.util.UUID)bvanseg.kotlincommons.simplenet.packet/com.github.simplenet.packet.-packet/put-u-u-i-d.html
@@ -56,6 +65,7 @@ $dokka.location:bvanseg.kotlincommons.tuples$between(kotlin.Pair((bvanseg.kotlin
 $dokka.location:bvanseg.kotlincommons.tuples$contains(kotlin.Pair((bvanseg.kotlincommons.tuples.contains.T, )), bvanseg.kotlincommons.tuples.contains.T)bvanseg.kotlincommons.tuples/kotlin.-pair/contains.html
 bvanseg.kotlincommons
 bvanseg.kotlincommons.any
+bvanseg.kotlincommons.arrays
 bvanseg.kotlincommons.assets
 bvanseg.kotlincommons.booleans
 bvanseg.kotlincommons.buffers
@@ -64,6 +74,7 @@ bvanseg.kotlincommons.collections
 bvanseg.kotlincommons.comparable
 bvanseg.kotlincommons.compression
 bvanseg.kotlincommons.files
+bvanseg.kotlincommons.graphics
 bvanseg.kotlincommons.joml.vectors
 bvanseg.kotlincommons.kclasses
 bvanseg.kotlincommons.logging
