@@ -15,6 +15,19 @@ actual <a href="#">File</a> on instantiation (if the file does not already exist
 Boston Vanseghi</p>
 <p><strong>Since</strong><br/>
 2.0.1</p>
+<h3>Types</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="-k-file-type/index.html">KFileType</a></h4>
+</td>
+<td>
+<p>Used to represent what type of file this <a href="./index.html">KFile</a> is.</p>
+<code><span class="keyword">enum</span> <span class="keyword">class </span><span class="identifier">KFileType</span></code></td>
+</tr>
+</tbody>
+</table>
 <h3>Constructors</h3>
 <table>
 <tbody>
@@ -23,16 +36,35 @@ Boston Vanseghi</p>
 <h4><a href="-init-.html">&lt;init&gt;</a></h4>
 </td>
 <td>
-<code><span class="identifier">KFile</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.files.KFile$<init>(kotlin.String)/path">path</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span></code><br/>
-<code><span class="identifier">KFile</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.files.KFile$<init>(java.net.URI)/uri">uri</span><span class="symbol">:</span>&nbsp;<span class="identifier">URI</span><span class="symbol">)</span></code><br/>
-<code><span class="identifier">KFile</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.files.KFile$<init>(kotlin.String, kotlin.String)/parent">parent</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.files.KFile$<init>(kotlin.String, kotlin.String)/child">child</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span></code><br/>
-<code><span class="identifier">KFile</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.files.KFile$<init>(java.io.File, kotlin.String)/parent">parent</span><span class="symbol">:</span>&nbsp;<span class="identifier">File</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.files.KFile$<init>(java.io.File, kotlin.String)/path">path</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span></code></td>
+<code><span class="identifier">KFile</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.files.KFile$<init>(kotlin.String, bvanseg.kotlincommons.files.KFile.KFileType)/path">path</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.files.KFile$<init>(kotlin.String, bvanseg.kotlincommons.files.KFile.KFileType)/type">type</span><span class="symbol">:</span>&nbsp;<span class="identifier">KFileType</span>&nbsp;<span class="symbol">=</span>&nbsp;KFileType.AMBIGUOUS<span class="symbol">)</span></code><br/>
+<code><span class="identifier">KFile</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.files.KFile$<init>(java.net.URI, bvanseg.kotlincommons.files.KFile.KFileType)/uri">uri</span><span class="symbol">:</span>&nbsp;<span class="identifier">URI</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.files.KFile$<init>(java.net.URI, bvanseg.kotlincommons.files.KFile.KFileType)/type">type</span><span class="symbol">:</span>&nbsp;<span class="identifier">KFileType</span>&nbsp;<span class="symbol">=</span>&nbsp;KFileType.AMBIGUOUS<span class="symbol">)</span></code><br/>
+<code><span class="identifier">KFile</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.files.KFile$<init>(kotlin.String, kotlin.String, bvanseg.kotlincommons.files.KFile.KFileType)/parent">parent</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.files.KFile$<init>(kotlin.String, kotlin.String, bvanseg.kotlincommons.files.KFile.KFileType)/child">child</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.files.KFile$<init>(kotlin.String, kotlin.String, bvanseg.kotlincommons.files.KFile.KFileType)/type">type</span><span class="symbol">:</span>&nbsp;<span class="identifier">KFileType</span>&nbsp;<span class="symbol">=</span>&nbsp;KFileType.AMBIGUOUS<span class="symbol">)</span></code><br/>
+<code><span class="identifier">KFile</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.files.KFile$<init>(java.io.File, kotlin.String, bvanseg.kotlincommons.files.KFile.KFileType)/parent">parent</span><span class="symbol">:</span>&nbsp;<span class="identifier">File</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.files.KFile$<init>(java.io.File, kotlin.String, bvanseg.kotlincommons.files.KFile.KFileType)/path">path</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.files.KFile$<init>(java.io.File, kotlin.String, bvanseg.kotlincommons.files.KFile.KFileType)/type">type</span><span class="symbol">:</span>&nbsp;<span class="identifier">KFileType</span>&nbsp;<span class="symbol">=</span>&nbsp;KFileType.AMBIGUOUS<span class="symbol">)</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="file-type.html">fileType</a></h4>
+</td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">fileType</span><span class="symbol">: </span><span class="identifier">KFileType</span></code></td>
 </tr>
 </tbody>
 </table>
 <h3>Functions</h3>
 <table>
 <tbody>
+<tr>
+<td>
+<h4><a href="mk.html">mk</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">mk</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code></td>
+</tr>
 <tr>
 <td>
 <h4><a href="rename.html">rename</a></h4>

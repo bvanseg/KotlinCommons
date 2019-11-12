@@ -14,6 +14,7 @@ module kotlincommons {
 
     requires kotlin.stdlib;
     requires java.management;
+    requires io.github.classgraph;
 
     exports bvanseg.kotlincommons.any;
     exports bvanseg.kotlincommons.arrays;
