@@ -11,9 +11,8 @@ class ResourceLocation {
         private set
 
     val path: String
-        get() = "/$baseFolder/" + this.domain + "/" + this.location
 
-    val inputStream: InputStream
+    var inputStream: InputStream? = null
 
     constructor(location: String) {
         val resourceLocationRaw = location.split(":".toRegex(), 2).toTypedArray()
@@ -24,18 +23,21 @@ class ResourceLocation {
             this.domain = defaultDomain
             this.location = location
         }
-        inputStream = Resources.scan.getResourcesWithPath(path).first().open()
+        this.path = "/$baseFolder/" + this.domain + "/" + this.location
+        inputStream = Resources.scan.getResourcesWithPath(path).firstOrNull()?.open()
     }
 
     constructor(domain: String, location: String) {
         this.domain = domain
         this.location = location
-        inputStream = Resources.scan.getResourcesWithPath(path).first().open()
+        this.path = "/$baseFolder/" + this.domain + "/" + this.location
+        inputStream = Resources.scan.getResourcesWithPath(path).firstOrNull()?.open()
     }
 
     constructor(folder: ResourceLocation, location: String) {
         this.location = folder.domain + ":" + folder.location + "/" + location
-        inputStream = Resources.scan.getResourcesWithPath(path).first().open()
+        this.path = "/$baseFolder/" + folder.domain + "/" + folder.location
+        inputStream = Resources.scan.getResourcesWithPath(path).firstOrNull()?.open()
     }
 
     override fun hashCode(): Int {
