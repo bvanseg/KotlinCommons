@@ -14,5 +14,10 @@ fun List<String>.joinStrings(startIndex: Int = 0, endIndex: Int = -1): String {
     return sb.toString()
 }
 
-@Deprecated("This method is far too specific for continued usage in KotlinCommons. To be removed in 2.0.2")
-fun String.replaceSeparators(): String = this.replace(",", "").replace("_", "")
+fun String.remove(vararg strings: String): String {
+    var str = this
+    strings.forEach {
+        str = this.replace(it, "")
+    }
+    return str
+}
