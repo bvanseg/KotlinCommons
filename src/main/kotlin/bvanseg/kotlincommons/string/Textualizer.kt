@@ -12,15 +12,12 @@ class Textualizer private constructor() {
 
     fun append(field: String, value: Any): Textualizer = this.apply {
         val con = when(value::class) {
-            Byte::class, Short::class,
-            Int::class, Long::class,
-            Float::class, Double::class,
-            String::class -> value.toString()
             else -> {
-                if(value::class.java.isEnum)
-                    value::class.java.enumConstants[(value as Enum<*>).ordinal]
-                else
-                    value::class.qualifiedName
+                when {
+                    value::class.java.isEnum -> value::class.java.enumConstants[(value as Enum<*>).ordinal]
+                    value::class.java.isArray -> "[${(value as Array<Any>).joinToString(", ")}]"
+                    else -> value.toString()
+                }
             }
         }
 
@@ -32,12 +29,12 @@ class Textualizer private constructor() {
         elements++
     }
 
-    override fun toString(): String = "$data]"
+    override fun toString(): String = "$data)"
 
     companion object {
         @JvmStatic
-        fun builder(): Textualizer = Textualizer().apply {
-            this.append("[")
+        fun builder(clazz: Any): Textualizer = Textualizer().apply {
+            this.append("${clazz::class.simpleName}(")
         }
     }
 }

@@ -9,6 +9,12 @@ import org.junit.jupiter.api.Test
 internal class TextualizerTest {
     class Account {
         val balance = 0.0
+        val foo = arrayOf("Bar", "FooBar", "MoreFooBar")
+
+        override fun toString() = Textualizer.builder(this)
+            .append("balance", balance)
+            .append("foo", foo)
+            .toString()
     }
 
     enum class Gender {
@@ -22,7 +28,7 @@ internal class TextualizerTest {
         val age = "22"
         val gender = Gender.MALE
         val acct: Account = Account()
-        override fun toString(): String = Textualizer.builder()
+        override fun toString(): String = Textualizer.builder(this)
             .append("name", name)
             .append("age", age)
             .append("gender", gender)
@@ -39,6 +45,6 @@ internal class TextualizerTest {
 
         // Then
         println(data)
-        assertEquals("[name=Bob, age=22, gender=MALE, account=${Account::class.qualifiedName}]", data)
+        assertEquals("Person(name=Bob, age=22, gender=MALE, account=Account(balance=0.0, foo=[Bar, FooBar, MoreFooBar]))", data)
     }
 }
