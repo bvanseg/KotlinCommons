@@ -1,3 +1,5 @@
+@file:Suppress("EXTENSION_SHADOWED_BY_MEMBER")
+
 package bvanseg.kotlincommons.joml.vectors
 
 import org.joml.*
@@ -25,7 +27,7 @@ fun Vector3fc.toVector3d() = Vector3d(this.x().toDouble(), this.y().toDouble(), 
 fun Vector3dc.toVector3f() = Vector3f(this.x().toFloat(), this.y().toFloat(), this.z().toFloat())
 fun Vector3dc.toVector3i() = Vector3i(this.x().toInt(), this.y().toInt(), this.z().toInt())
 
-fun Vector3i.div(x: Int, y: Int, z: Int) = this.set(this.x / x, this.y / y, this.z / z)
+fun Vector3i.div(x: Int, y: Int, z: Int): Vector3i = this.set(this.x / x, this.y / y, this.z / z)
 
 operator fun Vector3i.plus(vector3i: Vector3i): Vector3i = this.add(vector3i.x, vector3i.y, vector3i.z)
 operator fun Vector3i.minus(vector3i: Vector3i): Vector3i = this.sub(vector3i.x, vector3i.y, vector3i.z)
