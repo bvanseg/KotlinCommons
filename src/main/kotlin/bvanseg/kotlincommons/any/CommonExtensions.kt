@@ -1,6 +1,5 @@
 package bvanseg.kotlincommons.any
 
-import bvanseg.kotlincommons.observable.Observable
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.util.*
@@ -11,17 +10,9 @@ import java.util.*
 fun Any.getLogger(): Logger = LoggerFactory.getLogger(this::class.java)
 
 /**
- * Converts any Object to an [Observable].
- *
- * @author Boston Vanseghi
- * @since 2.0.1
- */
-fun Any.toObservable(): Observable<Any> = Observable(this)
-
-/**
  * Converts any Object to an [Optional].
  *
  * @author Boston Vanseghi
  * @since 2.0.1
  */
-fun Any.toOptional(): Optional<Any> = Optional.of(this)
+fun <T> T.toOptional(): Optional<T> = Optional.of(this)
