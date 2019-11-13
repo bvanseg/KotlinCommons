@@ -1,6 +1,6 @@
 package bvanseg.kotlincommons.projects
 
-import org.apache.commons.lang3.builder.HashCodeBuilder
+import bvanseg.kotlincommons.numbers.Hasher
 
 class Version : Comparable<Version> {
 
@@ -36,7 +36,7 @@ class Version : Comparable<Version> {
 
     override fun toString(): String = "$major.$minor.$patch" + if (label != "") "-$label" else ""
     override fun hashCode(): Int =
-        HashCodeBuilder().append(major).append(minor).append(patch).append(label).toHashCode()
+        Hasher().append(major).append(minor).append(patch).append(label).hashCode()
 
     override fun compareTo(other: Version): Int {
         return if (this.major > other.major) {
