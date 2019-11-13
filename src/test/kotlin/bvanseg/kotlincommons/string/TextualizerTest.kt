@@ -10,10 +10,12 @@ internal class TextualizerTest {
     class Account {
         val balance = 0.0
         val foo = arrayOf("Bar", "FooBar", "MoreFooBar")
+        val bar = mapOf("boo" to 1, "ooga" to 2)
 
         override fun toString() = Textualizer.builder(this)
             .append("balance", balance)
             .append("foo", foo)
+            .append("bar", bar)
             .toString()
     }
 

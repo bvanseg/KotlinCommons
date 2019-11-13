@@ -12,6 +12,7 @@ class Textualizer private constructor() {
 
     fun append(field: String, value: Any): Textualizer = this.apply {
         val con = when(value::class) {
+            Map::class -> (value as Map<*, *>).entries.joinToString(", ")
             else -> {
                 when {
                     value::class.java.isEnum -> value::class.java.enumConstants[(value as Enum<*>).ordinal]
