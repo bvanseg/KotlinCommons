@@ -59,12 +59,20 @@ $dokka.location:bvanseg.kotlincommons.simplenet.packet$putVector3i(com.github.si
 $dokka.location:bvanseg.kotlincommons.simplenet.packet$putVersion(com.github.simplenet.packet.Packet, bvanseg.kotlincommons.projects.Version)bvanseg.kotlincommons.simplenet.packet/com.github.simplenet.packet.-packet/put-version.html
 $dokka.location:bvanseg.kotlincommons.streams$stream(kotlin.Array((bvanseg.kotlincommons.streams.stream.T)))bvanseg.kotlincommons.streams/kotlin.-array/stream.html
 $dokka.location:bvanseg.kotlincommons.string$joinStrings(kotlin.collections.List((kotlin.String)), kotlin.Int, kotlin.Int)bvanseg.kotlincommons.string/kotlin.collections.-list/join-strings.html
-$dokka.location:bvanseg.kotlincommons.string$replaceSeparators(kotlin.String)bvanseg.kotlincommons.string/kotlin.-string/replace-separators.html
+$dokka.location:bvanseg.kotlincommons.string$remove(kotlin.String, kotlin.Array((kotlin.String)))bvanseg.kotlincommons.string/kotlin.-string/remove.html
 $dokka.location:bvanseg.kotlincommons.time$toFileSafeString(java.time.LocalDateTime)bvanseg.kotlincommons.time/java.time.-local-date-time/to-file-safe-string.html
 $dokka.location:bvanseg.kotlincommons.tuples$between(kotlin.Pair((bvanseg.kotlincommons.tuples.between.T, )), bvanseg.kotlincommons.tuples.between.T)bvanseg.kotlincommons.tuples/kotlin.-pair/between.html
 $dokka.location:bvanseg.kotlincommons.tuples$contains(kotlin.Pair((bvanseg.kotlincommons.tuples.contains.T, )), bvanseg.kotlincommons.tuples.contains.T)bvanseg.kotlincommons.tuples/kotlin.-pair/contains.html
 bvanseg.kotlincommons
 bvanseg.kotlincommons.any
+bvanseg.kotlincommons.armada
+bvanseg.kotlincommons.armada.annotations
+bvanseg.kotlincommons.armada.commands
+bvanseg.kotlincommons.armada.contexts
+bvanseg.kotlincommons.armada.events
+bvanseg.kotlincommons.armada.gears
+bvanseg.kotlincommons.armada.transformers
+bvanseg.kotlincommons.armada.utilities
 bvanseg.kotlincommons.arrays
 bvanseg.kotlincommons.assets
 bvanseg.kotlincommons.booleans
@@ -73,10 +81,14 @@ bvanseg.kotlincommons.classes
 bvanseg.kotlincommons.collections
 bvanseg.kotlincommons.comparable
 bvanseg.kotlincommons.compression
+bvanseg.kotlincommons.evenir.annotations
+bvanseg.kotlincommons.evenir.bus
+bvanseg.kotlincommons.evenir.event
 bvanseg.kotlincommons.files
 bvanseg.kotlincommons.graphics
 bvanseg.kotlincommons.joml.vectors
 bvanseg.kotlincommons.kclasses
+bvanseg.kotlincommons.ledger
 bvanseg.kotlincommons.logging
 bvanseg.kotlincommons.measurement
 bvanseg.kotlincommons.numbers

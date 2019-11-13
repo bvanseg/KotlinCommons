@@ -25,3 +25,5 @@ inline fun Boolean.ifFalse(block: () -> Unit): Boolean {
     if (!this) block()
     return this
 }
+
+fun Boolean.toInt(): Int = if(this) 1 else 0

@@ -1,0 +1,72 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>CommandModule - kotlincommons</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">kotlincommons</a>&nbsp;/&nbsp;<a href="../index.html">bvanseg.kotlincommons.armada.commands</a>&nbsp;/&nbsp;<a href="./index.html">CommandModule</a><br/>
+<br/>
+<h1>CommandModule</h1>
+<code><span class="keyword">class </span><span class="identifier">CommandModule</span></code>
+<p>Used to store commands of the same name, but with different parameter counts/types.</p>
+<p>Given user input, Armada will automatically sift through recorded commands of the module and see which one best
+fits the command structure given by the user.</p>
+<p><strong>Author</strong><br/>
+Boston Vanseghi</p>
+<p><strong>Since</strong><br/>
+2.1.0</p>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="-init-.html">&lt;init&gt;</a></h4>
+</td>
+<td>
+<p>Used to store commands of the same name, but with different parameter counts/types.</p>
+<code><span class="identifier">CommandModule</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.commands.CommandModule$<init>(kotlin.String, bvanseg.kotlincommons.armada.CommandManager((kotlin.Any)))/tag">tag</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.commands.CommandModule$<init>(kotlin.String, bvanseg.kotlincommons.armada.CommandManager((kotlin.Any)))/manager">manager</span><span class="symbol">:</span>&nbsp;<a href="../../bvanseg.kotlincommons.armada/-command-manager/index.html"><span class="identifier">CommandManager</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span><span class="symbol">)</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="commands.html">commands</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">commands</span><span class="symbol">: </span><span class="identifier">MutableList</span><span class="symbol">&lt;</span><a href="../-internal-command/index.html"><span class="identifier">InternalCommand</span></a><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="manager.html">manager</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">manager</span><span class="symbol">: </span><a href="../../bvanseg.kotlincommons.armada/-command-manager/index.html"><span class="identifier">CommandManager</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="tag.html">tag</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">tag</span><span class="symbol">: </span><span class="identifier">String</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="find-candidate-command.html">findCandidateCommand</a></h4>
+</td>
+<td>
+<p>Finds the most appropriate command to use in handling a set of arguments. Returns null if no such command can be found.</p>
+<code><span class="keyword">fun </span><span class="identifier">findCandidateCommand</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.commands.CommandModule$findCandidateCommand(kotlin.String)/args">args</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><a href="../-internal-command/index.html"><span class="identifier">InternalCommand</span></a><span class="symbol">?</span></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

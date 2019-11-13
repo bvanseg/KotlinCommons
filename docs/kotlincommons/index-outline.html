@@ -66,6 +66,808 @@
 </BODY>
 </HTML>
 </ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada/index.html"><span class="keyword">package</span>&nbsp;<span class="identifier">bvanseg.kotlincommons.armada</span></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada/-command-manager/index.html"><span class="keyword">class </span><span class="identifier">CommandManager</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada/-command-manager/-init-.html"><span class="identifier">CommandManager</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.CommandManager$<init>(kotlin.String)/prefix">prefix</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span>&nbsp;<span class="symbol">=</span>&nbsp;"!"<span class="symbol">)</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada/-command-manager/add-command.html"><span class="keyword">fun </span><span class="identifier">addCommand</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.CommandManager$addCommand(bvanseg.kotlincommons.armada.commands.BaseCommand)/command">command</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.commands/-base-command/index.html"><span class="identifier">BaseCommand</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada/-command-manager/add-gear.html"><span class="keyword">fun </span><span class="identifier">addGear</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.CommandManager$addGear(kotlin.reflect.KClass((bvanseg.kotlincommons.armada.gears.Gear)))/type">type</span><span class="symbol">:</span>&nbsp;<span class="identifier">KClass</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<a href="bvanseg.kotlincommons.armada.gears/-gear/index.html"><span class="identifier">Gear</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada/-command-manager/add-gear.html"><span class="keyword">fun </span><span class="identifier">addGear</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.CommandManager$addGear(bvanseg.kotlincommons.armada.gears.Gear)/gear">gear</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.gears/-gear/index.html"><span class="identifier">Gear</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada/-command-manager/add-transformer.html"><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Any</span><span class="symbol">&gt;</span> <span class="identifier">addTransformer</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.CommandManager$addTransformer(bvanseg.kotlincommons.armada.transformers.Transformer((bvanseg.kotlincommons.armada.CommandManager.addTransformer.T)))/transformer">transformer</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.transformers/-transformer/index.html"><span class="identifier">Transformer</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada/-command-manager/add-transformers.html"><span class="keyword">fun </span><span class="identifier">addTransformers</span><span class="symbol">(</span><span class="keyword">vararg</span> <span class="identifier" id="bvanseg.kotlincommons.armada.CommandManager$addTransformers(kotlin.Array((bvanseg.kotlincommons.armada.transformers.Transformer((kotlin.Any)))))/transformers">transformers</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.transformers/-transformer/index.html"><span class="identifier">Transformer</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada/-command-manager/caps-insensitive.html"><span class="keyword">var </span><span class="identifier">capsInsensitive</span><span class="symbol">: </span><span class="identifier">Boolean</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada/-command-manager/command-modules.html"><span class="keyword">val </span><span class="identifier">commandModules</span><span class="symbol">: </span><span class="identifier">HashMap</span><span class="symbol">&lt;</span><span class="identifier">String</span><span class="symbol">,</span>&nbsp;<a href="bvanseg.kotlincommons.armada.commands/-command-module/index.html"><span class="identifier">CommandModule</span></a><span class="symbol">&gt;</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada/-command-manager/event-bus.html"><span class="keyword">val </span><span class="identifier">eventBus</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.evenir.bus/-event-bus/index.html"><span class="identifier">EventBus</span></a></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada/-command-manager/execute.html"><span class="keyword">fun </span><span class="identifier">execute</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.CommandManager$execute(kotlin.String, bvanseg.kotlincommons.armada.contexts.Context, bvanseg.kotlincommons.armada.CommandManager.T)/rawCommand">rawCommand</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.CommandManager$execute(kotlin.String, bvanseg.kotlincommons.armada.contexts.Context, bvanseg.kotlincommons.armada.CommandManager.T)/context">context</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.contexts/-context.html"><span class="identifier">Context</span></a>&nbsp;<span class="symbol">=</span>&nbsp;EmptyContext<span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.CommandManager$execute(kotlin.String, bvanseg.kotlincommons.armada.contexts.Context, bvanseg.kotlincommons.armada.CommandManager.T)/key">key</span><span class="symbol">:</span>&nbsp;<span class="identifier">T</span><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;null<span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Any</span><span class="symbol">?</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada/-command-manager/gears.html"><span class="keyword">val </span><span class="identifier">gears</span><span class="symbol">: </span><span class="identifier">ArrayList</span><span class="symbol">&lt;</span><a href="bvanseg.kotlincommons.armada.gears/-gear/index.html"><span class="identifier">Gear</span></a><span class="symbol">&gt;</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada/-command-manager/get-command-module.html"><span class="keyword">fun </span><span class="identifier">getCommandModule</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.CommandManager$getCommandModule(kotlin.String, bvanseg.kotlincommons.armada.CommandManager.T)/rawCommand">rawCommand</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.CommandManager$getCommandModule(kotlin.String, bvanseg.kotlincommons.armada.CommandManager.T)/key">key</span><span class="symbol">:</span>&nbsp;<span class="identifier">T</span><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;null<span class="symbol">)</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.armada.commands/-command-module/index.html"><span class="identifier">CommandModule</span></a><span class="symbol">?</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada/-command-manager/get-gear.html"><span class="keyword">fun </span><span class="identifier">getGear</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.CommandManager$getGear(kotlin.String)/gearName">gearName</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.armada.gears/-gear/index.html"><span class="identifier">Gear</span></a><span class="symbol">?</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada/-command-manager/get-prefix.html"><span class="keyword">fun </span><span class="identifier">getPrefix</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.CommandManager$getPrefix(bvanseg.kotlincommons.armada.CommandManager.T)/key">key</span><span class="symbol">:</span>&nbsp;<span class="identifier">T</span><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;null<span class="symbol">)</span><span class="symbol">: </span><span class="identifier">String</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada/-command-manager/prefix.html"><span class="keyword">val </span><span class="identifier">prefix</span><span class="symbol">: </span><span class="identifier">String</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada/-command-manager/prefixes.html"><span class="keyword">val </span><span class="identifier">prefixes</span><span class="symbol">: </span><span class="identifier">HashMap</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">,</span>&nbsp;<span class="identifier">String</span><span class="symbol">&gt;</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada/-command-manager/ranges.html"><span class="keyword">val </span><span class="identifier">ranges</span><span class="symbol">: </span><span class="identifier">List</span><span class="symbol">&lt;</span><span class="identifier">KClass</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">Any</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada/-command-manager/transformers.html"><span class="keyword">val </span><span class="identifier">transformers</span><span class="symbol">: </span><span class="identifier">HashMap</span><span class="symbol">&lt;</span><span class="identifier">KClass</span><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span><span class="symbol">,</span>&nbsp;<a href="bvanseg.kotlincommons.armada.transformers/-transformer/index.html"><span class="identifier">Transformer</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.annotations/index.html"><span class="keyword">package</span>&nbsp;<span class="identifier">bvanseg.kotlincommons.armada.annotations</span></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.annotations/-byte-range/index.html"><span class="identifier">@Target</span><span class="symbol">(</span>[AnnotationTarget.VALUE_PARAMETER]<span class="symbol">)</span> <span class="keyword">annotation</span> <span class="keyword">class </span><span class="identifier">ByteRange</span></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.annotations/-byte-range/-init-.html"><span class="identifier">ByteRange</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.annotations.ByteRange$<init>(kotlin.Byte, kotlin.Byte)/min">min</span><span class="symbol">:</span>&nbsp;<span class="identifier">Byte</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.annotations.ByteRange$<init>(kotlin.Byte, kotlin.Byte)/max">max</span><span class="symbol">:</span>&nbsp;<span class="identifier">Byte</span><span class="symbol">)</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.annotations/-byte-range/max.html"><span class="keyword">val </span><span class="identifier">max</span><span class="symbol">: </span><span class="identifier">Byte</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.annotations/-byte-range/min.html"><span class="keyword">val </span><span class="identifier">min</span><span class="symbol">: </span><span class="identifier">Byte</span></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.annotations/-command/index.html"><span class="identifier">@Target</span><span class="symbol">(</span>[AnnotationTarget.FUNCTION]<span class="symbol">)</span> <span class="keyword">annotation</span> <span class="keyword">class </span><span class="identifier">Command</span></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.annotations/-command/-init-.html"><span class="identifier">Command</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.annotations.Command$<init>(kotlin.String, kotlin.Boolean, kotlin.Array((kotlin.String)), kotlin.Array((kotlin.String)))/description">description</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span>&nbsp;<span class="symbol">=</span>&nbsp;""<span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.annotations.Command$<init>(kotlin.String, kotlin.Boolean, kotlin.Array((kotlin.String)), kotlin.Array((kotlin.String)))/rawArgs">rawArgs</span><span class="symbol">:</span>&nbsp;<span class="identifier">Boolean</span>&nbsp;<span class="symbol">=</span>&nbsp;false<span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.annotations.Command$<init>(kotlin.String, kotlin.Boolean, kotlin.Array((kotlin.String)), kotlin.Array((kotlin.String)))/aliases">aliases</span><span class="symbol">:</span>&nbsp;<span class="identifier">Array</span><span class="symbol">&lt;</span><span class="identifier">String</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">=</span>&nbsp;[]<span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.annotations.Command$<init>(kotlin.String, kotlin.Boolean, kotlin.Array((kotlin.String)), kotlin.Array((kotlin.String)))/usage">usage</span><span class="symbol">:</span>&nbsp;<span class="identifier">Array</span><span class="symbol">&lt;</span><span class="identifier">String</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">=</span>&nbsp;[]<span class="symbol">)</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.annotations/-command/aliases.html"><span class="keyword">val </span><span class="identifier">aliases</span><span class="symbol">: </span><span class="identifier">Array</span><span class="symbol">&lt;</span><span class="identifier">String</span><span class="symbol">&gt;</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.annotations/-command/description.html"><span class="keyword">val </span><span class="identifier">description</span><span class="symbol">: </span><span class="identifier">String</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.annotations/-command/raw-args.html"><span class="keyword">val </span><span class="identifier">rawArgs</span><span class="symbol">: </span><span class="identifier">Boolean</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.annotations/-command/usage.html"><span class="keyword">val </span><span class="identifier">usage</span><span class="symbol">: </span><span class="identifier">Array</span><span class="symbol">&lt;</span><span class="identifier">String</span><span class="symbol">&gt;</span></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.annotations/-double-range/index.html"><span class="identifier">@Target</span><span class="symbol">(</span>[AnnotationTarget.VALUE_PARAMETER]<span class="symbol">)</span> <span class="keyword">annotation</span> <span class="keyword">class </span><span class="identifier">DoubleRange</span></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.annotations/-double-range/-init-.html"><span class="identifier">DoubleRange</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.annotations.DoubleRange$<init>(kotlin.Double, kotlin.Double)/min">min</span><span class="symbol">:</span>&nbsp;<span class="identifier">Double</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.annotations.DoubleRange$<init>(kotlin.Double, kotlin.Double)/max">max</span><span class="symbol">:</span>&nbsp;<span class="identifier">Double</span><span class="symbol">)</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.annotations/-double-range/max.html"><span class="keyword">val </span><span class="identifier">max</span><span class="symbol">: </span><span class="identifier">Double</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.annotations/-double-range/min.html"><span class="keyword">val </span><span class="identifier">min</span><span class="symbol">: </span><span class="identifier">Double</span></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.annotations/-float-range/index.html"><span class="identifier">@Target</span><span class="symbol">(</span>[AnnotationTarget.VALUE_PARAMETER]<span class="symbol">)</span> <span class="keyword">annotation</span> <span class="keyword">class </span><span class="identifier">FloatRange</span></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.annotations/-float-range/-init-.html"><span class="identifier">FloatRange</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.annotations.FloatRange$<init>(kotlin.Float, kotlin.Float)/min">min</span><span class="symbol">:</span>&nbsp;<span class="identifier">Float</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.annotations.FloatRange$<init>(kotlin.Float, kotlin.Float)/max">max</span><span class="symbol">:</span>&nbsp;<span class="identifier">Float</span><span class="symbol">)</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.annotations/-float-range/max.html"><span class="keyword">val </span><span class="identifier">max</span><span class="symbol">: </span><span class="identifier">Float</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.annotations/-float-range/min.html"><span class="keyword">val </span><span class="identifier">min</span><span class="symbol">: </span><span class="identifier">Float</span></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.annotations/-int-range/index.html"><span class="identifier">@Target</span><span class="symbol">(</span>[AnnotationTarget.VALUE_PARAMETER]<span class="symbol">)</span> <span class="keyword">annotation</span> <span class="keyword">class </span><span class="identifier">IntRange</span></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.annotations/-int-range/-init-.html"><span class="identifier">IntRange</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.annotations.IntRange$<init>(kotlin.Int, kotlin.Int)/min">min</span><span class="symbol">:</span>&nbsp;<span class="identifier">Int</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.annotations.IntRange$<init>(kotlin.Int, kotlin.Int)/max">max</span><span class="symbol">:</span>&nbsp;<span class="identifier">Int</span><span class="symbol">)</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.annotations/-int-range/max.html"><span class="keyword">val </span><span class="identifier">max</span><span class="symbol">: </span><span class="identifier">Int</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.annotations/-int-range/min.html"><span class="keyword">val </span><span class="identifier">min</span><span class="symbol">: </span><span class="identifier">Int</span></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.annotations/-invoke/index.html"><span class="identifier">@Target</span><span class="symbol">(</span>[AnnotationTarget.FUNCTION]<span class="symbol">)</span> <span class="keyword">annotation</span> <span class="keyword">class </span><span class="identifier">Invoke</span></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.annotations/-invoke/-init-.html"><span class="identifier">Invoke</span><span class="symbol">(</span><span class="symbol">)</span></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.annotations/-long-range/index.html"><span class="identifier">@Target</span><span class="symbol">(</span>[AnnotationTarget.VALUE_PARAMETER]<span class="symbol">)</span> <span class="keyword">annotation</span> <span class="keyword">class </span><span class="identifier">LongRange</span></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.annotations/-long-range/-init-.html"><span class="identifier">LongRange</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.annotations.LongRange$<init>(kotlin.Long, kotlin.Long)/min">min</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.annotations.LongRange$<init>(kotlin.Long, kotlin.Long)/max">max</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">)</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.annotations/-long-range/max.html"><span class="keyword">val </span><span class="identifier">max</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.annotations/-long-range/min.html"><span class="keyword">val </span><span class="identifier">min</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.annotations/-short-range/index.html"><span class="identifier">@Target</span><span class="symbol">(</span>[AnnotationTarget.VALUE_PARAMETER]<span class="symbol">)</span> <span class="keyword">annotation</span> <span class="keyword">class </span><span class="identifier">ShortRange</span></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.annotations/-short-range/-init-.html"><span class="identifier">ShortRange</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.annotations.ShortRange$<init>(kotlin.Short, kotlin.Short)/min">min</span><span class="symbol">:</span>&nbsp;<span class="identifier">Short</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.annotations.ShortRange$<init>(kotlin.Short, kotlin.Short)/max">max</span><span class="symbol">:</span>&nbsp;<span class="identifier">Short</span><span class="symbol">)</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.annotations/-short-range/max.html"><span class="keyword">val </span><span class="identifier">max</span><span class="symbol">: </span><span class="identifier">Short</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.annotations/-short-range/min.html"><span class="keyword">val </span><span class="identifier">min</span><span class="symbol">: </span><span class="identifier">Short</span></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.commands/index.html"><span class="keyword">package</span>&nbsp;<span class="identifier">bvanseg.kotlincommons.armada.commands</span></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.commands/-base-command/index.html"><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">BaseCommand</span></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.commands/-base-command/-init-.html"><span class="identifier">BaseCommand</span><span class="symbol">(</span><span class="symbol">)</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.commands/-base-command/aliases.html"><span class="keyword">var </span><span class="identifier">aliases</span><span class="symbol">: </span><span class="identifier">List</span><span class="symbol">&lt;</span><span class="identifier">String</span><span class="symbol">&gt;</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.commands/-base-command/description.html"><span class="keyword">var </span><span class="identifier">description</span><span class="symbol">: </span><span class="identifier">String</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.commands/-base-command/gear.html"><span class="keyword">var </span><span class="identifier">gear</span><span class="symbol">: </span><span class="identifier">String</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.commands/-base-command/raw-args.html"><span class="keyword">var </span><span class="identifier">rawArgs</span><span class="symbol">: </span><span class="identifier">Boolean</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.commands/-base-command/usage.html"><span class="keyword">var </span><span class="identifier">usage</span><span class="symbol">: </span><span class="identifier">List</span><span class="symbol">&lt;</span><span class="identifier">String</span><span class="symbol">&gt;</span></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.commands/-command-module/index.html"><span class="keyword">class </span><span class="identifier">CommandModule</span></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.commands/-command-module/-init-.html"><span class="identifier">CommandModule</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.commands.CommandModule$<init>(kotlin.String, bvanseg.kotlincommons.armada.CommandManager((kotlin.Any)))/tag">tag</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.commands.CommandModule$<init>(kotlin.String, bvanseg.kotlincommons.armada.CommandManager((kotlin.Any)))/manager">manager</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada/-command-manager/index.html"><span class="identifier">CommandManager</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span><span class="symbol">)</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.commands/-command-module/commands.html"><span class="keyword">val </span><span class="identifier">commands</span><span class="symbol">: </span><span class="identifier">MutableList</span><span class="symbol">&lt;</span><a href="bvanseg.kotlincommons.armada.commands/-internal-command/index.html"><span class="identifier">InternalCommand</span></a><span class="symbol">&gt;</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.commands/-command-module/find-candidate-command.html"><span class="keyword">fun </span><span class="identifier">findCandidateCommand</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.commands.CommandModule$findCandidateCommand(kotlin.String)/args">args</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.armada.commands/-internal-command/index.html"><span class="identifier">InternalCommand</span></a><span class="symbol">?</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.commands/-command-module/manager.html"><span class="keyword">val </span><span class="identifier">manager</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.armada/-command-manager/index.html"><span class="identifier">CommandManager</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.commands/-command-module/tag.html"><span class="keyword">val </span><span class="identifier">tag</span><span class="symbol">: </span><span class="identifier">String</span></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.commands/-internal-command/index.html"><span class="keyword">class </span><span class="identifier">InternalCommand</span></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.commands/-internal-command/-init-.html"><span class="identifier">InternalCommand</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.commands.InternalCommand$<init>(bvanseg.kotlincommons.armada.CommandManager((kotlin.Any)), kotlin.reflect.KFunction((kotlin.Any)), bvanseg.kotlincommons.armada.gears.Gear, bvanseg.kotlincommons.armada.commands.BaseCommand)/commandManager">commandManager</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada/-command-manager/index.html"><span class="identifier">CommandManager</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.commands.InternalCommand$<init>(bvanseg.kotlincommons.armada.CommandManager((kotlin.Any)), kotlin.reflect.KFunction((kotlin.Any)), bvanseg.kotlincommons.armada.gears.Gear, bvanseg.kotlincommons.armada.commands.BaseCommand)/function">function</span><span class="symbol">:</span>&nbsp;<span class="identifier">KFunction</span><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.commands.InternalCommand$<init>(bvanseg.kotlincommons.armada.CommandManager((kotlin.Any)), kotlin.reflect.KFunction((kotlin.Any)), bvanseg.kotlincommons.armada.gears.Gear, bvanseg.kotlincommons.armada.commands.BaseCommand)/gear">gear</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.gears/-gear/index.html"><span class="identifier">Gear</span></a><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.commands.InternalCommand$<init>(bvanseg.kotlincommons.armada.CommandManager((kotlin.Any)), kotlin.reflect.KFunction((kotlin.Any)), bvanseg.kotlincommons.armada.gears.Gear, bvanseg.kotlincommons.armada.commands.BaseCommand)/baseClass">baseClass</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.commands/-base-command/index.html"><span class="identifier">BaseCommand</span></a><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;null<span class="symbol">)</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.commands/-internal-command/data.html"><span class="keyword">val </span><span class="identifier">data</span><span class="symbol">: </span><span class="identifier">HashMap</span><span class="symbol">&lt;</span><span class="identifier">KClass</span><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span><span class="symbol">,</span>&nbsp;<span class="identifier">Annotation</span><span class="symbol">&gt;</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.commands/-internal-command/description.html"><span class="keyword">val </span><span class="identifier">description</span><span class="symbol">: </span><span class="identifier">String</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.commands/-internal-command/function.html"><span class="keyword">val </span><span class="identifier">function</span><span class="symbol">: </span><span class="identifier">KFunction</span><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.commands/-internal-command/get-data.html"><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Any</span><span class="symbol">&gt;</span> <span class="identifier">getData</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.commands.InternalCommand$getData(kotlin.reflect.KClass((bvanseg.kotlincommons.armada.commands.InternalCommand.getData.T)))/cls">cls</span><span class="symbol">:</span>&nbsp;<span class="identifier">KClass</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">T</span><span class="symbol">?</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.commands/-internal-command/invoke.html"><span class="keyword">fun </span><span class="identifier">invoke</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.commands.InternalCommand$invoke(kotlin.String, bvanseg.kotlincommons.armada.contexts.Context)/args">args</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.commands.InternalCommand$invoke(kotlin.String, bvanseg.kotlincommons.armada.contexts.Context)/context">context</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.contexts/-context.html"><span class="identifier">Context</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Any</span><span class="symbol">?</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.commands/-internal-command/name.html"><span class="keyword">val </span><span class="identifier">name</span><span class="symbol">: </span><span class="identifier">String</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.commands/-internal-command/soft-invoke.html"><span class="keyword">fun </span><span class="identifier">softInvoke</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.commands.InternalCommand$softInvoke(kotlin.String, bvanseg.kotlincommons.armada.contexts.Context)/args">args</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.commands.InternalCommand$softInvoke(kotlin.String, bvanseg.kotlincommons.armada.contexts.Context)/context">context</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.contexts/-context.html"><span class="identifier">Context</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.commands/-internal-command/usage.html"><span class="keyword">val </span><span class="identifier">usage</span><span class="symbol">: </span><span class="identifier">String</span></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.contexts/index.html"><span class="keyword">package</span>&nbsp;<span class="identifier">bvanseg.kotlincommons.armada.contexts</span></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.contexts/-context.html"><span class="keyword">interface </span><span class="identifier">Context</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.contexts/-empty-context.html"><span class="keyword">object </span><span class="identifier">EmptyContext</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.contexts/-context.html"><span class="identifier">Context</span></a></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.events/index.html"><span class="keyword">package</span>&nbsp;<span class="identifier">bvanseg.kotlincommons.armada.events</span></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.events/-armada-event/index.html"><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">ArmadaEvent</span></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.events/-armada-event/-init-.html"><span class="identifier">ArmadaEvent</span><span class="symbol">(</span><span class="symbol">)</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.events/-armada-event/is-cancelled.html"><span class="keyword">var </span><span class="identifier">isCancelled</span><span class="symbol">: </span><span class="identifier">Boolean</span></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.events/-command-add-event/index.html"><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">CommandAddEvent</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.events/-command-event/index.html"><span class="identifier">CommandEvent</span></a></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.events/-command-add-event/-init-.html"><span class="identifier">CommandAddEvent</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.events.CommandAddEvent$<init>(bvanseg.kotlincommons.armada.commands.BaseCommand, bvanseg.kotlincommons.armada.CommandManager((kotlin.Any)))/command">command</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.commands/-base-command/index.html"><span class="identifier">BaseCommand</span></a><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.events.CommandAddEvent$<init>(bvanseg.kotlincommons.armada.commands.BaseCommand, bvanseg.kotlincommons.armada.CommandManager((kotlin.Any)))/manager">manager</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada/-command-manager/index.html"><span class="identifier">CommandManager</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span><span class="symbol">)</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.events/-command-add-event/command.html"><span class="keyword">open</span> <span class="keyword">val </span><span class="identifier">command</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.armada.commands/-base-command/index.html"><span class="identifier">BaseCommand</span></a></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.events/-command-add-event/manager.html"><span class="keyword">open</span> <span class="keyword">val </span><span class="identifier">manager</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.armada/-command-manager/index.html"><span class="identifier">CommandManager</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.events/-command-add-event/-post/index.html"><span class="keyword">class </span><span class="identifier">Post</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.events/-command-add-event/index.html"><span class="identifier">CommandAddEvent</span></a></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.events/-command-add-event/-post/-init-.html"><span class="identifier">Post</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.events.CommandAddEvent.Post$<init>(bvanseg.kotlincommons.armada.commands.BaseCommand, bvanseg.kotlincommons.armada.CommandManager((kotlin.Any)))/command">command</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.commands/-base-command/index.html"><span class="identifier">BaseCommand</span></a><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.events.CommandAddEvent.Post$<init>(bvanseg.kotlincommons.armada.commands.BaseCommand, bvanseg.kotlincommons.armada.CommandManager((kotlin.Any)))/manager">manager</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada/-command-manager/index.html"><span class="identifier">CommandManager</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span><span class="symbol">)</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.events/-command-add-event/-post/command.html"><span class="keyword">val </span><span class="identifier">command</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.armada.commands/-base-command/index.html"><span class="identifier">BaseCommand</span></a></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.events/-command-add-event/-post/manager.html"><span class="keyword">val </span><span class="identifier">manager</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.armada/-command-manager/index.html"><span class="identifier">CommandManager</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.events/-command-add-event/-pre/index.html"><span class="keyword">class </span><span class="identifier">Pre</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.events/-command-add-event/index.html"><span class="identifier">CommandAddEvent</span></a></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.events/-command-add-event/-pre/-init-.html"><span class="identifier">Pre</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.events.CommandAddEvent.Pre$<init>(bvanseg.kotlincommons.armada.commands.BaseCommand, bvanseg.kotlincommons.armada.CommandManager((kotlin.Any)))/command">command</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.commands/-base-command/index.html"><span class="identifier">BaseCommand</span></a><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.events.CommandAddEvent.Pre$<init>(bvanseg.kotlincommons.armada.commands.BaseCommand, bvanseg.kotlincommons.armada.CommandManager((kotlin.Any)))/manager">manager</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada/-command-manager/index.html"><span class="identifier">CommandManager</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span><span class="symbol">)</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.events/-command-add-event/-pre/command.html"><span class="keyword">val </span><span class="identifier">command</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.armada.commands/-base-command/index.html"><span class="identifier">BaseCommand</span></a></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.events/-command-add-event/-pre/manager.html"><span class="keyword">val </span><span class="identifier">manager</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.armada/-command-manager/index.html"><span class="identifier">CommandManager</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.events/-command-event/index.html"><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">CommandEvent</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.events/-armada-event/index.html"><span class="identifier">ArmadaEvent</span></a></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.events/-command-event/-init-.html"><span class="identifier">CommandEvent</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.events.CommandEvent$<init>(bvanseg.kotlincommons.armada.CommandManager((kotlin.Any)))/manager">manager</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada/-command-manager/index.html"><span class="identifier">CommandManager</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span><span class="symbol">)</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.events/-command-event/manager.html"><span class="keyword">open</span> <span class="keyword">val </span><span class="identifier">manager</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.armada/-command-manager/index.html"><span class="identifier">CommandManager</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.events/-command-execute-event/index.html"><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">CommandExecuteEvent</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.events/-command-event/index.html"><span class="identifier">CommandEvent</span></a></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.events/-command-execute-event/-init-.html"><span class="identifier">CommandExecuteEvent</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.events.CommandExecuteEvent$<init>(bvanseg.kotlincommons.armada.CommandManager((kotlin.Any)))/manager">manager</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada/-command-manager/index.html"><span class="identifier">CommandManager</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span><span class="symbol">)</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.events/-command-execute-event/manager.html"><span class="keyword">open</span> <span class="keyword">val </span><span class="identifier">manager</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.armada/-command-manager/index.html"><span class="identifier">CommandManager</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.events/-command-execute-event/-post/index.html"><span class="keyword">class </span><span class="identifier">Post</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.events/-command-execute-event/index.html"><span class="identifier">CommandExecuteEvent</span></a></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.events/-command-execute-event/-post/-init-.html"><span class="identifier">Post</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.events.CommandExecuteEvent.Post$<init>(bvanseg.kotlincommons.armada.CommandManager((kotlin.Any)))/manager">manager</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada/-command-manager/index.html"><span class="identifier">CommandManager</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span><span class="symbol">)</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.events/-command-execute-event/-post/manager.html"><span class="keyword">val </span><span class="identifier">manager</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.armada/-command-manager/index.html"><span class="identifier">CommandManager</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.events/-command-execute-event/-pre/index.html"><span class="keyword">class </span><span class="identifier">Pre</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.events/-command-execute-event/index.html"><span class="identifier">CommandExecuteEvent</span></a></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.events/-command-execute-event/-pre/-init-.html"><span class="identifier">Pre</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.events.CommandExecuteEvent.Pre$<init>(bvanseg.kotlincommons.armada.CommandManager((kotlin.Any)))/manager">manager</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada/-command-manager/index.html"><span class="identifier">CommandManager</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span><span class="symbol">)</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.events/-command-execute-event/-pre/manager.html"><span class="keyword">val </span><span class="identifier">manager</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.armada/-command-manager/index.html"><span class="identifier">CommandManager</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.events/-gear-add-event/index.html"><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">GearAddEvent</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.events/-gear-event/index.html"><span class="identifier">GearEvent</span></a></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.events/-gear-add-event/-init-.html"><span class="identifier">GearAddEvent</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.events.GearAddEvent$<init>(bvanseg.kotlincommons.armada.gears.Gear, bvanseg.kotlincommons.armada.CommandManager((kotlin.Any)))/gear">gear</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.gears/-gear/index.html"><span class="identifier">Gear</span></a><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.events.GearAddEvent$<init>(bvanseg.kotlincommons.armada.gears.Gear, bvanseg.kotlincommons.armada.CommandManager((kotlin.Any)))/manager">manager</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada/-command-manager/index.html"><span class="identifier">CommandManager</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span><span class="symbol">)</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.events/-gear-add-event/gear.html"><span class="keyword">open</span> <span class="keyword">val </span><span class="identifier">gear</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.armada.gears/-gear/index.html"><span class="identifier">Gear</span></a></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.events/-gear-add-event/manager.html"><span class="keyword">open</span> <span class="keyword">val </span><span class="identifier">manager</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.armada/-command-manager/index.html"><span class="identifier">CommandManager</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.events/-gear-add-event/-post/index.html"><span class="keyword">class </span><span class="identifier">Post</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.events/-gear-add-event/index.html"><span class="identifier">GearAddEvent</span></a></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.events/-gear-add-event/-post/-init-.html"><span class="identifier">Post</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.events.GearAddEvent.Post$<init>(bvanseg.kotlincommons.armada.gears.Gear, bvanseg.kotlincommons.armada.CommandManager((kotlin.Any)))/gear">gear</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.gears/-gear/index.html"><span class="identifier">Gear</span></a><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.events.GearAddEvent.Post$<init>(bvanseg.kotlincommons.armada.gears.Gear, bvanseg.kotlincommons.armada.CommandManager((kotlin.Any)))/manager">manager</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada/-command-manager/index.html"><span class="identifier">CommandManager</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span><span class="symbol">)</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.events/-gear-add-event/-post/gear.html"><span class="keyword">val </span><span class="identifier">gear</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.armada.gears/-gear/index.html"><span class="identifier">Gear</span></a></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.events/-gear-add-event/-post/manager.html"><span class="keyword">val </span><span class="identifier">manager</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.armada/-command-manager/index.html"><span class="identifier">CommandManager</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.events/-gear-add-event/-pre/index.html"><span class="keyword">class </span><span class="identifier">Pre</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.events/-gear-add-event/index.html"><span class="identifier">GearAddEvent</span></a></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.events/-gear-add-event/-pre/-init-.html"><span class="identifier">Pre</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.events.GearAddEvent.Pre$<init>(bvanseg.kotlincommons.armada.gears.Gear, bvanseg.kotlincommons.armada.CommandManager((kotlin.Any)))/gear">gear</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.gears/-gear/index.html"><span class="identifier">Gear</span></a><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.events.GearAddEvent.Pre$<init>(bvanseg.kotlincommons.armada.gears.Gear, bvanseg.kotlincommons.armada.CommandManager((kotlin.Any)))/manager">manager</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada/-command-manager/index.html"><span class="identifier">CommandManager</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span><span class="symbol">)</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.events/-gear-add-event/-pre/gear.html"><span class="keyword">val </span><span class="identifier">gear</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.armada.gears/-gear/index.html"><span class="identifier">Gear</span></a></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.events/-gear-add-event/-pre/manager.html"><span class="keyword">val </span><span class="identifier">manager</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.armada/-command-manager/index.html"><span class="identifier">CommandManager</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.events/-gear-event/index.html"><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">GearEvent</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.events/-armada-event/index.html"><span class="identifier">ArmadaEvent</span></a></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.events/-gear-event/-init-.html"><span class="identifier">GearEvent</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.events.GearEvent$<init>(bvanseg.kotlincommons.armada.gears.Gear, bvanseg.kotlincommons.armada.CommandManager((kotlin.Any)))/gear">gear</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.gears/-gear/index.html"><span class="identifier">Gear</span></a><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.events.GearEvent$<init>(bvanseg.kotlincommons.armada.gears.Gear, bvanseg.kotlincommons.armada.CommandManager((kotlin.Any)))/manager">manager</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada/-command-manager/index.html"><span class="identifier">CommandManager</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span><span class="symbol">)</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.events/-gear-event/gear.html"><span class="keyword">open</span> <span class="keyword">val </span><span class="identifier">gear</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.armada.gears/-gear/index.html"><span class="identifier">Gear</span></a></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.events/-gear-event/manager.html"><span class="keyword">open</span> <span class="keyword">val </span><span class="identifier">manager</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.armada/-command-manager/index.html"><span class="identifier">CommandManager</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.events/-init/index.html"><span class="keyword">class </span><span class="identifier">Init</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.events/-armada-event/index.html"><span class="identifier">ArmadaEvent</span></a></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.events/-init/-init-.html"><span class="identifier">Init</span><span class="symbol">(</span><span class="symbol">)</span></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.events/-transformer-add-event/index.html"><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">TransformerAddEvent</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.events/-transformer-event/index.html"><span class="identifier">TransformerEvent</span></a></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.events/-transformer-add-event/-init-.html"><span class="identifier">TransformerAddEvent</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.events.TransformerAddEvent$<init>(bvanseg.kotlincommons.armada.transformers.Transformer((kotlin.Any)), bvanseg.kotlincommons.armada.CommandManager((kotlin.Any)))/transformer">transformer</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.transformers/-transformer/index.html"><span class="identifier">Transformer</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.events.TransformerAddEvent$<init>(bvanseg.kotlincommons.armada.transformers.Transformer((kotlin.Any)), bvanseg.kotlincommons.armada.CommandManager((kotlin.Any)))/manager">manager</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada/-command-manager/index.html"><span class="identifier">CommandManager</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span><span class="symbol">)</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.events/-transformer-add-event/manager.html"><span class="keyword">open</span> <span class="keyword">val </span><span class="identifier">manager</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.armada/-command-manager/index.html"><span class="identifier">CommandManager</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.events/-transformer-add-event/-post/index.html"><span class="keyword">class </span><span class="identifier">Post</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.events/-transformer-add-event/index.html"><span class="identifier">TransformerAddEvent</span></a></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.events/-transformer-add-event/-post/-init-.html"><span class="identifier">Post</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.events.TransformerAddEvent.Post$<init>(bvanseg.kotlincommons.armada.transformers.Transformer((kotlin.Any)), bvanseg.kotlincommons.armada.CommandManager((kotlin.Any)))/transformer">transformer</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.transformers/-transformer/index.html"><span class="identifier">Transformer</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.events.TransformerAddEvent.Post$<init>(bvanseg.kotlincommons.armada.transformers.Transformer((kotlin.Any)), bvanseg.kotlincommons.armada.CommandManager((kotlin.Any)))/manager">manager</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada/-command-manager/index.html"><span class="identifier">CommandManager</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span><span class="symbol">)</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.events/-transformer-add-event/-post/manager.html"><span class="keyword">val </span><span class="identifier">manager</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.armada/-command-manager/index.html"><span class="identifier">CommandManager</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.events/-transformer-add-event/-post/transformer.html"><span class="keyword">val </span><span class="identifier">transformer</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.armada.transformers/-transformer/index.html"><span class="identifier">Transformer</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.events/-transformer-add-event/-pre/index.html"><span class="keyword">class </span><span class="identifier">Pre</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.events/-transformer-add-event/index.html"><span class="identifier">TransformerAddEvent</span></a></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.events/-transformer-add-event/-pre/-init-.html"><span class="identifier">Pre</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.events.TransformerAddEvent.Pre$<init>(bvanseg.kotlincommons.armada.transformers.Transformer((kotlin.Any)), bvanseg.kotlincommons.armada.CommandManager((kotlin.Any)))/transformer">transformer</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.transformers/-transformer/index.html"><span class="identifier">Transformer</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.events.TransformerAddEvent.Pre$<init>(bvanseg.kotlincommons.armada.transformers.Transformer((kotlin.Any)), bvanseg.kotlincommons.armada.CommandManager((kotlin.Any)))/manager">manager</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada/-command-manager/index.html"><span class="identifier">CommandManager</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span><span class="symbol">)</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.events/-transformer-add-event/-pre/manager.html"><span class="keyword">val </span><span class="identifier">manager</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.armada/-command-manager/index.html"><span class="identifier">CommandManager</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.events/-transformer-add-event/-pre/transformer.html"><span class="keyword">val </span><span class="identifier">transformer</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.armada.transformers/-transformer/index.html"><span class="identifier">Transformer</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.events/-transformer-add-event/transformer.html"><span class="keyword">open</span> <span class="keyword">val </span><span class="identifier">transformer</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.armada.transformers/-transformer/index.html"><span class="identifier">Transformer</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.events/-transformer-event/index.html"><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">TransformerEvent</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.events/-armada-event/index.html"><span class="identifier">ArmadaEvent</span></a></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.events/-transformer-event/-init-.html"><span class="identifier">TransformerEvent</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.events.TransformerEvent$<init>(bvanseg.kotlincommons.armada.transformers.Transformer((kotlin.Any)), bvanseg.kotlincommons.armada.CommandManager((kotlin.Any)))/transformer">transformer</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.transformers/-transformer/index.html"><span class="identifier">Transformer</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.events.TransformerEvent$<init>(bvanseg.kotlincommons.armada.transformers.Transformer((kotlin.Any)), bvanseg.kotlincommons.armada.CommandManager((kotlin.Any)))/manager">manager</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada/-command-manager/index.html"><span class="identifier">CommandManager</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span><span class="symbol">)</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.events/-transformer-event/manager.html"><span class="keyword">open</span> <span class="keyword">val </span><span class="identifier">manager</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.armada/-command-manager/index.html"><span class="identifier">CommandManager</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.events/-transformer-event/transformer.html"><span class="keyword">open</span> <span class="keyword">val </span><span class="identifier">transformer</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.armada.transformers/-transformer/index.html"><span class="identifier">Transformer</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.gears/index.html"><span class="keyword">package</span>&nbsp;<span class="identifier">bvanseg.kotlincommons.armada.gears</span></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.gears/-gear/index.html"><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">Gear</span></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.gears/-gear/-init-.html"><span class="identifier">Gear</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.gears.Gear$<init>(kotlin.String)/gearName">gearName</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;null<span class="symbol">)</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.gears/-gear/command-manager.html"><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">commandManager</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.armada/-command-manager/index.html"><span class="identifier">CommandManager</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.gears/-gear/commands.html"><span class="keyword">val </span><span class="identifier">commands</span><span class="symbol">: </span><span class="identifier">ArrayList</span><span class="symbol">&lt;</span><a href="bvanseg.kotlincommons.armada.commands/-internal-command/index.html"><span class="identifier">InternalCommand</span></a><span class="symbol">&gt;</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.gears/-gear/is-enabled.html"><span class="keyword">var </span><span class="identifier">isEnabled</span><span class="symbol">: </span><span class="identifier">Boolean</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.gears/-gear/name.html"><span class="keyword">var </span><span class="identifier">name</span><span class="symbol">: </span><span class="identifier">String</span></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.transformers/index.html"><span class="keyword">package</span>&nbsp;<span class="identifier">bvanseg.kotlincommons.armada.transformers</span></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.transformers/-argument-transformer/index.html"><span class="keyword">object </span><span class="identifier">ArgumentTransformer</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.transformers/-transformer/index.html"><span class="identifier">Transformer</span></a><span class="symbol">&lt;</span><a href="bvanseg.kotlincommons.armada.utilities/-argument/index.html"><span class="identifier">Argument</span></a><span class="symbol">&gt;</span></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.transformers/-argument-transformer/parse.html"><span class="keyword">fun </span><span class="identifier">parse</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.transformers.ArgumentTransformer$parse(kotlin.String, bvanseg.kotlincommons.armada.contexts.Context)/input">input</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.transformers.ArgumentTransformer$parse(kotlin.String, bvanseg.kotlincommons.armada.contexts.Context)/ctx">ctx</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.contexts/-context.html"><span class="identifier">Context</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.armada.utilities/-argument/index.html"><span class="identifier">Argument</span></a><span class="symbol">?</span></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.transformers/-big-decimal-transformer/index.html"><span class="keyword">object </span><span class="identifier">BigDecimalTransformer</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.transformers/-transformer/index.html"><span class="identifier">Transformer</span></a><span class="symbol">&lt;</span><span class="identifier">BigDecimal</span><span class="symbol">&gt;</span></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.transformers/-big-decimal-transformer/parse.html"><span class="keyword">fun </span><span class="identifier">parse</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.transformers.BigDecimalTransformer$parse(kotlin.String, bvanseg.kotlincommons.armada.contexts.Context)/input">input</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.transformers.BigDecimalTransformer$parse(kotlin.String, bvanseg.kotlincommons.armada.contexts.Context)/ctx">ctx</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.contexts/-context.html"><span class="identifier">Context</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">BigDecimal</span><span class="symbol">?</span></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.transformers/-big-integer-transformer/index.html"><span class="keyword">object </span><span class="identifier">BigIntegerTransformer</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.transformers/-transformer/index.html"><span class="identifier">Transformer</span></a><span class="symbol">&lt;</span><span class="identifier">BigInteger</span><span class="symbol">&gt;</span></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.transformers/-big-integer-transformer/parse.html"><span class="keyword">fun </span><span class="identifier">parse</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.transformers.BigIntegerTransformer$parse(kotlin.String, bvanseg.kotlincommons.armada.contexts.Context)/input">input</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.transformers.BigIntegerTransformer$parse(kotlin.String, bvanseg.kotlincommons.armada.contexts.Context)/ctx">ctx</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.contexts/-context.html"><span class="identifier">Context</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">BigInteger</span><span class="symbol">?</span></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.transformers/-boolean-transformer/index.html"><span class="keyword">object </span><span class="identifier">BooleanTransformer</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.transformers/-transformer/index.html"><span class="identifier">Transformer</span></a><span class="symbol">&lt;</span><span class="identifier">Boolean</span><span class="symbol">&gt;</span></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.transformers/-boolean-transformer/parse.html"><span class="keyword">fun </span><span class="identifier">parse</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.transformers.BooleanTransformer$parse(kotlin.String, bvanseg.kotlincommons.armada.contexts.Context)/input">input</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.transformers.BooleanTransformer$parse(kotlin.String, bvanseg.kotlincommons.armada.contexts.Context)/ctx">ctx</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.contexts/-context.html"><span class="identifier">Context</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Boolean</span><span class="symbol">?</span></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.transformers/-byte-transformer/index.html"><span class="keyword">object </span><span class="identifier">ByteTransformer</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.transformers/-transformer/index.html"><span class="identifier">Transformer</span></a><span class="symbol">&lt;</span><span class="identifier">Byte</span><span class="symbol">&gt;</span></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.transformers/-byte-transformer/parse.html"><span class="keyword">fun </span><span class="identifier">parse</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.transformers.ByteTransformer$parse(kotlin.reflect.KParameter, kotlin.String, bvanseg.kotlincommons.armada.contexts.Context)/parameter">parameter</span><span class="symbol">:</span>&nbsp;<span class="identifier">KParameter</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.transformers.ByteTransformer$parse(kotlin.reflect.KParameter, kotlin.String, bvanseg.kotlincommons.armada.contexts.Context)/input">input</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.transformers.ByteTransformer$parse(kotlin.reflect.KParameter, kotlin.String, bvanseg.kotlincommons.armada.contexts.Context)/ctx">ctx</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.contexts/-context.html"><span class="identifier">Context</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Byte</span><span class="symbol">?</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.transformers/-byte-transformer/parse.html"><span class="keyword">fun </span><span class="identifier">parse</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.transformers.ByteTransformer$parse(kotlin.String, bvanseg.kotlincommons.armada.contexts.Context)/input">input</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.transformers.ByteTransformer$parse(kotlin.String, bvanseg.kotlincommons.armada.contexts.Context)/ctx">ctx</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.contexts/-context.html"><span class="identifier">Context</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Byte</span><span class="symbol">?</span></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.transformers/-char-transformer/index.html"><span class="keyword">object </span><span class="identifier">CharTransformer</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.transformers/-transformer/index.html"><span class="identifier">Transformer</span></a><span class="symbol">&lt;</span><span class="identifier">Char</span><span class="symbol">&gt;</span></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.transformers/-char-transformer/parse.html"><span class="keyword">fun </span><span class="identifier">parse</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.transformers.CharTransformer$parse(kotlin.String, bvanseg.kotlincommons.armada.contexts.Context)/input">input</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.transformers.CharTransformer$parse(kotlin.String, bvanseg.kotlincommons.armada.contexts.Context)/ctx">ctx</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.contexts/-context.html"><span class="identifier">Context</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Char</span><span class="symbol">?</span></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.transformers/-double-transformer/index.html"><span class="keyword">object </span><span class="identifier">DoubleTransformer</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.transformers/-transformer/index.html"><span class="identifier">Transformer</span></a><span class="symbol">&lt;</span><span class="identifier">Double</span><span class="symbol">&gt;</span></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.transformers/-double-transformer/parse.html"><span class="keyword">fun </span><span class="identifier">parse</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.transformers.DoubleTransformer$parse(kotlin.reflect.KParameter, kotlin.String, bvanseg.kotlincommons.armada.contexts.Context)/parameter">parameter</span><span class="symbol">:</span>&nbsp;<span class="identifier">KParameter</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.transformers.DoubleTransformer$parse(kotlin.reflect.KParameter, kotlin.String, bvanseg.kotlincommons.armada.contexts.Context)/input">input</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.transformers.DoubleTransformer$parse(kotlin.reflect.KParameter, kotlin.String, bvanseg.kotlincommons.armada.contexts.Context)/ctx">ctx</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.contexts/-context.html"><span class="identifier">Context</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Double</span><span class="symbol">?</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.transformers/-double-transformer/parse.html"><span class="keyword">fun </span><span class="identifier">parse</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.transformers.DoubleTransformer$parse(kotlin.String, bvanseg.kotlincommons.armada.contexts.Context)/input">input</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.transformers.DoubleTransformer$parse(kotlin.String, bvanseg.kotlincommons.armada.contexts.Context)/ctx">ctx</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.contexts/-context.html"><span class="identifier">Context</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Double</span><span class="symbol">?</span></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.transformers/-enum-transformer/index.html"><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">EnumTransformer</span><span class="symbol">&lt;</span><span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Enum</span><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.transformers/-transformer/index.html"><span class="identifier">Transformer</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.transformers/-enum-transformer/-init-.html"><span class="identifier">EnumTransformer</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.transformers.EnumTransformer$<init>(kotlin.reflect.KClass((bvanseg.kotlincommons.armada.transformers.EnumTransformer.T)))/type">type</span><span class="symbol">:</span>&nbsp;<span class="identifier">KClass</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">)</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.transformers/-enum-transformer/parse.html"><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">parse</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.transformers.EnumTransformer$parse(kotlin.String, bvanseg.kotlincommons.armada.contexts.Context)/input">input</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.transformers.EnumTransformer$parse(kotlin.String, bvanseg.kotlincommons.armada.contexts.Context)/ctx">ctx</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.contexts/-context.html"><span class="identifier">Context</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">T</span><span class="symbol">?</span></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.transformers/-float-transformer/index.html"><span class="keyword">object </span><span class="identifier">FloatTransformer</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.transformers/-transformer/index.html"><span class="identifier">Transformer</span></a><span class="symbol">&lt;</span><span class="identifier">Float</span><span class="symbol">&gt;</span></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.transformers/-float-transformer/parse.html"><span class="keyword">fun </span><span class="identifier">parse</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.transformers.FloatTransformer$parse(kotlin.reflect.KParameter, kotlin.String, bvanseg.kotlincommons.armada.contexts.Context)/parameter">parameter</span><span class="symbol">:</span>&nbsp;<span class="identifier">KParameter</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.transformers.FloatTransformer$parse(kotlin.reflect.KParameter, kotlin.String, bvanseg.kotlincommons.armada.contexts.Context)/input">input</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.transformers.FloatTransformer$parse(kotlin.reflect.KParameter, kotlin.String, bvanseg.kotlincommons.armada.contexts.Context)/ctx">ctx</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.contexts/-context.html"><span class="identifier">Context</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Float</span><span class="symbol">?</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.transformers/-float-transformer/parse.html"><span class="keyword">fun </span><span class="identifier">parse</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.transformers.FloatTransformer$parse(kotlin.String, bvanseg.kotlincommons.armada.contexts.Context)/input">input</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.transformers.FloatTransformer$parse(kotlin.String, bvanseg.kotlincommons.armada.contexts.Context)/ctx">ctx</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.contexts/-context.html"><span class="identifier">Context</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Float</span><span class="symbol">?</span></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.transformers/-int-transformer/index.html"><span class="keyword">object </span><span class="identifier">IntTransformer</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.transformers/-transformer/index.html"><span class="identifier">Transformer</span></a><span class="symbol">&lt;</span><span class="identifier">Int</span><span class="symbol">&gt;</span></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.transformers/-int-transformer/parse.html"><span class="keyword">fun </span><span class="identifier">parse</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.transformers.IntTransformer$parse(kotlin.reflect.KParameter, kotlin.String, bvanseg.kotlincommons.armada.contexts.Context)/parameter">parameter</span><span class="symbol">:</span>&nbsp;<span class="identifier">KParameter</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.transformers.IntTransformer$parse(kotlin.reflect.KParameter, kotlin.String, bvanseg.kotlincommons.armada.contexts.Context)/input">input</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.transformers.IntTransformer$parse(kotlin.reflect.KParameter, kotlin.String, bvanseg.kotlincommons.armada.contexts.Context)/ctx">ctx</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.contexts/-context.html"><span class="identifier">Context</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span><span class="symbol">?</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.transformers/-int-transformer/parse.html"><span class="keyword">fun </span><span class="identifier">parse</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.transformers.IntTransformer$parse(kotlin.String, bvanseg.kotlincommons.armada.contexts.Context)/input">input</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.transformers.IntTransformer$parse(kotlin.String, bvanseg.kotlincommons.armada.contexts.Context)/ctx">ctx</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.contexts/-context.html"><span class="identifier">Context</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span><span class="symbol">?</span></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.transformers/-long-transformer/index.html"><span class="keyword">object </span><span class="identifier">LongTransformer</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.transformers/-transformer/index.html"><span class="identifier">Transformer</span></a><span class="symbol">&lt;</span><span class="identifier">Long</span><span class="symbol">&gt;</span></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.transformers/-long-transformer/parse.html"><span class="keyword">fun </span><span class="identifier">parse</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.transformers.LongTransformer$parse(kotlin.reflect.KParameter, kotlin.String, bvanseg.kotlincommons.armada.contexts.Context)/parameter">parameter</span><span class="symbol">:</span>&nbsp;<span class="identifier">KParameter</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.transformers.LongTransformer$parse(kotlin.reflect.KParameter, kotlin.String, bvanseg.kotlincommons.armada.contexts.Context)/input">input</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.transformers.LongTransformer$parse(kotlin.reflect.KParameter, kotlin.String, bvanseg.kotlincommons.armada.contexts.Context)/ctx">ctx</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.contexts/-context.html"><span class="identifier">Context</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Long</span><span class="symbol">?</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.transformers/-long-transformer/parse.html"><span class="keyword">fun </span><span class="identifier">parse</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.transformers.LongTransformer$parse(kotlin.String, bvanseg.kotlincommons.armada.contexts.Context)/input">input</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.transformers.LongTransformer$parse(kotlin.String, bvanseg.kotlincommons.armada.contexts.Context)/ctx">ctx</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.contexts/-context.html"><span class="identifier">Context</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Long</span><span class="symbol">?</span></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.transformers/-short-transformer/index.html"><span class="keyword">object </span><span class="identifier">ShortTransformer</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.transformers/-transformer/index.html"><span class="identifier">Transformer</span></a><span class="symbol">&lt;</span><span class="identifier">Short</span><span class="symbol">&gt;</span></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.transformers/-short-transformer/parse.html"><span class="keyword">fun </span><span class="identifier">parse</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.transformers.ShortTransformer$parse(kotlin.reflect.KParameter, kotlin.String, bvanseg.kotlincommons.armada.contexts.Context)/parameter">parameter</span><span class="symbol">:</span>&nbsp;<span class="identifier">KParameter</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.transformers.ShortTransformer$parse(kotlin.reflect.KParameter, kotlin.String, bvanseg.kotlincommons.armada.contexts.Context)/input">input</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.transformers.ShortTransformer$parse(kotlin.reflect.KParameter, kotlin.String, bvanseg.kotlincommons.armada.contexts.Context)/ctx">ctx</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.contexts/-context.html"><span class="identifier">Context</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Short</span><span class="symbol">?</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.transformers/-short-transformer/parse.html"><span class="keyword">fun </span><span class="identifier">parse</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.transformers.ShortTransformer$parse(kotlin.String, bvanseg.kotlincommons.armada.contexts.Context)/input">input</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.transformers.ShortTransformer$parse(kotlin.String, bvanseg.kotlincommons.armada.contexts.Context)/ctx">ctx</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.contexts/-context.html"><span class="identifier">Context</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Short</span><span class="symbol">?</span></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.transformers/-string-transformer/index.html"><span class="keyword">object </span><span class="identifier">StringTransformer</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.transformers/-transformer/index.html"><span class="identifier">Transformer</span></a><span class="symbol">&lt;</span><span class="identifier">String</span><span class="symbol">&gt;</span></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.transformers/-string-transformer/parse.html"><span class="keyword">fun </span><span class="identifier">parse</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.transformers.StringTransformer$parse(kotlin.String, bvanseg.kotlincommons.armada.contexts.Context)/input">input</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.transformers.StringTransformer$parse(kotlin.String, bvanseg.kotlincommons.armada.contexts.Context)/ctx">ctx</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.contexts/-context.html"><span class="identifier">Context</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">String</span><span class="symbol">?</span></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.transformers/-time-unit-transformer.html"><span class="keyword">object </span><span class="identifier">TimeUnitTransformer</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.transformers/-enum-transformer/index.html"><span class="identifier">EnumTransformer</span></a><span class="symbol">&lt;</span><span class="identifier">TimeUnit</span><span class="symbol">&gt;</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.transformers/-transformer/index.html"><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">Transformer</span><span class="symbol">&lt;</span><span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Any</span><span class="symbol">&gt;</span></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.transformers/-transformer/-init-.html"><span class="identifier">Transformer</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.transformers.Transformer$<init>(kotlin.reflect.KClass((bvanseg.kotlincommons.armada.transformers.Transformer.T)))/type">type</span><span class="symbol">:</span>&nbsp;<span class="identifier">KClass</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">)</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.transformers/-transformer/-init-.html"><span class="identifier">Transformer</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.transformers.Transformer$<init>(java.lang.Class((bvanseg.kotlincommons.armada.transformers.Transformer.T)))/type">type</span><span class="symbol">:</span>&nbsp;<span class="identifier">Class</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">)</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.transformers/-transformer/parse.html"><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">parse</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.transformers.Transformer$parse(kotlin.String, bvanseg.kotlincommons.armada.contexts.Context)/input">input</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.transformers.Transformer$parse(kotlin.String, bvanseg.kotlincommons.armada.contexts.Context)/ctx">ctx</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.contexts/-context.html"><span class="identifier">Context</span></a><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;EmptyContext<span class="symbol">)</span><span class="symbol">: </span><span class="identifier">T</span><span class="symbol">?</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.transformers/-transformer/parse.html"><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">parse</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.transformers.Transformer$parse(kotlin.reflect.KParameter, kotlin.String, bvanseg.kotlincommons.armada.contexts.Context)/parameter">parameter</span><span class="symbol">:</span>&nbsp;<span class="identifier">KParameter</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.transformers.Transformer$parse(kotlin.reflect.KParameter, kotlin.String, bvanseg.kotlincommons.armada.contexts.Context)/input">input</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.transformers.Transformer$parse(kotlin.reflect.KParameter, kotlin.String, bvanseg.kotlincommons.armada.contexts.Context)/ctx">ctx</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.contexts/-context.html"><span class="identifier">Context</span></a><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;EmptyContext<span class="symbol">)</span><span class="symbol">: </span><span class="identifier">T</span><span class="symbol">?</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.transformers/-transformer/suggest.html"><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">suggest</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.transformers.Transformer$suggest(kotlin.String, bvanseg.kotlincommons.armada.contexts.Context)/input">input</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.transformers.Transformer$suggest(kotlin.String, bvanseg.kotlincommons.armada.contexts.Context)/ctx">ctx</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.contexts/-context.html"><span class="identifier">Context</span></a><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;EmptyContext<span class="symbol">)</span><span class="symbol">: </span><span class="identifier">List</span><span class="symbol">&lt;</span><span class="identifier">String</span><span class="symbol">&gt;</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.transformers/-transformer/type.html"><span class="keyword">val </span><span class="identifier">type</span><span class="symbol">: </span><span class="identifier">KClass</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.utilities/index.html"><span class="keyword">package</span>&nbsp;<span class="identifier">bvanseg.kotlincommons.armada.utilities</span></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.utilities/-argument/index.html"><span class="keyword">class </span><span class="identifier">Argument</span></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.utilities/-argument/-init-.html"><span class="identifier">Argument</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.utilities.Argument$<init>(kotlin.String)/raw">raw</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.utilities/-argument/get-as-byte.html"><span class="keyword">fun </span><span class="identifier">getAsByte</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Byte</span><span class="symbol">?</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.utilities/-argument/get-as-double.html"><span class="keyword">fun </span><span class="identifier">getAsDouble</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Double</span><span class="symbol">?</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.utilities/-argument/get-as-float.html"><span class="keyword">fun </span><span class="identifier">getAsFloat</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Float</span><span class="symbol">?</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.utilities/-argument/get-as-int.html"><span class="keyword">fun </span><span class="identifier">getAsInt</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span><span class="symbol">?</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.utilities/-argument/get-as-long.html"><span class="keyword">fun </span><span class="identifier">getAsLong</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Long</span><span class="symbol">?</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.utilities/-argument/get-as-short.html"><span class="keyword">fun </span><span class="identifier">getAsShort</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Short</span><span class="symbol">?</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.utilities/-argument/get-raw.html"><span class="keyword">fun </span><span class="identifier">getRaw</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">String</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.utilities/-argument/transform-to.html"><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Any</span><span class="symbol">&gt;</span> <span class="identifier">transformTo</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.utilities.Argument$transformTo(bvanseg.kotlincommons.armada.CommandManager((kotlin.Any)), kotlin.reflect.KClass((bvanseg.kotlincommons.armada.utilities.Argument.transformTo.T)))/commandManager">commandManager</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada/-command-manager/index.html"><span class="identifier">CommandManager</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.utilities.Argument$transformTo(bvanseg.kotlincommons.armada.CommandManager((kotlin.Any)), kotlin.reflect.KClass((bvanseg.kotlincommons.armada.utilities.Argument.transformTo.T)))/clazz">clazz</span><span class="symbol">:</span>&nbsp;<span class="identifier">KClass</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Any</span><span class="symbol">?</span></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.utilities/-union/index.html"><span class="keyword">class </span><span class="identifier">Union</span><span class="symbol">&lt;</span><span class="identifier">A</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Any</span><span class="symbol">, </span><span class="identifier">B</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Any</span><span class="symbol">&gt;</span></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.utilities/-union/-init-.html"><span class="identifier">Union</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.utilities.Union$<init>(bvanseg.kotlincommons.armada.CommandManager((kotlin.Any)), bvanseg.kotlincommons.armada.contexts.Context, kotlin.String, kotlin.reflect.KClass((bvanseg.kotlincommons.armada.utilities.Union.A)), kotlin.reflect.KClass((bvanseg.kotlincommons.armada.utilities.Union.B)))/commandManager">commandManager</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada/-command-manager/index.html"><span class="identifier">CommandManager</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.utilities.Union$<init>(bvanseg.kotlincommons.armada.CommandManager((kotlin.Any)), bvanseg.kotlincommons.armada.contexts.Context, kotlin.String, kotlin.reflect.KClass((bvanseg.kotlincommons.armada.utilities.Union.A)), kotlin.reflect.KClass((bvanseg.kotlincommons.armada.utilities.Union.B)))/context">context</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.armada.contexts/-context.html"><span class="identifier">Context</span></a><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.utilities.Union$<init>(bvanseg.kotlincommons.armada.CommandManager((kotlin.Any)), bvanseg.kotlincommons.armada.contexts.Context, kotlin.String, kotlin.reflect.KClass((bvanseg.kotlincommons.armada.utilities.Union.A)), kotlin.reflect.KClass((bvanseg.kotlincommons.armada.utilities.Union.B)))/value">value</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.utilities.Union$<init>(bvanseg.kotlincommons.armada.CommandManager((kotlin.Any)), bvanseg.kotlincommons.armada.contexts.Context, kotlin.String, kotlin.reflect.KClass((bvanseg.kotlincommons.armada.utilities.Union.A)), kotlin.reflect.KClass((bvanseg.kotlincommons.armada.utilities.Union.B)))/typeA">typeA</span><span class="symbol">:</span>&nbsp;<span class="identifier">KClass</span><span class="symbol">&lt;</span><span class="identifier">A</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.utilities.Union$<init>(bvanseg.kotlincommons.armada.CommandManager((kotlin.Any)), bvanseg.kotlincommons.armada.contexts.Context, kotlin.String, kotlin.reflect.KClass((bvanseg.kotlincommons.armada.utilities.Union.A)), kotlin.reflect.KClass((bvanseg.kotlincommons.armada.utilities.Union.B)))/typeB">typeB</span><span class="symbol">:</span>&nbsp;<span class="identifier">KClass</span><span class="symbol">&lt;</span><span class="identifier">B</span><span class="symbol">&gt;</span><span class="symbol">)</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.utilities/-union/equals.html"><span class="keyword">fun </span><span class="identifier">equals</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.utilities.Union$equals(kotlin.Any)/other">other</span><span class="symbol">:</span>&nbsp;<span class="identifier">Any</span><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Boolean</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.utilities/-union/first.html"><span class="keyword">val </span><span class="identifier">first</span><span class="symbol">: </span><span class="identifier">A</span><span class="symbol">?</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.utilities/-union/hash-code.html"><span class="keyword">fun </span><span class="identifier">hashCode</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.armada.utilities/-union/second.html"><span class="keyword">val </span><span class="identifier">second</span><span class="symbol">: </span><span class="identifier">B</span><span class="symbol">?</span></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+</BODY>
+</HTML>
+</ul>
 <a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.arrays/index.html"><span class="keyword">package</span>&nbsp;<span class="identifier">bvanseg.kotlincommons.arrays</span></a></a><br/>
 <ul>
 <HTML>
@@ -387,6 +1189,87 @@
 <BODY>
 <a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.compression/kotlin.-byte-array/compress.html"><span class="keyword">fun </span><span class="identifier">ByteArray</span><span class="symbol">.</span><span class="identifier">compress</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.compression$compress(kotlin.ByteArray, kotlin.Int)/bufferSize">bufferSize</span><span class="symbol">:</span>&nbsp;<span class="identifier">Int</span>&nbsp;<span class="symbol">=</span>&nbsp;20000<span class="symbol">)</span><span class="symbol">: </span><span class="identifier">ByteArray</span></a></a><br/>
 <a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.compression/kotlin.-byte-array/decompress.html"><span class="keyword">fun </span><span class="identifier">ByteArray</span><span class="symbol">.</span><span class="identifier">decompress</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.compression$decompress(kotlin.ByteArray, kotlin.Int)/bufferSize">bufferSize</span><span class="symbol">:</span>&nbsp;<span class="identifier">Int</span>&nbsp;<span class="symbol">=</span>&nbsp;20000<span class="symbol">)</span><span class="symbol">: </span><span class="identifier">ByteArray</span></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.evenir.annotations/index.html"><span class="keyword">package</span>&nbsp;<span class="identifier">bvanseg.kotlincommons.evenir.annotations</span></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.evenir.annotations/-subscribe-event/index.html"><span class="keyword">annotation</span> <span class="keyword">class </span><span class="identifier">SubscribeEvent</span></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.evenir.annotations/-subscribe-event/-init-.html"><span class="identifier">SubscribeEvent</span><span class="symbol">(</span><span class="symbol">)</span></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.evenir.bus/index.html"><span class="keyword">package</span>&nbsp;<span class="identifier">bvanseg.kotlincommons.evenir.bus</span></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.evenir.bus/-event-bus/index.html"><span class="keyword">class </span><span class="identifier">EventBus</span></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.evenir.bus/-event-bus/-init-.html"><span class="identifier">EventBus</span><span class="symbol">(</span><span class="symbol">)</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.evenir.bus/-event-bus/add-listener.html"><span class="keyword">fun </span><span class="identifier">addListener</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.evenir.bus.EventBus$addListener(kotlin.Any)/listener">listener</span><span class="symbol">:</span>&nbsp;<span class="identifier">Any</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.evenir.bus/-event-bus/-d-e-f-a-u-l-t.html"><span class="identifier">@JvmStatic</span> <span class="keyword">val </span><span class="identifier">DEFAULT</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.evenir.bus/-event-bus/index.html"><span class="identifier">EventBus</span></a></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.evenir.bus/-event-bus/fire.html"><span class="keyword">fun </span><span class="identifier">fire</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.evenir.bus.EventBus$fire(kotlin.Any)/e">e</span><span class="symbol">:</span>&nbsp;<span class="identifier">Any</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.evenir.bus/-event-bus/remove-listener.html"><span class="keyword">fun </span><span class="identifier">removeListener</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.evenir.bus.EventBus$removeListener(kotlin.Any)/listener">listener</span><span class="symbol">:</span>&nbsp;<span class="identifier">Any</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Boolean</span></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.evenir.event/index.html"><span class="keyword">package</span>&nbsp;<span class="identifier">bvanseg.kotlincommons.evenir.event</span></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.evenir.event/-internal-event/index.html"><span class="keyword">class </span><span class="identifier">InternalEvent</span></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.evenir.event/-internal-event/-init-.html"><span class="identifier">InternalEvent</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.evenir.event.InternalEvent$<init>(kotlin.reflect.KFunction((kotlin.Any)), kotlin.Any)/function">function</span><span class="symbol">:</span>&nbsp;<span class="identifier">KFunction</span><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.evenir.event.InternalEvent$<init>(kotlin.reflect.KFunction((kotlin.Any)), kotlin.Any)/listener">listener</span><span class="symbol">:</span>&nbsp;<span class="identifier">Any</span><span class="symbol">)</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.evenir.event/-internal-event/function.html"><span class="keyword">val </span><span class="identifier">function</span><span class="symbol">: </span><span class="identifier">KFunction</span><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.evenir.event/-internal-event/invoke.html"><span class="keyword">fun </span><span class="identifier">invoke</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.evenir.event.InternalEvent$invoke(kotlin.Any)/e">e</span><span class="symbol">:</span>&nbsp;<span class="identifier">Any</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Any</span><span class="symbol">?</span></a></a><br/>
 </BODY>
 </HTML>
 </ul>
@@ -736,6 +1619,66 @@
 </BODY>
 </HTML>
 </ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.ledger/index.html"><span class="keyword">package</span>&nbsp;<span class="identifier">bvanseg.kotlincommons.ledger</span></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.ledger/-factory-registry/index.html"><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">FactoryRegistry</span><span class="symbol">&lt;</span><span class="identifier">K</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Any</span><span class="symbol">, </span><span class="identifier">V</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Any</span><span class="symbol">, </span><span class="identifier">FACTORY_ARG</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.ledger/-generic-registry/index.html"><span class="identifier">GenericRegistry</span></a><span class="symbol">&lt;</span><span class="identifier">K</span><span class="symbol">,</span>&nbsp;<span class="identifier">Class</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">V</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.ledger/-factory-registry/-init-.html"><span class="identifier">FactoryRegistry</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.ledger.FactoryRegistry$<init>(kotlin.Function2((java.lang.Class((bvanseg.kotlincommons.ledger.FactoryRegistry.V)), bvanseg.kotlincommons.ledger.FactoryRegistry.FACTORY_ARG, bvanseg.kotlincommons.ledger.FactoryRegistry.V)), kotlin.Function1((java.lang.Class((bvanseg.kotlincommons.ledger.FactoryRegistry.V)), bvanseg.kotlincommons.ledger.FactoryRegistry.K)))/factory">factory</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="identifier">Class</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">V</span><span class="symbol">&gt;</span><span class="symbol">,</span>&nbsp;<span class="identifier">FACTORY_ARG</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<span class="identifier">V</span><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;{ klass, _ -&gt; createNewInstance(klass) }<span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.ledger.FactoryRegistry$<init>(kotlin.Function2((java.lang.Class((bvanseg.kotlincommons.ledger.FactoryRegistry.V)), bvanseg.kotlincommons.ledger.FactoryRegistry.FACTORY_ARG, bvanseg.kotlincommons.ledger.FactoryRegistry.V)), kotlin.Function1((java.lang.Class((bvanseg.kotlincommons.ledger.FactoryRegistry.V)), bvanseg.kotlincommons.ledger.FactoryRegistry.K)))/keyExtractor">keyExtractor</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="symbol">(</span><span class="identifier">Class</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">V</span><span class="symbol">&gt;</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<span class="identifier">K</span><span class="symbol">)</span><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;null<span class="symbol">)</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.ledger/-factory-registry/create.html"><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">create</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.ledger.FactoryRegistry$create(bvanseg.kotlincommons.ledger.FactoryRegistry.K, bvanseg.kotlincommons.ledger.FactoryRegistry.FACTORY_ARG)/key">key</span><span class="symbol">:</span>&nbsp;<span class="identifier">K</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.ledger.FactoryRegistry$create(bvanseg.kotlincommons.ledger.FactoryRegistry.K, bvanseg.kotlincommons.ledger.FactoryRegistry.FACTORY_ARG)/arg">arg</span><span class="symbol">:</span>&nbsp;<span class="identifier">FACTORY_ARG</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">V</span><span class="symbol">?</span></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.ledger/-generic-registry/index.html"><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">GenericRegistry</span><span class="symbol">&lt;</span><span class="identifier">K</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Any</span><span class="symbol">, </span><span class="identifier">V</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Any</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Iterable</span><span class="symbol">&lt;</span><span class="identifier">V</span><span class="symbol">&gt;</span></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.ledger/-generic-registry/-init-.html"><span class="identifier">GenericRegistry</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.ledger.GenericRegistry$<init>(kotlin.Function1((bvanseg.kotlincommons.ledger.GenericRegistry.V, bvanseg.kotlincommons.ledger.GenericRegistry.K)))/keyExtractor">keyExtractor</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="symbol">(</span><span class="identifier">V</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<span class="identifier">K</span><span class="symbol">)</span><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;null<span class="symbol">)</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.ledger/-generic-registry/add.html"><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">add</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.ledger.GenericRegistry$add(bvanseg.kotlincommons.ledger.GenericRegistry.V, bvanseg.kotlincommons.ledger.GenericRegistry.K)/value">value</span><span class="symbol">:</span>&nbsp;<span class="identifier">V</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.ledger.GenericRegistry$add(bvanseg.kotlincommons.ledger.GenericRegistry.V, bvanseg.kotlincommons.ledger.GenericRegistry.K)/key">key</span><span class="symbol">:</span>&nbsp;<span class="identifier">K</span>&nbsp;<span class="symbol">=</span>&nbsp;keyExtractor?.invoke(value) ?: throw RuntimeException("No key provided for new value $value")<span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Boolean</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.ledger/-generic-registry/entries.html"><span class="keyword">protected</span> <span class="keyword">open</span> <span class="keyword">val </span><span class="identifier">entries</span><span class="symbol">: </span><span class="identifier">MutableMap</span><span class="symbol">&lt;</span><span class="identifier">K</span><span class="symbol">,</span>&nbsp;<span class="identifier">V</span><span class="symbol">&gt;</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.ledger/-generic-registry/get.html"><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">get</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.ledger.GenericRegistry$get(bvanseg.kotlincommons.ledger.GenericRegistry.K)/key">key</span><span class="symbol">:</span>&nbsp;<span class="identifier">K</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">V</span><span class="symbol">?</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.ledger/-generic-registry/iterator.html"><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">iterator</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Iterator</span><span class="symbol">&lt;</span><span class="identifier">V</span><span class="symbol">&gt;</span></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.ledger/-registry-nameable/index.html"><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">RegistryNameable</span></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.ledger/-registry-nameable/-init-.html"><span class="identifier">RegistryNameable</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.ledger.RegistryNameable$<init>(kotlin.String)/name">name</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.ledger/-registry-nameable/-init-.html"><span class="identifier">RegistryNameable</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.ledger.RegistryNameable$<init>(bvanseg.kotlincommons.assets.ResourceLocation)/resourceLocation">resourceLocation</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.assets/-resource-location/index.html"><span class="identifier">ResourceLocation</span></a><span class="symbol">)</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.ledger/-registry-nameable/-init-.html"><span class="identifier">RegistryNameable</span><span class="symbol">(</span><span class="symbol">)</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.ledger/-registry-nameable/registry-name.html"><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">registryName</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.assets/-resource-location/index.html"><span class="identifier">ResourceLocation</span></a></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.ledger/-registry-nameable/set-domain.html"><span class="keyword">fun </span><span class="identifier">setDomain</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.ledger.RegistryNameable$setDomain(kotlin.String)/domain">domain</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+</BODY>
+</HTML>
+</ul>
 <a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.logging/index.html"><span class="keyword">package</span>&nbsp;<span class="identifier">bvanseg.kotlincommons.logging</span></a></a><br/>
 <ul>
 <HTML>
@@ -981,7 +1924,7 @@
 <link rel="stylesheet" href="../style.css">
 </HEAD>
 <BODY>
-<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.string/kotlin.-string/replace-separators.html"><span class="keyword">fun </span><span class="identifier">String</span><span class="symbol">.</span><s><span class="identifier">replaceSeparators</span></s><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">String</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.string/kotlin.-string/remove.html"><span class="keyword">fun </span><span class="identifier">String</span><span class="symbol">.</span><span class="identifier">remove</span><span class="symbol">(</span><span class="keyword">vararg</span> <span class="identifier" id="bvanseg.kotlincommons.string$remove(kotlin.String, kotlin.Array((kotlin.String)))/strings">strings</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">String</span></a></a><br/>
 </BODY>
 </HTML>
 </ul>
