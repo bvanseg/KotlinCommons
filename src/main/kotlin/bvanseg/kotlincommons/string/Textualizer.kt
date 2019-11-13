@@ -10,8 +10,10 @@ class Textualizer private constructor() {
 
     fun append(string: String): Textualizer = this.apply { data.append(string) }
 
-    fun append(field: String, value: Any): Textualizer = this.apply {
+    @Suppress("IMPLICIT_CAST_TO_ANY")
+    fun <T: Any> append(field: String, value: T): Textualizer = this.apply {
         val con = when(value::class) {
+            String::class -> "\"${value as String}\""
             Map::class -> (value as Map<*, *>).entries.joinToString(", ")
             else -> {
                 when {
