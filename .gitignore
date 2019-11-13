@@ -3,5 +3,3 @@ target/
 logs/
 *.iml
 out/
-
-data/
