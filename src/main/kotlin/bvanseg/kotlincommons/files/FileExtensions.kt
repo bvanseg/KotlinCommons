@@ -5,6 +5,7 @@ import java.io.IOException
 import java.io.FileOutputStream
 import java.io.FileInputStream
 import java.nio.channels.FileChannel
+import java.nio.file.Files
 
 /**
  * Renames a [File] to the given [name]. Extensions and directories are handled automatically.
@@ -30,7 +31,7 @@ fun File.rename(name: String): File {
  */
 fun File.copyTo(destination: File) {
     if (!destination.exists())
-        destination.createNewFile()
+        Files.createFile(destination.toPath())
 
     val source: FileChannel? = FileInputStream(this).channel
     val dest: FileChannel? = FileOutputStream(destination).channel
@@ -41,3 +42,5 @@ fun File.copyTo(destination: File) {
         }
     }
 }
+
+fun File.isDirectoryPath(): Boolean = this.name.lastIndexOf('.') == -1

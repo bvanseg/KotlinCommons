@@ -1,8 +1,10 @@
 package bvanseg.kotlincommons.files
 
+import bvanseg.kotlincommons.booleans.ifFalse
 import bvanseg.kotlincommons.booleans.ifTrue
 import java.io.File
 import java.net.URI
+import java.nio.file.Files
 
 /**
  * Lightweight wrapper around a [File] that automatically creates directories and the
@@ -25,17 +27,14 @@ class KFile: File {
 
     fun mk() {
         parentFile?.let {
-            when {
-                it.isFile -> it.createNewFile()
-                it.isDirectory -> it.mkdirs()
-                else -> {}
-            }
+            if(!parentFile.exists())
+                if(it.isDirectoryPath())  Files.createDirectory(it.toPath()) else Files.createFile(it.toPath())
         }
-        this.exists().ifTrue {
-            when {
-                isFile -> createNewFile()
-                isDirectory -> mkdir()
-                else -> {}
+        this.exists().ifFalse {
+            if(isDirectoryPath()) {
+                Files.createDirectory(this.toPath())
+            } else {
+                Files.createFile(this.toPath())
             }
         }
     }
@@ -43,7 +42,7 @@ class KFile: File {
     fun rename(newName: String): KFile {
         val newFile = KFile(this.parent + "/$newName." + this.extension)
         this.copyTo(newFile)
-        this.delete()
+        Files.deleteIfExists(this.toPath())
         return newFile
     }
 }
