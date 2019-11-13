@@ -1,6 +1,6 @@
 package bvanseg.kotlincommons.ledger
 
-import bvanseg.kotlincommons.assets.ResourceLocation
+import bvanseg.kotlincommons.assets.KResourceLocation
 
 /**
  * @author bright_spark
@@ -10,25 +10,26 @@ abstract class RegistryNameable() {
     /**
      * @return The registry name for this object
      */
-    lateinit var registryName: ResourceLocation
+    lateinit var registryName: KResourceLocation
         private set
 
     constructor(name: String) : this() {
-        this.registryName = ResourceLocation(name)
+        this.registryName = KResourceLocation(name)
     }
 
-    constructor(resourceLocation: ResourceLocation) : this() {
+    constructor(resourceLocation: KResourceLocation) : this() {
         this.registryName = resourceLocation
     }
 
-    /**
-     * Sets the domain in the [registryName] if not already set
-     *
-     * @param domain The domain to be set in the registry name
-     */
-    fun setDomain(domain: String) {
-        if (this.registryName.domain == null)
-            this.registryName.domain = domain
-    }
+    //TODO: Rework this to play nice with the new KResourceLocation
+//    /**
+//     * Sets the domain in the [registryName] if not already set
+//     *
+//     * @param domain The domain to be set in the registry name
+//     */
+//    fun setDomain(domain: String) {
+//        if (this.registryName.domain == null)
+//            this.registryName.domain = domain
+//    }
 }
 

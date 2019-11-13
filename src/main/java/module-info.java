@@ -45,7 +45,6 @@ module kotlincommons {
     exports bvanseg.kotlincommons.logging;
     exports bvanseg.kotlincommons.measurement;
     exports bvanseg.kotlincommons.numbers;
-    exports bvanseg.kotlincommons.observable;
     exports bvanseg.kotlincommons.projects;
     exports bvanseg.kotlincommons.simplenet.packet;
     exports bvanseg.kotlincommons.streams;
