@@ -1,12 +1,11 @@
-package bvanseg.kotlincommons.string
+package bvanseg.kotlincommons.numbers
 
+import bvanseg.kotlincommons.string.Textualizer
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
-/**
- * @author Boston Vanseghi
- */
-internal class TextualizerTest {
+class HasherTest {
+
     class Account {
         val balance = 0.0
         val foo = arrayOf("Bar", "FooBar", "MoreFooBar")
@@ -15,6 +14,11 @@ internal class TextualizerTest {
             .append("balance", balance)
             .append("foo", foo)
             .toString()
+
+        override fun hashCode(): Int = Hasher.builder(this)
+            .append(balance)
+            .append(foo)
+            .hashCode()
     }
 
     enum class Gender {
@@ -25,7 +29,7 @@ internal class TextualizerTest {
 
     class Person {
         val name = "Bob"
-        val age = 22
+        var age = 22
         val gender = Gender.MALE
         val acct: Account = Account()
         override fun toString(): String = Textualizer.builder(this)
@@ -34,17 +38,22 @@ internal class TextualizerTest {
             .append("gender", gender)
             .append("account", acct)
             .toString()
+
+        override fun hashCode(): Int = Hasher.builder(this)
+            .append(name)
+            .append(age)
+            .append(gender)
+            .append(acct)
+            .hashCode()
     }
 
     @Test
-    fun textualize() {
+    fun testHasher() {
         // Given
         // When
-        val person = Person()
-        val data = person.toString()
-
-        // Then
-        println(data)
-        assertEquals("Person(name=Bob, age=22, gender=MALE, account=Account(balance=0.0, foo=[Bar, FooBar, MoreFooBar]))", data)
+//        val person = Person()
+//        println(person.hashCode())
+//        person.age++
+//        println(person.hashCode())
     }
 }
