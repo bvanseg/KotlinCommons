@@ -23,8 +23,7 @@ $dokka.location:bvanseg.kotlincommons.buffers$getVector3i(java.nio.ByteBuffer)b
 $dokka.location:bvanseg.kotlincommons.buffers$getVersion(java.nio.ByteBuffer)bvanseg.kotlincommons.buffers/java.nio.-byte-buffer/get-version.html
 $dokka.location:bvanseg.kotlincommons.collections$addAll(kotlin.collections.MutableCollection((bvanseg.kotlincommons.collections.addAll.E)), kotlin.Array((bvanseg.kotlincommons.collections.addAll.E)))bvanseg.kotlincommons.collections/kotlin.collections.-mutable-collection/add-all.html
 $dokka.location:bvanseg.kotlincommons.collections$containsAny(kotlin.collections.List((bvanseg.kotlincommons.collections.containsAny.E)), kotlin.collections.List((bvanseg.kotlincommons.collections.containsAny.E)))bvanseg.kotlincommons.collections/kotlin.collections.-list/contains-any.html
-$dokka.location:bvanseg.kotlincommons.collections$reversed(kotlin.collections.Map((bvanseg.kotlincommons.collections.reversed.K, bvanseg.kotlincommons.collections.reversed.V)))bvanseg.kotlincommons.collections/kotlin.collections.-map/reversed.html
-$dokka.location:bvanseg.kotlincommons.collections$reversedMutable(kotlin.collections.MutableMap((bvanseg.kotlincommons.collections.reversedMutable.K, bvanseg.kotlincommons.collections.reversedMutable.V)))bvanseg.kotlincommons.collections/kotlin.collections.-mutable-map/reversed-mutable.html
+$dokka.location:bvanseg.kotlincommons.collections$toDualMap(java.util.HashMap((bvanseg.kotlincommons.collections.toDualMap.K, bvanseg.kotlincommons.collections.toDualMap.V)))bvanseg.kotlincommons.collections/java.util.-hash-map/to-dual-map.html
 $dokka.location:bvanseg.kotlincommons.compression$compress(kotlin.ByteArray, kotlin.Int)bvanseg.kotlincommons.compression/kotlin.-byte-array/compress.html
 $dokka.location:bvanseg.kotlincommons.compression$decompress(kotlin.ByteArray, kotlin.Int)bvanseg.kotlincommons.compression/kotlin.-byte-array/decompress.html
 $dokka.location:bvanseg.kotlincommons.files$copyTo(java.io.File, java.io.File)bvanseg.kotlincommons.files/java.io.-file/copy-to.html
@@ -77,6 +76,7 @@ $dokka.location:bvanseg.kotlincommons.time$toFileSafeString(java.time.LocalDateT
 $dokka.location:bvanseg.kotlincommons.tuples$between(kotlin.Pair((bvanseg.kotlincommons.tuples.between.T, )), bvanseg.kotlincommons.tuples.between.T)bvanseg.kotlincommons.tuples/kotlin.-pair/between.html
 $dokka.location:bvanseg.kotlincommons.tuples$contains(kotlin.Pair((bvanseg.kotlincommons.tuples.contains.T, )), bvanseg.kotlincommons.tuples.contains.T)bvanseg.kotlincommons.tuples/kotlin.-pair/contains.html
 bvanseg.kotlincommons
+bvanseg.kotlincommons.annotations
 bvanseg.kotlincommons.any
 bvanseg.kotlincommons.armada
 bvanseg.kotlincommons.armada.annotations
