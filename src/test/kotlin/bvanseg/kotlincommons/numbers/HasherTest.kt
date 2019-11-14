@@ -15,7 +15,7 @@ class HasherTest {
             .append("foo", foo)
             .toString()
 
-        override fun hashCode(): Int = Hasher.builder(this)
+        override fun hashCode(): Int = Hasher(this)
             .append(balance)
             .append(foo)
             .hashCode()
@@ -39,7 +39,7 @@ class HasherTest {
             .append("account", acct)
             .toString()
 
-        override fun hashCode(): Int = Hasher.builder(this)
+        override fun hashCode(): Int = Hasher(this)
             .append(name)
             .append(age)
             .append(gender)

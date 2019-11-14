@@ -47,7 +47,7 @@ class Textualizer private constructor() {
             else -> {
                 when {
                     value::class.java.isEnum -> value::class.java.enumConstants[(value as Enum<*>).ordinal]
-                    value::class.java.isArray -> "[${(value as Array<Any>).joinToString(", ")}]"
+                    value::class.java.isArray -> "[${(value as Array<*>).joinToString(", ")}]"
                     else -> value.toString()
                 }
             }

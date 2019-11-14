@@ -29,7 +29,11 @@ package bvanseg.kotlincommons.numbers
  * @author Boston Vanseghi
  * @since 2.1.1
  */
-class Hasher {
+class Hasher(clazz: Any) {
+
+    init {
+        this.append(clazz::class.simpleName)
+    }
 
     var total = 17
 
@@ -63,12 +67,5 @@ class Hasher {
         other as Hasher
         if (total != other.total) return false
         return true
-    }
-
-    companion object {
-        @JvmStatic
-        fun builder(clazz: Any): Hasher = Hasher().apply {
-            this.append(clazz::class.simpleName)
-        }
     }
 }
