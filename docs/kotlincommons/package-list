@@ -1,8 +1,6 @@
 $dokka.format:html
 $dokka.linkExtension:html
 $dokka.location:bvanseg.kotlincommons.any$getLogger(kotlin.Any)bvanseg.kotlincommons.any/kotlin.-any/get-logger.html
-$dokka.location:bvanseg.kotlincommons.any$toObservable(kotlin.Any)bvanseg.kotlincommons.any/kotlin.-any/to-observable.html
-$dokka.location:bvanseg.kotlincommons.any$toOptional(kotlin.Any)bvanseg.kotlincommons.any/kotlin.-any/to-optional.html
 $dokka.location:bvanseg.kotlincommons.arrays$anyNull(kotlin.Array((bvanseg.kotlincommons.arrays.anyNull.T)))bvanseg.kotlincommons.arrays/kotlin.-array/any-null.html
 $dokka.location:bvanseg.kotlincommons.arrays$anyNull(kotlin.Array((kotlin.Array((bvanseg.kotlincommons.arrays.anyNull.T)))))bvanseg.kotlincommons.arrays/kotlin.-array/any-null.html
 $dokka.location:bvanseg.kotlincommons.arrays$anyNull(kotlin.Array((kotlin.Array((kotlin.Array((bvanseg.kotlincommons.arrays.anyNull.T)))))))bvanseg.kotlincommons.arrays/kotlin.-array/any-null.html
@@ -11,6 +9,7 @@ $dokka.location:bvanseg.kotlincommons.arrays$random(kotlin.Array((kotlin.Array((
 $dokka.location:bvanseg.kotlincommons.arrays$random(kotlin.Array((kotlin.Array((kotlin.Array((bvanseg.kotlincommons.arrays.random.T)))))), java.util.Random)bvanseg.kotlincommons.arrays/kotlin.-array/random.html
 $dokka.location:bvanseg.kotlincommons.booleans$ifFalse(kotlin.Boolean, kotlin.Function0((kotlin.Unit)))bvanseg.kotlincommons.booleans/kotlin.-boolean/if-false.html
 $dokka.location:bvanseg.kotlincommons.booleans$ifTrue(kotlin.Boolean, kotlin.Function0((kotlin.Unit)))bvanseg.kotlincommons.booleans/kotlin.-boolean/if-true.html
+$dokka.location:bvanseg.kotlincommons.booleans$toInt(kotlin.Boolean)bvanseg.kotlincommons.booleans/kotlin.-boolean/to-int.html
 $dokka.location:bvanseg.kotlincommons.buffers$getBoolean(java.nio.ByteBuffer)bvanseg.kotlincommons.buffers/java.nio.-byte-buffer/get-boolean.html
 $dokka.location:bvanseg.kotlincommons.buffers$getBytes(java.nio.ByteBuffer)bvanseg.kotlincommons.buffers/java.nio.-byte-buffer/get-bytes.html
 $dokka.location:bvanseg.kotlincommons.buffers$getBytes(java.nio.ByteBuffer, kotlin.Int)bvanseg.kotlincommons.buffers/java.nio.-byte-buffer/get-bytes.html
@@ -29,10 +28,24 @@ $dokka.location:bvanseg.kotlincommons.collections$reversedMutable(kotlin.collect
 $dokka.location:bvanseg.kotlincommons.compression$compress(kotlin.ByteArray, kotlin.Int)bvanseg.kotlincommons.compression/kotlin.-byte-array/compress.html
 $dokka.location:bvanseg.kotlincommons.compression$decompress(kotlin.ByteArray, kotlin.Int)bvanseg.kotlincommons.compression/kotlin.-byte-array/decompress.html
 $dokka.location:bvanseg.kotlincommons.files$copyTo(java.io.File, java.io.File)bvanseg.kotlincommons.files/java.io.-file/copy-to.html
+$dokka.location:bvanseg.kotlincommons.files$isDirectoryPath(java.io.File)bvanseg.kotlincommons.files/java.io.-file/is-directory-path.html
 $dokka.location:bvanseg.kotlincommons.files$rename(java.io.File, kotlin.String)bvanseg.kotlincommons.files/java.io.-file/rename.html
+$dokka.location:bvanseg.kotlincommons.joml.vectors$div(org.joml.Vector3d, org.joml.Vector3d)bvanseg.kotlincommons.joml.vectors/org.joml.-vector3d/div.html
+$dokka.location:bvanseg.kotlincommons.joml.vectors$div(org.joml.Vector3f, org.joml.Vector3f)bvanseg.kotlincommons.joml.vectors/org.joml.-vector3f/div.html
+$dokka.location:bvanseg.kotlincommons.joml.vectors$div(org.joml.Vector3i, kotlin.Int, kotlin.Int, kotlin.Int)bvanseg.kotlincommons.joml.vectors/org.joml.-vector3i/div.html
+$dokka.location:bvanseg.kotlincommons.joml.vectors$div(org.joml.Vector3i, org.joml.Vector3i)bvanseg.kotlincommons.joml.vectors/org.joml.-vector3i/div.html
 $dokka.location:bvanseg.kotlincommons.joml.vectors$isWithinRadius(org.joml.Vector3dc, org.joml.Vector3ic, kotlin.Double)bvanseg.kotlincommons.joml.vectors/org.joml.-vector3dc/is-within-radius.html
 $dokka.location:bvanseg.kotlincommons.joml.vectors$isWithinRadius(org.joml.Vector3fc, org.joml.Vector3ic, kotlin.Float)bvanseg.kotlincommons.joml.vectors/org.joml.-vector3fc/is-within-radius.html
 $dokka.location:bvanseg.kotlincommons.joml.vectors$isWithinRadius(org.joml.Vector3ic, org.joml.Vector3ic, kotlin.Int)bvanseg.kotlincommons.joml.vectors/org.joml.-vector3ic/is-within-radius.html
+$dokka.location:bvanseg.kotlincommons.joml.vectors$minus(org.joml.Vector3d, org.joml.Vector3d)bvanseg.kotlincommons.joml.vectors/org.joml.-vector3d/minus.html
+$dokka.location:bvanseg.kotlincommons.joml.vectors$minus(org.joml.Vector3f, org.joml.Vector3f)bvanseg.kotlincommons.joml.vectors/org.joml.-vector3f/minus.html
+$dokka.location:bvanseg.kotlincommons.joml.vectors$minus(org.joml.Vector3i, org.joml.Vector3i)bvanseg.kotlincommons.joml.vectors/org.joml.-vector3i/minus.html
+$dokka.location:bvanseg.kotlincommons.joml.vectors$plus(org.joml.Vector3d, org.joml.Vector3d)bvanseg.kotlincommons.joml.vectors/org.joml.-vector3d/plus.html
+$dokka.location:bvanseg.kotlincommons.joml.vectors$plus(org.joml.Vector3f, org.joml.Vector3f)bvanseg.kotlincommons.joml.vectors/org.joml.-vector3f/plus.html
+$dokka.location:bvanseg.kotlincommons.joml.vectors$plus(org.joml.Vector3i, org.joml.Vector3i)bvanseg.kotlincommons.joml.vectors/org.joml.-vector3i/plus.html
+$dokka.location:bvanseg.kotlincommons.joml.vectors$times(org.joml.Vector3d, org.joml.Vector3d)bvanseg.kotlincommons.joml.vectors/org.joml.-vector3d/times.html
+$dokka.location:bvanseg.kotlincommons.joml.vectors$times(org.joml.Vector3f, org.joml.Vector3f)bvanseg.kotlincommons.joml.vectors/org.joml.-vector3f/times.html
+$dokka.location:bvanseg.kotlincommons.joml.vectors$times(org.joml.Vector3i, org.joml.Vector3i)bvanseg.kotlincommons.joml.vectors/org.joml.-vector3i/times.html
 $dokka.location:bvanseg.kotlincommons.joml.vectors$toVector3d(org.joml.Vector3fc)bvanseg.kotlincommons.joml.vectors/org.joml.-vector3fc/to-vector3d.html
 $dokka.location:bvanseg.kotlincommons.joml.vectors$toVector3d(org.joml.Vector3ic)bvanseg.kotlincommons.joml.vectors/org.joml.-vector3ic/to-vector3d.html
 $dokka.location:bvanseg.kotlincommons.joml.vectors$toVector3f(org.joml.Vector3dc)bvanseg.kotlincommons.joml.vectors/org.joml.-vector3dc/to-vector3f.html
@@ -92,7 +105,6 @@ bvanseg.kotlincommons.ledger
 bvanseg.kotlincommons.logging
 bvanseg.kotlincommons.measurement
 bvanseg.kotlincommons.numbers
-bvanseg.kotlincommons.observable
 bvanseg.kotlincommons.projects
 bvanseg.kotlincommons.simplenet.packet
 bvanseg.kotlincommons.streams

@@ -13,10 +13,27 @@
 <tbody>
 <tr>
 <td>
-<h4><a href="-resource-location/index.html">ResourceLocation</a></h4>
+<h4><a href="-k-actor/index.html">KActor</a></h4>
 </td>
 <td>
-<code><span class="keyword">class </span><span class="identifier">ResourceLocation</span></code></td>
+<p>Represents some actor/entity that belongs to a <a href="-k-actor/domain.html">domain</a> and has a specific <a href="-k-actor/location.html">location</a>.</p>
+<code><span class="keyword">class </span><span class="identifier">KActor</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-k-resource/index.html"><span class="identifier">KResource</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-k-resource/index.html">KResource</a></h4>
+</td>
+<td>
+<p>Represents a resource/asset in a classpath, disk, or from a URL.</p>
+<code><span class="keyword">interface </span><span class="identifier">KResource</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-k-resource-location/index.html">KResourceLocation</a></h4>
+</td>
+<td>
+<p>Represents a resource either in the classpath or on disk.</p>
+<code><span class="keyword">class </span><span class="identifier">KResourceLocation</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-k-resource/index.html"><span class="identifier">KResource</span></a><span class="symbol">, </span><span class="identifier">AutoCloseable</span></code></td>
 </tr>
 <tr>
 <td>
