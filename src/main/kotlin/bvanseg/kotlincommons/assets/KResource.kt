@@ -41,5 +41,7 @@ interface KResource {
     companion object {
         @JvmStatic
         var defaultRoot = "assets/"
+        @JvmStatic
+        var defaultDomain = "base"
     }
 }
