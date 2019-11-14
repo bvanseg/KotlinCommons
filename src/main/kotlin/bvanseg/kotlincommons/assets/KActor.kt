@@ -32,9 +32,10 @@ import bvanseg.kotlincommons.string.Textualizer
  * @author Boston Vanseghi
  * @since 2.1.1
  */
-class KActor(override val domain: String, override val location: String): KResource {
+class KActor(override var location: String, override var domain: String = "base"): KResource {
 
-    override val path: String = "$defaultRoot$domain/$location"
+    override val path: String
+        get() = "$defaultRoot$domain/$location"
 
     override fun toResourceMode(): KResourceLocation = KResourceLocation(domain, location)
     override fun toActorMode(shouldClose: Boolean): KActor = this
