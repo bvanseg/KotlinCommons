@@ -43,19 +43,17 @@ class KResourceLocation: KResource, AutoCloseable {
     override var location: String = ""
         private set
 
-    override var path: String = ""
-        private set
+    override val path: String
+        get() = "$defaultRoot$domain/$location"
 
     constructor(domain: String, location: String) {
         this.domain = domain
         this.location = location
-        this.path = "$defaultRoot$domain/$location"
     }
 
     constructor(parent: KResourceLocation) {
         this.domain = parent.domain
         this.location = parent.location
-        this.path = "$defaultRoot$domain/$location"
     }
 
     constructor(location: String) {
@@ -67,7 +65,6 @@ class KResourceLocation: KResource, AutoCloseable {
             this.domain = defaultDomain
             this.location = location
         }
-        this.path = "$domain/$location"
     }
 
     private val resource by lazy { Resources.scan.getResourcesWithPath(path).first() }
