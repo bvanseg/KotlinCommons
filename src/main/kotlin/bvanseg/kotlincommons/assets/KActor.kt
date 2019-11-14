@@ -32,7 +32,9 @@ import bvanseg.kotlincommons.string.Textualizer
  * @author Boston Vanseghi
  * @since 2.1.1
  */
-class KActor(override var location: String, override var domain: String = "base"): KResource {
+class KActor(override var domain: String, override var location: String): KResource {
+
+    constructor(name: String): this("base", name)
 
     override val path: String
         get() = "$defaultRoot$domain/$location"
