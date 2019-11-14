@@ -23,6 +23,7 @@
  */
 package bvanseg.kotlincommons.assets
 
+import bvanseg.kotlincommons.assets.KResource.Companion.defaultDomain
 import bvanseg.kotlincommons.assets.KResource.Companion.defaultRoot
 import bvanseg.kotlincommons.string.Textualizer
 import java.io.File
@@ -37,7 +38,7 @@ import java.io.InputStream
  */
 class KResourceLocation: KResource, AutoCloseable {
 
-    override var domain: String = ""
+    override var domain: String = defaultDomain
         private set
     override var location: String = ""
         private set
@@ -63,7 +64,7 @@ class KResourceLocation: KResource, AutoCloseable {
             this.domain = resourceLocationRaw[0]
             this.location = resourceLocationRaw[1]
         } else {
-            this.domain = defaultRoot
+            this.domain = defaultDomain
             this.location = location
         }
         this.path = "$domain/$location"
@@ -84,7 +85,6 @@ class KResourceLocation: KResource, AutoCloseable {
     override fun close() = inputStream.close()
 
     override fun toString(): String = Textualizer.builder(this)
-        .append("defaultRoot", defaultRoot)
         .append("domain", domain)
         .append("location", location)
         .append("path", path)

@@ -23,6 +23,7 @@
  */
 package bvanseg.kotlincommons.assets
 
+import bvanseg.kotlincommons.assets.KResource.Companion.defaultDomain
 import bvanseg.kotlincommons.assets.KResource.Companion.defaultRoot
 import bvanseg.kotlincommons.string.Textualizer
 
@@ -34,7 +35,7 @@ import bvanseg.kotlincommons.string.Textualizer
  */
 class KActor(override var domain: String, override var location: String): KResource {
 
-    constructor(name: String): this("base", name)
+    constructor(name: String): this(defaultDomain, name)
 
     override val path: String
         get() = "$defaultRoot$domain/$location"
@@ -43,7 +44,6 @@ class KActor(override var domain: String, override var location: String): KResou
     override fun toActorMode(shouldClose: Boolean): KActor = this
 
     override fun toString(): String = Textualizer.builder(this)
-        .append("defaultRoot", defaultRoot)
         .append("domain", domain)
         .append("location", location)
         .append("path", path)
