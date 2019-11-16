@@ -25,6 +25,7 @@ package bvanseg.kotlincommons.assets
 
 import bvanseg.kotlincommons.assets.KResource.Companion.defaultDomain
 import bvanseg.kotlincommons.assets.KResource.Companion.defaultRoot
+import bvanseg.kotlincommons.numbers.Hasher
 import bvanseg.kotlincommons.string.Textualizer
 import java.io.File
 import java.io.InputStream
@@ -86,4 +87,7 @@ class KResourceLocation: KResource, AutoCloseable {
         .append("location", location)
         .append("path", path)
         .toString()
+
+    override fun hashCode(): Int = Hasher(this).append(path).hashCode()
+    override fun equals(other: Any?): Boolean = other is KResourceLocation && this.domain == other.domain && this.location == other.location
 }

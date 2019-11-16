@@ -25,6 +25,7 @@ package bvanseg.kotlincommons.assets
 
 import bvanseg.kotlincommons.assets.KResource.Companion.defaultDomain
 import bvanseg.kotlincommons.assets.KResource.Companion.defaultRoot
+import bvanseg.kotlincommons.numbers.Hasher
 import bvanseg.kotlincommons.string.Textualizer
 
 /**
@@ -48,4 +49,7 @@ class KActor(override var domain: String, override var location: String): KResou
         .append("location", location)
         .append("path", path)
         .toString()
+
+    override fun hashCode(): Int = Hasher(this).append(path).hashCode()
+    override fun equals(other: Any?): Boolean = other is KActor && this.domain == other.domain && this.location == other.location
 }
