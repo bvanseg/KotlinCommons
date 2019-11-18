@@ -52,7 +52,7 @@ fun String.remove(vararg strings: String): String {
  * Creates a [URI] from a [String].
  *
  * @author Boston Vanseghi
- * @since 2.1.6.
+ * @since 2.1.6
  */
 fun String.toURI(): URI = URI.create(this)
 
@@ -60,6 +60,6 @@ fun String.toURI(): URI = URI.create(this)
  * Creates a [URL] from a [String].
  *
  * @author Boston Vanseghi
- * @since 2.1.6.
+ * @since 2.1.6
  */
 fun String.toURL(): URL = URL(this)
