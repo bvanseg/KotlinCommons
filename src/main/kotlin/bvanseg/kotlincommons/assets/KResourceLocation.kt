@@ -68,10 +68,13 @@ class KResourceLocation: KResource, AutoCloseable {
         }
     }
 
-    private val resource by lazy { Resources.scan.getResourcesWithPath(path).first() }
+    private val resource by lazy { Resources.scan.getResourcesWithPath(path).firstOrNull() }
 
-    val inputStream: InputStream by lazy { resource.open() }
-    val file: File by lazy { resource.classpathElementFile }
+    val inputStream: InputStream by lazy { resource!!.open() }
+    val file: File by lazy { resource!!.classpathElementFile }
+
+    fun getInputStreamSafe(): InputStream? = if(resource != null) inputStream else null
+    fun getFileSafe(): File? = if(resource != null) file else null
 
     override fun toResourceMode(): KResourceLocation = this
 
