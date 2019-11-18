@@ -23,6 +23,9 @@
  */
 package bvanseg.kotlincommons.string
 
+import java.net.URI
+import java.net.URL
+
 fun List<String>.joinStrings(startIndex: Int = 0, endIndex: Int = -1): String {
     val sb = StringBuilder()
     val start = kotlin.math.max(startIndex, 0)
@@ -44,3 +47,19 @@ fun String.remove(vararg strings: String): String {
     }
     return str
 }
+
+/**
+ * Creates a [URI] from a [String].
+ *
+ * @author Boston Vanseghi
+ * @since 2.1.6.
+ */
+fun String.toURI(): URI = URI.create(this)
+
+/**
+ * Creates a [URL] from a [String].
+ *
+ * @author Boston Vanseghi
+ * @since 2.1.6.
+ */
+fun String.toURL(): URL = URL(this)
