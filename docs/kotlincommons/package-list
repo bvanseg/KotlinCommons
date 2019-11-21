@@ -24,6 +24,10 @@ $dokka.location:bvanseg.kotlincommons.buffers$getVersion(java.nio.ByteBuffer)bv
 $dokka.location:bvanseg.kotlincommons.collections$addAll(kotlin.collections.MutableCollection((bvanseg.kotlincommons.collections.addAll.E)), kotlin.Array((bvanseg.kotlincommons.collections.addAll.E)))bvanseg.kotlincommons.collections/kotlin.collections.-mutable-collection/add-all.html
 $dokka.location:bvanseg.kotlincommons.collections$containsAny(kotlin.collections.List((bvanseg.kotlincommons.collections.containsAny.E)), kotlin.collections.List((bvanseg.kotlincommons.collections.containsAny.E)))bvanseg.kotlincommons.collections/kotlin.collections.-list/contains-any.html
 $dokka.location:bvanseg.kotlincommons.collections$toDualMap(java.util.HashMap((bvanseg.kotlincommons.collections.toDualMap.K, bvanseg.kotlincommons.collections.toDualMap.V)))bvanseg.kotlincommons.collections/java.util.-hash-map/to-dual-map.html
+$dokka.location:bvanseg.kotlincommons.collections.iterables$sumByByte(kotlin.collections.Iterable((bvanseg.kotlincommons.collections.iterables.sumByByte.T)), kotlin.Function1((bvanseg.kotlincommons.collections.iterables.sumByByte.T, kotlin.Byte)))bvanseg.kotlincommons.collections.iterables/kotlin.collections.-iterable/sum-by-byte.html
+$dokka.location:bvanseg.kotlincommons.collections.iterables$sumByFloat(kotlin.collections.Iterable((bvanseg.kotlincommons.collections.iterables.sumByFloat.T)), kotlin.Function1((bvanseg.kotlincommons.collections.iterables.sumByFloat.T, kotlin.Float)))bvanseg.kotlincommons.collections.iterables/kotlin.collections.-iterable/sum-by-float.html
+$dokka.location:bvanseg.kotlincommons.collections.iterables$sumByLong(kotlin.collections.Iterable((bvanseg.kotlincommons.collections.iterables.sumByLong.T)), kotlin.Function1((bvanseg.kotlincommons.collections.iterables.sumByLong.T, kotlin.Long)))bvanseg.kotlincommons.collections.iterables/kotlin.collections.-iterable/sum-by-long.html
+$dokka.location:bvanseg.kotlincommons.collections.iterables$sumByShort(kotlin.collections.Iterable((bvanseg.kotlincommons.collections.iterables.sumByShort.T)), kotlin.Function1((bvanseg.kotlincommons.collections.iterables.sumByShort.T, kotlin.Short)))bvanseg.kotlincommons.collections.iterables/kotlin.collections.-iterable/sum-by-short.html
 $dokka.location:bvanseg.kotlincommons.compression$compress(kotlin.ByteArray, kotlin.Int)bvanseg.kotlincommons.compression/kotlin.-byte-array/compress.html
 $dokka.location:bvanseg.kotlincommons.compression$decompress(kotlin.ByteArray, kotlin.Int)bvanseg.kotlincommons.compression/kotlin.-byte-array/decompress.html
 $dokka.location:bvanseg.kotlincommons.files$copyTo(java.io.File, java.io.File)bvanseg.kotlincommons.files/java.io.-file/copy-to.html
@@ -72,6 +76,8 @@ $dokka.location:bvanseg.kotlincommons.simplenet.packet$putVersion(com.github.sim
 $dokka.location:bvanseg.kotlincommons.streams$stream(kotlin.Array((bvanseg.kotlincommons.streams.stream.T)))bvanseg.kotlincommons.streams/kotlin.-array/stream.html
 $dokka.location:bvanseg.kotlincommons.string$joinStrings(kotlin.collections.List((kotlin.String)), kotlin.Int, kotlin.Int)bvanseg.kotlincommons.string/kotlin.collections.-list/join-strings.html
 $dokka.location:bvanseg.kotlincommons.string$remove(kotlin.String, kotlin.Array((kotlin.String)))bvanseg.kotlincommons.string/kotlin.-string/remove.html
+$dokka.location:bvanseg.kotlincommons.string$toURI(kotlin.String)bvanseg.kotlincommons.string/kotlin.-string/to-u-r-i.html
+$dokka.location:bvanseg.kotlincommons.string$toURL(kotlin.String)bvanseg.kotlincommons.string/kotlin.-string/to-u-r-l.html
 $dokka.location:bvanseg.kotlincommons.time$toFileSafeString(java.time.LocalDateTime)bvanseg.kotlincommons.time/java.time.-local-date-time/to-file-safe-string.html
 $dokka.location:bvanseg.kotlincommons.tuples$between(kotlin.Pair((bvanseg.kotlincommons.tuples.between.T, )), bvanseg.kotlincommons.tuples.between.T)bvanseg.kotlincommons.tuples/kotlin.-pair/between.html
 $dokka.location:bvanseg.kotlincommons.tuples$contains(kotlin.Pair((bvanseg.kotlincommons.tuples.contains.T, )), bvanseg.kotlincommons.tuples.contains.T)bvanseg.kotlincommons.tuples/kotlin.-pair/contains.html
@@ -92,6 +98,7 @@ bvanseg.kotlincommons.booleans
 bvanseg.kotlincommons.buffers
 bvanseg.kotlincommons.classes
 bvanseg.kotlincommons.collections
+bvanseg.kotlincommons.collections.iterables
 bvanseg.kotlincommons.comparable
 bvanseg.kotlincommons.compression
 bvanseg.kotlincommons.evenir.annotations

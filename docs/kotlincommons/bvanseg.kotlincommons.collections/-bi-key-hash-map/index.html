@@ -1,0 +1,127 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>BiKeyHashMap - kotlincommons</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">kotlincommons</a>&nbsp;/&nbsp;<a href="../index.html">bvanseg.kotlincommons.collections</a>&nbsp;/&nbsp;<a href="./index.html">BiKeyHashMap</a><br/>
+<br/>
+<h1>BiKeyHashMap</h1>
+<code><span class="keyword">class </span><span class="identifier">BiKeyHashMap</span><span class="symbol">&lt;</span><span class="identifier">K1</span><span class="symbol">, </span><span class="identifier">K2</span><span class="symbol">, </span><span class="identifier">V</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Iterable</span><span class="symbol">&lt;</span><span class="identifier">Entry</span><span class="symbol">&lt;</span><span class="identifier">K1</span><span class="symbol">,</span>&nbsp;<span class="identifier">V</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
+<p>A <a href="#">Collection</a> class that supports two keys (<a href="index.html#K1">K1</a>, <a href="index.html#K2">K2</a>) mapped to a single value <a href="index.html#V">V</a>.</p>
+<p><strong>Author</strong><br/>
+Boston Vanseghi</p>
+<p><strong>Since</strong><br/>
+2.1.6</p>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="-init-.html">&lt;init&gt;</a></h4>
+</td>
+<td>
+<p>A <a href="#">Collection</a> class that supports two keys (<a href="index.html#K1">K1</a>, <a href="index.html#K2">K2</a>) mapped to a single value <a href="index.html#V">V</a>.</p>
+<code><span class="identifier">BiKeyHashMap</span><span class="symbol">(</span><span class="symbol">)</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="clear.html">clear</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">clear</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="contains.html">contains</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">contains</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.collections.BiKeyHashMap$contains(bvanseg.kotlincommons.collections.BiKeyHashMap.K1, bvanseg.kotlincommons.collections.BiKeyHashMap.K2)/key1">key1</span><span class="symbol">:</span>&nbsp;<span class="identifier">K1</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.collections.BiKeyHashMap$contains(bvanseg.kotlincommons.collections.BiKeyHashMap.K1, bvanseg.kotlincommons.collections.BiKeyHashMap.K2)/key2">key2</span><span class="symbol">:</span>&nbsp;<span class="identifier">K2</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Boolean</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="contains-value.html">containsValue</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">containsValue</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.collections.BiKeyHashMap$containsValue(bvanseg.kotlincommons.collections.BiKeyHashMap.V)/value">value</span><span class="symbol">:</span>&nbsp;<span class="identifier">V</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Boolean</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="get.html">get</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">get</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.collections.BiKeyHashMap$get(bvanseg.kotlincommons.collections.BiKeyHashMap.K1, bvanseg.kotlincommons.collections.BiKeyHashMap.K2)/key1">key1</span><span class="symbol">:</span>&nbsp;<span class="identifier">K1</span><span class="symbol">?</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.collections.BiKeyHashMap$get(bvanseg.kotlincommons.collections.BiKeyHashMap.K1, bvanseg.kotlincommons.collections.BiKeyHashMap.K2)/key2">key2</span><span class="symbol">:</span>&nbsp;<span class="identifier">K2</span><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">V</span><span class="symbol">?</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="get-first.html">getFirst</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">getFirst</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.collections.BiKeyHashMap$getFirst(bvanseg.kotlincommons.collections.BiKeyHashMap.K1)/key1">key1</span><span class="symbol">:</span>&nbsp;<span class="identifier">K1</span><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">V</span><span class="symbol">?</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="get-second.html">getSecond</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">getSecond</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.collections.BiKeyHashMap$getSecond(bvanseg.kotlincommons.collections.BiKeyHashMap.K2)/key1">key1</span><span class="symbol">:</span>&nbsp;<span class="identifier">K2</span><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">V</span><span class="symbol">?</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="is-empty.html">isEmpty</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">isEmpty</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Boolean</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="iterator.html">iterator</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">iterator</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Iterator</span><span class="symbol">&lt;</span><span class="identifier">Entry</span><span class="symbol">&lt;</span><span class="identifier">K1</span><span class="symbol">,</span>&nbsp;<span class="identifier">V</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="put.html">put</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">put</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.collections.BiKeyHashMap$put(bvanseg.kotlincommons.collections.BiKeyHashMap.K1, bvanseg.kotlincommons.collections.BiKeyHashMap.K2, bvanseg.kotlincommons.collections.BiKeyHashMap.V)/key1">key1</span><span class="symbol">:</span>&nbsp;<span class="identifier">K1</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.collections.BiKeyHashMap$put(bvanseg.kotlincommons.collections.BiKeyHashMap.K1, bvanseg.kotlincommons.collections.BiKeyHashMap.K2, bvanseg.kotlincommons.collections.BiKeyHashMap.V)/key2">key2</span><span class="symbol">:</span>&nbsp;<span class="identifier">K2</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.collections.BiKeyHashMap$put(bvanseg.kotlincommons.collections.BiKeyHashMap.K1, bvanseg.kotlincommons.collections.BiKeyHashMap.K2, bvanseg.kotlincommons.collections.BiKeyHashMap.V)/value">value</span><span class="symbol">:</span>&nbsp;<span class="identifier">V</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="remove.html">remove</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">remove</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.collections.BiKeyHashMap$remove(bvanseg.kotlincommons.collections.BiKeyHashMap.K1, bvanseg.kotlincommons.collections.BiKeyHashMap.K2)/key1">key1</span><span class="symbol">:</span>&nbsp;<span class="identifier">K1</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.collections.BiKeyHashMap$remove(bvanseg.kotlincommons.collections.BiKeyHashMap.K1, bvanseg.kotlincommons.collections.BiKeyHashMap.K2)/key2">key2</span><span class="symbol">:</span>&nbsp;<span class="identifier">K2</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">V</span><span class="symbol">?</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="reverse.html">reverse</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">reverse</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="../-dual-hash-map/index.html"><span class="identifier">DualHashMap</span></a><span class="symbol">&lt;</span><span class="identifier">V</span><span class="symbol">,</span>&nbsp;<span class="identifier">K1</span><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="second-iterator.html">secondIterator</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">secondIterator</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Iterator</span><span class="symbol">&lt;</span><span class="identifier">Entry</span><span class="symbol">&lt;</span><span class="identifier">K2</span><span class="symbol">,</span>&nbsp;<span class="identifier">V</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="second-reverse.html">secondReverse</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">secondReverse</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="../-dual-hash-map/index.html"><span class="identifier">DualHashMap</span></a><span class="symbol">&lt;</span><span class="identifier">V</span><span class="symbol">,</span>&nbsp;<span class="identifier">K2</span><span class="symbol">&gt;</span></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>
