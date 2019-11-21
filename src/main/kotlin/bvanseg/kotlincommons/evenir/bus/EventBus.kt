@@ -23,9 +23,11 @@
  */
 package bvanseg.kotlincommons.evenir.bus
 
+import bvanseg.kotlincommons.any.getLogger
 import bvanseg.kotlincommons.evenir.annotations.SubscribeEvent
 import bvanseg.kotlincommons.evenir.event.InternalEvent
 import bvanseg.kotlincommons.kclasses.getKClass
+import java.lang.RuntimeException
 import kotlin.reflect.KClass
 import kotlin.reflect.full.findAnnotation
 import kotlin.reflect.full.memberFunctions
@@ -47,25 +49,32 @@ class EventBus {
         listener::class.memberFunctions.filter { it.findAnnotation<SubscribeEvent>() != null }.forEach {
             val event = InternalEvent(it, listener)
             it.valueParameters.firstOrNull()?.let {
-                val clazz = it.type.getKClass()
+                val clazz = it::class
                 if(events[clazz] == null)
                     events[clazz] = mutableListOf()
 
-                events[clazz]?.add(event)
+                events[clazz]?.let {
+                    if(it.add(event))
+                        getLogger().debug("Successfully added event $event with parameter type $clazz for listener $listener")
+                } ?: getLogger().warn("Failed to add event $event for listener $listener!")
 
-                listeners.add(listener)
-            }
+            } ?: throw RuntimeException("Failed to add event listener. Subscribed event function must have a single parameter!")
         }
+
+        listeners.add(listener)
+        getLogger().debug("Successfully added listener $listener")
     }
 
     fun removeListener(listener: Any) = listeners.remove(listener)
 
     fun fire(e: Any) {
+        getLogger().debug("Preparing to fire all events with target ${e::class}...")
         events[e::class]?.let {
             it.forEach {
+                getLogger().debug("Firing event $it with object $e")
                 it.invoke(e)
             }
-        }
+        } ?: getLogger().warn("Failed to fire event for event $e with type ${e::class}!")
     }
 
     companion object {

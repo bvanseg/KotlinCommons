@@ -23,6 +23,7 @@
  */
 package bvanseg.kotlincommons.evenir.event
 
+import bvanseg.kotlincommons.string.Textualizer
 import kotlin.reflect.KFunction
 import kotlin.reflect.full.*
 
@@ -57,4 +58,6 @@ class InternalEvent(
         extSelf?.let { map[function.extensionReceiverParameter!!] = it }
         return function.callBy(map)
     }
+
+    override fun toString(): String = Textualizer.builder(this).append("functionName", function.name).toString()
 }
