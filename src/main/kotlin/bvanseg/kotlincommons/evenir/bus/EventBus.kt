@@ -41,6 +41,8 @@ import kotlin.reflect.full.valueParameters
  */
 class EventBus {
 
+    var loggingEnabled = true
+
     private val listeners: MutableList<Any> = mutableListOf()
 
     private val events: HashMap<Class<*>, MutableList<InternalEvent>> = hashMapOf()
@@ -55,26 +57,25 @@ class EventBus {
 
                 events[clazz]?.let {
                     if(it.add(event))
-                        getLogger().debug("Successfully added event $event with parameter type $clazz for listener $listener")
-                } ?: getLogger().warn("Failed to add event $event for listener $listener!")
+                        if(loggingEnabled) getLogger().debug("Successfully added event $event with parameter type $clazz for listener $listener")
+                } ?: if(loggingEnabled) getLogger().warn("Failed to add event $event for listener $listener!")
 
             } ?: throw RuntimeException("Failed to add event listener. Subscribed event function must have a single parameter!")
         }
 
         listeners.add(listener)
-        getLogger().debug("Successfully added listener $listener")
+        if(loggingEnabled) getLogger().debug("Successfully added listener $listener")
     }
 
     fun removeListener(listener: Any) = listeners.remove(listener)
 
     fun fire(e: Any) {
-        getLogger().debug("Preparing to fire all events with target ${e::class.java}...")
         events[e::class.java]?.let {
             it.forEach {
-                getLogger().debug("Firing event $it with object $e")
+                if(loggingEnabled) getLogger().debug("Firing event $it with object $e")
                 it.invoke(e)
             }
-        } ?: getLogger().warn("Failed to fire event for event $e with type ${e::class.java}!")
+        }
     }
 
     companion object {
