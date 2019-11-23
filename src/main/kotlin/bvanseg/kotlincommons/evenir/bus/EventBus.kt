@@ -43,13 +43,13 @@ class EventBus {
 
     private val listeners: MutableList<Any> = mutableListOf()
 
-    private val events: HashMap<KClass<*>, MutableList<InternalEvent>> = hashMapOf()
+    private val events: HashMap<Class<*>, MutableList<InternalEvent>> = hashMapOf()
 
     fun addListener(listener: Any) {
         listener::class.memberFunctions.filter { it.findAnnotation<SubscribeEvent>() != null }.forEach {
             val event = InternalEvent(it, listener)
             it.valueParameters.firstOrNull()?.let {
-                val clazz = it::class
+                val clazz = it.type.getKClass().java
                 if(events[clazz] == null)
                     events[clazz] = mutableListOf()
 
@@ -68,13 +68,13 @@ class EventBus {
     fun removeListener(listener: Any) = listeners.remove(listener)
 
     fun fire(e: Any) {
-        getLogger().debug("Preparing to fire all events with target ${e::class}...")
-        events[e::class]?.let {
+        getLogger().debug("Preparing to fire all events with target ${e::class.java}...")
+        events[e::class.java]?.let {
             it.forEach {
                 getLogger().debug("Firing event $it with object $e")
                 it.invoke(e)
             }
-        } ?: getLogger().warn("Failed to fire event for event $e with type ${e::class}!")
+        } ?: getLogger().warn("Failed to fire event for event $e with type ${e::class.java}!")
     }
 
     companion object {
