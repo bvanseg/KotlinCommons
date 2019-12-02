@@ -27,8 +27,6 @@ import bvanseg.kotlincommons.any.getLogger
 import bvanseg.kotlincommons.evenir.annotations.SubscribeEvent
 import bvanseg.kotlincommons.evenir.event.InternalEvent
 import bvanseg.kotlincommons.kclasses.getKClass
-import java.lang.RuntimeException
-import kotlin.reflect.KClass
 import kotlin.reflect.full.findAnnotation
 import kotlin.reflect.full.memberFunctions
 import kotlin.reflect.full.valueParameters
@@ -40,39 +38,37 @@ import kotlin.reflect.full.valueParameters
  * @since 2.1.0
  */
 class EventBus {
-
-    var loggingEnabled = true
-
+    private val log = getLogger()
     private val listeners: MutableList<Any> = mutableListOf()
-
     private val events: HashMap<Class<*>, MutableList<InternalEvent>> = hashMapOf()
 
     fun addListener(listener: Any) {
-        listener::class.memberFunctions.filter { it.findAnnotation<SubscribeEvent>() != null }.forEach {
-            val event = InternalEvent(it, listener)
-            it.valueParameters.firstOrNull()?.let {
-                val clazz = it.type.getKClass().java
-                if(events[clazz] == null)
+        listener::class.memberFunctions.filter { it.findAnnotation<SubscribeEvent>() != null }.forEach { function ->
+            val event = InternalEvent(function, listener)
+            function.valueParameters.firstOrNull()?.let { param ->
+                val clazz = param.type.getKClass().java
+                if (events[clazz] == null)
                     events[clazz] = mutableListOf()
 
                 events[clazz]?.let {
-                    if(it.add(event))
-                        if(loggingEnabled) getLogger().debug("Successfully added event $event with parameter type $clazz for listener $listener")
-                } ?: if(loggingEnabled) getLogger().warn("Failed to add event $event for listener $listener!")
+                    if (it.add(event))
+                        log.debug("Successfully added event $event with parameter type $clazz for listener $listener")
+                } ?: log.warn("Failed to add event $event for listener $listener!")
 
-            } ?: throw RuntimeException("Failed to add event listener. Subscribed event function must have a single parameter!")
+            }
+                ?: throw RuntimeException("Failed to add event listener. Subscribed event function must have a single parameter!")
         }
 
         listeners.add(listener)
-        if(loggingEnabled) getLogger().debug("Successfully added listener $listener")
+        log.debug("Successfully added listener $listener")
     }
 
     fun removeListener(listener: Any) = listeners.remove(listener)
 
     fun fire(e: Any) {
-        events[e::class.java]?.let {
-            it.forEach {
-                if(loggingEnabled) getLogger().debug("Firing event $it with object $e")
+        events[e::class.java]?.let { list ->
+            list.forEach {
+                log.debug("Firing event $it with object $e")
                 it.invoke(e)
             }
         }
