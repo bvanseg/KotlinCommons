@@ -23,15 +23,15 @@
  */
 package bvanseg.kotlincommons.armada
 
+import bvanseg.kotlincommons.any.getLogger
+import bvanseg.kotlincommons.armada.annotations.*
 import bvanseg.kotlincommons.armada.commands.BaseCommand
 import bvanseg.kotlincommons.armada.commands.CommandModule
 import bvanseg.kotlincommons.armada.commands.InternalCommand
 import bvanseg.kotlincommons.armada.contexts.Context
 import bvanseg.kotlincommons.armada.contexts.EmptyContext
-import bvanseg.kotlincommons.armada.gears.Gear
-import bvanseg.kotlincommons.any.getLogger
-import bvanseg.kotlincommons.armada.annotations.*
 import bvanseg.kotlincommons.armada.events.*
+import bvanseg.kotlincommons.armada.gears.Gear
 import bvanseg.kotlincommons.armada.transformers.*
 import bvanseg.kotlincommons.evenir.bus.EventBus
 import kotlin.collections.set
@@ -48,28 +48,22 @@ import kotlin.reflect.full.memberFunctions
  * @since 2.1.0
  */
 class CommandManager<T>(val prefix: String = "!") {
-
+    private val log = getLogger()
     var capsInsensitive = true
-
     val commandModules: HashMap<String, CommandModule> = HashMap()
-
     val gears: ArrayList<Gear> = ArrayList()
-
     val transformers: HashMap<KClass<*>, Transformer<*>> = HashMap()
-
     // Stores alternative prefixes to a key of the developer's desired type.
     val prefixes: HashMap<T, String> = HashMap()
-
     // Used internally for removing whitespace on commands.
     private val whitespaceRegex = Regex("\\s+")
-
     // The event bus used for handling Armada's events.
     val eventBus = EventBus()
 
     init {
         val e = Init()
         eventBus.fire(e)
-        if(!e.isCancelled) {
+        if (e.isCancelled)
             addTransformers(
                 IntTransformer,
                 DoubleTransformer,
@@ -85,7 +79,6 @@ class CommandManager<T>(val prefix: String = "!") {
                 BigDecimalTransformer,
                 TimeUnitTransformer
             )
-        }
     }
 
     companion object {
@@ -95,7 +88,8 @@ class CommandManager<T>(val prefix: String = "!") {
             IntRange::class,
             FloatRange::class,
             DoubleRange::class,
-            LongRange::class)
+            LongRange::class
+        )
     }
 
     /**
@@ -114,31 +108,30 @@ class CommandManager<T>(val prefix: String = "!") {
      */
     fun execute(rawCommand: String, context: Context = EmptyContext, key: T? = null): Any? {
         val tempPrefix = if(key != null) (prefixes[key] ?: prefix) else prefix
-
         if (!rawCommand.startsWith(tempPrefix))
             return null
 
         val commandNameAndArgs = stripPrefix(rawCommand, tempPrefix).trim().split(whitespaceRegex, limit = 2)
-
         var commandName = commandNameAndArgs[0]
-        this.getLogger().debug("Receiving command: $commandName with prefix $tempPrefix")
+        log.debug("Receiving command: $commandName with prefix $tempPrefix")
 
         if (capsInsensitive)
             commandName = commandName.toLowerCase()
         commandModules[commandName]?.let {
             val args = if (commandNameAndArgs.size == 1) "" else commandNameAndArgs[1]
-            this.getLogger().debug("Executing command ($commandName) from CommandModule (${it.tag})")
+            log.debug("Executing command ($commandName) from CommandModule (${it.tag})")
             val command = it.findCandidateCommand(args)
             command?.let { cmd ->
-                val pre = CommandExecuteEvent.Pre(this)
-                val post = CommandExecuteEvent.Post(this)
+                val pre = CommandExecuteEvent.Pre(this, cmd)
                 eventBus.fire(pre)
-                val result = if(!pre.isCancelled) cmd.invoke(args, context) else null
-                eventBus.fire(post)
+                if (pre.isCancelled)
+                    return null
+                val result = cmd.invoke(args, context)
+                eventBus.fire(CommandExecuteEvent.Post(this, cmd, result))
                 return result
             }
         }
-        this.getLogger().debug("Command $commandName does not exist!")
+        log.debug("Command $commandName does not exist!")
         return null
     }
 
@@ -160,14 +153,7 @@ class CommandManager<T>(val prefix: String = "!") {
     /**
      * Fetches a {@link Gear} by its name. Returns null if no such gear is found.
      */
-    fun getGear(gearName: String): Gear? {
-        gears.forEach {
-            if(it.name.toLowerCase() == gearName.toLowerCase())
-                return it
-        }
-        return null
-    }
-
+    fun getGear(gearName: String): Gear? = gears.find { it.name.equals(gearName, true) }
 
     /**
      * Registers a {@link Gear} instance's class to the command manager.
@@ -195,7 +181,7 @@ class CommandManager<T>(val prefix: String = "!") {
             commandModules[methodName]?.commands?.add(com)
             gear.commands.add(com)
             eventBus.fire(post)
-            this.getLogger().debug("Registered base command (${com.name}) for gear (${gear::class})")
+            log.debug("Registered base command (${com.name}) for gear (${gear::class})")
         }
     }
 
@@ -216,7 +202,7 @@ class CommandManager<T>(val prefix: String = "!") {
         val post = GearAddEvent.Post(gear, this)
         eventBus.fire(pre)
         if(!pre.isCancelled) return
-        this.getLogger().debug("Registering gear ${gear::class}...")
+        log.debug("Registering gear ${gear::class}...")
         gear.commandManager = this
         gears.add(gear)
         gear::class.memberFunctions.filter { it.findAnnotation<Command>() != null }.forEach { method ->
@@ -236,10 +222,10 @@ class CommandManager<T>(val prefix: String = "!") {
             }
             commandModules[methodName]?.commands?.add(command)
             gear.commands.add(command)
-            this.getLogger().debug("Registered command (${command.name}) for gear (${gear::class})")
+            log.debug("Registered command (${command.name}) for gear (${gear::class})")
         }
         eventBus.fire(post)
-        this.getLogger().debug("Successfully registered gear (${gear::class})")
+        log.debug("Successfully registered gear (${gear::class})")
     }
 
     /**
@@ -252,7 +238,7 @@ class CommandManager<T>(val prefix: String = "!") {
         if(!pre.isCancelled) return
         transformers[transformer.type] = transformer
         eventBus.fire(post)
-        this.getLogger().debug("Registered transformer with type (${transformer.type})")
+        log.debug("Registered transformer with type (${transformer.type})")
     }
 
     /**
