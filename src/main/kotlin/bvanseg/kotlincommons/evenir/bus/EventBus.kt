@@ -29,6 +29,7 @@ import bvanseg.kotlincommons.evenir.event.InternalEvent
 import bvanseg.kotlincommons.kclasses.getKClass
 import kotlin.reflect.full.findAnnotation
 import kotlin.reflect.full.memberFunctions
+import kotlin.reflect.full.superclasses
 import kotlin.reflect.full.valueParameters
 
 /**
@@ -70,6 +71,16 @@ class EventBus {
             list.forEach {
                 log.debug("Firing event $it with object $e")
                 it.invoke(e)
+            }
+
+            // Walk up the superclasses and fire those, as well.
+            for(c in e::class.superclasses)
+            {
+                events[c.java]?.let {
+                    it.forEach {
+                        it.invoke(e)
+                    }
+                }
             }
         }
     }
