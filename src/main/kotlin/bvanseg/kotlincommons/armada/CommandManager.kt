@@ -163,7 +163,7 @@ class CommandManager<T>(val prefix: String = "!") {
         val pre = CommandAddEvent.Pre(command, this)
         val post = CommandAddEvent.Post(command, this)
         eventBus.fire(pre)
-        if(!pre.isCancelled) return
+        if(pre.isCancelled) return
         command::class.memberFunctions.filter { it.findAnnotation<Invoke>() != null }.forEach {
             val com = InternalCommand(this, it, gear, command)
             for(annotation in com.function.annotations) {
@@ -201,7 +201,7 @@ class CommandManager<T>(val prefix: String = "!") {
         val pre = GearAddEvent.Pre(gear, this)
         val post = GearAddEvent.Post(gear, this)
         eventBus.fire(pre)
-        if(!pre.isCancelled) return
+        if(pre.isCancelled) return
         log.debug("Registering gear ${gear::class}...")
         gear.commandManager = this
         gears.add(gear)
@@ -235,7 +235,7 @@ class CommandManager<T>(val prefix: String = "!") {
         val pre = TransformerAddEvent.Pre(transformer, this)
         val post = TransformerAddEvent.Post(transformer, this)
         eventBus.fire(pre)
-        if(!pre.isCancelled) return
+        if(pre.isCancelled) return
         transformers[transformer.type] = transformer
         eventBus.fire(post)
         log.debug("Registered transformer with type (${transformer.type})")
