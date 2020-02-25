@@ -63,7 +63,7 @@ class CommandManager<T>(val prefix: String = "!") {
     init {
         val e = Init()
         eventBus.fire(e)
-        if (e.isCancelled)
+        if (!e.isCancelled)
             addTransformers(
                 IntTransformer,
                 DoubleTransformer,
