@@ -81,10 +81,9 @@ class InternalCommand(
 
             // Add shorthand version of this command to the command manager.
             annotation.aliases.forEach { alias ->
-                val lowerAlias = alias.toLowerCase()
-                if(commandManager.commandModules[lowerAlias] == null && alias != "") {
-                    commandManager.commandModules[lowerAlias] = CommandModule(alias, commandManager)
-                    commandManager.commandModules[lowerAlias]?.commands?.add(this)
+                if(alias != "") {
+                    val lowerAlias = if(commandManager.capsInsensitive) alias.toLowerCase() else alias
+                    commandManager.aliasMap[lowerAlias] = function.name
                 }
             }
             rawArgs = annotation.rawArgs
@@ -132,10 +131,9 @@ class InternalCommand(
 
             // Add shorthand version of this command to the command manager.
             baseClass.aliases.forEach { alias ->
-                val lowerAlias = alias.toLowerCase()
-                if(commandManager.commandModules[lowerAlias] == null && alias != "") {
-                    commandManager.commandModules[lowerAlias] = CommandModule(alias, commandManager)
-                    commandManager.commandModules[lowerAlias]?.commands?.add(this)
+                if(alias != "") {
+                    val lowerAlias = if(commandManager.capsInsensitive) alias.toLowerCase() else alias
+                    commandManager.aliasMap[lowerAlias] = function.name
                 }
             }
             rawArgs = baseClass.rawArgs

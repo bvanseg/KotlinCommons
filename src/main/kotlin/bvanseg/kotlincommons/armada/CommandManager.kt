@@ -92,6 +92,8 @@ class CommandManager<T>(val prefix: String = "!") {
         )
     }
 
+    val aliasMap = hashMapOf<String, String>()
+
     /**
      * Strips the prefix away from the front of raw command input.
      */
@@ -117,6 +119,10 @@ class CommandManager<T>(val prefix: String = "!") {
 
         if (capsInsensitive)
             commandName = commandName.toLowerCase()
+
+        if(aliasMap[commandName] != null)
+            commandName = aliasMap[commandName]!!
+
         commandModules[commandName]?.let {
             val args = if (commandNameAndArgs.size == 1) "" else commandNameAndArgs[1]
             log.debug("Executing command ($commandName) from CommandModule (${it.tag})")
