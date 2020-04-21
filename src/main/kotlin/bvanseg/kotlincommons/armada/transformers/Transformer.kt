@@ -49,7 +49,7 @@ abstract class Transformer<T : Any> {
      */
     abstract fun parse(input: String, ctx: Context? = EmptyContext): T?
 
-    open fun parse(parameter: KParameter, input: String, ctx: Context? = EmptyContext): T? = null
+    open fun parse(parameter: KParameter, input: String, ctx: Context? = EmptyContext): T? = parse(input, ctx)
 
     /**
      * Suggests possible values that contain the given [input] argument
