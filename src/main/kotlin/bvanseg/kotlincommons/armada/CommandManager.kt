@@ -128,12 +128,12 @@ class CommandManager<T>(val prefix: String = "!") {
             log.debug("Executing command ($commandName) from CommandModule (${it.tag})")
             val command = it.findCandidateCommand(args)
             command?.let { cmd ->
-                val pre = CommandExecuteEvent.Pre(this, cmd)
+                val pre = CommandExecuteEvent.Pre(this, cmd, context)
                 eventBus.fire(pre)
                 if (pre.isCancelled)
                     return null
                 val result = cmd.invoke(args, context)
-                eventBus.fire(CommandExecuteEvent.Post(this, cmd, result))
+                eventBus.fire(CommandExecuteEvent.Post(this, cmd, context, result))
                 return result
             }
         }

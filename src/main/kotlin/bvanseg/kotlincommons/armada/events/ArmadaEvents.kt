@@ -26,40 +26,35 @@ package bvanseg.kotlincommons.armada.events
 import bvanseg.kotlincommons.armada.CommandManager
 import bvanseg.kotlincommons.armada.commands.BaseCommand
 import bvanseg.kotlincommons.armada.commands.InternalCommand
+import bvanseg.kotlincommons.armada.contexts.Context
 import bvanseg.kotlincommons.armada.gears.Gear
 import bvanseg.kotlincommons.armada.transformers.Transformer
 
 class Init : ArmadaEvent()
 
-open class CommandEvent(open val manager: CommandManager<*>) : ArmadaEvent()
-open class CommandExecuteEvent(override val manager: CommandManager<*>, val command: InternalCommand) :
+open class CommandEvent(val manager: CommandManager<*>) : ArmadaEvent()
+open class CommandExecuteEvent(manager: CommandManager<*>, val command: InternalCommand, val context: Context) :
     CommandEvent(manager) {
-    class Pre(override val manager: CommandManager<*>, command: InternalCommand) : CommandExecuteEvent(manager, command)
-    class Post(override val manager: CommandManager<*>, command: InternalCommand, val result: Any?) :
-        CommandExecuteEvent(manager, command)
+    class Pre(manager: CommandManager<*>, command: InternalCommand, context: Context) :
+        CommandExecuteEvent(manager, command, context)
+    class Post(manager: CommandManager<*>, command: InternalCommand, context: Context, val result: Any?) :
+        CommandExecuteEvent(manager, command, context)
 }
 
-open class CommandAddEvent(open val command: BaseCommand, override val manager: CommandManager<*>) :
-    CommandEvent(manager) {
-    class Pre(override val command: BaseCommand, override val manager: CommandManager<*>) :
-        CommandAddEvent(command, manager)
-
-    class Post(override val command: BaseCommand, override val manager: CommandManager<*>) :
-        CommandAddEvent(command, manager)
+open class CommandAddEvent(val command: BaseCommand, manager: CommandManager<*>) : CommandEvent(manager) {
+    class Pre(command: BaseCommand, manager: CommandManager<*>) : CommandAddEvent(command, manager)
+    class Post(command: BaseCommand, manager: CommandManager<*>) : CommandAddEvent(command, manager)
 }
 
-open class GearEvent(open val gear: Gear, open val manager: CommandManager<*>) : ArmadaEvent()
-open class GearAddEvent(override val gear: Gear, override val manager: CommandManager<*>) : GearEvent(gear, manager) {
-    class Pre(override val gear: Gear, override val manager: CommandManager<*>) : GearAddEvent(gear, manager)
-    class Post(override val gear: Gear, override val manager: CommandManager<*>) : GearAddEvent(gear, manager)
+open class GearEvent(val gear: Gear, val manager: CommandManager<*>) : ArmadaEvent()
+open class GearAddEvent(gear: Gear, manager: CommandManager<*>) : GearEvent(gear, manager) {
+    class Pre(gear: Gear, manager: CommandManager<*>) : GearAddEvent(gear, manager)
+    class Post(gear: Gear, manager: CommandManager<*>) : GearAddEvent(gear, manager)
 }
 
-open class TransformerEvent(open val transformer: Transformer<*>, open val manager: CommandManager<*>) : ArmadaEvent()
-open class TransformerAddEvent(override val transformer: Transformer<*>, override val manager: CommandManager<*>) :
+open class TransformerEvent(val transformer: Transformer<*>, val manager: CommandManager<*>) : ArmadaEvent()
+open class TransformerAddEvent(transformer: Transformer<*>, manager: CommandManager<*>) :
     TransformerEvent(transformer, manager) {
-    class Pre(override val transformer: Transformer<*>, override val manager: CommandManager<*>) :
-        TransformerAddEvent(transformer, manager)
-
-    class Post(override val transformer: Transformer<*>, override val manager: CommandManager<*>) :
-        TransformerAddEvent(transformer, manager)
+    class Pre(transformer: Transformer<*>, manager: CommandManager<*>) : TransformerAddEvent(transformer, manager)
+    class Post(transformer: Transformer<*>, manager: CommandManager<*>) : TransformerAddEvent(transformer, manager)
 }
