@@ -126,7 +126,7 @@ class CommandManager<T>(val prefix: String = "!") {
         commandModules[commandName]?.let {
             val args = if (commandNameAndArgs.size == 1) "" else commandNameAndArgs[1]
             log.debug("Executing command ($commandName) from CommandModule (${it.tag})")
-            val command = it.findCandidateCommand(args)
+            val command = it.findCandidateCommand(args, context)
             command?.let { cmd ->
                 val pre = CommandExecuteEvent.Pre(this, cmd, context)
                 eventBus.fire(pre)

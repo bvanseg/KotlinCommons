@@ -56,8 +56,7 @@ class InternalCommand(
 
     val data: HashMap<KClass<*>, Annotation> = HashMap()
 
-    @Suppress("UNCHECKED_CAST")
-    fun <T: Any> getData(cls: KClass<T>): T? = data[cls] as T?
+    inline fun <reified T : Annotation> getData(): T? = data[T::class] as T?
 
     init {
         val annotation = function.findAnnotation<Command>()
@@ -269,92 +268,33 @@ class InternalCommand(
      * {@link CommandModule} determine what command is best fit to handle a set of arguments.
      */
     fun softInvoke(args: String, context: Context): Int {
-
         // Is the gear disabled?
         if(!gear.isEnabled) return 0
 
-        // Loop through the commands
-        val pArgs: HashMap<String, Any?> = HashMap()
-
         val params = function.valueParameters
         val firstParam = params.firstOrNull()
-        val hasContext = firstParam?.type?.getKClass()?.isSubclassOf(Context::class) ?: false
-        if (hasContext)
-            pArgs[firstParam?.name!!] = context
 
         var score = 0
         if (args.isNotBlank()) {
             val argsList = args.split(' ').toMutableList()
             if (rawArgs) {
-                val startIndex = if (hasContext) 1 else 0
-                val argParam = params[startIndex]
-                val argParamName = argParam.name!!
-                pArgs[argParamName] = when (argParam.type.getKClass()) {
-                    String::class -> args
-                    Array<String>::class -> argsList.toTypedArray()
-                    List::class -> argsList
-                    else -> throw RuntimeException("Command $function has invalid parameter: $argParam")
-                }
+                score++
             } else {
-                var variableArguments = false
                 if (firstParam?.type?.isSubtypeOf(Context::class.createType()) == true)
                     argsList.add(0, "")
                 val paramSize = params.size
                 loop@ for ((index, arg) in argsList.withIndex()) {
-
                     if (index > paramSize - 1)
                         continue
-
                     val parameter = params[index]
                     if (parameter.type.isSubtypeOf(Context::class.createType()))
                         continue
 
-                    val value: Any? = when (parameter.type.getKClass()) {
-                        Union::class -> {
-                            val paramArgs = function.findParameterByName(parameter.name!!)!!.type.arguments
-                            Union(
-                                commandManager,
-                                context,
-                                arg,
-                                paramArgs[0].type!!.getKClass(),
-                                paramArgs[1].type!!.getKClass()
-                            )
+                    val type = parameter.type.getKClass()
+                    commandManager.transformers[type]?.let { transformer ->
+                        transformer.parse(parameter, arg, context)?.let {
+                            score += if (type == String::class) 1 else 2
                         }
-                        Array<String>::class, List::class -> {
-                            variableArguments = true
-                            break@loop
-                        }
-                        List::class -> argsList.subList(index, argsList.size).joinToString(" ")
-                        else -> {
-                            val transformer: Transformer<*>? =
-                                commandManager.transformers[parameter.type.getKClass()]
-                            if (transformer != null) {
-                                // If this is the last arg but we have more to go?
-                                if (index == paramSize - 1)
-                                    transformer.parse(parameter, argsList.joinStrings(index), context)
-                                else
-                                    transformer.parse(parameter, arg, context)
-                            } else
-                                continue@loop
-                        }
-                    }
-
-                    score++
-
-                    pArgs[parameter.name!!] = value
-                }
-
-                if (variableArguments) {
-                    val index = paramSize - 1
-                    val param = params[index]
-                    val subList = argsList.subList(index, argsList.lastIndex + 1)
-                    @Suppress("IMPLICIT_CAST_TO_ANY")
-                    when (param.type.getKClass()) {
-                        Array<String>::class -> subList.toTypedArray()
-                        List::class -> subList.toList()
-                        else -> null
-                    }?.let {
-                        pArgs[param.name!!] = it
                     }
                 }
             }
