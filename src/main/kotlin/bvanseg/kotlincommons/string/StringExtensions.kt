@@ -63,3 +63,13 @@ fun String.toURI(): URI = URI.create(this)
  * @since 2.1.6
  */
 fun String.toURL(): URL = URL(this)
+
+/**
+ * Returns a truncated string containing the first [n] characters from this string, or the entire string if this string
+ * is shorter.
+ *
+ * @author bright_spark
+ * @since 2.2.4
+ */
+fun String.truncate(n: Int, truncated: String = "..."): String =
+    if (this.length <= n) this else take(n - truncated.length) + truncated
