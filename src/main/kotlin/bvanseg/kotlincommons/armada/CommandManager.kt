@@ -219,6 +219,10 @@ class CommandManager<T>(val prefix: String = "!") {
                     command.data[annotation.annotationClass] = annotation
                 }
             }
+            for(annotation in gear::class.annotations)
+            {
+                command.data[annotation.annotationClass] = annotation
+            }
             var methodName = method.name
             if (capsInsensitive)
                 methodName = methodName.toLowerCase()
