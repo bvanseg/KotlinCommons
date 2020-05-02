@@ -23,6 +23,7 @@
  */
 package bvanseg.kotlincommons.time
 
+import java.time.Duration
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeFormatterBuilder
@@ -46,3 +47,40 @@ private val fileSafeFormat = DateTimeFormatterBuilder()
  * Converts this [LocalDateTime] to a [String] format which is safe to be used in file names
  */
 fun LocalDateTime.toFileSafeString(): String = this.format(fileSafeFormat)
+
+/**
+ * Formats this duration to give a readable String in hours, minutes and seconds.
+ * e.g. 1 hour, 30 minutes and 10 seconds
+ *
+ * @param millis Whether milliseconds should be included in the returned String
+ */
+fun Duration.format(millis: Boolean = false): String {
+	val milliseconds = if (millis) this.toMillis() % 1000 else 0
+	val seconds = this.seconds % 60
+	val minutes = (this.seconds % 3600) / 60
+	val hours = this.seconds / 3600
+
+	val list = ArrayList<Pair<Long, String>>()
+	if (hours > 0) list.add(hours to "hour")
+	if (minutes > 0) list.add(minutes to "minute")
+	if (seconds > 0) list.add(seconds to "second")
+	if (milliseconds > 0) list.add(milliseconds to "millisecond")
+
+	val size = list.size
+	if (size == 0) return "0 ${if (millis) "milli" else ""}seconds"
+	if (size == 1) return timePairToString(list[0])
+
+	val sb = StringBuilder()
+	list.forEachIndexed { index, timePair ->
+		sb.append(timePairToString(timePair))
+		when (size - index) {
+			1 -> Unit
+			2 -> sb.append(" and ")
+			else -> sb.append(", ")
+		}
+	}
+	return sb.toString()
+}
+
+private fun timePairToString(pair: Pair<Long, String>): String =
+	"${pair.first} ${pair.second}${if (pair.first != 1L) "s" else ""}"
