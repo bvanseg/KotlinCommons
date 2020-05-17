@@ -43,10 +43,11 @@ import kotlin.reflect.full.*
  * @since 2.1.0
  */
 class InternalCommand(
-    private val commandManager: CommandManager<*>,
+    val commandManager: CommandManager<*>,
+    val commandModule: CommandModule,
     val function: KFunction<*>,
-    private val gear: Gear,
-    private val baseClass: BaseCommand? = null
+    val gear: Gear,
+    val baseClass: BaseCommand? = null
 ) {
 
     val name = function.name

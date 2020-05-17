@@ -171,20 +171,22 @@ class CommandManager<T>(val prefix: String = "!") {
         eventBus.fire(pre)
         if(pre.isCancelled) return
         command::class.memberFunctions.filter { it.findAnnotation<Invoke>() != null }.forEach {
-            val com = InternalCommand(this, it, gear, command)
-            for(annotation in com.function.annotations) {
-                if(annotation.annotationClass != Command::class) {
-                    com.data[annotation.annotationClass] = annotation
-                }
-            }
             var methodName = it.name
             if(capsInsensitive)
                 methodName = methodName.toLowerCase()
 
-            if(commandModules[methodName] == null) {
+            if(commandModules[methodName] == null)
                 commandModules[methodName] = CommandModule(methodName, this)
-            }
-            commandModules[methodName]?.commands?.add(com)
+
+            val module = commandModules[methodName]!!
+
+            val com = InternalCommand(this, module, it, gear, command)
+
+            for(annotation in com.function.annotations)
+                if(annotation.annotationClass != Command::class)
+                    com.data[annotation.annotationClass] = annotation
+
+            module.commands.add(com)
             gear.commands.add(com)
             eventBus.fire(post)
             log.debug("Registered base command (${com.name}) for gear (${gear::class})")
@@ -212,28 +214,29 @@ class CommandManager<T>(val prefix: String = "!") {
         gear.commandManager = this
         gears.add(gear)
         gear::class.memberFunctions.filter { it.findAnnotation<Command>() != null }.forEach { method ->
-            val command = InternalCommand(this, method, gear)
-            for (annotation in command.function.annotations) {
-                if (annotation.annotationClass != Command::class) {
-                    // Attach data to command
-                    command.data[annotation.annotationClass] = annotation
-                }
-            }
-            for(annotation in gear::class.annotations)
-            {
-                command.data[annotation.annotationClass] = annotation
-            }
             var methodName = method.name
             if (capsInsensitive)
                 methodName = methodName.toLowerCase()
 
-            if(commandModules[methodName] == null) {
+            if(commandModules[methodName] == null)
                 commandModules[methodName] = CommandModule(methodName, this)
-            }
-            commandModules[methodName]?.commands?.add(command)
+
+            val module = commandModules[methodName]!!
+
+            val command = InternalCommand(this, module, method, gear)
+
+            for (annotation in command.function.annotations)
+                if (annotation.annotationClass != Command::class)
+                    command.data[annotation.annotationClass] = annotation
+
+            for(annotation in gear::class.annotations)
+                command.data[annotation.annotationClass] = annotation
+
+            module.commands.add(command)
             gear.commands.add(command)
             log.debug("Registered command (${command.name}) for gear (${gear::class})")
         }
+
         eventBus.fire(post)
         log.debug("Successfully registered gear (${gear::class})")
     }
