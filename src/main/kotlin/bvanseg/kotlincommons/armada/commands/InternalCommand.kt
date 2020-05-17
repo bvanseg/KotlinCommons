@@ -51,6 +51,7 @@ class InternalCommand(
 ) {
 
     val name = function.name
+    val aliases: List<String>
     val description: String
     val usage: String
     private val rawArgs: Boolean
@@ -64,6 +65,7 @@ class InternalCommand(
 
         if(annotation != null) {
             description = annotation.description
+            aliases = annotation.aliases.toList()
 
             usage = if (annotation.usage.isNotEmpty())
                 annotation.usage.joinToString("\n") { "${commandManager.prefix}${function.name} $it" }
@@ -115,6 +117,7 @@ class InternalCommand(
             }
         } else {
             description = baseClass!!.description
+            aliases = baseClass.aliases
             usage = if (baseClass.usage.isNotEmpty())
                 baseClass.usage.joinToString("\n") { "${commandManager.prefix}${function.name} $it" }
             else {
