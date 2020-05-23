@@ -23,12 +23,12 @@
  */
 package bvanseg.kotlincommons.armada.commands
 
+import bvanseg.kotlincommons.armada.CommandManager
 import bvanseg.kotlincommons.armada.annotations.Command
 import bvanseg.kotlincommons.armada.contexts.Context
 import bvanseg.kotlincommons.armada.gears.Gear
 import bvanseg.kotlincommons.armada.transformers.Transformer
 import bvanseg.kotlincommons.armada.utilities.Union
-import bvanseg.kotlincommons.armada.CommandManager
 import bvanseg.kotlincommons.kclasses.getKClass
 import bvanseg.kotlincommons.string.joinStrings
 import kotlin.reflect.KClass
@@ -43,7 +43,7 @@ import kotlin.reflect.full.*
  * @since 2.1.0
  */
 class InternalCommand(
-    val commandManager: CommandManager<*>,
+    val commandManager: CommandManager<in Any>,
     val commandModule: CommandModule,
     val function: KFunction<*>,
     val gear: Gear,
@@ -53,7 +53,8 @@ class InternalCommand(
     val name = function.name
     val aliases: List<String>
     val description: String
-    val usage: String
+    // The input arg should be the same as used in CommandManager#getPrefix
+    val usage: (Any?) -> String
     private val rawArgs: Boolean
 
     val data: HashMap<KClass<*>, Annotation> = HashMap()
@@ -63,16 +64,13 @@ class InternalCommand(
     init {
         val annotation = function.findAnnotation<Command>()
 
-        if(annotation != null) {
-            description = annotation.description
-            aliases = annotation.aliases.toList()
-
-            usage = if (annotation.usage.isNotEmpty())
-                annotation.usage.joinToString("\n") { "${commandManager.prefix}${function.name} $it" }
+        fun createUsage(annotationUsage: Array<String>): (Any?) -> String {
+            val string = if (annotationUsage.isNotEmpty())
+                annotationUsage.joinToString("\n") { "<PREFIX>${function.name} $it" }
             else {
                 function.parameters
                     .filter { !it.type.isSubtypeOf(Context::class.createType()) && !it.type.isSubtypeOf(Gear::class.createType()) }
-                    .joinToString(" ", "${commandManager.prefix}${function.name} ") {
+                    .joinToString(" ", "<PREFIX>${function.name} ") {
                         val paramName = it.name!!
                         if (it.isOptional)
                             "<$paramName>"
@@ -80,93 +78,56 @@ class InternalCommand(
                             "($paramName)"
                     }
             }
+            return { string.replace("<PREFIX>", commandManager.getPrefix(it)) }
+        }
 
-            // Add shorthand version of this command to the command manager.
-            annotation.aliases.forEach { alias ->
-                if(alias != "") {
-                    val lowerAlias = if(commandManager.capsInsensitive) alias.toLowerCase() else alias
-                    commandManager.aliasMap[lowerAlias] = function.name
-                }
+        fun registerAliases(aliases: Array<String>) = aliases.forEach { alias ->
+            if(alias.isNotBlank()) {
+                val lowerAlias = if(commandManager.capsInsensitive) alias.toLowerCase() else alias
+                commandManager.aliasMap[lowerAlias] = function.name
             }
-            rawArgs = annotation.rawArgs
-            if (rawArgs) {
-                // Validate arguments
-                val params = function.parameters
-                var numParams = params.size
-                var paramStart = 0
-                if (params[0].kind == KParameter.Kind.INSTANCE) {
-                    paramStart++
-                    numParams--
-                }
-                val hasContext = params[paramStart].type.getKClass().isSubclassOf(Context::class)
-                val expectedNumParams = if (hasContext) 2 else 1
-                if (numParams > expectedNumParams)
-                    throw RuntimeException("Command $function has invalid number of parameters for rawArgs")
-                val argParamIndex = if (hasContext) paramStart + 1 else paramStart
-                when (params[argParamIndex].type.getKClass()) {
-                    String::class, Array<String>::class -> {}
-                    List::class -> {
-                        params[argParamIndex].type.arguments[0].type?.let {
-                            if (it.getKClass() != String::class)
-                                throw RuntimeException("Command $function has invalid parameter: ${params[argParamIndex]}")
-                        }
+        }
+
+        fun validateRawArgs() {
+            val params = function.parameters
+            var numParams = params.size
+            var paramStart = 0
+            if (params[0].kind == KParameter.Kind.INSTANCE) {
+                paramStart++
+                numParams--
+            }
+            val hasContext = params[paramStart].type.getKClass().isSubclassOf(Context::class)
+            val expectedNumParams = if (hasContext) 2 else 1
+            if (numParams > expectedNumParams)
+                throw RuntimeException("Command $function has invalid number of parameters for rawArgs")
+            val argParamIndex = if (hasContext) paramStart + 1 else paramStart
+            when (params[argParamIndex].type.getKClass()) {
+                String::class, Array<String>::class -> {}
+                List::class -> {
+                    params[argParamIndex].type.arguments[0].type?.let {
+                        if (it.getKClass() != String::class)
+                            throw RuntimeException("Command $function has invalid parameter: ${params[argParamIndex]}")
                     }
-                    else -> throw RuntimeException("Command $function has invalid parameter: ${params[argParamIndex]}")
                 }
-
+                else -> throw RuntimeException("Command $function has invalid parameter: ${params[argParamIndex]}")
             }
+        }
+
+        if (annotation != null) {
+            description = annotation.description
+            aliases = annotation.aliases.toList()
+            usage = createUsage(annotation.usage)
+            registerAliases(annotation.aliases)
+            rawArgs = annotation.rawArgs
         } else {
             description = baseClass!!.description
             aliases = baseClass.aliases
-            usage = if (baseClass.usage.isNotEmpty())
-                baseClass.usage.joinToString("\n") { "${commandManager.prefix}${function.name} $it" }
-            else {
-                function.parameters
-                    .filter { !it.type.isSubtypeOf(Context::class.createType()) && !it.type.isSubtypeOf(Gear::class.createType()) }
-                    .joinToString(" ", "${commandManager.prefix}${function.name} ") {
-                        val paramName = it.name
-                        if (it.isOptional)
-                            "<$paramName>"
-                        else
-                            "($paramName)"
-                    }
-            }
-
-            // Add shorthand version of this command to the command manager.
-            baseClass.aliases.forEach { alias ->
-                if(alias != "") {
-                    val lowerAlias = if(commandManager.capsInsensitive) alias.toLowerCase() else alias
-                    commandManager.aliasMap[lowerAlias] = function.name
-                }
-            }
+            usage = createUsage(baseClass.usage.toTypedArray())
+            registerAliases(baseClass.aliases.toTypedArray())
             rawArgs = baseClass.rawArgs
-            if (rawArgs) {
-                // Validate arguments
-                val params = function.parameters
-                var numParams = params.size
-                var paramStart = 0
-                if (params[0].kind == KParameter.Kind.INSTANCE) {
-                    paramStart++
-                    numParams--
-                }
-                val hasContext = params[paramStart].type.getKClass().isSubclassOf(Context::class)
-                val expectedNumParams = if (hasContext) 2 else 1
-                if (numParams > expectedNumParams)
-                    throw RuntimeException("Command $function has invalid number of parameters for rawArgs")
-                val argParamIndex = if (hasContext) paramStart + 1 else paramStart
-                when (params[argParamIndex].type.getKClass()) {
-                    String::class, Array<String>::class -> {}
-                    List::class -> {
-                        params[argParamIndex].type.arguments[0].type?.let {
-                            if (it.getKClass() != String::class)
-                                throw RuntimeException("Command $function has invalid parameter: ${params[argParamIndex]}")
-                        }
-                    }
-                    else -> throw RuntimeException("Command $function has invalid parameter: ${params[argParamIndex]}")
-                }
-
-            }
         }
+        if (rawArgs)
+            validateRawArgs()
     }
 
     /**

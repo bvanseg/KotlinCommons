@@ -47,7 +47,7 @@ import kotlin.reflect.full.memberFunctions
  * @author Boston Vanseghi
  * @since 2.1.0
  */
-class CommandManager<T>(val prefix: String = "!") {
+class CommandManager<T : Any>(val prefix: String = "!") {
     private val log = getLogger()
     var capsInsensitive = true
     val commandModules: HashMap<String, CommandModule> = HashMap()
@@ -180,7 +180,8 @@ class CommandManager<T>(val prefix: String = "!") {
 
             val module = commandModules[methodName]!!
 
-            val com = InternalCommand(this, module, it, gear, command)
+            @Suppress("UNCHECKED_CAST")
+            val com = InternalCommand(this as CommandManager<Any>, module, it, gear, command)
 
             for(annotation in com.function.annotations)
                 if(annotation.annotationClass != Command::class)
@@ -223,7 +224,8 @@ class CommandManager<T>(val prefix: String = "!") {
 
             val module = commandModules[methodName]!!
 
-            val command = InternalCommand(this, module, method, gear)
+            @Suppress("UNCHECKED_CAST")
+            val command = InternalCommand(this as CommandManager<Any>, module, method, gear)
 
             for (annotation in command.function.annotations)
                 if (annotation.annotationClass != Command::class)
