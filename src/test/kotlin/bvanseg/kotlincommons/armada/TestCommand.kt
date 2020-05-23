@@ -1,3 +1,5 @@
+package bvanseg.kotlincommons.armada
+
 import bvanseg.kotlincommons.armada.annotations.Invoke
 import bvanseg.kotlincommons.armada.commands.BaseCommand
 import java.math.BigInteger
