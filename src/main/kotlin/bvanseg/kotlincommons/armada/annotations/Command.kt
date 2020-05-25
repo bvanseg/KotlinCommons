@@ -24,10 +24,33 @@
 package bvanseg.kotlincommons.armada.annotations
 
 /**
- * The basis for all commands. Any functions within a {@link Gear} annotated with this annotation will be designated as a command.
+ * The basis for all commands. Any functions within a [bvanseg.kotlincommons.armada.gears.Gear] annotated with this
+ * annotation will be designated as a command.
  *
  * @author Boston Vanseghi
  * @since 2.1.0
  */
 @Target(AnnotationTarget.FUNCTION)
-annotation class Command(val description: String = "", val rawArgs: Boolean = false, val aliases: Array<String> = [], val usage: Array<String> = [])
+annotation class Command(
+	/**
+	 * A description of what the command does.
+	 */
+	val description: String = "",
+	/**
+	 * Whether command arguments should instead not be parsed into declared types, and instead just be passed directly
+	 * as an [Array] of [String]s.
+	 */
+	val rawArgs: Boolean = false,
+	/**
+	 * An [Array] of other names that can be used to execute this command.
+	 */
+	val aliases: Array<String> = [],
+	/**
+	 * An [Array] of [String]s showing how to use this command.
+	 * Any cases of the text "<PREFIX>" will be replaced with the appropriate command prefix.
+	 * Any cases of the text "<NAME>" will be replaced with the command name.
+	 *
+	 * If no value is provided here, then a default usage will be generated.
+	 */
+	val usage: Array<String> = []
+)

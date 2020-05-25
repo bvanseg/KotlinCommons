@@ -1,34 +1,57 @@
 package bvanseg.kotlincommons.armada
 
-import bvanseg.kotlincommons.armada.annotations.IntRange
+import bvanseg.kotlincommons.any.getLogger
 import bvanseg.kotlincommons.armada.annotations.Command
+import bvanseg.kotlincommons.armada.annotations.IntRange
+import bvanseg.kotlincommons.armada.commands.CommandModule
 import bvanseg.kotlincommons.armada.commands.InternalCommand
 import bvanseg.kotlincommons.armada.contexts.EmptyContext
 import bvanseg.kotlincommons.armada.gears.Gear
 import bvanseg.kotlincommons.armada.utilities.Argument
 import bvanseg.kotlincommons.armada.utilities.Union
-import bvanseg.kotlincommons.any.getLogger
-import bvanseg.kotlincommons.armada.commands.CommandModule
 import bvanseg.kotlincommons.logging.debug
-import bvanseg.kotlincommons.logging.info
+import com.nhaarman.mockitokotlin2.anyOrNull
+import com.nhaarman.mockitokotlin2.argumentCaptor
+import com.nhaarman.mockitokotlin2.verify
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertAll
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments.arguments
+import org.junit.jupiter.params.provider.MethodSource
+import org.mockito.Mockito
 import java.math.BigDecimal
 import java.math.BigInteger
 import java.util.*
+import java.util.stream.Stream
 import kotlin.reflect.KFunction
 
-@Disabled
-class InternalCommandTest {
+class InternalCommandTest
+{
+    companion object
+    {
+        @JvmStatic
+        @Suppress("unused")
+        private fun intBounded() = Stream.of(
+            arguments(0, 0),
+            arguments(50, 50),
+            arguments(100, 100),
+            arguments(-1, 0),
+            arguments(101, 100),
+            arguments(5000, 100)
+        )
+    }
 
     lateinit var commandManager: CommandManager<Long>
     lateinit var gear: Gear
     lateinit var prefix: String
 
     @BeforeEach
-    fun setup() {
+    fun setup()
+    {
         commandManager = CommandManager()
         gear = TestGear()
         prefix = "!"
@@ -36,14 +59,22 @@ class InternalCommandTest {
         commandManager.addGear(gear)
     }
 
-    fun receive() {
+    @AfterEach
+    fun after()
+    {
+        Mockito.validateMockitoUsage()
+    }
+
+    fun receive()
+    {
         commandManager = CommandManager()
         gear = TestGear()
         prefix = "!"
         commandManager.addGear(gear)
         commandManager.addCommand(TestCommand())
         val scn = Scanner(System.`in`)
-        while(true) {
+        while (true)
+        {
             val input = scn.nextLine()
             try {
                 if (input.startsWith(commandManager.prefix)) this.getLogger().debug(commandManager.execute(input,
@@ -57,68 +88,94 @@ class InternalCommandTest {
     }
 
     @Test
-    fun create() {
+    fun create()
+    {
         // Given
         // When
         val command = createCommand(TestGear::testCommand)
 
         // Then
-        assertEquals("testCommand", command.name)
-        assertEquals("Description", command.description)
-        assertEquals("!testCommand (text) (num)", command.usage("!"))
+        assertAll(
+            { assertEquals("testCommand", command.name) },
+            { assertEquals("Description", command.description) },
+            { assertEquals("!testCommand (text) (num)", command.usage("!")) }
+        )
     }
 
     @Test
-    fun createOptional() {
+    fun createOptional()
+    {
         // Given
         // When
         val command = createCommand(TestGear::testCommandOptional)
 
         // Then
-        assertEquals("testCommandOptional", command.name)
-        assertEquals("Description", command.description)
-        assertEquals("!testCommandOptional <text>", command.usage("!"))
+        assertAll(
+            { assertEquals("testCommandOptional", command.name) },
+            { assertEquals("Description", command.description) },
+            { assertEquals("!testCommandOptional <text>", command.usage("!")) }
+        )
     }
 
     @Test
-    fun createWithUsage() {
+    fun createWithUsage()
+    {
         // Given
         // When
         val command = createCommand(TestGear::testCommandUsage)
 
         // Then
-        assertEquals("testCommandUsage", command.name)
-        assertEquals("Description", command.description)
+        assertAll(
+            { assertEquals("testCommandUsage", command.name) },
+            { assertEquals("Description", command.description) },
+            { assertEquals("!testCommandUsage usage1\n!testCommandUsage usage2", command.usage(null)) }
+        )
+    }
+
+    @ParameterizedTest
+    @MethodSource
+    fun intBounded(num: Int, expected: Int)
+    {
+        // Given
+        val command = spyCommand(TestGear::intBounded)
+
+        // When
+        command.invoke(num.toString(), EmptyContext)
+
+        // Then
+        argumentCaptor<Map<String, Any?>> {
+            verify(command).callNamed(capture(), anyOrNull(), anyOrNull())
+
+            assertAll(
+                { assertEquals(1, firstValue.size) },
+                { assertNotNull(firstValue["num"]) },
+                { assertEquals(expected, firstValue["num"]) }
+            )
+        }
     }
 
     @Suppress("UNCHECKED_CAST")
     private fun createCommand(function: KFunction<*>): InternalCommand =
         InternalCommand(commandManager as CommandManager<Any>, CommandModule(function.name, commandManager), function, gear)
 
-    class TestGear : Gear() {
+    private fun spyCommand(function: KFunction<*>): InternalCommand = Mockito.spy(createCommand(function))
 
-        var count = 0
-
-        @Command("Description", false)
+    class TestGear : Gear()
+    {
+        @Command("Description")
         fun testCommand(text: String, num: Int) = Unit
 
-        @Command("Description", false)
+        @Command("Description")
         fun testCommandOptional(text: String = "") = Unit
 
         @Command
-        fun test(text: String ="testme"): String = text
+        fun test(text: String = "testme"): String = text
 
-        @Command("Description", false, ["test"], ["usage1", "usage2"])
+        @Command("Description", aliases = ["test"], usage = ["<PREFIX><NAME> usage1", "<PREFIX><NAME> usage2"])
         fun testCommandUsage(text: String) = Unit
 
         @Command
-        fun count() = count++
-
-        @Command
-        fun printNumber(num: Int) = this.getLogger().debug(num)
-
-        @Command
-        fun printNumberBounded(@IntRange(0, 100) num: Int) = this.getLogger().info(num)
+        fun intBounded(@IntRange(0, 100) num: Int) = Unit
 
         @Command
         fun union(data: Union<Int, Float>) {

@@ -42,7 +42,7 @@ import kotlin.reflect.full.*
  * @author Boston Vanseghi
  * @since 2.1.0
  */
-class InternalCommand(
+open class InternalCommand(
     val commandManager: CommandManager<in Any>,
     val commandModule: CommandModule,
     val function: KFunction<*>,
@@ -66,7 +66,7 @@ class InternalCommand(
 
         fun createUsage(annotationUsage: Array<String>): (Any?) -> String {
             val string = if (annotationUsage.isNotEmpty())
-                annotationUsage.joinToString("\n") { "<PREFIX>${function.name} $it" }
+                annotationUsage.joinToString("\n") { it.replace("<NAME>", function.name) }
             else {
                 function.parameters
                     .filter { !it.type.isSubtypeOf(Context::class.createType()) && !it.type.isSubtypeOf(Gear::class.createType()) }
@@ -271,11 +271,11 @@ class InternalCommand(
     /**
      * Uses the processed arguments from {@link InternalCommand#invoke()} and executes the wrapped function with them.
      */
-    private fun callNamed(params: Map<String, Any?>, self: Any? = null, extSelf: Any? = null): Any? {
+    open internal fun callNamed(params: Map<String, Any?>, self: Any? = null, extSelf: Any? = null): Any? {
         val map = function.parameters
             .filter { params.containsKey(it.name) }
             .associateWithTo(HashMap()) { params[it.name] }
-        if(baseClass == null)
+        if (baseClass == null)
             map[function.instanceParameter!!] = gear
         else
             map[function.instanceParameter!!] = baseClass
