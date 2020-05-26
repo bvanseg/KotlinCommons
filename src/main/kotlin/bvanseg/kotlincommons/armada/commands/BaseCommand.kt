@@ -29,4 +29,5 @@ abstract class BaseCommand {
     var rawArgs: Boolean = false
     var aliases: List<String> = mutableListOf()
     var usage: List<String> = mutableListOf()
+    var examples: List<String> = mutableListOf()
 }

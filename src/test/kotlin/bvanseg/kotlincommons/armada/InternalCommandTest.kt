@@ -31,188 +31,211 @@ import kotlin.reflect.KFunction
 
 class InternalCommandTest
 {
-    companion object
-    {
-        @JvmStatic
-        @Suppress("unused")
-        private fun intBounded() = Stream.of(
-            arguments(0, 0),
-            arguments(50, 50),
-            arguments(100, 100),
-            arguments(-1, 0),
-            arguments(101, 100),
-            arguments(5000, 100)
-        )
-    }
+	companion object
+	{
+		@JvmStatic
+		@Suppress("unused")
+		private fun intBounded() = Stream.of(
+			arguments(0, 0),
+			arguments(50, 50),
+			arguments(100, 100),
+			arguments(-1, 0),
+			arguments(101, 100),
+			arguments(5000, 100)
+		)
+	}
 
-    lateinit var commandManager: CommandManager<Long>
-    lateinit var gear: Gear
-    lateinit var prefix: String
+	lateinit var commandManager: CommandManager<Long>
+	lateinit var gear: Gear
+	lateinit var prefix: String
 
-    @BeforeEach
-    fun setup()
-    {
-        commandManager = CommandManager()
-        gear = TestGear()
-        prefix = "!"
-        commandManager.prefixes[0] = "@"
-        commandManager.addGear(gear)
-    }
+	@BeforeEach
+	fun setup()
+	{
+		commandManager = CommandManager()
+		gear = TestGear()
+		prefix = "!"
+		commandManager.prefixes[0] = "@"
+		commandManager.addGear(gear)
+	}
 
-    @AfterEach
-    fun after()
-    {
-        Mockito.validateMockitoUsage()
-    }
+	@AfterEach
+	fun after()
+	{
+		Mockito.validateMockitoUsage()
+	}
 
-    fun receive()
-    {
-        commandManager = CommandManager()
-        gear = TestGear()
-        prefix = "!"
-        commandManager.addGear(gear)
-        commandManager.addCommand(TestCommand())
-        val scn = Scanner(System.`in`)
-        while (true)
-        {
-            val input = scn.nextLine()
-            try {
-                if (input.startsWith(commandManager.prefix)) this.getLogger().debug(commandManager.execute(input,
-                    EmptyContext
-                ))
-            }catch(e: Exception) {
-                e.printStackTrace()
-                continue
-            }
-        }
-    }
+	fun receive()
+	{
+		commandManager = CommandManager()
+		gear = TestGear()
+		prefix = "!"
+		commandManager.addGear(gear)
+		commandManager.addCommand(TestCommand())
+		val scn = Scanner(System.`in`)
+		while (true)
+		{
+			val input = scn.nextLine()
+			try
+			{
+				if (input.startsWith(commandManager.prefix)) this.getLogger().debug(commandManager.execute(input,
+					EmptyContext
+				))
+			}
+			catch (e: Exception)
+			{
+				e.printStackTrace()
+				continue
+			}
+		}
+	}
 
-    @Test
-    fun create()
-    {
-        // Given
-        // When
-        val command = createCommand(TestGear::testCommand)
+	@Test
+	fun create()
+	{
+		// Given
+		// When
+		val command = createCommand(TestGear::testCommand)
 
-        // Then
-        assertAll(
-            { assertEquals("testCommand", command.name) },
-            { assertEquals("Description", command.description) },
-            { assertEquals("!testCommand (text) (num)", command.usage("!")) }
-        )
-    }
+		// Then
+		assertAll(
+			{ assertEquals("testCommand", command.name) },
+			{ assertEquals("Description", command.description) },
+			{ assertEquals("!testCommand (text) (num)", command.usage("!")) }
+		)
+	}
 
-    @Test
-    fun createOptional()
-    {
-        // Given
-        // When
-        val command = createCommand(TestGear::testCommandOptional)
+	@Test
+	fun createOptional()
+	{
+		// Given
+		// When
+		val command = createCommand(TestGear::testCommandOptional)
 
-        // Then
-        assertAll(
-            { assertEquals("testCommandOptional", command.name) },
-            { assertEquals("Description", command.description) },
-            { assertEquals("!testCommandOptional <text>", command.usage("!")) }
-        )
-    }
+		// Then
+		assertAll(
+			{ assertEquals("testCommandOptional", command.name) },
+			{ assertEquals("Description", command.description) },
+			{ assertEquals("!testCommandOptional <text>", command.usage("!")) }
+		)
+	}
 
-    @Test
-    fun createWithUsage()
-    {
-        // Given
-        // When
-        val command = createCommand(TestGear::testCommandUsage)
+	@Test
+	fun createWithUsage()
+	{
+		// Given
+		// When
+		val command = createCommand(TestGear::testCommandUsage)
 
-        // Then
-        assertAll(
-            { assertEquals("testCommandUsage", command.name) },
-            { assertEquals("Description", command.description) },
-            { assertEquals("!testCommandUsage usage1\n!testCommandUsage usage2", command.usage(null)) }
-        )
-    }
+		// Then
+		assertAll(
+			{ assertEquals("testCommandUsage", command.name) },
+			{ assertEquals("Description", command.description) },
+			{ assertEquals("!testCommandUsage usage1\n!testCommandUsage usage2", command.usage(null)) }
+		)
+	}
 
-    @ParameterizedTest
-    @MethodSource
-    fun intBounded(num: Int, expected: Int)
-    {
-        // Given
-        val command = spyCommand(TestGear::intBounded)
+	@Test
+	fun createWithExamples()
+	{
+		// Given
+		// When
+		val command = createCommand(TestGear::testCommandExamples)
 
-        // When
-        command.invoke(num.toString(), EmptyContext)
+		// Then
+		assertAll(
+			{ assertEquals("testCommandExamples", command.name) },
+			{ assertEquals("!testCommandExamples example1\n!testCommandExamples example2", command.examples(null)) }
+		)
+	}
 
-        // Then
-        argumentCaptor<Map<String, Any?>> {
-            verify(command).callNamed(capture(), anyOrNull(), anyOrNull())
+	@ParameterizedTest
+	@MethodSource
+	fun intBounded(num: Int, expected: Int)
+	{
+		// Given
+		val command = spyCommand(TestGear::intBounded)
 
-            assertAll(
-                { assertEquals(1, firstValue.size) },
-                { assertNotNull(firstValue["num"]) },
-                { assertEquals(expected, firstValue["num"]) }
-            )
-        }
-    }
+		// When
+		command.invoke(num.toString(), EmptyContext)
 
-    @Suppress("UNCHECKED_CAST")
-    private fun createCommand(function: KFunction<*>): InternalCommand =
-        InternalCommand(commandManager as CommandManager<Any>, CommandModule(function.name, commandManager), function, gear)
+		// Then
+		argumentCaptor<Map<String, Any?>> {
+			verify(command).callNamed(capture(), anyOrNull(), anyOrNull())
 
-    private fun spyCommand(function: KFunction<*>): InternalCommand = Mockito.spy(createCommand(function))
+			assertAll(
+				{ assertEquals(1, firstValue.size) },
+				{ assertNotNull(firstValue["num"]) },
+				{ assertEquals(expected, firstValue["num"]) }
+			)
+		}
+	}
 
-    class TestGear : Gear()
-    {
-        @Command("Description")
-        fun testCommand(text: String, num: Int) = Unit
+	@Suppress("UNCHECKED_CAST")
+	private fun createCommand(function: KFunction<*>): InternalCommand =
+		InternalCommand(commandManager as CommandManager<Any>, CommandModule(function.name, commandManager), function, gear)
 
-        @Command("Description")
-        fun testCommandOptional(text: String = "") = Unit
+	private fun spyCommand(function: KFunction<*>): InternalCommand = Mockito.spy(createCommand(function))
 
-        @Command
-        fun test(text: String = "testme"): String = text
+	class TestGear : Gear()
+	{
+		@Command("Description")
+		fun testCommand(text: String, num: Int) = Unit
 
-        @Command("Description", aliases = ["test"], usage = ["<PREFIX><NAME> usage1", "<PREFIX><NAME> usage2"])
-        fun testCommandUsage(text: String) = Unit
+		@Command("Description")
+		fun testCommandOptional(text: String = "") = Unit
 
-        @Command
-        fun intBounded(@IntRange(0, 100) num: Int) = Unit
+		@Command
+		fun test(text: String = "testme"): String = text
 
-        @Command
-        fun union(data: Union<Int, Float>) {
-            this.getLogger().debug(data.first)
-            this.getLogger().debug(data.second)
-            println(data.first)
-            println(data.second)
-        }
+		@Command("Description", aliases = ["test"], usage = ["<PREFIX><NAME> usage1", "<PREFIX><NAME> usage2"])
+		fun testCommandUsage(text: String) = Unit
 
-        @Command
-        fun unionTrans(data: Union<BigInteger, BigDecimal>) {
-            this.getLogger().debug(data.first)
-            this.getLogger().debug(data.second)
-            println(data.first)
-            println(data.second)
-        }
+		@Command(examples = ["<PREFIX><NAME> example1", "<PREFIX><NAME> example2"])
+		fun testCommandExamples() = Unit
 
-        @Command
-        fun argTest(arg: Argument) {
-            this.getLogger().debug(arg.getAsByte())
-            this.getLogger().debug(arg.getAsShort())
-            this.getLogger().debug(arg.getAsInt())
-            this.getLogger().debug(arg.getAsLong())
-            this.getLogger().debug(arg.getAsFloat())
-            this.getLogger().debug(arg.getAsDouble())
-            this.getLogger().debug(arg.getRaw())
-            this.getLogger().debug(arg.transformTo(this.commandManager, Int::class))
-        }
+		@Command
+		fun intBounded(@IntRange(0, 100) num: Int) = Unit
 
-        @Command
-        fun gearName() = this.getLogger().debug(this.name)
+		@Command
+		fun union(data: Union<Int, Float>)
+		{
+			this.getLogger().debug(data.first)
+			this.getLogger().debug(data.second)
+			println(data.first)
+			println(data.second)
+		}
 
-        @Command
-        fun bInteger(b: BigInteger) = this.getLogger().debug(b)
+		@Command
+		fun unionTrans(data: Union<BigInteger, BigDecimal>)
+		{
+			this.getLogger().debug(data.first)
+			this.getLogger().debug(data.second)
+			println(data.first)
+			println(data.second)
+		}
 
-        @Command
-        fun bDecimal(b: BigDecimal) = this.getLogger().debug(b)
+		@Command
+		fun argTest(arg: Argument)
+		{
+			this.getLogger().debug(arg.getAsByte())
+			this.getLogger().debug(arg.getAsShort())
+			this.getLogger().debug(arg.getAsInt())
+			this.getLogger().debug(arg.getAsLong())
+			this.getLogger().debug(arg.getAsFloat())
+			this.getLogger().debug(arg.getAsDouble())
+			this.getLogger().debug(arg.getRaw())
+			this.getLogger().debug(arg.transformTo(this.commandManager, Int::class))
+		}
 
-    }
+		@Command
+		fun gearName() = this.getLogger().debug(this.name)
+
+		@Command
+		fun bInteger(b: BigInteger) = this.getLogger().debug(b)
+
+		@Command
+		fun bDecimal(b: BigDecimal) = this.getLogger().debug(b)
+
+	}
 }

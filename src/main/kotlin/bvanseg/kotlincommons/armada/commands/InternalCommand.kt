@@ -55,19 +55,23 @@ open class InternalCommand(
     val description: String
     // The input arg should be the same as used in CommandManager#getPrefix
     val usage: (Any?) -> String
+    val examples: (Any?) -> String
     private val rawArgs: Boolean
 
     val data: HashMap<KClass<*>, Annotation> = HashMap()
 
     inline fun <reified T : Annotation> getData(): T? = data[T::class] as T?
 
-    init {
+    init
+    {
         val annotation = function.findAnnotation<Command>()
 
-        fun createUsage(annotationUsage: Array<String>): (Any?) -> String {
-            val string = if (annotationUsage.isNotEmpty())
-                annotationUsage.joinToString("\n") { it.replace("<NAME>", function.name) }
-            else {
+        fun createUsage(usageIn: Array<String>): (Any?) -> String
+        {
+            val string = if (usageIn.isNotEmpty())
+                usageIn.joinToString("\n") { it.replace("<NAME>", function.name) }
+            else
+            {
                 function.parameters
                     .filter { !it.type.isSubtypeOf(Context::class.createType()) && !it.type.isSubtypeOf(Gear::class.createType()) }
                     .joinToString(" ", "<PREFIX>${function.name} ") {
@@ -81,14 +85,22 @@ open class InternalCommand(
             return { string.replace("<PREFIX>", commandManager.getPrefix(it)) }
         }
 
+        fun createExamples(examplesIn: Array<String>): (Any?) -> String
+        {
+            val string = examplesIn.joinToString("\n") { it.replace("<NAME>", function.name) }
+            return { string.replace("<PREFIX>", commandManager.getPrefix(it)) }
+        }
+
         fun registerAliases(aliases: Array<String>) = aliases.forEach { alias ->
-            if(alias.isNotBlank()) {
-                val lowerAlias = if(commandManager.capsInsensitive) alias.toLowerCase() else alias
+            if (alias.isNotBlank())
+            {
+                val lowerAlias = if (commandManager.capsInsensitive) alias.toLowerCase() else alias
                 commandManager.aliasMap[lowerAlias] = function.name
             }
         }
 
-        fun validateRawArgs() {
+        fun validateRawArgs()
+        {
             val params = function.parameters
             var numParams = params.size
             var paramStart = 0
@@ -117,12 +129,14 @@ open class InternalCommand(
             description = annotation.description
             aliases = annotation.aliases.toList()
             usage = createUsage(annotation.usage)
+            examples = createExamples(annotation.examples)
             registerAliases(annotation.aliases)
             rawArgs = annotation.rawArgs
         } else {
             description = baseClass!!.description
             aliases = baseClass.aliases
             usage = createUsage(baseClass.usage.toTypedArray())
+            examples = createExamples(baseClass.examples.toTypedArray())
             registerAliases(baseClass.aliases.toTypedArray())
             rawArgs = baseClass.rawArgs
         }
@@ -271,7 +285,8 @@ open class InternalCommand(
     /**
      * Uses the processed arguments from {@link InternalCommand#invoke()} and executes the wrapped function with them.
      */
-    open internal fun callNamed(params: Map<String, Any?>, self: Any? = null, extSelf: Any? = null): Any? {
+    internal open fun callNamed(params: Map<String, Any?>, self: Any? = null, extSelf: Any? = null): Any?
+    {
         val map = function.parameters
             .filter { params.containsKey(it.name) }
             .associateWithTo(HashMap()) { params[it.name] }
