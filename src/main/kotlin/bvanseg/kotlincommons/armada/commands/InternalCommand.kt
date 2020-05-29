@@ -160,7 +160,7 @@ open class InternalCommand(
         val params = function.valueParameters
 
         // If there are more arguments than there are parameters
-        if(args.split(" ").size > params.size)
+        if(args.split(" ").size > params.size && !rawArgs)
             throw UnknownParameterException(context, "There are more arguments given than the command allows for!")
 
         val firstParam = params.firstOrNull()
