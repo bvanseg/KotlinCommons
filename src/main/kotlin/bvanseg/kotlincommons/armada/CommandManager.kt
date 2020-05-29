@@ -31,6 +31,7 @@ import bvanseg.kotlincommons.armada.commands.InternalCommand
 import bvanseg.kotlincommons.armada.contexts.Context
 import bvanseg.kotlincommons.armada.contexts.EmptyContext
 import bvanseg.kotlincommons.armada.events.*
+import bvanseg.kotlincommons.armada.exceptions.DuplicateTransformerException
 import bvanseg.kotlincommons.armada.gears.Gear
 import bvanseg.kotlincommons.armada.transformers.*
 import bvanseg.kotlincommons.evenir.bus.EventBus
@@ -251,6 +252,10 @@ class CommandManager<T : Any>(val prefix: String = "!") {
         val post = TransformerAddEvent.Post(transformer, this)
         eventBus.fire(pre)
         if(pre.isCancelled) return
+
+        if(transformers[transformer.type] != null)
+            throw DuplicateTransformerException("Transformer of type ${transformer.type.qualifiedName} is already registered!")
+
         transformers[transformer.type] = transformer
         eventBus.fire(post)
         log.debug("Registered transformer with type (${transformer.type})")

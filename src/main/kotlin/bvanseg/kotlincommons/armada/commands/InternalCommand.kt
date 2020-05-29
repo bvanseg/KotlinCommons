@@ -26,6 +26,7 @@ package bvanseg.kotlincommons.armada.commands
 import bvanseg.kotlincommons.armada.CommandManager
 import bvanseg.kotlincommons.armada.annotations.Command
 import bvanseg.kotlincommons.armada.contexts.Context
+import bvanseg.kotlincommons.armada.exceptions.*
 import bvanseg.kotlincommons.armada.gears.Gear
 import bvanseg.kotlincommons.armada.transformers.Transformer
 import bvanseg.kotlincommons.armada.utilities.Union
@@ -73,7 +74,7 @@ open class InternalCommand(
             else
             {
                 function.parameters
-                    .filter { !it.type.isSubtypeOf(Context::class.createType()) && !it.type.isSubtypeOf(Gear::class.createType()) }
+                    .filter { !it.type.isSubtypeOf(Context::class.createType()) && !it.type.isSubtypeOf(Gear::class.createType()) && it.name != null }
                     .joinToString(" ", "<PREFIX>${function.name} ") {
                         val paramName = it.name!!
                         if (it.isOptional)
@@ -111,17 +112,17 @@ open class InternalCommand(
             val hasContext = params[paramStart].type.getKClass().isSubclassOf(Context::class)
             val expectedNumParams = if (hasContext) 2 else 1
             if (numParams > expectedNumParams)
-                throw RuntimeException("Command $function has invalid number of parameters for rawArgs")
+                throw InvalidParameterException("Command $function has invalid number of parameters for rawArgs")
             val argParamIndex = if (hasContext) paramStart + 1 else paramStart
             when (params[argParamIndex].type.getKClass()) {
                 String::class, Array<String>::class -> {}
                 List::class -> {
                     params[argParamIndex].type.arguments[0].type?.let {
                         if (it.getKClass() != String::class)
-                            throw RuntimeException("Command $function has invalid parameter: ${params[argParamIndex]}")
+                            throw InvalidParameterException("Command $function has invalid parameter: ${params[argParamIndex]}")
                     }
                 }
-                else -> throw RuntimeException("Command $function has invalid parameter: ${params[argParamIndex]}")
+                else -> throw InvalidParameterException("Command $function has invalid parameter: ${params[argParamIndex]}")
             }
         }
 
@@ -157,6 +158,11 @@ open class InternalCommand(
         val pArgs: HashMap<String, Any?> = HashMap()
 
         val params = function.valueParameters
+
+        // If there are more arguments than there are parameters
+        if(args.split(" ").size > params.size)
+            throw UnknownParameterException(context, "There are more arguments given than the command allows for!")
+
         val firstParam = params.firstOrNull()
         val hasContext = firstParam?.type?.getKClass()?.isSubclassOf(Context::class) ?: false
         if (hasContext)
@@ -172,7 +178,7 @@ open class InternalCommand(
                     String::class -> args
                     Array<String>::class -> argsList.toTypedArray()
                     List::class -> argsList
-                    else -> throw RuntimeException("Command $function has invalid parameter: $argParam")
+                    else -> throw InvalidParameterException("Command $function has invalid parameter: $argParam")
                 }
             } else {
                 var variableArguments = false
@@ -209,13 +215,16 @@ open class InternalCommand(
                                 commandManager.transformers[parameter.type.getKClass()]
                             if (transformer != null) {
                                 // If this is the last arg but we have more to go?
-                                if (index == paramSize - 1) {
-                                    transformer.parse(parameter, argsList.joinStrings(index), context)
+                                val input = if (index == paramSize - 1) argsList.joinStrings(index) else arg
+                                try {
+                                    transformer.parse(parameter, input, context)
                                 }
-                                else
-                                    transformer.parse(parameter, arg, context)
+                                catch(e: Exception)
+                                {
+                                    throw TransformerParseException(context, "Parsing failed for transforming argument of type ${parameter.type.getKClass()}! Input: $input")
+                                }
                             } else
-                                continue@loop
+                                throw MissingTransformerException(context, "No transformer for the type ${parameter.type.getKClass()} exists!")
                         }
                     }
 
@@ -297,6 +306,40 @@ open class InternalCommand(
 
         self?.let { map[function.instanceParameter!!] = it }
         extSelf?.let { map[function.extensionReceiverParameter!!] = it }
-        return function.callBy(map)
+
+        val returnObject: Any?
+        try {
+            returnObject = function.callBy(map)
+        }
+        catch(e: IllegalArgumentException)
+        {
+            val missingParameters = mutableListOf<String>()
+            val requiredParameters = function.parameters.filter { !it.isOptional && it.name != null }.map { it.name }
+            for(requiredParameter in requiredParameters)
+                if(!params.keys.contains(requiredParameter))
+                    missingParameters.add(requiredParameter!!)
+
+            if(missingParameters.isNotEmpty())
+                throw MissingParameterException(missingParameters, "Missing required parameter${if(missingParameters.size > 1) "s" else ""}: ${missingParameters.joinToString(", ")}")
+
+            val allParameters = function.parameters.filter { it.name != null }
+
+            val invalidParameters = mutableListOf<String>()
+            for(paramName in params.keys)
+            {
+                val workingParameterValue = (params[paramName] ?: Unit)::class
+                val expectedParameterType = allParameters.find { it.name == paramName }!!.type.getKClass()
+
+                if(workingParameterValue != expectedParameterType)
+                    invalidParameters.add("$paramName (expected: ${expectedParameterType.simpleName})")
+
+                if(invalidParameters.isNotEmpty())
+                    throw InvalidParameterException("Invalid types for given parameter${if(invalidParameters.size > 1) "s" else ""}: ${invalidParameters.joinToString(", ")}")
+            }
+
+            throw UnknownCommandException(e.message ?: "An unknown command exception occurred!")
+        }
+
+        return returnObject
     }
 }
