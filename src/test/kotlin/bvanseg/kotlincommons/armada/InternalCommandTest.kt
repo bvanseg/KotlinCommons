@@ -14,8 +14,7 @@ import com.nhaarman.mockitokotlin2.anyOrNull
 import com.nhaarman.mockitokotlin2.argumentCaptor
 import com.nhaarman.mockitokotlin2.verify
 import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
@@ -29,10 +28,8 @@ import java.util.*
 import java.util.stream.Stream
 import kotlin.reflect.KFunction
 
-class InternalCommandTest
-{
-	companion object
-	{
+class InternalCommandTest {
+	companion object {
 		@JvmStatic
 		@Suppress("unused")
 		private fun intBounded() = Stream.of(
@@ -50,8 +47,7 @@ class InternalCommandTest
 	lateinit var prefix: String
 
 	@BeforeEach
-	fun setup()
-	{
+	fun setup() {
 		commandManager = CommandManager()
 		gear = TestGear()
 		prefix = "!"
@@ -60,30 +56,24 @@ class InternalCommandTest
 	}
 
 	@AfterEach
-	fun after()
-	{
+	fun after() {
 		Mockito.validateMockitoUsage()
 	}
 
-	fun receive()
-	{
+	fun receive() {
 		commandManager = CommandManager()
 		gear = TestGear()
 		prefix = "!"
 		commandManager.addGear(gear)
 		commandManager.addCommand(TestCommand())
 		val scn = Scanner(System.`in`)
-		while (true)
-		{
+		while (true) {
 			val input = scn.nextLine()
-			try
-			{
+			try {
 				if (input.startsWith(commandManager.prefix)) this.getLogger().debug(commandManager.execute(input,
 					EmptyContext
 				))
-			}
-			catch (e: Exception)
-			{
+			} catch (e: Exception) {
 				e.printStackTrace()
 				continue
 			}
@@ -91,8 +81,7 @@ class InternalCommandTest
 	}
 
 	@Test
-	fun create()
-	{
+	fun create() {
 		// Given
 		// When
 		val command = createCommand(TestGear::testCommand)
@@ -106,8 +95,7 @@ class InternalCommandTest
 	}
 
 	@Test
-	fun createOptional()
-	{
+	fun createOptional() {
 		// Given
 		// When
 		val command = createCommand(TestGear::testCommandOptional)
@@ -121,8 +109,7 @@ class InternalCommandTest
 	}
 
 	@Test
-	fun createWithUsage()
-	{
+	fun createWithUsage() {
 		// Given
 		// When
 		val command = createCommand(TestGear::testCommandUsage)
@@ -136,8 +123,7 @@ class InternalCommandTest
 	}
 
 	@Test
-	fun createWithExamples()
-	{
+	fun createWithExamples() {
 		// Given
 		// When
 		val command = createCommand(TestGear::testCommandExamples)
@@ -151,8 +137,7 @@ class InternalCommandTest
 
 	@ParameterizedTest
 	@MethodSource
-	fun intBounded(num: Int, expected: Int)
-	{
+	fun intBounded(num: Int, expected: Int) {
 		// Given
 		val command = spyCommand(TestGear::intBounded)
 
@@ -171,14 +156,73 @@ class InternalCommandTest
 		}
 	}
 
+	@Test
+	fun overflowString() {
+		// Given
+		val command = spyCommand(TestGear::overflowString)
+
+		// When
+		command.invoke("This is a few args", EmptyContext)
+
+		// Then
+		argumentCaptor<Map<String, Any?>> {
+			verify(command).callNamed(capture(), anyOrNull(), anyOrNull())
+
+			assertAll(
+				{ assertEquals(1, firstValue.size) },
+				{ assertNotNull(firstValue["overflow"]) },
+				{ assertEquals("This is a few args", firstValue["overflow"]) }
+			)
+		}
+	}
+
+	@Test
+	fun overflowArray() {
+		// Given
+		val command = spyCommand(TestGear::overflowArray)
+
+		// When
+		command.invoke("This is a few args", EmptyContext)
+
+		// Then
+		argumentCaptor<Map<String, Any?>> {
+			verify(command).callNamed(capture(), anyOrNull(), anyOrNull())
+
+			assertAll(
+				{ assertEquals(1, firstValue.size) },
+				{ assertNotNull(firstValue["overflow"]) },
+				{ assertTrue(arrayOf("This", "is", "a", "few", "args").contentEquals(firstValue["overflow"] as Array<*>)) }
+			)
+		}
+	}
+
+	@Test
+	fun overflowList() {
+		// Given
+		val command = spyCommand(TestGear::overflowList)
+
+		// When
+		command.invoke("This is a few args", EmptyContext)
+
+		// Then
+		argumentCaptor<Map<String, Any?>> {
+			verify(command).callNamed(capture(), anyOrNull(), anyOrNull())
+
+			assertAll(
+				{ assertEquals(1, firstValue.size) },
+				{ assertNotNull(firstValue["overflow"]) },
+				{ assertEquals(listOf("This", "is", "a", "few", "args"), firstValue["overflow"]) }
+			)
+		}
+	}
+
 	@Suppress("UNCHECKED_CAST")
 	private fun createCommand(function: KFunction<*>): InternalCommand =
 		InternalCommand(commandManager as CommandManager<Any>, CommandModule(function.name, commandManager), function, gear)
 
 	private fun spyCommand(function: KFunction<*>): InternalCommand = Mockito.spy(createCommand(function))
 
-	class TestGear : Gear()
-	{
+	class TestGear : Gear() {
 		@Command("Description")
 		fun testCommand(text: String, num: Int) = Unit
 
@@ -198,8 +242,7 @@ class InternalCommandTest
 		fun intBounded(@IntRange(0, 100) num: Int) = Unit
 
 		@Command
-		fun union(data: Union<Int, Float>)
-		{
+		fun union(data: Union<Int, Float>) {
 			this.getLogger().debug(data.first)
 			this.getLogger().debug(data.second)
 			println(data.first)
@@ -207,8 +250,7 @@ class InternalCommandTest
 		}
 
 		@Command
-		fun unionTrans(data: Union<BigInteger, BigDecimal>)
-		{
+		fun unionTrans(data: Union<BigInteger, BigDecimal>) {
 			this.getLogger().debug(data.first)
 			this.getLogger().debug(data.second)
 			println(data.first)
@@ -216,8 +258,7 @@ class InternalCommandTest
 		}
 
 		@Command
-		fun argTest(arg: Argument)
-		{
+		fun argTest(arg: Argument) {
 			this.getLogger().debug(arg.getAsByte())
 			this.getLogger().debug(arg.getAsShort())
 			this.getLogger().debug(arg.getAsInt())
@@ -237,5 +278,13 @@ class InternalCommandTest
 		@Command
 		fun bDecimal(b: BigDecimal) = this.getLogger().debug(b)
 
+		@Command
+		fun overflowString(overflow: String) = Unit
+
+		@Command
+		fun overflowArray(overflow: Array<String>) = Unit
+
+		@Command
+		fun overflowList(overflow: List<String>) = Unit
 	}
 }

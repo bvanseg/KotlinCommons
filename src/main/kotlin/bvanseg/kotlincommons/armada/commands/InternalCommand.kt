@@ -158,9 +158,18 @@ open class InternalCommand(
         val pArgs: HashMap<String, Any?> = HashMap()
 
         val params = function.valueParameters
+        val lastParam = params.lastOrNull()
+        val isLastParamOverflow = lastParam?.type?.let { type ->
+            type.getKClass().let { kClass ->
+                kClass.isSubclassOf(String::class)
+                    || kClass.isSubclassOf(Array<String>::class)
+                    || (kClass.isSubclassOf(List::class) && type.arguments[0].type!!.getKClass().isSubclassOf(String::class))
+            }
+        } ?: false
+        val argsList = args.split(' ').toMutableList()
 
         // If there are more arguments than there are parameters
-        if(args.split(" ").size > params.size && !rawArgs)
+        if(!isLastParamOverflow && argsList.size > params.size && !rawArgs)
             throw UnknownParameterException(context, "There are more arguments given than the command allows for!")
 
         val firstParam = params.firstOrNull()
@@ -168,8 +177,7 @@ open class InternalCommand(
         if (hasContext)
             pArgs[firstParam?.name!!] = context
 
-        if (args.isNotBlank()) {
-            val argsList = args.split(' ').toMutableList()
+        if (argsList.isNotEmpty()) {
             if (rawArgs) {
                 val startIndex = if (hasContext) 1 else 0
                 val argParam = params[startIndex]
@@ -181,11 +189,10 @@ open class InternalCommand(
                     else -> throw InvalidParameterException("Command $function has invalid parameter: $argParam")
                 }
             } else {
-                var variableArguments = false
                 if (firstParam?.type?.isSubtypeOf(Context::class.createType()) == true)
                     argsList.add(0, "")
                 val paramSize = params.size
-                loop@ for ((index, arg) in argsList.withIndex()) {
+                for ((index, arg) in argsList.withIndex()) {
 
                     if (index > paramSize - 1)
                         continue
@@ -194,7 +201,24 @@ open class InternalCommand(
                     if (parameter.type.isSubtypeOf(Context::class.createType()))
                         continue
 
-                    val value: Any? = when (parameter.type.getKClass()) {
+                    val paramType = parameter.type.getKClass()
+                    if (index == paramSize - 1) {
+                        // If last
+                        val subList = argsList.subList(index, argsList.lastIndex + 1)
+                        @Suppress("IMPLICIT_CAST_TO_ANY")
+                        val value = when (paramType) {
+                            String::class -> subList.joinToString(" ")
+                            Array<String>::class -> subList.toTypedArray()
+                            List::class -> subList.toList()
+                            else -> null
+                        }
+                        if (value != null) {
+                            pArgs[parameter.name!!] = value
+                            continue
+                        }
+                    }
+
+                    pArgs[parameter.name!!] = when (paramType) {
                         Union::class -> {
                             val paramArgs = function.findParameterByName(parameter.name!!)!!.type.arguments
                             Union(
@@ -205,11 +229,6 @@ open class InternalCommand(
                                 paramArgs[1].type!!.getKClass()
                             )
                         }
-                        Array<String>::class, List::class -> {
-                            variableArguments = true
-                            break@loop
-                        }
-                        List::class -> argsList.subList(index, argsList.size).joinToString(" ")
                         else -> {
                             val transformer: Transformer<*>? =
                                 commandManager.transformers[parameter.type.getKClass()]
@@ -218,30 +237,12 @@ open class InternalCommand(
                                 val input = if (index == paramSize - 1) argsList.joinStrings(index) else arg
                                 try {
                                     transformer.parse(parameter, input, context)
-                                }
-                                catch(e: Exception)
-                                {
+                                } catch(e: Exception) {
                                     throw TransformerParseException(context, "Parsing failed for transforming argument of type ${parameter.type.getKClass()}! Input: $input")
                                 }
                             } else
                                 throw MissingTransformerException(context, "No transformer for the type ${parameter.type.getKClass()} exists!")
                         }
-                    }
-
-                    pArgs[parameter.name!!] = value
-                }
-
-                if (variableArguments) {
-                    val index = paramSize - 1
-                    val param = params[index]
-                    val subList = argsList.subList(index, argsList.lastIndex + 1)
-                    @Suppress("IMPLICIT_CAST_TO_ANY")
-                    when (param.type.getKClass()) {
-                        Array<String>::class -> subList.toTypedArray()
-                        List::class -> subList.toList()
-                        else -> null
-                    }?.let {
-                        pArgs[param.name!!] = it
                     }
                 }
             }
