@@ -329,12 +329,13 @@ open class InternalCommand(
             for(paramName in params.keys)
             {
                 val workingParameterValue = (params[paramName] ?: Unit)::class
+                val workingParameter = allParameters.find { it.name == paramName }
                 val expectedParameterType = allParameters.find { it.name == paramName }!!.type.getKClass()
 
                 if(workingParameterValue != expectedParameterType)
                     invalidParameters.add("$paramName (expected: ${expectedParameterType.simpleName})")
 
-                if(invalidParameters.isNotEmpty())
+                if(invalidParameters.isNotEmpty() || (workingParameter != null && workingParameter.isOptional && workingParameterValue != Unit::class))
                     throw InvalidParameterException("Invalid types for given parameter${if(invalidParameters.size > 1) "s" else ""}: ${invalidParameters.joinToString(", ")}")
             }
 
