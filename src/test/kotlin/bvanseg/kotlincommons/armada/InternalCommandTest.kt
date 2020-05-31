@@ -216,6 +216,24 @@ class InternalCommandTest {
 		}
 	}
 
+	@Test
+	fun optionalsSingleParam() {
+		// Given
+		val command = spyCommand(TestGear::opt)
+
+		// When
+		command.invoke("", EmptyContext)
+
+		// Then
+		argumentCaptor<Map<String, Any?>> {
+			verify(command).callNamed(capture(), anyOrNull(), anyOrNull())
+
+			assertAll(
+				{ assertEquals(null, firstValue["foo"]) } // Null due to Kotlin optional handling.
+			)
+		}
+	}
+
 	@Suppress("UNCHECKED_CAST")
 	private fun createCommand(function: KFunction<*>): InternalCommand =
 		InternalCommand(commandManager as CommandManager<Any>, CommandModule(function.name, commandManager), function, gear)
@@ -286,5 +304,8 @@ class InternalCommandTest {
 
 		@Command
 		fun overflowList(overflow: List<String>) = Unit
+
+		@Command
+		fun opt(foo: Long = 0L) = Unit
 	}
 }
