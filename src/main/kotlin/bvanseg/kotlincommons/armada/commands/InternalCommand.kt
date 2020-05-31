@@ -236,9 +236,8 @@ open class InternalCommand(
                                 // If this is the last arg but we have more to go?
                                 val input = if (index == paramSize - 1) argsList.joinStrings(index) else arg
                                 try {
-                                    val result = transformer.parse(parameter, input, context)
-                                    if(result != null)
-                                        pArgs[parameter.name!!] = result
+                                    if(input.isNotBlank())
+                                        pArgs[parameter.name!!] = transformer.parse(parameter, input, context)
                                 } catch(e: Exception) {
                                     throw TransformerParseException(context, "Parsing failed for transforming argument of type ${parameter.type.getKClass()}! Input: $input")
                                 }
@@ -299,7 +298,6 @@ open class InternalCommand(
      */
     internal open fun callNamed(params: Map<String, Any?>, self: Any? = null, extSelf: Any? = null): Any?
     {
-        println(params)
         val map = function.parameters
             .filter { params.containsKey(it.name) }
             .associateWithTo(HashMap()) { params[it.name] }

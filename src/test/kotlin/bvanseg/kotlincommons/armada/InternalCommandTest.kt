@@ -222,14 +222,14 @@ class InternalCommandTest {
 		val command = spyCommand(TestGear::opt)
 
 		// When
-		command.invoke("", EmptyContext)
+		command.invoke("1", EmptyContext)
 
 		// Then
 		argumentCaptor<Map<String, Any?>> {
 			verify(command).callNamed(capture(), anyOrNull(), anyOrNull())
 
 			assertAll(
-				{ assertEquals(null, firstValue["foo"]) } // Null due to Kotlin optional handling.
+				{ assertEquals(1L, firstValue["bar"]) }
 			)
 		}
 	}
@@ -306,6 +306,6 @@ class InternalCommandTest {
 		fun overflowList(overflow: List<String>) = Unit
 
 		@Command
-		fun opt(foo: Long = 0L) = Unit
+		fun opt(bar: Long = 0L) = Unit
 	}
 }
