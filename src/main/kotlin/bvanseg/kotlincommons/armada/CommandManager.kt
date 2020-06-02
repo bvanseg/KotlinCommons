@@ -113,7 +113,7 @@ class CommandManager<T : Any>(val prefix: String = "!") {
      * Splits the [command] in two parts, where the first is just the command name and the second are the arguments.
      */
     fun splitCommand(command: String): Pair<String, String> =
-        command.trim().split(whitespaceRegex, 2).let { it.getOrElse(1) { "" } to it.getOrElse(1) { "" } }
+        command.trim().split(whitespaceRegex, 2).let { it.getOrElse(0) { "" } to it.getOrElse(1) { "" } }
 
     /**
      * Extracts just the command name from the given raw [command].
