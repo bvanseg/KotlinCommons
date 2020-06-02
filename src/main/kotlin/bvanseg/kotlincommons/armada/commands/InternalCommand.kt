@@ -166,7 +166,7 @@ open class InternalCommand(
                     || (kClass.isSubclassOf(List::class) && type.arguments[0].type!!.getKClass().isSubclassOf(String::class))
             }
         } ?: false
-        val argsList = args.split(' ').toMutableList()
+        val argsList = if (args.isBlank()) mutableListOf() else args.split(' ').toMutableList()
 
         // If there are more arguments than there are parameters
         if(!isLastParamOverflow && argsList.size > params.size && !rawArgs)

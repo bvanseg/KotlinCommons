@@ -135,6 +135,22 @@ class InternalCommandTest {
 		)
 	}
 
+	@Test
+	fun noArgs() {
+		// Given
+		val command = spyCommand(TestGear::noArgs)
+
+		// When
+		command.invoke("", EmptyContext)
+
+		// Then
+		argumentCaptor<Map<String, Any?>> {
+			verify(command).callNamed(capture(), anyOrNull(), anyOrNull())
+
+			assertTrue(firstValue.isEmpty())
+		}
+	}
+
 	@ParameterizedTest
 	@MethodSource
 	fun intBounded(num: Int, expected: Int) {
@@ -255,6 +271,9 @@ class InternalCommandTest {
 
 		@Command(examples = ["<PREFIX><NAME> example1", "<PREFIX><NAME> example2"])
 		fun testCommandExamples() = Unit
+
+		@Command
+		fun noArgs() = Unit
 
 		@Command
 		fun intBounded(@IntRange(0, 100) num: Int) = Unit
