@@ -51,11 +51,12 @@ import kotlin.reflect.full.memberFunctions
 class CommandManager<T : Any>(val prefix: String = "!") {
     private val log = getLogger()
     var capsInsensitive = true
-    val commandModules: HashMap<String, CommandModule> = HashMap()
-    val gears: ArrayList<Gear> = ArrayList()
-    val transformers: HashMap<KClass<*>, Transformer<*>> = HashMap()
+    val commandModules = hashMapOf<String, CommandModule>()
+    val gears = arrayListOf<Gear>()
+    val transformers = hashMapOf<KClass<*>, Transformer<*>>()
     // Stores alternative prefixes to a key of the developer's desired type.
-    val prefixes: HashMap<T, String> = HashMap()
+    val prefixes = hashMapOf<T, String>()
+    val aliasMap = hashMapOf<String, String>()
     // Used internally for removing whitespace on commands.
     private val whitespaceRegex = Regex("\\s+")
     // The event bus used for handling Armada's events.
@@ -93,39 +94,55 @@ class CommandManager<T : Any>(val prefix: String = "!") {
         )
     }
 
-    val aliasMap = hashMapOf<String, String>()
+    /**
+     * Fetches the prefix that is registered under the specified key. If no such key exists, uses the command manager's default prefix, instead.
+     */
+    fun getPrefix(key: T? = null): String = key?.let { prefixes.getOrDefault(it, prefix) } ?: prefix
 
     /**
      * Strips the prefix away from the front of raw command input.
      */
-    private fun stripPrefix(rawCommand: String, tempPrefix: String = prefix): String = rawCommand.substringAfter(tempPrefix)
+    fun stripPrefix(rawCommand: String, prefix: String): String = rawCommand.substringAfter(prefix)
 
     /**
-     * Fetches the prefix that is registered under the specified key. If no such key exists, uses the command manager's default prefix, instead.
+     * Strips the prefix away from the front of raw command input.
      */
-    fun getPrefix(key: T? = null): String = key?.let { prefixes.getOrDefault(key, prefix) } ?: prefix
+    fun stripPrefix(rawCommand: String, key: T? = null): String = stripPrefix(rawCommand, getPrefix(key))
+
+    /**
+     * Splits the [command] in two parts, where the first is just the command name and the second are the arguments.
+     */
+    fun splitCommand(command: String): Pair<String, String> =
+        command.trim().split(whitespaceRegex, 2).let { it.getOrElse(0) { "" } to it.getOrElse(1) { "" } }
+
+    /**
+     * Extracts just the command name from the given raw [command].
+     * Uses the given [key] to get the correct prefix to strip from the beginning.
+     */
+    fun extractCommandName(command: String, key: T? = null): String =
+        stripPrefix(command, key).trim().split(whitespaceRegex, 2)[0]
 
     /**
      * Executes raw command input, turning it into an @link{InternalCommand}. If the command function returns any value, this function will
      * also return the value from the function invocation.
      */
     fun execute(rawCommand: String, context: Context = EmptyContext, key: T? = null): Any? {
-        val tempPrefix = if(key != null) (prefixes[key] ?: prefix) else prefix
-        if (!rawCommand.startsWith(tempPrefix))
+        val commandPrefix = getPrefix(key)
+        if (!rawCommand.startsWith(commandPrefix))
             return null
 
-        val commandNameAndArgs = stripPrefix(rawCommand, tempPrefix).trim().split(whitespaceRegex, limit = 2)
-        var commandName = commandNameAndArgs[0]
-        log.debug("Receiving command: $commandName with prefix $tempPrefix")
+        val commandNameAndArgs = splitCommand(stripPrefix(rawCommand, commandPrefix))
+        var commandName = commandNameAndArgs.first
+        log.debug("Receiving command: $commandName with prefix $commandPrefix")
 
         if (capsInsensitive)
             commandName = commandName.toLowerCase()
 
-        if(aliasMap[commandName] != null)
+        if (aliasMap[commandName] != null)
             commandName = aliasMap[commandName]!!
 
         commandModules[commandName]?.let {
-            val args = if (commandNameAndArgs.size == 1) "" else commandNameAndArgs[1]
+            val args = commandNameAndArgs.second
             log.debug("Executing command ($commandName) from CommandModule (${it.tag})")
             val command = it.findCandidateCommand(args, context)
             command?.let { cmd ->

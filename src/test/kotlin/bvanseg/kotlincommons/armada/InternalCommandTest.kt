@@ -24,7 +24,6 @@ import org.junit.jupiter.params.provider.MethodSource
 import org.mockito.Mockito
 import java.math.BigDecimal
 import java.math.BigInteger
-import java.util.*
 import java.util.stream.Stream
 import kotlin.reflect.KFunction
 
@@ -44,13 +43,11 @@ class InternalCommandTest {
 
 	lateinit var commandManager: CommandManager<Long>
 	lateinit var gear: Gear
-	lateinit var prefix: String
 
 	@BeforeEach
 	fun setup() {
 		commandManager = CommandManager()
 		gear = TestGear()
-		prefix = "!"
 		commandManager.prefixes[0] = "@"
 		commandManager.addGear(gear)
 	}
@@ -58,26 +55,6 @@ class InternalCommandTest {
 	@AfterEach
 	fun after() {
 		Mockito.validateMockitoUsage()
-	}
-
-	fun receive() {
-		commandManager = CommandManager()
-		gear = TestGear()
-		prefix = "!"
-		commandManager.addGear(gear)
-		commandManager.addCommand(TestCommand())
-		val scn = Scanner(System.`in`)
-		while (true) {
-			val input = scn.nextLine()
-			try {
-				if (input.startsWith(commandManager.prefix)) this.getLogger().debug(commandManager.execute(input,
-					EmptyContext
-				))
-			} catch (e: Exception) {
-				e.printStackTrace()
-				continue
-			}
-		}
 	}
 
 	@Test
@@ -135,9 +112,25 @@ class InternalCommandTest {
 		)
 	}
 
+	@Test
+	fun invoke_noArgs() {
+		// Given
+		val command = spyCommand(TestGear::noArgs)
+
+		// When
+		command.invoke("", EmptyContext)
+
+		// Then
+		argumentCaptor<Map<String, Any?>> {
+			verify(command).callNamed(capture(), anyOrNull(), anyOrNull())
+
+			assertTrue(firstValue.isEmpty())
+		}
+	}
+
 	@ParameterizedTest
 	@MethodSource
-	fun intBounded(num: Int, expected: Int) {
+	fun invoke_intBounded(num: Int, expected: Int) {
 		// Given
 		val command = spyCommand(TestGear::intBounded)
 
@@ -157,7 +150,7 @@ class InternalCommandTest {
 	}
 
 	@Test
-	fun overflowString() {
+	fun invoke_overflowString() {
 		// Given
 		val command = spyCommand(TestGear::overflowString)
 
@@ -177,7 +170,7 @@ class InternalCommandTest {
 	}
 
 	@Test
-	fun overflowArray() {
+	fun invoke_overflowArray() {
 		// Given
 		val command = spyCommand(TestGear::overflowArray)
 
@@ -197,7 +190,7 @@ class InternalCommandTest {
 	}
 
 	@Test
-	fun overflowList() {
+	fun invoke_overflowList() {
 		// Given
 		val command = spyCommand(TestGear::overflowList)
 
@@ -217,7 +210,7 @@ class InternalCommandTest {
 	}
 
 	@Test
-	fun optionalsSingleParam() {
+	fun invoke_optionalsSingleParam() {
 		// Given
 		val command = spyCommand(TestGear::opt)
 
@@ -255,6 +248,9 @@ class InternalCommandTest {
 
 		@Command(examples = ["<PREFIX><NAME> example1", "<PREFIX><NAME> example2"])
 		fun testCommandExamples() = Unit
+
+		@Command
+		fun noArgs() = Unit
 
 		@Command
 		fun intBounded(@IntRange(0, 100) num: Int) = Unit
