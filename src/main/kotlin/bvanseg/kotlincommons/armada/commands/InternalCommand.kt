@@ -236,8 +236,12 @@ open class InternalCommand(
                                 // If this is the last arg but we have more to go?
                                 val input = if (index == paramSize - 1) argsList.joinStrings(index) else arg
                                 try {
-                                    if(input.isNotBlank())
+                                    if(input.isNotBlank()) {
                                         pArgs[parameter.name!!] = transformer.parse(parameter, input, context)
+
+                                        if(pArgs[parameter.name!!] == null)
+                                            throw TransformerParseException(context, "Parsing failed for transforming argument of type ${parameter.type.getKClass()}, the returned value was null! Input: $input")
+                                    }
                                 } catch(e: Exception) {
                                     throw TransformerParseException(context, "Parsing failed for transforming argument of type ${parameter.type.getKClass()}! Input: $input")
                                 }
