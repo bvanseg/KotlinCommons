@@ -5,7 +5,7 @@ import bvanseg.kotlincommons.collections.DualHashMap
 /**
 *
 * @author Boston Vanseghi
-* @since 2.0.0
+* @since 2.2.4
 */
 class FlagManager<T : Enum<T>> {
 

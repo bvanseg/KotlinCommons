@@ -78,6 +78,8 @@ $dokka.location:bvanseg.kotlincommons.string$joinStrings(kotlin.collections.List
 $dokka.location:bvanseg.kotlincommons.string$remove(kotlin.String, kotlin.Array((kotlin.String)))bvanseg.kotlincommons.string/kotlin.-string/remove.html
 $dokka.location:bvanseg.kotlincommons.string$toURI(kotlin.String)bvanseg.kotlincommons.string/kotlin.-string/to-u-r-i.html
 $dokka.location:bvanseg.kotlincommons.string$toURL(kotlin.String)bvanseg.kotlincommons.string/kotlin.-string/to-u-r-l.html
+$dokka.location:bvanseg.kotlincommons.string$truncate(kotlin.String, kotlin.Int, kotlin.String)bvanseg.kotlincommons.string/kotlin.-string/truncate.html
+$dokka.location:bvanseg.kotlincommons.time$format(java.time.Duration, kotlin.Boolean, kotlin.Boolean)bvanseg.kotlincommons.time/java.time.-duration/format.html
 $dokka.location:bvanseg.kotlincommons.time$toFileSafeString(java.time.LocalDateTime)bvanseg.kotlincommons.time/java.time.-local-date-time/to-file-safe-string.html
 $dokka.location:bvanseg.kotlincommons.tuples$between(kotlin.Pair((bvanseg.kotlincommons.tuples.between.T, )), bvanseg.kotlincommons.tuples.between.T)bvanseg.kotlincommons.tuples/kotlin.-pair/between.html
 $dokka.location:bvanseg.kotlincommons.tuples$contains(kotlin.Pair((bvanseg.kotlincommons.tuples.contains.T, )), bvanseg.kotlincommons.tuples.contains.T)bvanseg.kotlincommons.tuples/kotlin.-pair/contains.html
@@ -89,6 +91,7 @@ bvanseg.kotlincommons.armada.annotations
 bvanseg.kotlincommons.armada.commands
 bvanseg.kotlincommons.armada.contexts
 bvanseg.kotlincommons.armada.events
+bvanseg.kotlincommons.armada.exceptions
 bvanseg.kotlincommons.armada.gears
 bvanseg.kotlincommons.armada.transformers
 bvanseg.kotlincommons.armada.utilities
@@ -105,6 +108,7 @@ bvanseg.kotlincommons.evenir.annotations
 bvanseg.kotlincommons.evenir.bus
 bvanseg.kotlincommons.evenir.event
 bvanseg.kotlincommons.files
+bvanseg.kotlincommons.flags
 bvanseg.kotlincommons.graphics
 bvanseg.kotlincommons.joml.vectors
 bvanseg.kotlincommons.kclasses
