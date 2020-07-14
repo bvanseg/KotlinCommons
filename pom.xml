@@ -11,8 +11,8 @@
     </parent>
 
     <groupId>com.github.bvanseg</groupId>
-    <artifactId>kotlincommons</artifactId>
-    <version>2.2.5</version>
+    <artifactId>KotlinCommons</artifactId>
+    <version>2.2.4</version>
 
     <name>KotlinCommons</name>
     <description>A collection of utilities for Kotlin and various dependencies.</description>
