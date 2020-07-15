@@ -1,0 +1,43 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>FactoryRegistry - KotlinCommons</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">KotlinCommons</a>&nbsp;/&nbsp;<a href="../index.html">bvanseg.kotlincommons.ledger</a>&nbsp;/&nbsp;<a href="./index.html">FactoryRegistry</a><br/>
+<br/>
+<h1>FactoryRegistry</h1>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">FactoryRegistry</span><span class="symbol">&lt;</span><span class="identifier">K</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Any</span><span class="symbol">, </span><span class="identifier">V</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Any</span><span class="symbol">, </span><span class="identifier">FACTORY_ARG</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-generic-registry/index.html"><span class="identifier">GenericRegistry</span></a><span class="symbol">&lt;</span><span class="identifier">K</span><span class="symbol">,</span>&nbsp;<span class="identifier">Class</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">V</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
+<p><strong>Author</strong><br/>
+bright_spark</p>
+<p><strong>Author</strong><br/>
+Boston Vanseghi</p>
+<p><strong>Since</strong><br/>
+2.1.0</p>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="-init-.html">&lt;init&gt;</a></h4>
+</td>
+<td>
+<code><span class="identifier">FactoryRegistry</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.ledger.FactoryRegistry$<init>(kotlin.Function2((java.lang.Class((bvanseg.kotlincommons.ledger.FactoryRegistry.V)), bvanseg.kotlincommons.ledger.FactoryRegistry.FACTORY_ARG, bvanseg.kotlincommons.ledger.FactoryRegistry.V)), kotlin.Function1((java.lang.Class((bvanseg.kotlincommons.ledger.FactoryRegistry.V)), bvanseg.kotlincommons.ledger.FactoryRegistry.K)))/factory">factory</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="identifier">Class</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">V</span><span class="symbol">&gt;</span><span class="symbol">,</span>&nbsp;<span class="identifier">FACTORY_ARG</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<span class="identifier">V</span><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;{ klass, _ -&gt; createNewInstance(klass) }<span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.ledger.FactoryRegistry$<init>(kotlin.Function2((java.lang.Class((bvanseg.kotlincommons.ledger.FactoryRegistry.V)), bvanseg.kotlincommons.ledger.FactoryRegistry.FACTORY_ARG, bvanseg.kotlincommons.ledger.FactoryRegistry.V)), kotlin.Function1((java.lang.Class((bvanseg.kotlincommons.ledger.FactoryRegistry.V)), bvanseg.kotlincommons.ledger.FactoryRegistry.K)))/keyExtractor">keyExtractor</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="symbol">(</span><span class="identifier">Class</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">V</span><span class="symbol">&gt;</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<span class="identifier">K</span><span class="symbol">)</span><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;null<span class="symbol">)</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="create.html">create</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">create</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.ledger.FactoryRegistry$create(bvanseg.kotlincommons.ledger.FactoryRegistry.K, bvanseg.kotlincommons.ledger.FactoryRegistry.FACTORY_ARG)/key">key</span><span class="symbol">:</span>&nbsp;<span class="identifier">K</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.ledger.FactoryRegistry$create(bvanseg.kotlincommons.ledger.FactoryRegistry.K, bvanseg.kotlincommons.ledger.FactoryRegistry.FACTORY_ARG)/arg">arg</span><span class="symbol">:</span>&nbsp;<span class="identifier">FACTORY_ARG</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">V</span><span class="symbol">?</span></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

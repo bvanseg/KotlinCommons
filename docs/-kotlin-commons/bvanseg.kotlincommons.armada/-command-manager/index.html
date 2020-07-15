@@ -1,0 +1,202 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>CommandManager - KotlinCommons</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">KotlinCommons</a>&nbsp;/&nbsp;<a href="../index.html">bvanseg.kotlincommons.armada</a>&nbsp;/&nbsp;<a href="./index.html">CommandManager</a><br/>
+<br/>
+<h1>CommandManager</h1>
+<code><span class="keyword">class </span><span class="identifier">CommandManager</span><span class="symbol">&lt;</span><span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Any</span><span class="symbol">&gt;</span></code>
+<p>Responsible for handling all prefixes, commands, command modules, gears, and transformers.</p>
+<p><strong>Author</strong><br/>
+Boston Vanseghi</p>
+<p><strong>Since</strong><br/>
+2.1.0</p>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="-init-.html">&lt;init&gt;</a></h4>
+</td>
+<td>
+<p>Responsible for handling all prefixes, commands, command modules, gears, and transformers.</p>
+<code><span class="identifier">CommandManager</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.CommandManager$<init>(kotlin.String)/prefix">prefix</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span>&nbsp;<span class="symbol">=</span>&nbsp;"!"<span class="symbol">)</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="alias-map.html">aliasMap</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">aliasMap</span><span class="symbol">: </span><span class="identifier">HashMap</span><span class="symbol">&lt;</span><span class="identifier">String</span><span class="symbol">,</span>&nbsp;<span class="identifier">String</span><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="caps-insensitive.html">capsInsensitive</a></h4>
+</td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">capsInsensitive</span><span class="symbol">: </span><span class="identifier">Boolean</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="command-modules.html">commandModules</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">commandModules</span><span class="symbol">: </span><span class="identifier">HashMap</span><span class="symbol">&lt;</span><span class="identifier">String</span><span class="symbol">,</span>&nbsp;<a href="../../bvanseg.kotlincommons.armada.commands/-command-module/index.html"><span class="identifier">CommandModule</span></a><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="event-bus.html">eventBus</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">eventBus</span><span class="symbol">: </span><a href="../../bvanseg.kotlincommons.evenir.bus/-event-bus/index.html"><span class="identifier">EventBus</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="gears.html">gears</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">gears</span><span class="symbol">: </span><span class="identifier">ArrayList</span><span class="symbol">&lt;</span><a href="../../bvanseg.kotlincommons.armada.gears/-gear/index.html"><span class="identifier">Gear</span></a><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="prefix.html">prefix</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">prefix</span><span class="symbol">: </span><span class="identifier">String</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="prefixes.html">prefixes</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">prefixes</span><span class="symbol">: </span><span class="identifier">HashMap</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">,</span>&nbsp;<span class="identifier">String</span><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="transformers.html">transformers</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">transformers</span><span class="symbol">: </span><span class="identifier">HashMap</span><span class="symbol">&lt;</span><span class="identifier">KClass</span><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span><span class="symbol">,</span>&nbsp;<a href="../../bvanseg.kotlincommons.armada.transformers/-transformer/index.html"><span class="identifier">Transformer</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="add-command.html">addCommand</a></h4>
+</td>
+<td>
+<p>Registers a {@link Gear} instance's class to the command manager.</p>
+<code><span class="keyword">fun </span><span class="identifier">addCommand</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.CommandManager$addCommand(bvanseg.kotlincommons.armada.commands.BaseCommand)/command">command</span><span class="symbol">:</span>&nbsp;<a href="../../bvanseg.kotlincommons.armada.commands/-base-command/index.html"><span class="identifier">BaseCommand</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="add-gear.html">addGear</a></h4>
+</td>
+<td>
+<p>Registers a {@link Gear} to the command manager by its class.</p>
+<code><span class="keyword">fun </span><span class="identifier">addGear</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.CommandManager$addGear(kotlin.reflect.KClass((bvanseg.kotlincommons.armada.gears.Gear)))/type">type</span><span class="symbol">:</span>&nbsp;<span class="identifier">KClass</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<a href="../../bvanseg.kotlincommons.armada.gears/-gear/index.html"><span class="identifier">Gear</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code>
+<p>Registers a {@link Gear} instance's class to the command manager.</p>
+<code><span class="keyword">fun </span><span class="identifier">addGear</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.CommandManager$addGear(bvanseg.kotlincommons.armada.gears.Gear)/gear">gear</span><span class="symbol">:</span>&nbsp;<a href="../../bvanseg.kotlincommons.armada.gears/-gear/index.html"><span class="identifier">Gear</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="add-transformer.html">addTransformer</a></h4>
+</td>
+<td>
+<p>Registers a {@link Transformer} to the command manager.</p>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Any</span><span class="symbol">&gt;</span> <span class="identifier">addTransformer</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.CommandManager$addTransformer(bvanseg.kotlincommons.armada.transformers.Transformer((bvanseg.kotlincommons.armada.CommandManager.addTransformer.T)))/transformer">transformer</span><span class="symbol">:</span>&nbsp;<a href="../../bvanseg.kotlincommons.armada.transformers/-transformer/index.html"><span class="identifier">Transformer</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="add-transformers.html">addTransformers</a></h4>
+</td>
+<td>
+<p>Registers a variable number of {@link Transformer}s to the command manager.</p>
+<code><span class="keyword">fun </span><span class="identifier">addTransformers</span><span class="symbol">(</span><span class="keyword">vararg</span> <span class="identifier" id="bvanseg.kotlincommons.armada.CommandManager$addTransformers(kotlin.Array((bvanseg.kotlincommons.armada.transformers.Transformer((kotlin.Any)))))/transformers">transformers</span><span class="symbol">:</span>&nbsp;<a href="../../bvanseg.kotlincommons.armada.transformers/-transformer/index.html"><span class="identifier">Transformer</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="execute.html">execute</a></h4>
+</td>
+<td>
+<p>Executes raw command input, turning it into an @link{InternalCommand}. If the command function returns any value, this function will
+also return the value from the function invocation.</p>
+<code><span class="keyword">fun </span><span class="identifier">execute</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.CommandManager$execute(kotlin.String, bvanseg.kotlincommons.armada.contexts.Context, bvanseg.kotlincommons.armada.CommandManager.T)/rawCommand">rawCommand</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.CommandManager$execute(kotlin.String, bvanseg.kotlincommons.armada.contexts.Context, bvanseg.kotlincommons.armada.CommandManager.T)/context">context</span><span class="symbol">:</span>&nbsp;<a href="../../bvanseg.kotlincommons.armada.contexts/-context.html"><span class="identifier">Context</span></a>&nbsp;<span class="symbol">=</span>&nbsp;EmptyContext<span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.CommandManager$execute(kotlin.String, bvanseg.kotlincommons.armada.contexts.Context, bvanseg.kotlincommons.armada.CommandManager.T)/key">key</span><span class="symbol">:</span>&nbsp;<span class="identifier">T</span><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;null<span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Any</span><span class="symbol">?</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="extract-command-name.html">extractCommandName</a></h4>
+</td>
+<td>
+<p>Extracts just the command name from the given raw <a href="extract-command-name.html#bvanseg.kotlincommons.armada.CommandManager$extractCommandName(kotlin.String, bvanseg.kotlincommons.armada.CommandManager.T)/command">command</a>.
+Uses the given <a href="extract-command-name.html#bvanseg.kotlincommons.armada.CommandManager$extractCommandName(kotlin.String, bvanseg.kotlincommons.armada.CommandManager.T)/key">key</a> to get the correct prefix to strip from the beginning.</p>
+<code><span class="keyword">fun </span><span class="identifier">extractCommandName</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.CommandManager$extractCommandName(kotlin.String, bvanseg.kotlincommons.armada.CommandManager.T)/command">command</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.CommandManager$extractCommandName(kotlin.String, bvanseg.kotlincommons.armada.CommandManager.T)/key">key</span><span class="symbol">:</span>&nbsp;<span class="identifier">T</span><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;null<span class="symbol">)</span><span class="symbol">: </span><span class="identifier">String</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="get-command-module.html">getCommandModule</a></h4>
+</td>
+<td>
+<p>Fetches a {@link CommandModule} from raw command input. Returns null if no such module is found.</p>
+<code><span class="keyword">fun </span><span class="identifier">getCommandModule</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.CommandManager$getCommandModule(kotlin.String, bvanseg.kotlincommons.armada.CommandManager.T)/rawCommand">rawCommand</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.CommandManager$getCommandModule(kotlin.String, bvanseg.kotlincommons.armada.CommandManager.T)/key">key</span><span class="symbol">:</span>&nbsp;<span class="identifier">T</span><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;null<span class="symbol">)</span><span class="symbol">: </span><a href="../../bvanseg.kotlincommons.armada.commands/-command-module/index.html"><span class="identifier">CommandModule</span></a><span class="symbol">?</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="get-gear.html">getGear</a></h4>
+</td>
+<td>
+<p>Fetches a {@link Gear} by its name. Returns null if no such gear is found.</p>
+<code><span class="keyword">fun </span><span class="identifier">getGear</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.CommandManager$getGear(kotlin.String)/gearName">gearName</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><a href="../../bvanseg.kotlincommons.armada.gears/-gear/index.html"><span class="identifier">Gear</span></a><span class="symbol">?</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="get-prefix.html">getPrefix</a></h4>
+</td>
+<td>
+<p>Fetches the prefix that is registered under the specified key. If no such key exists, uses the command manager's default prefix, instead.</p>
+<code><span class="keyword">fun </span><span class="identifier">getPrefix</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.CommandManager$getPrefix(bvanseg.kotlincommons.armada.CommandManager.T)/key">key</span><span class="symbol">:</span>&nbsp;<span class="identifier">T</span><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;null<span class="symbol">)</span><span class="symbol">: </span><span class="identifier">String</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="split-command.html">splitCommand</a></h4>
+</td>
+<td>
+<p>Splits the <a href="split-command.html#bvanseg.kotlincommons.armada.CommandManager$splitCommand(kotlin.String)/command">command</a> in two parts, where the first is just the command name and the second are the arguments.</p>
+<code><span class="keyword">fun </span><span class="identifier">splitCommand</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.CommandManager$splitCommand(kotlin.String)/command">command</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Pair</span><span class="symbol">&lt;</span><span class="identifier">String</span><span class="symbol">,</span>&nbsp;<span class="identifier">String</span><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="strip-prefix.html">stripPrefix</a></h4>
+</td>
+<td>
+<p>Strips the prefix away from the front of raw command input.</p>
+<code><span class="keyword">fun </span><span class="identifier">stripPrefix</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.CommandManager$stripPrefix(kotlin.String, kotlin.String)/rawCommand">rawCommand</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.CommandManager$stripPrefix(kotlin.String, kotlin.String)/prefix">prefix</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">String</span></code><br/>
+<code><span class="keyword">fun </span><span class="identifier">stripPrefix</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.CommandManager$stripPrefix(kotlin.String, bvanseg.kotlincommons.armada.CommandManager.T)/rawCommand">rawCommand</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.CommandManager$stripPrefix(kotlin.String, bvanseg.kotlincommons.armada.CommandManager.T)/key">key</span><span class="symbol">:</span>&nbsp;<span class="identifier">T</span><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;null<span class="symbol">)</span><span class="symbol">: </span><span class="identifier">String</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Companion Object Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="ranges.html">ranges</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">ranges</span><span class="symbol">: </span><span class="identifier">List</span><span class="symbol">&lt;</span><span class="identifier">KClass</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">Any</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>
