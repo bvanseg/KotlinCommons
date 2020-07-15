@@ -38,3 +38,18 @@ fun <T : Comparable<T>> Pair<T, T>.between(value: T): Boolean = value > first &&
  * @since 2.0.1
  */
 fun <T : Comparable<T>> Pair<T, T>.contains(value: T): Boolean = value in first..second
+
+
+
+/**
+ * Converts this quad into a list.
+ */
+fun <T> Quad<T, T, T, T>.toList(): List<T> = listOf(first, second, third, fourth)
+
+/**
+ * Creates a tuple of type [MutablePair] from this and [that].
+ *
+ * @author bright_spark
+ * @since 2.2,5
+ */
+infix fun <A, B> A.toMut(that: B): MutablePair<A, B> = MutablePair(this, that)

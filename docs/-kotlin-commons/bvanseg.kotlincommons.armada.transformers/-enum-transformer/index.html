@@ -1,0 +1,60 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>EnumTransformer - KotlinCommons</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">KotlinCommons</a>&nbsp;/&nbsp;<a href="../index.html">bvanseg.kotlincommons.armada.transformers</a>&nbsp;/&nbsp;<a href="./index.html">EnumTransformer</a><br/>
+<br/>
+<h1>EnumTransformer</h1>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">EnumTransformer</span><span class="symbol">&lt;</span><span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Enum</span><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-transformer/index.html"><span class="identifier">Transformer</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<p>A base enum transformer implementation that should be extended for specific enums</p>
+<p><strong>See Also</strong><br/>
+<p><a href="../-time-unit-transformer.html">TimeUnitTransformer</a></p>
+</p>
+<p><strong>Author</strong><br/>
+bright_spark</p>
+<p><strong>Since</strong><br/>
+2.1.0</p>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="-init-.html">&lt;init&gt;</a></h4>
+</td>
+<td>
+<p>A base enum transformer implementation that should be extended for specific enums</p>
+<code><span class="identifier">EnumTransformer</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.transformers.EnumTransformer$<init>(kotlin.reflect.KClass((bvanseg.kotlincommons.armada.transformers.EnumTransformer.T)))/type">type</span><span class="symbol">:</span>&nbsp;<span class="identifier">KClass</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">)</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="parse.html">parse</a></h4>
+</td>
+<td>
+<p>Tries to parse the <a href="../-transformer/parse.html#bvanseg.kotlincommons.armada.transformers.Transformer$parse(kotlin.String, bvanseg.kotlincommons.armada.contexts.Context)/input">input</a> to the type <a href="../-transformer/index.html#T">T</a>
+Returns null if unsuccessful</p>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">parse</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.transformers.EnumTransformer$parse(kotlin.String, bvanseg.kotlincommons.armada.contexts.Context)/input">input</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.transformers.EnumTransformer$parse(kotlin.String, bvanseg.kotlincommons.armada.contexts.Context)/ctx">ctx</span><span class="symbol">:</span>&nbsp;<a href="../../bvanseg.kotlincommons.armada.contexts/-context.html"><span class="identifier">Context</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">T</span><span class="symbol">?</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Inheritors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="../-time-unit-transformer.html">TimeUnitTransformer</a></h4>
+</td>
+<td>
+<code><span class="keyword">object </span><span class="identifier">TimeUnitTransformer</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">EnumTransformer</span></a><span class="symbol">&lt;</span><span class="identifier">TimeUnit</span><span class="symbol">&gt;</span></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

@@ -41,8 +41,3 @@ data class Quad<out A, out B, out C, out D>(
      */
     override fun toString(): String = "($first, $second, $third, $fourth)"
 }
-
-/**
- * Converts this quad into a list.
- */
-fun <T> Quad<T, T, T, T>.toList(): List<T> = listOf(first, second, third, fourth)
