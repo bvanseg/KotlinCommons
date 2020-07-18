@@ -14,12 +14,20 @@ open class CRUDOperation {
     var version: HttpClient.Version = HttpClient.Version.HTTP_2
 
     val headersMap: HashMap<String, String> = hashMapOf()
+    val parametersMap: HashMap<String, String> = hashMapOf()
 
     fun headers(block: HashMap<String, String>.() -> Unit): HashMap<String, String> {
         val headers = hashMapOf<String, String>()
         headers.block()
         this.headersMap.putAll(headers)
         return headers
+    }
+
+    fun parameters(block: HashMap<String, String>.() -> Unit): HashMap<String, String> {
+        val parameters = hashMapOf<String, String>()
+        parameters.block()
+        this.parametersMap.putAll(parameters)
+        return parameters
     }
 
     @Deprecated("CRUD operations can not be nested!", level = DeprecationLevel.ERROR,

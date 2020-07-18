@@ -1,0 +1,60 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>RestActionImpl - kotlincommons</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">kotlincommons</a>&nbsp;/&nbsp;<a href="../index.html">bvanseg.kotlincommons.net.rest</a>&nbsp;/&nbsp;<a href="./index.html">RestActionImpl</a><br/>
+<br/>
+<h1>RestActionImpl</h1>
+<code><span class="keyword">class </span><span class="identifier">RestActionImpl</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-rest-action/index.html"><span class="identifier">RestAction</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="-init-.html">&lt;init&gt;</a></h4>
+</td>
+<td>
+<code><span class="identifier">RestActionImpl</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.net.rest.RestActionImpl$<init>(java.net.http.HttpRequest, java.lang.Class((bvanseg.kotlincommons.net.rest.RestActionImpl.T)))/request">request</span><span class="symbol">:</span>&nbsp;<span class="identifier">HttpRequest</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.net.rest.RestActionImpl$<init>(java.net.http.HttpRequest, java.lang.Class((bvanseg.kotlincommons.net.rest.RestActionImpl.T)))/type">type</span><span class="symbol">:</span>&nbsp;<span class="identifier">Class</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">)</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="type.html">type</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">type</span><span class="symbol">: </span><span class="identifier">Class</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="complete-impl.html">completeImpl</a></h4>
+</td>
+<td>
+<p>Intended to fully block until the model is returned.</p>
+<code><span class="keyword">fun </span><span class="identifier">completeImpl</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">T</span><span class="symbol">?</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="queue-impl.html">queueImpl</a></h4>
+</td>
+<td>
+<p>Intended to send a REST request asynchronously.</p>
+<code><span class="keyword">fun </span><span class="identifier">queueImpl</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code>
+<p>Has the same intention as <a href="../-rest-action/queue.html">queue</a>, but instead takes a callback to execute upon the async request completing.</p>
+<code><span class="keyword">fun </span><span class="identifier">queueImpl</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.net.rest.RestActionImpl$queueImpl(kotlin.Function1((bvanseg.kotlincommons.net.rest.RestActionImpl.T, kotlin.Unit)))/callback">callback</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="identifier">T</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<span class="identifier">Unit</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

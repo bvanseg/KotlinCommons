@@ -11,9 +11,19 @@ class KCHttpRequest {
 
     val requestBuilder: HttpRequest.Builder = HttpRequest.newBuilder()
 
+    var targetBuilder = StringBuilder()
+
     private fun <T: CRUDOperation> crud(op: CRUDOperation): T {
+
         requestBuilder.apply {
-            requestBuilder.uri(URI.create(op.target)).timeout(op.timeout).version(op.version)
+            targetBuilder.append(op.target)
+
+            if(op.parametersMap.isNotEmpty())
+                targetBuilder.append("?")
+
+            targetBuilder.append(op.parametersMap.entries.joinToString("&") { "${it.key}=${it.value}" })
+
+            requestBuilder.uri(URI.create(targetBuilder.toString())).timeout(op.timeout).version(op.version)
         }
 
         for(header in op.headersMap) {

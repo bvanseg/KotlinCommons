@@ -56,11 +56,15 @@ $dokka.location:bvanseg.kotlincommons.joml.vectors$toVector3f(org.joml.Vector3ic
 $dokka.location:bvanseg.kotlincommons.joml.vectors$toVector3i(org.joml.Vector3dc)bvanseg.kotlincommons.joml.vectors/org.joml.-vector3dc/to-vector3i.html
 $dokka.location:bvanseg.kotlincommons.joml.vectors$toVector3i(org.joml.Vector3fc)bvanseg.kotlincommons.joml.vectors/org.joml.-vector3fc/to-vector3i.html
 $dokka.location:bvanseg.kotlincommons.kclasses$getKClass(kotlin.reflect.KType)bvanseg.kotlincommons.kclasses/kotlin.reflect.-k-type/get-k-class.html
+$dokka.location:bvanseg.kotlincommons.kclasses$getResource(kotlin.reflect.KClass((bvanseg.kotlincommons.kclasses.getResource.T)), kotlin.String)bvanseg.kotlincommons.kclasses/kotlin.reflect.-k-class/get-resource.html
 $dokka.location:bvanseg.kotlincommons.logging$debug(org.slf4j.Logger, kotlin.Any)bvanseg.kotlincommons.logging/org.slf4j.-logger/debug.html
 $dokka.location:bvanseg.kotlincommons.logging$error(org.slf4j.Logger, kotlin.Any)bvanseg.kotlincommons.logging/org.slf4j.-logger/error.html
 $dokka.location:bvanseg.kotlincommons.logging$info(org.slf4j.Logger, kotlin.Any)bvanseg.kotlincommons.logging/org.slf4j.-logger/info.html
 $dokka.location:bvanseg.kotlincommons.logging$trace(org.slf4j.Logger, kotlin.Any)bvanseg.kotlincommons.logging/org.slf4j.-logger/trace.html
 $dokka.location:bvanseg.kotlincommons.logging$warn(org.slf4j.Logger, kotlin.Any)bvanseg.kotlincommons.logging/org.slf4j.-logger/warn.html
+$dokka.location:bvanseg.kotlincommons.net$PATCH(java.net.http.HttpRequest.Builder, java.net.http.HttpRequest.BodyPublisher)bvanseg.kotlincommons.net/java.net.http.-http-request.-builder/-p-a-t-c-h.html
+$dokka.location:bvanseg.kotlincommons.net$headers(java.util.HashMap((kotlin.Any, )), kotlin.Function1((java.util.HashMap((kotlin.String, )), kotlin.Unit)))bvanseg.kotlincommons.net/java.util.-hash-map/headers.html
+$dokka.location:bvanseg.kotlincommons.net.url$toPath(java.net.URL)bvanseg.kotlincommons.net.url/java.net.-u-r-l/to-path.html
 $dokka.location:bvanseg.kotlincommons.numbers$format(kotlin.Number)bvanseg.kotlincommons.numbers/kotlin.-number/format.html
 $dokka.location:bvanseg.kotlincommons.numbers$isEven(kotlin.Number)bvanseg.kotlincommons.numbers/kotlin.-number/is-even.html
 $dokka.location:bvanseg.kotlincommons.numbers$isOdd(kotlin.Number)bvanseg.kotlincommons.numbers/kotlin.-number/is-odd.html
@@ -118,6 +122,9 @@ bvanseg.kotlincommons.ledger
 bvanseg.kotlincommons.logging
 bvanseg.kotlincommons.mathematics
 bvanseg.kotlincommons.measurement
+bvanseg.kotlincommons.net
+bvanseg.kotlincommons.net.rest
+bvanseg.kotlincommons.net.url
 bvanseg.kotlincommons.numbers
 bvanseg.kotlincommons.projects
 bvanseg.kotlincommons.simplenet.packet
