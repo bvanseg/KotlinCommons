@@ -128,27 +128,6 @@ class InternalCommandTest {
 		}
 	}
 
-	@ParameterizedTest
-	@MethodSource
-	fun invoke_intBounded(num: Int, expected: Int) {
-		// Given
-		val command = spyCommand(TestGear::intBounded)
-
-		// When
-		command.invoke(num.toString(), EmptyContext)
-
-		// Then
-		argumentCaptor<Map<String, Any?>> {
-			verify(command).callNamed(capture(), anyOrNull(), anyOrNull())
-
-			assertAll(
-				{ assertEquals(1, firstValue.size) },
-				{ assertNotNull(firstValue["num"]) },
-				{ assertEquals(expected, firstValue["num"]) }
-			)
-		}
-	}
-
 	@Test
 	fun invoke_overflowString() {
 		// Given

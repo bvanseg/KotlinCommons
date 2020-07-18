@@ -35,8 +35,8 @@ class ColorTests {
         val newColor = redColor + greenColor
 
         // Then
-        assertEquals(0xFF, newColor.getRed())
-        assertEquals(0xFF, newColor.getGreen())
+        assertEquals(0x80, newColor.getRed())
+        assertEquals(0x80, newColor.getGreen())
     }
 
     @Test

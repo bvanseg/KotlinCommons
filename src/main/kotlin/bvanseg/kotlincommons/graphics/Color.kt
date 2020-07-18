@@ -25,6 +25,7 @@ package bvanseg.kotlincommons.graphics
 
 import bvanseg.kotlincommons.tuples.Quad
 import java.io.Serializable
+import kotlin.math.ceil
 import kotlin.math.round
 
 /**
@@ -123,10 +124,10 @@ class Color: Serializable {
     /** OPERATORS **/
 
     operator fun plus(otherColor: Color) = this.apply {
-        setRed((otherColor.getRed() + this.getRed()) / 2)
-        setGreen((otherColor.getGreen() + this.getGreen()) / 2)
-        setBlue((otherColor.getBlue() + this.getBlue()) / 2)
-        setAlpha((otherColor.getAlpha() + this.getAlpha()) / 2)
+        setRed(ceil((otherColor.getRed() + this.getRed()) / 2.0).toInt())
+        setGreen(ceil((otherColor.getGreen() + this.getGreen()) / 2.0).toInt())
+        setBlue(ceil((otherColor.getBlue() + this.getBlue()) / 2.0).toInt())
+        setAlpha(ceil((otherColor.getAlpha() + this.getAlpha()) / 2.0).toInt())
     }
 
     fun getAlpha(): Int = (color shr 24) and 0xFF
