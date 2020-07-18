@@ -41,7 +41,7 @@ abstract class RestAction<T> {
     /**
      * Intended to fully block until the model is returned.
      */
-    protected abstract fun completeImpl(): T?
+    protected abstract fun completeImpl(): T
 
     fun <O> flatMap(callback: (T?) -> RestAction<O>): FlatMapRestAction<T, O> = FlatMapRestAction(callback, this)
 }

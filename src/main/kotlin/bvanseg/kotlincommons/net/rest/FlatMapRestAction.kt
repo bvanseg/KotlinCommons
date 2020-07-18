@@ -23,7 +23,7 @@ class FlatMapRestAction<T, O>(val callback: (T?) -> RestAction<O>, private val p
         }
     }
 
-    override fun completeImpl(): O? {
+    override fun completeImpl(): O {
         val value = parent.complete()
         return callback(value).complete()
     }

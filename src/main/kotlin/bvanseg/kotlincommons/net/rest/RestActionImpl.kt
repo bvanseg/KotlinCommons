@@ -1,6 +1,5 @@
 package bvanseg.kotlincommons.net.rest
 
-import bvanseg.kotlincommons.comparable.clamp
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 
@@ -30,24 +29,12 @@ class RestActionImpl<T>(private val request: HttpRequest, val type: Class<T>): R
         }
     }
 
-    override fun completeImpl(): T? {
+    override fun completeImpl(): T {
         val response = KCHttp.DEFAULT_HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString())
 
-        val capture: T
-
-        try {
-            capture = if (response.body().isNotEmpty())
-                KCHttp.jsonMapper.readValue(response.body(), type)
-            else
-                response as T
-
-            successCallback?.invoke(response)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            exceptionCallback?.invoke(e)
-            return null
-        }
-
-        return capture
+        return if (response.body().isNotEmpty())
+            KCHttp.jsonMapper.readValue(response.body(), type)
+        else
+            response as T
     }
 }
