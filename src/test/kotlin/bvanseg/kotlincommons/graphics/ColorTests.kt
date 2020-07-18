@@ -40,20 +40,6 @@ class ColorTests {
     }
 
     @Test
-    fun testColorSubtraction() {
-        // Given
-        val redGreenColor = Color(0xFFFF00)
-        val greenColor = Color(0x00FF00)
-
-        // When
-        val redColor = redGreenColor - greenColor
-
-        // Then
-        assertEquals(0xFF, redColor.getRed())
-        assertEquals(0x00, redColor.getGreen())
-    }
-
-    @Test
     fun testQuadColors() {
         // Given
         val color = Color(0xFAEBD7)

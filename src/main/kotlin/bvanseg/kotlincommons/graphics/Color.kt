@@ -123,11 +123,10 @@ class Color: Serializable {
     /** OPERATORS **/
 
     operator fun plus(otherColor: Color) = this.apply {
-        color += otherColor.color
-    }
-
-    operator fun minus(otherColor: Color) = this.apply {
-        color -= otherColor.color
+        setRed((otherColor.getRed() + this.getRed()) / 2)
+        setGreen((otherColor.getGreen() + this.getGreen()) / 2)
+        setBlue((otherColor.getBlue() + this.getBlue()) / 2)
+        setAlpha((otherColor.getAlpha() + this.getAlpha()) / 2)
     }
 
     fun getAlpha(): Int = (color shr 24) and 0xFF
