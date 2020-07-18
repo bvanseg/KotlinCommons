@@ -1,4 +1,4 @@
-package bvanseg.kotlincommons.numbers
+package bvanseg.kotlincommons.mathematics
 
 /**
  * @author Boston Vanseghi
