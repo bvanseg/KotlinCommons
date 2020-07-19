@@ -63,7 +63,6 @@ $dokka.location:bvanseg.kotlincommons.logging$info(org.slf4j.Logger, kotlin.Any)
 $dokka.location:bvanseg.kotlincommons.logging$trace(org.slf4j.Logger, kotlin.Any)bvanseg.kotlincommons.logging/org.slf4j.-logger/trace.html
 $dokka.location:bvanseg.kotlincommons.logging$warn(org.slf4j.Logger, kotlin.Any)bvanseg.kotlincommons.logging/org.slf4j.-logger/warn.html
 $dokka.location:bvanseg.kotlincommons.net$PATCH(java.net.http.HttpRequest.Builder, java.net.http.HttpRequest.BodyPublisher)bvanseg.kotlincommons.net/java.net.http.-http-request.-builder/-p-a-t-c-h.html
-$dokka.location:bvanseg.kotlincommons.net$headers(java.util.HashMap((kotlin.Any, )), kotlin.Function1((java.util.HashMap((kotlin.String, )), kotlin.Unit)))bvanseg.kotlincommons.net/java.util.-hash-map/headers.html
 $dokka.location:bvanseg.kotlincommons.net.url$toPath(java.net.URL)bvanseg.kotlincommons.net.url/java.net.-u-r-l/to-path.html
 $dokka.location:bvanseg.kotlincommons.numbers$format(kotlin.Number)bvanseg.kotlincommons.numbers/kotlin.-number/format.html
 $dokka.location:bvanseg.kotlincommons.numbers$isEven(kotlin.Number)bvanseg.kotlincommons.numbers/kotlin.-number/is-even.html

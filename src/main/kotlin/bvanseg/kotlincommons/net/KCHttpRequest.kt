@@ -21,7 +21,7 @@ class KCHttpRequest {
             if(op.parameters.map.isNotEmpty())
                 targetBuilder.append("?")
 
-            targetBuilder.append(op.parameters.map.entries.joinToString("&") { "${it.key}=${it.value}" })
+            targetBuilder.append(op.parameters.map.entries.joinToString("&") { (key, value) -> "${key}=${value}" })
 
             requestBuilder.uri(URI.create(targetBuilder.toString())).timeout(op.timeout).version(op.version)
         }
