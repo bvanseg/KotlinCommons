@@ -8,26 +8,37 @@ import java.time.Duration
  * @author Boston Vanseghi
  * @since 2.3.0
  */
+
+class Headers {
+    val map: HashMap<String, String> = hashMapOf()
+
+    infix fun String.to(value: String) {
+        map[this] = value
+    }
+}
+
+class Parameters {
+    val map: HashMap<String, String> = hashMapOf()
+
+    infix fun String.to(value: String) {
+        map[this] = value
+    }
+}
+
 open class CRUDOperation {
     var target: String = ""
     var timeout: Duration = Duration.ofSeconds(30L)
     var version: HttpClient.Version = HttpClient.Version.HTTP_2
 
-    val headersMap: HashMap<String, String> = hashMapOf()
-    val parametersMap: HashMap<String, String> = hashMapOf()
+    val headers = Headers()
+    val parameters = Parameters()
 
-    fun headers(block: HashMap<String, String>.() -> Unit): HashMap<String, String> {
-        val headers = hashMapOf<String, String>()
-        headers.block()
-        this.headersMap.putAll(headers)
-        return headers
+    fun headers(block: Headers.() -> Unit) {
+        headers.apply(block)
     }
 
-    fun parameters(block: HashMap<String, String>.() -> Unit): HashMap<String, String> {
-        val parameters = hashMapOf<String, String>()
-        parameters.block()
-        this.parametersMap.putAll(parameters)
-        return parameters
+    fun parameters(block: Parameters.() -> Unit) {
+        parameters.apply(block)
     }
 
     @Deprecated("CRUD operations can not be nested!", level = DeprecationLevel.ERROR,
