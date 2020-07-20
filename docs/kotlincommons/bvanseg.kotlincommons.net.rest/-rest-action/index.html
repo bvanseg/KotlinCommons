@@ -55,7 +55,7 @@ Boston Vanseghi</p>
 <h4><a href="complete.html">complete</a></h4>
 </td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">complete</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">T</span></code></td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">complete</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">T</span></code></td>
 </tr>
 <tr>
 <td>
@@ -77,22 +77,22 @@ Boston Vanseghi</p>
 <h4><a href="on-exception.html">onException</a></h4>
 </td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">onException</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.net.rest.RestAction$onException(kotlin.Function1((kotlin.Throwable, kotlin.Unit)))/callback">callback</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="identifier">Throwable</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<span class="identifier">Unit</span><span class="symbol">)</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">RestAction</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code></td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onException</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.net.rest.RestAction$onException(kotlin.Function1((kotlin.Throwable, kotlin.Unit)))/callback">callback</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="identifier">Throwable</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<span class="identifier">Unit</span><span class="symbol">)</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">RestAction</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code></td>
 </tr>
 <tr>
 <td>
 <h4><a href="on-success.html">onSuccess</a></h4>
 </td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">onSuccess</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.net.rest.RestAction$onSuccess(kotlin.Function1((java.net.http.HttpResponse((kotlin.Any)), kotlin.Unit)))/callback">callback</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="identifier">HttpResponse</span><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<span class="identifier">Unit</span><span class="symbol">)</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">RestAction</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code></td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onSuccess</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.net.rest.RestAction$onSuccess(kotlin.Function1((java.net.http.HttpResponse((kotlin.Any)), kotlin.Unit)))/callback">callback</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="identifier">HttpResponse</span><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<span class="identifier">Unit</span><span class="symbol">)</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">RestAction</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code></td>
 </tr>
 <tr>
 <td>
 <h4><a href="queue.html">queue</a></h4>
 </td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">queue</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code><br/>
-<code><span class="keyword">fun </span><span class="identifier">queue</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.net.rest.RestAction$queue(kotlin.Function1((bvanseg.kotlincommons.net.rest.RestAction.T, kotlin.Unit)))/callback">callback</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="identifier">T</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<span class="identifier">Unit</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code></td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">queue</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code><br/>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">queue</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.net.rest.RestAction$queue(kotlin.Function1((bvanseg.kotlincommons.net.rest.RestAction.T, kotlin.Unit)))/callback">callback</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="identifier">T</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<span class="identifier">Unit</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code></td>
 </tr>
 <tr>
 <td>

@@ -36,7 +36,6 @@ class FlagManager<T : Enum<T>> {
 		if (currentOffset + 1 > MAX_OFFSET)
 			throw Exception("Maximum flag manager size exceeded: ${currentOffset + 1} given value $value")
 
-		println("registering $value at offset $currentOffset")
 		map[currentOffset++] = value
 	}
 
@@ -58,8 +57,6 @@ class FlagManager<T : Enum<T>> {
 	*/
 	fun read(number: Long): List<Enum<T>> {
 		val values = mutableListOf<Enum<T>>()
-
-		println("reading value: ${number.toString(2)}")
 
 		for (offset in 0..31) {
 			if (number and (1L shl offset) != 0L)

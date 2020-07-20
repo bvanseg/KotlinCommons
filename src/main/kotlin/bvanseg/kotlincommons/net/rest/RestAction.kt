@@ -14,19 +14,19 @@ abstract class RestAction<T> {
     protected var successCallback: ((HttpResponse<*>) -> Unit)? = null
     protected var exceptionCallback: ((Throwable) -> Unit)? = null
 
-    fun onSuccess(callback: (HttpResponse<*>) -> Unit): RestAction<T> {
+    open fun onSuccess(callback: (HttpResponse<*>) -> Unit): RestAction<T> {
         successCallback = callback
         return this
     }
 
-    fun onException(callback: (Throwable) -> Unit): RestAction<T> {
+    open fun onException(callback: (Throwable) -> Unit): RestAction<T> {
         exceptionCallback = callback
         return this
     }
 
-    fun queue() = queueImpl()
-    fun queue(callback: (T) -> Unit) = queueImpl(callback)
-    fun complete() = completeImpl()
+    open fun queue() = queueImpl()
+    open fun queue(callback: (T) -> Unit) = queueImpl(callback)
+    open fun complete() = completeImpl()
 
     /**
      * Intended to send a REST request asynchronously.

@@ -104,6 +104,7 @@ bvanseg.kotlincommons.arrays
 bvanseg.kotlincommons.assets
 bvanseg.kotlincommons.booleans
 bvanseg.kotlincommons.buffers
+bvanseg.kotlincommons.cache
 bvanseg.kotlincommons.classes
 bvanseg.kotlincommons.collections
 bvanseg.kotlincommons.collections.iterables
@@ -122,6 +123,7 @@ bvanseg.kotlincommons.logging
 bvanseg.kotlincommons.mathematics
 bvanseg.kotlincommons.measurement
 bvanseg.kotlincommons.net
+bvanseg.kotlincommons.net.ratelimit
 bvanseg.kotlincommons.net.rest
 bvanseg.kotlincommons.net.url
 bvanseg.kotlincommons.numbers
