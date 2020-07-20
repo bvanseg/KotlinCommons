@@ -75,9 +75,31 @@ class RateLimiter<T>(val tokenBucket: TokenBucket) {
         while(!tokenBucket.tryConsume()) { Thread.onSpinWait() }
 
         logger.trace("Executing blocking submission...")
-        val callbackResult = callback(unit)
+        val result = callback(unit)
         blockingCount.decrementAndGet()
-        return callbackResult
+        return result
+    }
+
+    fun <R> submitBlocking(callback: () -> R): R {
+        blockingCount.incrementAndGet()
+
+        logger.trace("Received blocking submission.")
+        while(!tokenBucket.tryConsume()) { Thread.onSpinWait() }
+
+        logger.trace("Executing blocking submission...")
+        val result = callback()
+        blockingCount.decrementAndGet()
+        return result
+    }
+
+    fun submitBlocking() {
+        blockingCount.incrementAndGet()
+
+        logger.trace("Received blocking submission.")
+        while(!tokenBucket.tryConsume()) { Thread.onSpinWait() }
+
+        logger.trace("Executing blocking submission...")
+        blockingCount.decrementAndGet()
     }
 
     fun shutdown() {

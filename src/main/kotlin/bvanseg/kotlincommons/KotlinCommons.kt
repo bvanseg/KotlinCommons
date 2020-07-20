@@ -36,5 +36,5 @@ object KotlinCommons {
     /**
      * The version of KotlinCommons.
      */
-    val VERSION = Version("2.3.4")
+    val VERSION = Version("2.3.5")
 }
