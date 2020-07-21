@@ -2,10 +2,7 @@ package bvanseg.kotlincommons.net.ratelimit
 
 import bvanseg.kotlincommons.any.getLogger
 import java.time.Instant
-import java.util.concurrent.ConcurrentLinkedDeque
-import java.util.concurrent.ConcurrentLinkedQueue
-import java.util.concurrent.Executors
-import java.util.concurrent.TimeUnit
+import java.util.concurrent.*
 import java.util.concurrent.atomic.AtomicLong
 
 /**
@@ -13,35 +10,36 @@ import java.util.concurrent.atomic.AtomicLong
  * @author Jacob Glickman (https://github.com/jhg023)[https://github.com/jhg023]
  * @since 2.3.4
  */
-class RateLimiter<T>(val tokenBucket: TokenBucket) {
+class RateLimiter<T>(val tokenBucket: TokenBucket, private val service: ScheduledExecutorService = Executors.newSingleThreadScheduledExecutor {
+    val thread = Thread(it)
+    thread.isDaemon = true
+    thread
+},
+cycleStrategy: (RateLimiter<T>, AtomicLong, ConcurrentLinkedDeque<Pair<T, (T) -> Unit>>) -> Unit = { ratelimiter, bc, q ->
+    service.scheduleAtFixedRate({
+        tokenBucket.refill()
+
+        while(tokenBucket.isNotEmpty()) {
+            while(bc.get() > 0) { Thread.onSpinWait() }
+            val next = q.pollFirst()
+            next?.let {
+                val result = tokenBucket.tryConsume()
+                if(result) {
+                    it.second(it.first)
+                    ratelimiter.logger.trace("Executing queued submission: TokenBucket (${tokenBucket.currentTokenCount.get()}/${tokenBucket.tokenLimit}).")
+                } else
+                    q.addFirst(it.first to it.second)
+            } ?: break
+        }
+    }, tokenBucket.refillTime, tokenBucket.refillTime, TimeUnit.MILLISECONDS)
+}) {
 
     val logger = getLogger()
     private val blockingCount = AtomicLong(0)
     private val queue = ConcurrentLinkedDeque<Pair<T, (T) -> Unit>>()
-    private val service = Executors.newSingleThreadScheduledExecutor {
-        val thread = Thread(it)
-        thread.isDaemon = true
-        thread
-    }
 
     init {
-        service.scheduleAtFixedRate({
-            tokenBucket.refill()
-
-            while(tokenBucket.isNotEmpty()) {
-                while(blockingCount.get() > 0) { Thread.onSpinWait() }
-                val next = queue.pollFirst()
-                next?.let {
-                    val result = tokenBucket.tryConsume()
-                    if(result) {
-                        it.second(it.first)
-                        logger.trace("Executing queued submission: TokenBucket (${tokenBucket.currentTokenCount.get()}/${tokenBucket.tokenLimit}).")
-                    } else
-                        queue.addFirst(it.first to it.second)
-                } ?: break
-            }
-
-        }, tokenBucket.refillTime, tokenBucket.refillTime, TimeUnit.MILLISECONDS)
+        cycleStrategy(this, blockingCount, queue)
     }
 
     /**
