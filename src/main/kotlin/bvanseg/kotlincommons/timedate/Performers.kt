@@ -1,8 +1,10 @@
 package bvanseg.kotlincommons.timedate
 
 import bvanseg.kotlincommons.timedate.transformer.BoundedContext
+import java.time.Instant
+import java.time.temporal.ChronoUnit
 
-class TimeScheduleContext(val boundedContext: BoundedContext, val frequency: UnitBasedTimeContainer): TimeContext {
+class TimeScheduleContext(val boundedContext: BoundedContext, val frequency: UnitBasedTimeContainer, private val ceiled: Boolean = false): TimeContext {
 
     override val asHour: Long
         get() = boundedContext.asHour
@@ -21,11 +23,25 @@ class TimeScheduleContext(val boundedContext: BoundedContext, val frequency: Uni
         var tracker = 0L
         val freq = boundedContext.asSeconds / frequency.unit.value
 
+        if(ceiled) {
+            val start = Instant.now()
+            val end = start.truncatedTo(frequency.unit.asChrono()).plusSeconds(frequency.unit.asSeconds)
+            val diff = start.until(end, ChronoUnit.MILLIS)
+            Thread.sleep(diff)
+        }
+
         while(true) {
             callback()
-            Thread.sleep(frequency.unit.getTimeMillis())
+            if(ceiled) {
+                val start = Instant.now()
+                val end = start.truncatedTo(frequency.unit.asChrono()).plusSeconds(frequency.unit.asSeconds)
+                val diff = start.until(end, ChronoUnit.MILLIS)
+                Thread.sleep(diff)
+            }
+            else
+                Thread.sleep(frequency.unit.getTimeMillis())
             tracker++
-            if(tracker >= freq) // TODO: Figure out times to iterate from bounded context.
+            if(tracker >= freq)
                 break
         }
     }
@@ -34,3 +50,4 @@ class TimeScheduleContext(val boundedContext: BoundedContext, val frequency: Uni
 }
 
 infix fun BoundedContext.every(context: UnitBasedTimeContainer) = TimeScheduleContext(this, context)
+infix fun BoundedContext.everyExact(context: UnitBasedTimeContainer) = TimeScheduleContext(this, context, true)
