@@ -1,0 +1,95 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>TimeContext - kotlincommons</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">kotlincommons</a>&nbsp;/&nbsp;<a href="../index.html">bvanseg.kotlincommons.timedate</a>&nbsp;/&nbsp;<a href="./index.html">TimeContext</a><br/>
+<br/>
+<h1>TimeContext</h1>
+<code><span class="keyword">interface </span><span class="identifier">TimeContext</span></code>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="as-hour.html">asHour</a></h4>
+</td>
+<td>
+<p>This will be used for coercions to hours.</p>
+<code><span class="keyword">abstract</span> <span class="keyword">val </span><span class="identifier">asHour</span><span class="symbol">: </span><span class="identifier">Long</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="as-minute.html">asMinute</a></h4>
+</td>
+<td>
+<p>This will be used for coercions to minutes.</p>
+<code><span class="keyword">abstract</span> <span class="keyword">val </span><span class="identifier">asMinute</span><span class="symbol">: </span><span class="identifier">Long</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="as-nano.html">asNano</a></h4>
+</td>
+<td>
+<p>This will be used for coercions to nanoseconds.</p>
+<code><span class="keyword">abstract</span> <span class="keyword">val </span><span class="identifier">asNano</span><span class="symbol">: </span><span class="identifier">Long</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="as-seconds.html">asSeconds</a></h4>
+</td>
+<td>
+<p>This will be used for coercions to seconds.</p>
+<code><span class="keyword">abstract</span> <span class="keyword">val </span><span class="identifier">asSeconds</span><span class="symbol">: </span><span class="identifier">Long</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Extension Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="../../bvanseg.kotlincommons.timedate.transformer/until.html">until</a></h4>
+</td>
+<td>
+<code><span class="keyword">infix</span> <span class="keyword">fun </span><a href="./index.html"><span class="identifier">TimeContext</span></a><span class="symbol">.</span><span class="identifier">until</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate.transformer$until(bvanseg.kotlincommons.timedate.TimeContext, bvanseg.kotlincommons.timedate.TimeContext)/context">context</span><span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">TimeContext</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="../../bvanseg.kotlincommons.timedate.transformer/-until-context/index.html"><span class="identifier">UntilContext</span></a></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Inheritors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="../-time-container/index.html">TimeContainer</a></h4>
+</td>
+<td>
+<code><span class="keyword">interface </span><span class="identifier">TimeContainer</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">TimeContext</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="../-time-context-unit/index.html">TimeContextUnit</a></h4>
+</td>
+<td>
+<code><span class="keyword">sealed</span> <span class="keyword">class </span><span class="identifier">TimeContextUnit</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">TimeContext</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="../-time-schedule-context/index.html">TimeScheduleContext</a></h4>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">TimeScheduleContext</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">TimeContext</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="../../bvanseg.kotlincommons.timedate.transformer/-time-transformer-context.html">TimeTransformerContext</a></h4>
+</td>
+<td>
+<code><span class="keyword">interface </span><span class="identifier">TimeTransformerContext</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">TimeContext</span></a></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

@@ -1,0 +1,25 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>TimeCoercionContext.coercedTime - kotlincommons</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">kotlincommons</a>&nbsp;/&nbsp;<a href="../index.html">bvanseg.kotlincommons.timedate.transformer</a>&nbsp;/&nbsp;<a href="index.html">TimeCoercionContext</a>&nbsp;/&nbsp;<a href="./coerced-time.html">coercedTime</a><br/>
+<br/>
+<h1>coercedTime</h1>
+<a name="bvanseg.kotlincommons.timedate.transformer.TimeCoercionContext$coercedTime"></a>
+<code><span class="keyword">val </span><span class="identifier">coercedTime</span><span class="symbol">: </span><a href="../../bvanseg.kotlincommons.timedate/-time-container/index.html"><span class="identifier">TimeContainer</span></a></code>
+<p>Coerce <a href="original.html">original</a> into <a href="unit.html">unit</a> such that <a href="original.html">original</a> is converted to <a href="unit.html">unit</a>, e.g.:
+12/21/2020/04:20:30.5349 -&gt; Seconds -&gt; year.asSeconds + month.asSeconds + day.asSeconds + hour.asSeconds + minute.asSeconds + second</p>
+<p>This should be done via a <a href="#">fold</a> operation. Should be implemented as a method on <a href="../../bvanseg.kotlincommons.timedate/-time-container/index.html">TimeContainer</a></p>
+<p>Covariant Coercion :: Greater units are converted to seconds and folded together until you've folded to <a href="unit.html">unit</a> then convert the seconds to <a href="unit.html">unit</a>
+e.g.: Greater units are Year, Month, Day, which have contravariant coercion strategies
+Contravariant Coercion :: Lesser units are zero'd out
+e.g.: Lesser units are Hour, Minute, Second, Nanosecond which have covariant coercion strategies
+Invariant Coercion :: Just the <a href="unit.html">unit</a>'s place is zero'd out aka truncate
+e.g.: truncate is invariant, therefore it has no relation to any unit or strategy</p>
+<p><strong>Note</strong><br/>
+Should we fold years into the lesser units?</p>
+</BODY>
+</HTML>

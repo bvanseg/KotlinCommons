@@ -2360,7 +2360,28 @@
 <link rel="stylesheet" href="../style.css">
 </HEAD>
 <BODY>
-<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.net.ratelimit/-rate-limiter/-init-.html"><span class="identifier">RateLimiter</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.net.ratelimit.RateLimiter$<init>(bvanseg.kotlincommons.net.ratelimit.TokenBucket)/tokenBucket">tokenBucket</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.net.ratelimit/-token-bucket/index.html"><span class="identifier">TokenBucket</span></a><span class="symbol">)</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.net.ratelimit/-rate-limiter/-init-.html"><span class="identifier">RateLimiter</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.net.ratelimit.RateLimiter$<init>(bvanseg.kotlincommons.net.ratelimit.TokenBucket, java.util.concurrent.ScheduledExecutorService, kotlin.Function3((bvanseg.kotlincommons.net.ratelimit.RateLimiter((bvanseg.kotlincommons.net.ratelimit.RateLimiter.T)), java.util.concurrent.atomic.AtomicLong, java.util.concurrent.ConcurrentLinkedDeque((kotlin.Pair((, kotlin.Function1((, kotlin.Unit)))))), )))/tokenBucket">tokenBucket</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.net.ratelimit/-token-bucket/index.html"><span class="identifier">TokenBucket</span></a><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.net.ratelimit.RateLimiter$<init>(bvanseg.kotlincommons.net.ratelimit.TokenBucket, java.util.concurrent.ScheduledExecutorService, kotlin.Function3((bvanseg.kotlincommons.net.ratelimit.RateLimiter((bvanseg.kotlincommons.net.ratelimit.RateLimiter.T)), java.util.concurrent.atomic.AtomicLong, java.util.concurrent.ConcurrentLinkedDeque((kotlin.Pair((, kotlin.Function1((, kotlin.Unit)))))), )))/service">service</span><span class="symbol">:</span>&nbsp;<span class="identifier">ScheduledExecutorService</span>&nbsp;<span class="symbol">=</span>&nbsp;Executors.newSingleThreadScheduledExecutor {
+    val thread = Thread(it)
+    thread.isDaemon = true
+    thread
+}<span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.net.ratelimit.RateLimiter$<init>(bvanseg.kotlincommons.net.ratelimit.TokenBucket, java.util.concurrent.ScheduledExecutorService, kotlin.Function3((bvanseg.kotlincommons.net.ratelimit.RateLimiter((bvanseg.kotlincommons.net.ratelimit.RateLimiter.T)), java.util.concurrent.atomic.AtomicLong, java.util.concurrent.ConcurrentLinkedDeque((kotlin.Pair((, kotlin.Function1((, kotlin.Unit)))))), )))/cycleStrategy">cycleStrategy</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="bvanseg.kotlincommons.net.ratelimit/-rate-limiter/index.html"><span class="identifier">RateLimiter</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">,</span>&nbsp;<span class="identifier">AtomicLong</span><span class="symbol">,</span>&nbsp;<span class="identifier">ConcurrentLinkedDeque</span><span class="symbol">&lt;</span><span class="identifier">Pair</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">,</span>&nbsp;<span class="symbol">(</span><span class="identifier">T</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<span class="identifier">Unit</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<span class="identifier">Unit</span>&nbsp;<span class="symbol">=</span>&nbsp;{ ratelimiter, bc, q -&gt;
+    service.scheduleAtFixedRate({
+        tokenBucket.refill()
+
+        while(tokenBucket.isNotEmpty()) {
+            while(bc.get() &gt; 0) { Thread.onSpinWait() }
+            val next = q.pollFirst()
+            next?.let {
+                val result = tokenBucket.tryConsume()
+                if(result) {
+                    it.second(it.first)
+                    ratelimiter.logger.trace("Executing queued submission: TokenBucket (${tokenBucket.currentTokenCount.get()}/${tokenBucket.tokenLimit}).")
+                } else
+                    q.addFirst(it.first to it.second)
+            } ?: break
+        }
+    }, tokenBucket.refillTime, tokenBucket.refillTime, TimeUnit.MILLISECONDS)
+}<span class="symbol">)</span></a></a><br/>
 <a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.net.ratelimit/-rate-limiter/logger.html"><span class="keyword">val </span><span class="identifier">logger</span><span class="symbol">: </span><span class="identifier">Logger</span></a></a><br/>
 <a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.net.ratelimit/-rate-limiter/shutdown.html"><span class="keyword">fun </span><span class="identifier">shutdown</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></a></a><br/>
 <a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.net.ratelimit/-rate-limiter/submit.html"><span class="keyword">fun </span><span class="identifier">submit</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.net.ratelimit.RateLimiter$submit(bvanseg.kotlincommons.net.ratelimit.RateLimiter.T, kotlin.Function1((bvanseg.kotlincommons.net.ratelimit.RateLimiter.T, kotlin.Unit)))/unit">unit</span><span class="symbol">:</span>&nbsp;<span class="identifier">T</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.net.ratelimit.RateLimiter$submit(bvanseg.kotlincommons.net.ratelimit.RateLimiter.T, kotlin.Function1((bvanseg.kotlincommons.net.ratelimit.RateLimiter.T, kotlin.Unit)))/ratelimitCallback">ratelimitCallback</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="identifier">T</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<span class="identifier">Unit</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></a></a><br/>
@@ -2380,7 +2401,9 @@
 <link rel="stylesheet" href="../style.css">
 </HEAD>
 <BODY>
-<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.net.ratelimit/-token-bucket/-init-.html"><span class="identifier">TokenBucket</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.net.ratelimit.TokenBucket$<init>(kotlin.Long, kotlin.Long, kotlin.Long, kotlin.Long, kotlin.Long)/tokenLimit">tokenLimit</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.net.ratelimit.TokenBucket$<init>(kotlin.Long, kotlin.Long, kotlin.Long, kotlin.Long, kotlin.Long)/maxSize">maxSize</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.net.ratelimit.TokenBucket$<init>(kotlin.Long, kotlin.Long, kotlin.Long, kotlin.Long, kotlin.Long)/refillTime">refillTime</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.net.ratelimit.TokenBucket$<init>(kotlin.Long, kotlin.Long, kotlin.Long, kotlin.Long, kotlin.Long)/initUpdate">initUpdate</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.net.ratelimit.TokenBucket$<init>(kotlin.Long, kotlin.Long, kotlin.Long, kotlin.Long, kotlin.Long)/initTokenCount">initTokenCount</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span>&nbsp;<span class="symbol">=</span>&nbsp;tokenLimit<span class="symbol">)</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.net.ratelimit/-token-bucket/-init-.html"><span class="identifier">TokenBucket</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.net.ratelimit.TokenBucket$<init>(kotlin.Long, kotlin.Long, kotlin.Long, kotlin.Long, kotlin.Long, kotlin.Function1((bvanseg.kotlincommons.net.ratelimit.TokenBucket, kotlin.Unit)))/tokenLimit">tokenLimit</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.net.ratelimit.TokenBucket$<init>(kotlin.Long, kotlin.Long, kotlin.Long, kotlin.Long, kotlin.Long, kotlin.Function1((bvanseg.kotlincommons.net.ratelimit.TokenBucket, kotlin.Unit)))/maxSize">maxSize</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.net.ratelimit.TokenBucket$<init>(kotlin.Long, kotlin.Long, kotlin.Long, kotlin.Long, kotlin.Long, kotlin.Function1((bvanseg.kotlincommons.net.ratelimit.TokenBucket, kotlin.Unit)))/refillTime">refillTime</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.net.ratelimit.TokenBucket$<init>(kotlin.Long, kotlin.Long, kotlin.Long, kotlin.Long, kotlin.Long, kotlin.Function1((bvanseg.kotlincommons.net.ratelimit.TokenBucket, kotlin.Unit)))/initUpdate">initUpdate</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.net.ratelimit.TokenBucket$<init>(kotlin.Long, kotlin.Long, kotlin.Long, kotlin.Long, kotlin.Long, kotlin.Function1((bvanseg.kotlincommons.net.ratelimit.TokenBucket, kotlin.Unit)))/initTokenCount">initTokenCount</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span>&nbsp;<span class="symbol">=</span>&nbsp;tokenLimit<span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.net.ratelimit.TokenBucket$<init>(kotlin.Long, kotlin.Long, kotlin.Long, kotlin.Long, kotlin.Long, kotlin.Function1((bvanseg.kotlincommons.net.ratelimit.TokenBucket, kotlin.Unit)))/refreshStrategy">refreshStrategy</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="bvanseg.kotlincommons.net.ratelimit/-token-bucket/index.html"><span class="identifier">TokenBucket</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<span class="identifier">Unit</span>&nbsp;<span class="symbol">=</span>&nbsp;{
+        it.currentTokenCount.set(tokenLimit)
+    }<span class="symbol">)</span></a></a><br/>
 <a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.net.ratelimit/-token-bucket/current-token-count.html"><span class="keyword">var </span><span class="identifier">currentTokenCount</span><span class="symbol">: </span><span class="identifier">AtomicLong</span></a></a><br/>
 <a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.net.ratelimit/-token-bucket/is-empty.html"><span class="keyword">fun </span><span class="identifier">isEmpty</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Boolean</span></a></a><br/>
 <a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.net.ratelimit/-token-bucket/is-full.html"><span class="keyword">fun </span><span class="identifier">isFull</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Boolean</span></a></a><br/>
@@ -2390,6 +2413,7 @@
 <a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.net.ratelimit/-token-bucket/max-size.html"><span class="keyword">val </span><span class="identifier">maxSize</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
 <a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.net.ratelimit/-token-bucket/refill.html"><span class="keyword">fun </span><span class="identifier">refill</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></a></a><br/>
 <a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.net.ratelimit/-token-bucket/refill-time.html"><span class="keyword">val </span><span class="identifier">refillTime</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.net.ratelimit/-token-bucket/refresh-strategy.html"><span class="keyword">val </span><span class="identifier">refreshStrategy</span><span class="symbol">: </span><span class="symbol">(</span><a href="bvanseg.kotlincommons.net.ratelimit/-token-bucket/index.html"><span class="identifier">TokenBucket</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<span class="identifier">Unit</span></a></a><br/>
 <a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.net.ratelimit/-token-bucket/token-limit.html"><span class="keyword">val </span><span class="identifier">tokenLimit</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
 <a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.net.ratelimit/-token-bucket/try-consume.html"><span class="keyword">fun </span><span class="identifier">tryConsume</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Boolean</span></a></a><br/>
 </BODY>
@@ -2953,6 +2977,435 @@
 <a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.time/-timer/partial-ticks.html"><span class="keyword">var </span><span class="identifier">partialTicks</span><span class="symbol">: </span><span class="identifier">Float</span></a></a><br/>
 <a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.time/-timer/tick-length.html"><span class="keyword">val </span><span class="identifier">tickLength</span><span class="symbol">: </span><span class="identifier">Float</span></a></a><br/>
 <a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.time/-timer/update-timer.html"><span class="keyword">fun </span><span class="identifier">updateTimer</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/index.html"><span class="keyword">package</span>&nbsp;<span class="identifier">bvanseg.kotlincommons.timedate</span></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/after.html"><span class="keyword">infix</span> <span class="keyword">fun </span><a href="bvanseg.kotlincommons.timedate/-unit-based-time-container/index.html"><span class="identifier">UnitBasedTimeContainer</span></a><span class="symbol">.</span><span class="identifier">after</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate$after(bvanseg.kotlincommons.timedate.UnitBasedTimeContainer, bvanseg.kotlincommons.timedate.LocalDateTimeContainer)/context">context</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.timedate/-local-date-time-container/index.html"><span class="identifier">LocalDateTimeContainer</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.timedate/-unit-based-time-container/index.html"><span class="identifier">UnitBasedTimeContainer</span></a></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/before.html"><span class="keyword">infix</span> <span class="keyword">fun </span><a href="bvanseg.kotlincommons.timedate/-unit-based-time-container/index.html"><span class="identifier">UnitBasedTimeContainer</span></a><span class="symbol">.</span><span class="identifier">before</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate$before(bvanseg.kotlincommons.timedate.UnitBasedTimeContainer, bvanseg.kotlincommons.timedate.LocalDateTimeContainer)/context">context</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.timedate/-local-date-time-container/index.html"><span class="identifier">LocalDateTimeContainer</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.timedate/-unit-based-time-container/index.html"><span class="identifier">UnitBasedTimeContainer</span></a></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/days.html"><span class="keyword">val </span><span class="identifier">days</span><span class="symbol">: </span><span class="identifier">TimeUnit</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/every.html"><span class="keyword">infix</span> <span class="keyword">fun </span><a href="bvanseg.kotlincommons.timedate.transformer/-bounded-context/index.html"><span class="identifier">BoundedContext</span></a><span class="symbol">.</span><span class="identifier">every</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate$every(bvanseg.kotlincommons.timedate.transformer.BoundedContext, bvanseg.kotlincommons.timedate.UnitBasedTimeContainer)/context">context</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.timedate/-unit-based-time-container/index.html"><span class="identifier">UnitBasedTimeContainer</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.timedate/-time-schedule-context/index.html"><span class="identifier">TimeScheduleContext</span></a></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/every-exact.html"><span class="keyword">infix</span> <span class="keyword">fun </span><a href="bvanseg.kotlincommons.timedate.transformer/-bounded-context/index.html"><span class="identifier">BoundedContext</span></a><span class="symbol">.</span><span class="identifier">everyExact</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate$everyExact(bvanseg.kotlincommons.timedate.transformer.BoundedContext, bvanseg.kotlincommons.timedate.UnitBasedTimeContainer)/context">context</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.timedate/-unit-based-time-container/index.html"><span class="identifier">UnitBasedTimeContainer</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.timedate/-time-schedule-context/index.html"><span class="identifier">TimeScheduleContext</span></a></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/from.html"><span class="keyword">infix</span> <span class="keyword">fun </span><a href="bvanseg.kotlincommons.timedate/-unit-based-time-container/index.html"><span class="identifier">UnitBasedTimeContainer</span></a><span class="symbol">.</span><span class="identifier">from</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate$from(bvanseg.kotlincommons.timedate.UnitBasedTimeContainer, bvanseg.kotlincommons.timedate.LocalDateTimeContainer)/context">context</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.timedate/-local-date-time-container/index.html"><span class="identifier">LocalDateTimeContainer</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.timedate/-unit-based-time-container/index.html"><span class="identifier">UnitBasedTimeContainer</span></a></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/hours.html"><span class="keyword">val </span><span class="identifier">hours</span><span class="symbol">: </span><span class="identifier">TimeUnit</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/into.html"><span class="keyword">infix</span> <span class="keyword">fun </span><a href="bvanseg.kotlincommons.timedate/-unit-based-time-container/index.html"><span class="identifier">UnitBasedTimeContainer</span></a><span class="symbol">.</span><span class="identifier">into</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate$into(bvanseg.kotlincommons.timedate.UnitBasedTimeContainer, java.util.concurrent.TimeUnit)/context">context</span><span class="symbol">:</span>&nbsp;<span class="identifier">TimeUnit</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/is-after.html"><span class="keyword">infix</span> <span class="keyword">fun </span><a href="bvanseg.kotlincommons.timedate/-local-date-time-container/index.html"><span class="identifier">LocalDateTimeContainer</span></a><span class="symbol">.</span><span class="identifier">isAfter</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate$isAfter(bvanseg.kotlincommons.timedate.LocalDateTimeContainer, bvanseg.kotlincommons.timedate.LocalDateTimeContainer)/context">context</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.timedate/-local-date-time-container/index.html"><span class="identifier">LocalDateTimeContainer</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Boolean</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/is-before.html"><span class="keyword">infix</span> <span class="keyword">fun </span><a href="bvanseg.kotlincommons.timedate/-local-date-time-container/index.html"><span class="identifier">LocalDateTimeContainer</span></a><span class="symbol">.</span><span class="identifier">isBefore</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate$isBefore(bvanseg.kotlincommons.timedate.LocalDateTimeContainer, bvanseg.kotlincommons.timedate.LocalDateTimeContainer)/context">context</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.timedate/-local-date-time-container/index.html"><span class="identifier">LocalDateTimeContainer</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Boolean</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/kotlin.-int/index.html"><span class="identifier">kotlin.Int</span></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/kotlin.-int/days.html"><span class="keyword">val </span><span class="identifier">Int</span><span class="symbol">.</span><span class="identifier">days</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.timedate/-unit-based-time-container/index.html"><span class="identifier">UnitBasedTimeContainer</span></a></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/kotlin.-int/hours.html"><span class="keyword">val </span><span class="identifier">Int</span><span class="symbol">.</span><span class="identifier">hours</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.timedate/-unit-based-time-container/index.html"><span class="identifier">UnitBasedTimeContainer</span></a></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/kotlin.-int/minutes.html"><span class="keyword">val </span><span class="identifier">Int</span><span class="symbol">.</span><span class="identifier">minutes</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.timedate/-unit-based-time-container/index.html"><span class="identifier">UnitBasedTimeContainer</span></a></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/kotlin.-int/months.html"><span class="keyword">val </span><span class="identifier">Int</span><span class="symbol">.</span><span class="identifier">months</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.timedate/-unit-based-time-container/index.html"><span class="identifier">UnitBasedTimeContainer</span></a></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/kotlin.-int/nanos.html"><span class="keyword">val </span><span class="identifier">Int</span><span class="symbol">.</span><span class="identifier">nanos</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.timedate/-unit-based-time-container/index.html"><span class="identifier">UnitBasedTimeContainer</span></a></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/kotlin.-int/seconds.html"><span class="keyword">val </span><span class="identifier">Int</span><span class="symbol">.</span><span class="identifier">seconds</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.timedate/-unit-based-time-container/index.html"><span class="identifier">UnitBasedTimeContainer</span></a></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/kotlin.-int/weeks.html"><span class="keyword">val </span><span class="identifier">Int</span><span class="symbol">.</span><span class="identifier">weeks</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.timedate/-unit-based-time-container/index.html"><span class="identifier">UnitBasedTimeContainer</span></a></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/kotlin.-int/years.html"><span class="keyword">val </span><span class="identifier">Int</span><span class="symbol">.</span><span class="identifier">years</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.timedate/-unit-based-time-container/index.html"><span class="identifier">UnitBasedTimeContainer</span></a></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-local-date-time-container/index.html"><span class="keyword">class </span><span class="identifier">LocalDateTimeContainer</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.timedate/-time-container/index.html"><span class="identifier">TimeContainer</span></a></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-local-date-time-container/-init-.html"><span class="identifier">LocalDateTimeContainer</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate.LocalDateTimeContainer$<init>(java.time.LocalDateTime, bvanseg.kotlincommons.timedate.Time)/currentTime">currentTime</span><span class="symbol">:</span>&nbsp;<span class="identifier">LocalDateTime</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.timedate.LocalDateTimeContainer$<init>(java.time.LocalDateTime, bvanseg.kotlincommons.timedate.Time)/timeObject">timeObject</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.timedate/-time/index.html"><span class="identifier">Time</span></a>&nbsp;<span class="symbol">=</span>&nbsp;Time(
+    currentTime.year.toLong(),
+    currentTime.month.value.toLong(),
+    currentTime.dayOfWeek.value.toLong(),
+    currentTime.hour.toLong(),
+    currentTime.minute.toLong(),
+    currentTime.second.toLong(),
+    currentTime.nano.toLong()
+)<span class="symbol">)</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-local-date-time-container/as-hour.html"><span class="keyword">val </span><span class="identifier">asHour</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-local-date-time-container/as-minute.html"><span class="keyword">val </span><span class="identifier">asMinute</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-local-date-time-container/as-nano.html"><span class="keyword">val </span><span class="identifier">asNano</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-local-date-time-container/as-seconds.html"><span class="keyword">val </span><span class="identifier">asSeconds</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-local-date-time-container/current-time.html"><span class="keyword">val </span><span class="identifier">currentTime</span><span class="symbol">: </span><span class="identifier">LocalDateTime</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-local-date-time-container/flatmap.html"><span class="keyword">fun </span><span class="identifier">flatmap</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate.LocalDateTimeContainer$flatmap(kotlin.Function1((bvanseg.kotlincommons.timedate.Time, )))/cb">cb</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="bvanseg.kotlincommons.timedate/-time/index.html"><span class="identifier">Time</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="bvanseg.kotlincommons.timedate/-time/index.html"><span class="identifier">Time</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.timedate/-unit-based-time-container/index.html"><span class="identifier">UnitBasedTimeContainer</span></a></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-local-date-time-container/time-object.html"><span class="keyword">val </span><span class="identifier">timeObject</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.timedate/-time/index.html"><span class="identifier">Time</span></a></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-local-date-time-container/to-string.html"><span class="keyword">fun </span><span class="identifier">toString</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">String</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-local-date-time-container/to-unit-based-time-container.html"><span class="keyword">fun </span><span class="identifier">toUnitBasedTimeContainer</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.timedate/-unit-based-time-container/index.html"><span class="identifier">UnitBasedTimeContainer</span></a></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/minus.html"><span class="keyword">operator</span> <span class="keyword">fun </span><a href="bvanseg.kotlincommons.timedate/-local-date-time-container/index.html"><span class="identifier">LocalDateTimeContainer</span></a><span class="symbol">.</span><span class="identifier">minus</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate$minus(bvanseg.kotlincommons.timedate.LocalDateTimeContainer, bvanseg.kotlincommons.timedate.UnitBasedTimeContainer)/context">context</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.timedate/-unit-based-time-container/index.html"><span class="identifier">UnitBasedTimeContainer</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.timedate/-unit-based-time-container/index.html"><span class="identifier">UnitBasedTimeContainer</span></a></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/minus.html"><span class="keyword">operator</span> <span class="keyword">fun </span><a href="bvanseg.kotlincommons.timedate/-unit-based-time-container/index.html"><span class="identifier">UnitBasedTimeContainer</span></a><span class="symbol">.</span><span class="identifier">minus</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate$minus(bvanseg.kotlincommons.timedate.UnitBasedTimeContainer, bvanseg.kotlincommons.timedate.LocalDateTimeContainer)/context">context</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.timedate/-local-date-time-container/index.html"><span class="identifier">LocalDateTimeContainer</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.timedate/-unit-based-time-container/index.html"><span class="identifier">UnitBasedTimeContainer</span></a></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/minus.html"><span class="keyword">operator</span> <span class="keyword">fun </span><a href="bvanseg.kotlincommons.timedate/-unit-based-time-container/index.html"><span class="identifier">UnitBasedTimeContainer</span></a><span class="symbol">.</span><span class="identifier">minus</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate$minus(bvanseg.kotlincommons.timedate.UnitBasedTimeContainer, bvanseg.kotlincommons.timedate.UnitBasedTimeContainer)/context">context</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.timedate/-unit-based-time-container/index.html"><span class="identifier">UnitBasedTimeContainer</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.timedate/-unit-based-time-container/index.html"><span class="identifier">UnitBasedTimeContainer</span></a></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/minutes.html"><span class="keyword">val </span><span class="identifier">minutes</span><span class="symbol">: </span><span class="identifier">TimeUnit</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/nanoseconds.html"><span class="keyword">val </span><span class="identifier">nanoseconds</span><span class="symbol">: </span><span class="identifier">TimeUnit</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/now.html"><span class="keyword">val </span><span class="identifier">now</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.timedate/-local-date-time-container/index.html"><span class="identifier">LocalDateTimeContainer</span></a></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/offset.html"><span class="keyword">infix</span> <span class="keyword">fun </span><a href="bvanseg.kotlincommons.timedate/-local-date-time-container/index.html"><span class="identifier">LocalDateTimeContainer</span></a><span class="symbol">.</span><span class="identifier">offset</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate$offset(bvanseg.kotlincommons.timedate.LocalDateTimeContainer, bvanseg.kotlincommons.timedate.UnitBasedTimeContainer)/context">context</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.timedate/-unit-based-time-container/index.html"><span class="identifier">UnitBasedTimeContainer</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.timedate/-local-date-time-container/index.html"><span class="identifier">LocalDateTimeContainer</span></a></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/plus.html"><span class="keyword">operator</span> <span class="keyword">fun </span><a href="bvanseg.kotlincommons.timedate/-local-date-time-container/index.html"><span class="identifier">LocalDateTimeContainer</span></a><span class="symbol">.</span><span class="identifier">plus</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate$plus(bvanseg.kotlincommons.timedate.LocalDateTimeContainer, bvanseg.kotlincommons.timedate.UnitBasedTimeContainer)/context">context</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.timedate/-unit-based-time-container/index.html"><span class="identifier">UnitBasedTimeContainer</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.timedate/-unit-based-time-container/index.html"><span class="identifier">UnitBasedTimeContainer</span></a></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/plus.html"><span class="keyword">operator</span> <span class="keyword">fun </span><a href="bvanseg.kotlincommons.timedate/-unit-based-time-container/index.html"><span class="identifier">UnitBasedTimeContainer</span></a><span class="symbol">.</span><span class="identifier">plus</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate$plus(bvanseg.kotlincommons.timedate.UnitBasedTimeContainer, bvanseg.kotlincommons.timedate.LocalDateTimeContainer)/context">context</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.timedate/-local-date-time-container/index.html"><span class="identifier">LocalDateTimeContainer</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.timedate/-unit-based-time-container/index.html"><span class="identifier">UnitBasedTimeContainer</span></a></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/plus.html"><span class="keyword">operator</span> <span class="keyword">fun </span><a href="bvanseg.kotlincommons.timedate/-unit-based-time-container/index.html"><span class="identifier">UnitBasedTimeContainer</span></a><span class="symbol">.</span><span class="identifier">plus</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate$plus(bvanseg.kotlincommons.timedate.UnitBasedTimeContainer, bvanseg.kotlincommons.timedate.UnitBasedTimeContainer)/context">context</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.timedate/-unit-based-time-container/index.html"><span class="identifier">UnitBasedTimeContainer</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.timedate/-unit-based-time-container/index.html"><span class="identifier">UnitBasedTimeContainer</span></a></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/seconds.html"><span class="keyword">val </span><span class="identifier">seconds</span><span class="symbol">: </span><span class="identifier">TimeUnit</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time/index.html"><span class="keyword">data</span> <span class="keyword">class </span><span class="identifier">Time</span></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time/-init-.html"><span class="identifier">Time</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate.Time$<init>(kotlin.Long, kotlin.Long, kotlin.Long, kotlin.Long, kotlin.Long, kotlin.Long, kotlin.Long)/year">year</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.timedate.Time$<init>(kotlin.Long, kotlin.Long, kotlin.Long, kotlin.Long, kotlin.Long, kotlin.Long, kotlin.Long)/month">month</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.timedate.Time$<init>(kotlin.Long, kotlin.Long, kotlin.Long, kotlin.Long, kotlin.Long, kotlin.Long, kotlin.Long)/day">day</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.timedate.Time$<init>(kotlin.Long, kotlin.Long, kotlin.Long, kotlin.Long, kotlin.Long, kotlin.Long, kotlin.Long)/hour">hour</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.timedate.Time$<init>(kotlin.Long, kotlin.Long, kotlin.Long, kotlin.Long, kotlin.Long, kotlin.Long, kotlin.Long)/minute">minute</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.timedate.Time$<init>(kotlin.Long, kotlin.Long, kotlin.Long, kotlin.Long, kotlin.Long, kotlin.Long, kotlin.Long)/second">second</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.timedate.Time$<init>(kotlin.Long, kotlin.Long, kotlin.Long, kotlin.Long, kotlin.Long, kotlin.Long, kotlin.Long)/nano">nano</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">)</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time/day.html"><span class="keyword">val </span><span class="identifier">day</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time/hour.html"><span class="keyword">val </span><span class="identifier">hour</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time/minute.html"><span class="keyword">val </span><span class="identifier">minute</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time/month.html"><span class="keyword">val </span><span class="identifier">month</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time/nano.html"><span class="keyword">val </span><span class="identifier">nano</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time/second.html"><span class="keyword">val </span><span class="identifier">second</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time/year.html"><span class="keyword">val </span><span class="identifier">year</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-container/index.html"><span class="keyword">interface </span><span class="identifier">TimeContainer</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.timedate/-time-context/index.html"><span class="identifier">TimeContext</span></a></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-container/flatmap.html"><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">flatmap</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate.TimeContainer$flatmap(kotlin.Function1((bvanseg.kotlincommons.timedate.Time, )))/cb">cb</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="bvanseg.kotlincommons.timedate/-time/index.html"><span class="identifier">Time</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="bvanseg.kotlincommons.timedate/-time/index.html"><span class="identifier">Time</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.timedate/-time-container/index.html"><span class="identifier">TimeContainer</span></a></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-container/time-object.html"><span class="keyword">abstract</span> <span class="keyword">val </span><span class="identifier">timeObject</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.timedate/-time/index.html"><span class="identifier">Time</span></a></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context/index.html"><span class="keyword">interface </span><span class="identifier">TimeContext</span></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context/as-hour.html"><span class="keyword">abstract</span> <span class="keyword">val </span><span class="identifier">asHour</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context/as-minute.html"><span class="keyword">abstract</span> <span class="keyword">val </span><span class="identifier">asMinute</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context/as-nano.html"><span class="keyword">abstract</span> <span class="keyword">val </span><span class="identifier">asNano</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context/as-seconds.html"><span class="keyword">abstract</span> <span class="keyword">val </span><span class="identifier">asSeconds</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/index.html"><span class="keyword">sealed</span> <span class="keyword">class </span><span class="identifier">TimeContextUnit</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.timedate/-time-context/index.html"><span class="identifier">TimeContext</span></a></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/as-chrono.html"><span class="keyword">fun </span><span class="identifier">asChrono</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">ChronoUnit</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/-day/index.html"><span class="keyword">data</span> <span class="keyword">class </span><span class="identifier">Day</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.timedate/-time-context-unit/index.html"><span class="identifier">TimeContextUnit</span></a></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/-day/-init-.html"><span class="identifier">Day</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate.TimeContextUnit.Day$<init>(kotlin.Long)/days">days</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">)</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/-day/as-hour.html"><span class="keyword">val </span><span class="identifier">asHour</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/-day/as-minute.html"><span class="keyword">val </span><span class="identifier">asMinute</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/-day/as-nano.html"><span class="keyword">val </span><span class="identifier">asNano</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/-day/as-seconds.html"><span class="keyword">val </span><span class="identifier">asSeconds</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/-day/days.html"><span class="keyword">val </span><span class="identifier">days</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/get-time-millis.html"><span class="keyword">fun </span><span class="identifier">getTimeMillis</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/-hour/index.html"><span class="keyword">data</span> <span class="keyword">class </span><span class="identifier">Hour</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.timedate/-time-context-unit/index.html"><span class="identifier">TimeContextUnit</span></a></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/-hour/-init-.html"><span class="identifier">Hour</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate.TimeContextUnit.Hour$<init>(kotlin.Long)/hours">hours</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">)</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/-hour/as-hour.html"><span class="keyword">val </span><span class="identifier">asHour</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/-hour/as-minute.html"><span class="keyword">val </span><span class="identifier">asMinute</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/-hour/as-nano.html"><span class="keyword">val </span><span class="identifier">asNano</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/-hour/as-seconds.html"><span class="keyword">val </span><span class="identifier">asSeconds</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/-hour/hours.html"><span class="keyword">val </span><span class="identifier">hours</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/-minute/index.html"><span class="keyword">data</span> <span class="keyword">class </span><span class="identifier">Minute</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.timedate/-time-context-unit/index.html"><span class="identifier">TimeContextUnit</span></a></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/-minute/-init-.html"><span class="identifier">Minute</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate.TimeContextUnit.Minute$<init>(kotlin.Long)/minute">minute</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">)</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/-minute/as-hour.html"><span class="keyword">val </span><span class="identifier">asHour</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/-minute/as-minute.html"><span class="keyword">val </span><span class="identifier">asMinute</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/-minute/as-nano.html"><span class="keyword">val </span><span class="identifier">asNano</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/-minute/as-seconds.html"><span class="keyword">val </span><span class="identifier">asSeconds</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/-minute/minute.html"><span class="keyword">val </span><span class="identifier">minute</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/-month/index.html"><span class="keyword">data</span> <span class="keyword">class </span><span class="identifier">Month</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.timedate/-time-context-unit/index.html"><span class="identifier">TimeContextUnit</span></a></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/-month/-init-.html"><span class="identifier">Month</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate.TimeContextUnit.Month$<init>(kotlin.Long)/months">months</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">)</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/-month/as-hour.html"><span class="keyword">val </span><span class="identifier">asHour</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/-month/as-minute.html"><span class="keyword">val </span><span class="identifier">asMinute</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/-month/as-nano.html"><span class="keyword">val </span><span class="identifier">asNano</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/-month/as-seconds.html"><span class="keyword">val </span><span class="identifier">asSeconds</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/-month/months.html"><span class="keyword">val </span><span class="identifier">months</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/-nano/index.html"><span class="keyword">data</span> <span class="keyword">class </span><span class="identifier">Nano</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.timedate/-time-context-unit/index.html"><span class="identifier">TimeContextUnit</span></a></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/-nano/-init-.html"><span class="identifier">Nano</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate.TimeContextUnit.Nano$<init>(kotlin.Long)/nanosecs">nanosecs</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">)</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/-nano/as-hour.html"><span class="keyword">val </span><span class="identifier">asHour</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/-nano/as-minute.html"><span class="keyword">val </span><span class="identifier">asMinute</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/-nano/as-nano.html"><span class="keyword">val </span><span class="identifier">asNano</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/-nano/as-seconds.html"><span class="keyword">val </span><span class="identifier">asSeconds</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/-nano/nanosecs.html"><span class="keyword">val </span><span class="identifier">nanosecs</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/-none/index.html"><span class="keyword">object </span><span class="identifier">None</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.timedate/-time-context-unit/index.html"><span class="identifier">TimeContextUnit</span></a></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/-none/as-hour.html"><span class="keyword">val </span><span class="identifier">asHour</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/-none/as-minute.html"><span class="keyword">val </span><span class="identifier">asMinute</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/-none/as-nano.html"><span class="keyword">val </span><span class="identifier">asNano</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/-none/as-seconds.html"><span class="keyword">val </span><span class="identifier">asSeconds</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/-second/index.html"><span class="keyword">data</span> <span class="keyword">class </span><span class="identifier">Second</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.timedate/-time-context-unit/index.html"><span class="identifier">TimeContextUnit</span></a></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/-second/-init-.html"><span class="identifier">Second</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate.TimeContextUnit.Second$<init>(kotlin.Long)/seconds">seconds</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">)</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/-second/as-hour.html"><span class="keyword">val </span><span class="identifier">asHour</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/-second/as-minute.html"><span class="keyword">val </span><span class="identifier">asMinute</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/-second/as-nano.html"><span class="keyword">val </span><span class="identifier">asNano</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/-second/as-seconds.html"><span class="keyword">val </span><span class="identifier">asSeconds</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/-second/seconds.html"><span class="keyword">val </span><span class="identifier">seconds</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/value.html"><span class="keyword">val </span><span class="identifier">value</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/-week/index.html"><span class="keyword">data</span> <span class="keyword">class </span><span class="identifier">Week</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.timedate/-time-context-unit/index.html"><span class="identifier">TimeContextUnit</span></a></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/-week/-init-.html"><span class="identifier">Week</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate.TimeContextUnit.Week$<init>(kotlin.Long)/weeks">weeks</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">)</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/-week/as-hour.html"><span class="keyword">val </span><span class="identifier">asHour</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/-week/as-minute.html"><span class="keyword">val </span><span class="identifier">asMinute</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/-week/as-nano.html"><span class="keyword">val </span><span class="identifier">asNano</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/-week/as-seconds.html"><span class="keyword">val </span><span class="identifier">asSeconds</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/-week/weeks.html"><span class="keyword">val </span><span class="identifier">weeks</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/-year/index.html"><span class="keyword">data</span> <span class="keyword">class </span><span class="identifier">Year</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.timedate/-time-context-unit/index.html"><span class="identifier">TimeContextUnit</span></a></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/-year/-init-.html"><span class="identifier">Year</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate.TimeContextUnit.Year$<init>(kotlin.Long)/years">years</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">)</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/-year/as-hour.html"><span class="keyword">val </span><span class="identifier">asHour</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/-year/as-minute.html"><span class="keyword">val </span><span class="identifier">asMinute</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/-year/as-nano.html"><span class="keyword">val </span><span class="identifier">asNano</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/-year/as-seconds.html"><span class="keyword">val </span><span class="identifier">asSeconds</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-context-unit/-year/years.html"><span class="keyword">val </span><span class="identifier">years</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-schedule-context/index.html"><span class="keyword">class </span><span class="identifier">TimeScheduleContext</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.timedate/-time-context/index.html"><span class="identifier">TimeContext</span></a></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-schedule-context/-init-.html"><span class="identifier">TimeScheduleContext</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate.TimeScheduleContext$<init>(bvanseg.kotlincommons.timedate.transformer.BoundedContext, bvanseg.kotlincommons.timedate.UnitBasedTimeContainer, kotlin.Boolean)/boundedContext">boundedContext</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.timedate.transformer/-bounded-context/index.html"><span class="identifier">BoundedContext</span></a><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.timedate.TimeScheduleContext$<init>(bvanseg.kotlincommons.timedate.transformer.BoundedContext, bvanseg.kotlincommons.timedate.UnitBasedTimeContainer, kotlin.Boolean)/frequency">frequency</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.timedate/-unit-based-time-container/index.html"><span class="identifier">UnitBasedTimeContainer</span></a><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.timedate.TimeScheduleContext$<init>(bvanseg.kotlincommons.timedate.transformer.BoundedContext, bvanseg.kotlincommons.timedate.UnitBasedTimeContainer, kotlin.Boolean)/ceiled">ceiled</span><span class="symbol">:</span>&nbsp;<span class="identifier">Boolean</span>&nbsp;<span class="symbol">=</span>&nbsp;false<span class="symbol">)</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-schedule-context/as-hour.html"><span class="keyword">val </span><span class="identifier">asHour</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-schedule-context/as-minute.html"><span class="keyword">val </span><span class="identifier">asMinute</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-schedule-context/as-nano.html"><span class="keyword">val </span><span class="identifier">asNano</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-schedule-context/as-seconds.html"><span class="keyword">val </span><span class="identifier">asSeconds</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-schedule-context/bounded-context.html"><span class="keyword">val </span><span class="identifier">boundedContext</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.timedate.transformer/-bounded-context/index.html"><span class="identifier">BoundedContext</span></a></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-schedule-context/frequency.html"><span class="keyword">val </span><span class="identifier">frequency</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.timedate/-unit-based-time-container/index.html"><span class="identifier">UnitBasedTimeContainer</span></a></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-schedule-context/perform.html"><span class="keyword">fun </span><span class="identifier">perform</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate.TimeScheduleContext$perform(kotlin.Function0((kotlin.Unit)))/callback">callback</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<span class="identifier">Unit</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-time-schedule-context/perform-async.html"><span class="keyword">fun </span><span class="identifier">performAsync</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate.TimeScheduleContext$performAsync(kotlin.Function0((kotlin.Unit)))/callback">callback</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<span class="identifier">Unit</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/tomorrow.html"><span class="keyword">val </span><span class="identifier">tomorrow</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.timedate/-local-date-time-container/index.html"><span class="identifier">LocalDateTimeContainer</span></a></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-unit-based-time-container/index.html"><span class="keyword">class </span><span class="identifier">UnitBasedTimeContainer</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.timedate/-time-container/index.html"><span class="identifier">TimeContainer</span></a></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-unit-based-time-container/-init-.html"><span class="identifier">UnitBasedTimeContainer</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate.UnitBasedTimeContainer$<init>(bvanseg.kotlincommons.timedate.TimeContextUnit, bvanseg.kotlincommons.timedate.Time)/unit">unit</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.timedate/-time-context-unit/index.html"><span class="identifier">TimeContextUnit</span></a><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.timedate.UnitBasedTimeContainer$<init>(bvanseg.kotlincommons.timedate.TimeContextUnit, bvanseg.kotlincommons.timedate.Time)/timeObject">timeObject</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.timedate/-time/index.html"><span class="identifier">Time</span></a>&nbsp;<span class="symbol">=</span>&nbsp;when(unit){
+        is TimeContextUnit.Year -&gt; Time(unit.years, 0, 0, 0, 0, 0, 0)
+        is TimeContextUnit.Month -&gt; Time(0, unit.months, 0, 0, 0, 0, 0)
+        is TimeContextUnit.Week -&gt; Time(0, 0, unit.weeks * 7, 0, 0, 0, 0)
+        is TimeContextUnit.Day -&gt; Time(0, 0, unit.days, 0, 0, 0, 0)
+        is TimeContextUnit.Hour -&gt; Time(0, 0, 0, unit.hours, 0, 0, 0)
+        is TimeContextUnit.Minute -&gt; Time(0, 0, 0, 0, unit.minute, 0, 0)
+        is TimeContextUnit.Second -&gt; Time(0, 0, 0, 0, 0, unit.seconds, 0)
+        is TimeContextUnit.Nano -&gt; Time(0, 0, 0, 0, 0, 0, unit.nanosecs)
+        else -&gt; Time(0, 0, 0, 0, 0, 0, 0)
+    }<span class="symbol">)</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-unit-based-time-container/as-hour.html"><span class="keyword">val </span><span class="identifier">asHour</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-unit-based-time-container/as-minute.html"><span class="keyword">val </span><span class="identifier">asMinute</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-unit-based-time-container/as-nano.html"><span class="keyword">val </span><span class="identifier">asNano</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-unit-based-time-container/as-seconds.html"><span class="keyword">val </span><span class="identifier">asSeconds</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-unit-based-time-container/flatmap.html"><span class="keyword">fun </span><span class="identifier">flatmap</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate.UnitBasedTimeContainer$flatmap(kotlin.Function1((bvanseg.kotlincommons.timedate.Time, )))/cb">cb</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="bvanseg.kotlincommons.timedate/-time/index.html"><span class="identifier">Time</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="bvanseg.kotlincommons.timedate/-time/index.html"><span class="identifier">Time</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.timedate/-unit-based-time-container/index.html"><span class="identifier">UnitBasedTimeContainer</span></a></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-unit-based-time-container/time-object.html"><span class="keyword">val </span><span class="identifier">timeObject</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.timedate/-time/index.html"><span class="identifier">Time</span></a></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-unit-based-time-container/to-string.html"><span class="identifier">@ExperimentalStdlibApi</span> <span class="keyword">fun </span><span class="identifier">toString</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">String</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/-unit-based-time-container/unit.html"><span class="keyword">val </span><span class="identifier">unit</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.timedate/-time-context-unit/index.html"><span class="identifier">TimeContextUnit</span></a></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate/yesterday.html"><span class="keyword">val </span><span class="identifier">yesterday</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.timedate/-local-date-time-container/index.html"><span class="identifier">LocalDateTimeContainer</span></a></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate.transformer/index.html"><span class="keyword">package</span>&nbsp;<span class="identifier">bvanseg.kotlincommons.timedate.transformer</span></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate.transformer/-bounded-context/index.html"><span class="keyword">interface </span><span class="identifier">BoundedContext</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.timedate.transformer/-time-transformer-context.html"><span class="identifier">TimeTransformerContext</span></a></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate.transformer/-bounded-context/left.html"><span class="keyword">abstract</span> <span class="keyword">val </span><span class="identifier">left</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.timedate/-time-context/index.html"><span class="identifier">TimeContext</span></a></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate.transformer/-bounded-context/right.html"><span class="keyword">abstract</span> <span class="keyword">val </span><span class="identifier">right</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.timedate/-time-context/index.html"><span class="identifier">TimeContext</span></a></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate.transformer/-time-coercion-context/index.html"><span class="keyword">class </span><span class="identifier">TimeCoercionContext</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.timedate.transformer/-time-transformer-context.html"><span class="identifier">TimeTransformerContext</span></a></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate.transformer/-time-coercion-context/-init-.html"><span class="identifier">TimeCoercionContext</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate.transformer.TimeCoercionContext$<init>(bvanseg.kotlincommons.timedate.TimeContainer, bvanseg.kotlincommons.timedate.TimeContextUnit)/original">original</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.timedate/-time-container/index.html"><span class="identifier">TimeContainer</span></a><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.timedate.transformer.TimeCoercionContext$<init>(bvanseg.kotlincommons.timedate.TimeContainer, bvanseg.kotlincommons.timedate.TimeContextUnit)/unit">unit</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.timedate/-time-context-unit/index.html"><span class="identifier">TimeContextUnit</span></a><span class="symbol">)</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate.transformer/-time-coercion-context/as-hour.html"><span class="keyword">val </span><span class="identifier">asHour</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate.transformer/-time-coercion-context/as-minute.html"><span class="keyword">val </span><span class="identifier">asMinute</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate.transformer/-time-coercion-context/as-nano.html"><span class="keyword">val </span><span class="identifier">asNano</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate.transformer/-time-coercion-context/as-seconds.html"><span class="keyword">val </span><span class="identifier">asSeconds</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate.transformer/-time-coercion-context/coerced-time.html"><span class="keyword">val </span><span class="identifier">coercedTime</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.timedate/-time-container/index.html"><span class="identifier">TimeContainer</span></a></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate.transformer/-time-coercion-context/original.html"><span class="keyword">val </span><span class="identifier">original</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.timedate/-time-container/index.html"><span class="identifier">TimeContainer</span></a></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate.transformer/-time-coercion-context/unit.html"><span class="keyword">val </span><span class="identifier">unit</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.timedate/-time-context-unit/index.html"><span class="identifier">TimeContextUnit</span></a></a></a><br/>
+</BODY>
+</HTML>
+</ul>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate.transformer/-time-transformer-context.html"><span class="keyword">interface </span><span class="identifier">TimeTransformerContext</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.timedate/-time-context/index.html"><span class="identifier">TimeContext</span></a></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate.transformer/until.html"><span class="keyword">infix</span> <span class="keyword">fun </span><a href="bvanseg.kotlincommons.timedate/-time-context/index.html"><span class="identifier">TimeContext</span></a><span class="symbol">.</span><span class="identifier">until</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate.transformer$until(bvanseg.kotlincommons.timedate.TimeContext, bvanseg.kotlincommons.timedate.TimeContext)/context">context</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.timedate/-time-context/index.html"><span class="identifier">TimeContext</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.timedate.transformer/-until-context/index.html"><span class="identifier">UntilContext</span></a></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate.transformer/-until-context/index.html"><span class="keyword">class </span><span class="identifier">UntilContext</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.timedate.transformer/-bounded-context/index.html"><span class="identifier">BoundedContext</span></a></a></a><br/>
+<ul>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Module Contents</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate.transformer/-until-context/-init-.html"><span class="identifier">UntilContext</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate.transformer.UntilContext$<init>(bvanseg.kotlincommons.timedate.TimeContext, bvanseg.kotlincommons.timedate.TimeContext)/left">left</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.timedate/-time-context/index.html"><span class="identifier">TimeContext</span></a><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.timedate.transformer.UntilContext$<init>(bvanseg.kotlincommons.timedate.TimeContext, bvanseg.kotlincommons.timedate.TimeContext)/right">right</span><span class="symbol">:</span>&nbsp;<a href="bvanseg.kotlincommons.timedate/-time-context/index.html"><span class="identifier">TimeContext</span></a><span class="symbol">)</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate.transformer/-until-context/as-hour.html"><span class="keyword">val </span><span class="identifier">asHour</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate.transformer/-until-context/as-minute.html"><span class="keyword">val </span><span class="identifier">asMinute</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate.transformer/-until-context/as-nano.html"><span class="keyword">val </span><span class="identifier">asNano</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate.transformer/-until-context/as-seconds.html"><span class="keyword">val </span><span class="identifier">asSeconds</span><span class="symbol">: </span><span class="identifier">Long</span></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate.transformer/-until-context/left.html"><span class="keyword">val </span><span class="identifier">left</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.timedate/-time-context/index.html"><span class="identifier">TimeContext</span></a></a></a><br/>
+<a href="docs\kotlincommons\index"><a href="bvanseg.kotlincommons.timedate.transformer/-until-context/right.html"><span class="keyword">val </span><span class="identifier">right</span><span class="symbol">: </span><a href="bvanseg.kotlincommons.timedate/-time-context/index.html"><span class="identifier">TimeContext</span></a></a></a><br/>
 </BODY>
 </HTML>
 </ul>

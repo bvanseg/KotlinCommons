@@ -1,0 +1,33 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>plus - kotlincommons</title>
+<link rel="stylesheet" href="../../style.css">
+</HEAD>
+<BODY>
+<a href="../index.html">kotlincommons</a>&nbsp;/&nbsp;<a href="index.html">bvanseg.kotlincommons.timedate</a>&nbsp;/&nbsp;<a href="./plus.html">plus</a><br/>
+<br/>
+<h1>plus</h1>
+<a name="bvanseg.kotlincommons.timedate$plus(bvanseg.kotlincommons.timedate.LocalDateTimeContainer, bvanseg.kotlincommons.timedate.UnitBasedTimeContainer)"></a>
+<code><span class="keyword">operator</span> <span class="keyword">fun </span><a href="-local-date-time-container/index.html"><span class="identifier">LocalDateTimeContainer</span></a><span class="symbol">.</span><span class="identifier">plus</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate$plus(bvanseg.kotlincommons.timedate.LocalDateTimeContainer, bvanseg.kotlincommons.timedate.UnitBasedTimeContainer)/context">context</span><span class="symbol">:</span>&nbsp;<a href="-unit-based-time-container/index.html"><span class="identifier">UnitBasedTimeContainer</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="-unit-based-time-container/index.html"><span class="identifier">UnitBasedTimeContainer</span></a></code>
+<p>This should be done using a flatMap operator. Add an abstract method flatMap to <a href="-time-container/index.html">TimeContainer</a> such that
+all TimeContainers can be flatMap'd. We also need a way of constructing timeObjects directly into a <a href="-time-container/index.html">TimeContainer</a>,
+perhaps as a primary constructor and have a secondary constructor for default time objects.</p>
+<pre><code>//Flatmap so we can transform timeObject property from old (passed into callback) to new (returned from callback)
+val new = now.flatMap{
+    Time(
+         it.year,
+         it.month,
+         it.day,
+         it.hour,
+         it.minute,
+         it.seconds + context.value,
+         it.nano
+    )
+} //Should produce the same thing as [now] except it should keep the rest of it's numbers
+</code></pre><a name="bvanseg.kotlincommons.timedate$plus(bvanseg.kotlincommons.timedate.UnitBasedTimeContainer, bvanseg.kotlincommons.timedate.LocalDateTimeContainer)"></a>
+<code><span class="keyword">operator</span> <span class="keyword">fun </span><a href="-unit-based-time-container/index.html"><span class="identifier">UnitBasedTimeContainer</span></a><span class="symbol">.</span><span class="identifier">plus</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate$plus(bvanseg.kotlincommons.timedate.UnitBasedTimeContainer, bvanseg.kotlincommons.timedate.LocalDateTimeContainer)/context">context</span><span class="symbol">:</span>&nbsp;<a href="-local-date-time-container/index.html"><span class="identifier">LocalDateTimeContainer</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="-unit-based-time-container/index.html"><span class="identifier">UnitBasedTimeContainer</span></a></code><br/>
+<a name="bvanseg.kotlincommons.timedate$plus(bvanseg.kotlincommons.timedate.UnitBasedTimeContainer, bvanseg.kotlincommons.timedate.UnitBasedTimeContainer)"></a>
+<code><span class="keyword">operator</span> <span class="keyword">fun </span><a href="-unit-based-time-container/index.html"><span class="identifier">UnitBasedTimeContainer</span></a><span class="symbol">.</span><span class="identifier">plus</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate$plus(bvanseg.kotlincommons.timedate.UnitBasedTimeContainer, bvanseg.kotlincommons.timedate.UnitBasedTimeContainer)/context">context</span><span class="symbol">:</span>&nbsp;<a href="-unit-based-time-container/index.html"><span class="identifier">UnitBasedTimeContainer</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="-unit-based-time-container/index.html"><span class="identifier">UnitBasedTimeContainer</span></a></code>
+</BODY>
+</HTML>

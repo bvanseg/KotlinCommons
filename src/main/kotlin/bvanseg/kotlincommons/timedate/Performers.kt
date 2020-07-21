@@ -1,6 +1,9 @@
 package bvanseg.kotlincommons.timedate
 
 import bvanseg.kotlincommons.timedate.transformer.BoundedContext
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.time.Instant
 import java.time.temporal.ChronoUnit
 
@@ -46,7 +49,34 @@ class TimeScheduleContext(val boundedContext: BoundedContext, val frequency: Uni
         }
     }
 
-    fun performAsync(callback: () -> Unit) = Unit
+    fun performAsync(callback: () -> Unit) {
+        var tracker = 0L
+        val freq = boundedContext.asSeconds / frequency.unit.value
+
+        if(ceiled) {
+            val start = Instant.now()
+            val end = start.truncatedTo(frequency.unit.asChrono()).plusSeconds(frequency.unit.asSeconds)
+            val diff = start.until(end, ChronoUnit.MILLIS)
+            Thread.sleep(diff)
+        }
+
+        GlobalScope.launch {
+            while(true) {
+                callback()
+                if(ceiled) {
+                    val start = Instant.now()
+                    val end = start.truncatedTo(frequency.unit.asChrono()).plusSeconds(frequency.unit.asSeconds)
+                    val diff = start.until(end, ChronoUnit.MILLIS)
+                    delay(diff)
+                }
+                else
+                    delay(frequency.unit.getTimeMillis())
+                tracker++
+                if(tracker >= freq)
+                    break
+            }
+        }
+    }
 }
 
 infix fun BoundedContext.every(context: UnitBasedTimeContainer) = TimeScheduleContext(this, context)

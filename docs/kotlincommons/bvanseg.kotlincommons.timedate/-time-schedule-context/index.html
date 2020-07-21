@@ -1,0 +1,109 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>TimeScheduleContext - kotlincommons</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">kotlincommons</a>&nbsp;/&nbsp;<a href="../index.html">bvanseg.kotlincommons.timedate</a>&nbsp;/&nbsp;<a href="./index.html">TimeScheduleContext</a><br/>
+<br/>
+<h1>TimeScheduleContext</h1>
+<code><span class="keyword">class </span><span class="identifier">TimeScheduleContext</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-time-context/index.html"><span class="identifier">TimeContext</span></a></code>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="-init-.html">&lt;init&gt;</a></h4>
+</td>
+<td>
+<code><span class="identifier">TimeScheduleContext</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate.TimeScheduleContext$<init>(bvanseg.kotlincommons.timedate.transformer.BoundedContext, bvanseg.kotlincommons.timedate.UnitBasedTimeContainer, kotlin.Boolean)/boundedContext">boundedContext</span><span class="symbol">:</span>&nbsp;<a href="../../bvanseg.kotlincommons.timedate.transformer/-bounded-context/index.html"><span class="identifier">BoundedContext</span></a><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.timedate.TimeScheduleContext$<init>(bvanseg.kotlincommons.timedate.transformer.BoundedContext, bvanseg.kotlincommons.timedate.UnitBasedTimeContainer, kotlin.Boolean)/frequency">frequency</span><span class="symbol">:</span>&nbsp;<a href="../-unit-based-time-container/index.html"><span class="identifier">UnitBasedTimeContainer</span></a><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.timedate.TimeScheduleContext$<init>(bvanseg.kotlincommons.timedate.transformer.BoundedContext, bvanseg.kotlincommons.timedate.UnitBasedTimeContainer, kotlin.Boolean)/ceiled">ceiled</span><span class="symbol">:</span>&nbsp;<span class="identifier">Boolean</span>&nbsp;<span class="symbol">=</span>&nbsp;false<span class="symbol">)</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="as-hour.html">asHour</a></h4>
+</td>
+<td>
+<p>This will be used for coercions to hours.</p>
+<code><span class="keyword">val </span><span class="identifier">asHour</span><span class="symbol">: </span><span class="identifier">Long</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="as-minute.html">asMinute</a></h4>
+</td>
+<td>
+<p>This will be used for coercions to minutes.</p>
+<code><span class="keyword">val </span><span class="identifier">asMinute</span><span class="symbol">: </span><span class="identifier">Long</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="as-nano.html">asNano</a></h4>
+</td>
+<td>
+<p>This will be used for coercions to nanoseconds.</p>
+<code><span class="keyword">val </span><span class="identifier">asNano</span><span class="symbol">: </span><span class="identifier">Long</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="as-seconds.html">asSeconds</a></h4>
+</td>
+<td>
+<p>This will be used for coercions to seconds.</p>
+<code><span class="keyword">val </span><span class="identifier">asSeconds</span><span class="symbol">: </span><span class="identifier">Long</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="bounded-context.html">boundedContext</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">boundedContext</span><span class="symbol">: </span><a href="../../bvanseg.kotlincommons.timedate.transformer/-bounded-context/index.html"><span class="identifier">BoundedContext</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="frequency.html">frequency</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">frequency</span><span class="symbol">: </span><a href="../-unit-based-time-container/index.html"><span class="identifier">UnitBasedTimeContainer</span></a></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="perform.html">perform</a></h4>
+</td>
+<td>
+<p>Things to implement before finishing this method:
+We first must fully implement coercion. Coercion is used to calculate the frequency.</p>
+<code><span class="keyword">fun </span><span class="identifier">perform</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate.TimeScheduleContext$perform(kotlin.Function0((kotlin.Unit)))/callback">callback</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<span class="identifier">Unit</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="perform-async.html">performAsync</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">performAsync</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate.TimeScheduleContext$performAsync(kotlin.Function0((kotlin.Unit)))/callback">callback</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<span class="identifier">Unit</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Extension Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="../../bvanseg.kotlincommons.timedate.transformer/until.html">until</a></h4>
+</td>
+<td>
+<code><span class="keyword">infix</span> <span class="keyword">fun </span><a href="../-time-context/index.html"><span class="identifier">TimeContext</span></a><span class="symbol">.</span><span class="identifier">until</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate.transformer$until(bvanseg.kotlincommons.timedate.TimeContext, bvanseg.kotlincommons.timedate.TimeContext)/context">context</span><span class="symbol">:</span>&nbsp;<a href="../-time-context/index.html"><span class="identifier">TimeContext</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="../../bvanseg.kotlincommons.timedate.transformer/-until-context/index.html"><span class="identifier">UntilContext</span></a></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

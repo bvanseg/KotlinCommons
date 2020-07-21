@@ -86,6 +86,14 @@ $dokka.location:bvanseg.kotlincommons.throwable$analyse(kotlin.Throwable)bvanse
 $dokka.location:bvanseg.kotlincommons.throwable$printToString(kotlin.Throwable)bvanseg.kotlincommons.throwable/kotlin.-throwable/print-to-string.html
 $dokka.location:bvanseg.kotlincommons.time$format(java.time.Duration, kotlin.Boolean, kotlin.Boolean)bvanseg.kotlincommons.time/java.time.-duration/format.html
 $dokka.location:bvanseg.kotlincommons.time$toFileSafeString(java.time.LocalDateTime)bvanseg.kotlincommons.time/java.time.-local-date-time/to-file-safe-string.html
+$dokka.location:bvanseg.kotlincommons.timedate$days#kotlin.Intbvanseg.kotlincommons.timedate/kotlin.-int/days.html
+$dokka.location:bvanseg.kotlincommons.timedate$hours#kotlin.Intbvanseg.kotlincommons.timedate/kotlin.-int/hours.html
+$dokka.location:bvanseg.kotlincommons.timedate$minutes#kotlin.Intbvanseg.kotlincommons.timedate/kotlin.-int/minutes.html
+$dokka.location:bvanseg.kotlincommons.timedate$months#kotlin.Intbvanseg.kotlincommons.timedate/kotlin.-int/months.html
+$dokka.location:bvanseg.kotlincommons.timedate$nanos#kotlin.Intbvanseg.kotlincommons.timedate/kotlin.-int/nanos.html
+$dokka.location:bvanseg.kotlincommons.timedate$seconds#kotlin.Intbvanseg.kotlincommons.timedate/kotlin.-int/seconds.html
+$dokka.location:bvanseg.kotlincommons.timedate$weeks#kotlin.Intbvanseg.kotlincommons.timedate/kotlin.-int/weeks.html
+$dokka.location:bvanseg.kotlincommons.timedate$years#kotlin.Intbvanseg.kotlincommons.timedate/kotlin.-int/years.html
 $dokka.location:bvanseg.kotlincommons.tuples$between(kotlin.Pair((bvanseg.kotlincommons.tuples.between.T, )), bvanseg.kotlincommons.tuples.between.T)bvanseg.kotlincommons.tuples/kotlin.-pair/between.html
 $dokka.location:bvanseg.kotlincommons.tuples$contains(kotlin.Pair((bvanseg.kotlincommons.tuples.contains.T, )), bvanseg.kotlincommons.tuples.contains.T)bvanseg.kotlincommons.tuples/kotlin.-pair/contains.html
 bvanseg.kotlincommons
@@ -134,5 +142,7 @@ bvanseg.kotlincommons.string
 bvanseg.kotlincommons.system
 bvanseg.kotlincommons.throwable
 bvanseg.kotlincommons.time
+bvanseg.kotlincommons.timedate
+bvanseg.kotlincommons.timedate.transformer
 bvanseg.kotlincommons.tuples
 bvanseg.kotlincommons.ubjson
