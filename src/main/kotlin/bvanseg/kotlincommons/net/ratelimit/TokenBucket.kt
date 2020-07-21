@@ -14,13 +14,16 @@ data class TokenBucket(
     val maxSize: Long,
     val refillTime: Long,
     private val initUpdate: Long,
-    private val initTokenCount: Long = tokenLimit
+    private val initTokenCount: Long = tokenLimit,
+    val refreshStrategy: (TokenBucket) -> Unit = {
+        it.currentTokenCount.set(tokenLimit)
+    }
 ) {
     var lastUpdate = AtomicLong(initUpdate)
     var currentTokenCount: AtomicLong = AtomicLong(initTokenCount)
 
     fun refill() {
-        currentTokenCount.set(tokenLimit)
+        refreshStrategy(this)
         lastUpdate.set(System.currentTimeMillis())
     }
 
