@@ -26,7 +26,7 @@ cycleStrategy: (RateLimiter<T>, AtomicLong, ConcurrentLinkedDeque<Pair<T, (T) ->
                 val result = tokenBucket.tryConsume()
                 if(result) {
                     it.second(it.first)
-                    ratelimiter.logger.trace("Executing queued submission: TokenBucket (${tokenBucket.currentTokenCount.get()}/${tokenBucket.tokenLimit}).")
+                    ratelimiter.logger.trace("Executing queued submission: TokenBucket (${tokenBucket.currentTokenCount}/${tokenBucket.tokenLimit}).")
                 } else
                     q.addFirst(it.first to it.second)
             } ?: break
@@ -55,7 +55,7 @@ cycleStrategy: (RateLimiter<T>, AtomicLong, ConcurrentLinkedDeque<Pair<T, (T) ->
             val result = tokenBucket.tryConsume()
 
             if(result) {
-                logger.trace("Immediately executing asynchronous submission: TokenBucket (${tokenBucket.currentTokenCount.get()}/${tokenBucket.tokenLimit}).")
+                logger.trace("Immediately executing asynchronous submission: TokenBucket (${tokenBucket.currentTokenCount}/${tokenBucket.tokenLimit}).")
                 ratelimitCallback(unit)
             }
             else

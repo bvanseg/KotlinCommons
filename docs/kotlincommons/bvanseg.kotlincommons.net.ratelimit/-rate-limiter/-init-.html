@@ -24,7 +24,7 @@
                 val result = tokenBucket.tryConsume()
                 if(result) {
                     it.second(it.first)
-                    ratelimiter.logger.trace("Executing queued submission: TokenBucket (${tokenBucket.currentTokenCount.get()}/${tokenBucket.tokenLimit}).")
+                    ratelimiter.logger.trace("Executing queued submission: TokenBucket (${tokenBucket.currentTokenCount}/${tokenBucket.tokenLimit}).")
                 } else
                     q.addFirst(it.first to it.second)
             } ?: break
