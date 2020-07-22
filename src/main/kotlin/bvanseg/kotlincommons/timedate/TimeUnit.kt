@@ -146,6 +146,18 @@ sealed class TimeContextUnit(val value: Long): TimeContext {
             get() = TODO("Not yet implemented")
     }
 
+    data class Millis(val millisecs: Long): TimeContextUnit(millisecs) {
+        override val asHour: Long = 60 / 60 / 1000 / millisecs
+        override val asMinute: Long = 60 / 1000 / millisecs
+        override val asNano: Long = millisecs * 1000000
+        override val asMillis: Long = millisecs
+        override val asSeconds: Long = 1000 / millisecs
+        override val pronto: TimePerformer
+            get() = TODO("Not yet implemented")
+        override val exactly: TimePerformer
+            get() = TODO("Not yet implemented")
+    }
+
     data class Nano(val nanosecs: Long): TimeContextUnit(nanosecs) {
         override val asHour: Long = 60 / 60 / 1000 / nanosecs
         override val asMinute: Long = 60 / 1000 / nanosecs
@@ -166,6 +178,7 @@ enum class TimeUnit{
     HOUR,
     MINUTE,
     SECOND,
+    MILLIS,
     NANO
 }
 
@@ -175,4 +188,5 @@ val days = TimeUnit.DAY
 val hours = TimeUnit.HOUR
 val minutes = TimeUnit.MINUTE
 val seconds = TimeUnit.SECOND
+val millis = TimeUnit.NANO
 val nanos = TimeUnit.NANO

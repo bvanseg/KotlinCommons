@@ -3,6 +3,7 @@ package bvanseg.kotlincommons.timedate
 import bvanseg.kotlincommons.prettyprinter.buildPrettyString
 import bvanseg.kotlincommons.timedate.transformer.into
 import bvanseg.kotlincommons.timedate.transformer.until
+import java.time.Instant
 import java.time.LocalDateTime
 
 data class Time(
@@ -12,12 +13,13 @@ data class Time(
     val hour: Long,
     val minute: Long,
     val second: Long,
+    val millis: Long,
     val nano: Long
 ){
     @ExperimentalStdlibApi
     override fun toString(): String =
         buildPrettyString {
-            append("$year/$month/$day/$hour:$minute:$second.$nano")
+            append("$year/$month/$day/$hour:$minute:$second.$millis,$nano")
         }
 }
 
@@ -52,7 +54,7 @@ fun main() {
             waitUntil (1.minutes.exactly)
             starting (1.minutes from now)))
         .perform {
-            println("Hello, world! - $now")
+            println("Hello, world! - ${Instant.now()}")
         }
 
     println("Reached end of function.")

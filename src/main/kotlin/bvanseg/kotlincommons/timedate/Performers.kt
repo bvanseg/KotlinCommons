@@ -34,16 +34,6 @@ class TimeScheduleContext(val boundedContext: BoundedContext, val frequency: Tim
         var tracker = 0L
         val freq = boundedContext.asSeconds / unit.unit.value
 
-//        if(frequency.startingCondition.isSome){
-//            val startCondition = frequency.startingCondition.unwrap.start into seconds
-//            val start = now into seconds
-//            val diff = start until startCondition
-//            println("diff: ${diff.asMillis}")
-////            sleep(diff)
-//            TimeUnit.MILLISECONDS.sleep(diff.asMillis)
-//            println("done sleeping")
-//        }
-
         /*
             09:30:13 - starting condition
             09:31:13 - wait until condition
@@ -61,16 +51,17 @@ class TimeScheduleContext(val boundedContext: BoundedContext, val frequency: Tim
         }
 
         while(true) {
+            val offset = System.currentTimeMillis() % 1000
             callback()
             if(frequency.waitUntilCondition.isSome) {
                 val waitCondition = frequency.waitUntilCondition.unwrap.start
                 val start = now
                 val delta = waitCondition from start
+                println(delta)
+                println("offset: $offset")
                 val end = (delta truncate seconds) into seconds
-                println("end - start (ms): ${end.asMillis - start.asMillis}")
-                TimeUnit.MILLISECONDS.sleep(end.asMillis - start.asMillis)
-            }
-            else {
+                TimeUnit.MILLISECONDS.sleep((end.asMillis - start.asMillis) - offset)
+            }else {
                 println("frequency millis: ${frequency.asMillis}")
                 sleep(frequency)
             }

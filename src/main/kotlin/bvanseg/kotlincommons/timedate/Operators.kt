@@ -67,14 +67,15 @@ operator fun UnitBasedTimeContainer.plus(context: UnitBasedTimeContainer): UnitB
     val unit = context.unit
     return flatmap { it: Time ->
         when(unit){
-            is TimeContextUnit.Nano -> Time(it.year, it.month, it.day, it.hour, it.minute, it.second, it.nano + unit.nanosecs)
-            is TimeContextUnit.Second -> Time(it.year, it.month, it.day, it.hour, it.minute, it.second + unit.seconds, it.nano)
-            is TimeContextUnit.Minute -> Time(it.year, it.month, it.day, it.hour, it.minute + unit.minute, it.second, it.nano)
-            is TimeContextUnit.Hour -> Time(it.year, it.month, it.day, it.hour + unit.hours, it.minute, it.second, it.nano)
-            is TimeContextUnit.Day -> Time(it.year, it.month, it.day + unit.days, it.hour, it.minute, it.second, it.nano)
-            is TimeContextUnit.Week -> Time(it.year, it.month, it.day + (unit.weeks * 7), it.hour, it.minute, it.second, it.nano)
-            is TimeContextUnit.Month -> Time(it.year, it.month + unit.months, it.day, it.hour, it.minute, it.second, it.nano)
-            is TimeContextUnit.Year -> Time(it.year + unit.years, it.month, it.day, it.hour, it.minute, it.second, it.nano)
+            is TimeContextUnit.Nano -> Time(it.year, it.month, it.day, it.hour, it.minute, it.second, it.millis, it.nano + unit.nanosecs)
+            is TimeContextUnit.Millis -> Time(it.year, it.month, it.day, it.hour, it.minute, it.second, it.millis + unit.millisecs, it.nano)
+            is TimeContextUnit.Second -> Time(it.year, it.month, it.day, it.hour, it.minute, it.second + unit.seconds, it.millis, it.nano)
+            is TimeContextUnit.Minute -> Time(it.year, it.month, it.day, it.hour, it.minute + unit.minute, it.second, it.millis, it.nano)
+            is TimeContextUnit.Hour -> Time(it.year, it.month, it.day, it.hour + unit.hours, it.minute, it.second, it.millis, it.nano)
+            is TimeContextUnit.Day -> Time(it.year, it.month, it.day + unit.days, it.hour, it.minute, it.second, it.millis, it.nano)
+            is TimeContextUnit.Week -> Time(it.year, it.month, it.day + (unit.weeks * 7), it.hour, it.minute, it.second, it.millis, it.nano)
+            is TimeContextUnit.Month -> Time(it.year, it.month + unit.months, it.day, it.hour, it.minute, it.second, it.millis, it.nano)
+            is TimeContextUnit.Year -> Time(it.year + unit.years, it.month, it.day, it.hour, it.minute, it.second, it.millis, it.nano)
             else -> TODO()
         }
     }as UnitBasedTimeContainer
@@ -136,14 +137,14 @@ operator fun UnitBasedTimeContainer.minus(context: UnitBasedTimeContainer): Unit
     val ctx = context.unit
     return flatmap { it: Time ->
         when(ctx){
-            is TimeContextUnit.Nano -> Time(it.year, it.month, it.day, it.hour, it.minute, it.second, it.nano - ctx.nanosecs)
-            is TimeContextUnit.Second -> Time(it.year, it.month, it.day, it.hour, it.minute, it.second - ctx.seconds, it.nano)
-            is TimeContextUnit.Minute -> Time(it.year, it.month, it.day, it.hour, it.minute - ctx.minute, it.second, it.nano)
-            is TimeContextUnit.Hour -> Time(it.year, it.month, it.day, it.hour - ctx.hours, it.minute, it.second, it.nano)
-            is TimeContextUnit.Day -> Time(it.year, it.month, it.day - ctx.days, it.hour, it.minute, it.second, it.nano)
-            is TimeContextUnit.Week -> Time(it.year, it.month, it.day - (ctx.weeks * 7), it.hour, it.minute, it.second, it.nano)
-            is TimeContextUnit.Month -> Time(it.year, it.month - ctx.months, it.day, it.hour, it.minute, it.second, it.nano)
-            is TimeContextUnit.Year -> Time(it.year - ctx.years, it.month, it.day, it.hour, it.minute, it.second, it.nano)
+            is TimeContextUnit.Nano -> Time(it.year, it.month, it.day, it.hour, it.minute, it.second, it.millis, it.nano - ctx.nanosecs)
+            is TimeContextUnit.Second -> Time(it.year, it.month, it.day, it.hour, it.minute, it.second - ctx.seconds, it.millis, it.nano)
+            is TimeContextUnit.Minute -> Time(it.year, it.month, it.day, it.hour, it.minute - ctx.minute, it.second, it.millis, it.nano)
+            is TimeContextUnit.Hour -> Time(it.year, it.month, it.day, it.hour - ctx.hours, it.minute, it.second, it.millis, it.nano)
+            is TimeContextUnit.Day -> Time(it.year, it.month, it.day - ctx.days, it.hour, it.minute, it.second, it.millis, it.nano)
+            is TimeContextUnit.Week -> Time(it.year, it.month, it.day - (ctx.weeks * 7), it.hour, it.minute, it.second, it.millis, it.nano)
+            is TimeContextUnit.Month -> Time(it.year, it.month - ctx.months, it.day, it.hour, it.minute, it.second, it.millis, it.nano)
+            is TimeContextUnit.Year -> Time(it.year - ctx.years, it.month, it.day, it.hour, it.minute, it.second, it.millis, it.nano)
             else -> TODO()
         }
     } as UnitBasedTimeContainer
@@ -178,16 +179,25 @@ infix fun UnitBasedTimeContainer.into(context: TimeUnit): UnitBasedTimeContainer
         TimeUnit.NANOSECONDS -> {
             val nano = this.asNano
             val result = flatmap { _: Time ->
-                Time(0, 0, 0, 0, 0, 0, nano)
+                Time(0, 0, 0, 0, 0, 0, 0, nano)
             }
             result.flatmap { _: TimeContextUnit ->
                 TimeContextUnit.Nano(nano)
             } as UnitBasedTimeContainer
         }
+        TimeUnit.MILLISECONDS -> {
+            val millis = this.asMillis
+            val result = flatmap { _: Time ->
+                Time(0, 0, 0, 0, 0, 0, millis, 0)
+            }
+            result.flatmap { _: TimeContextUnit ->
+                TimeContextUnit.Nano(millis)
+            } as UnitBasedTimeContainer
+        }
         TimeUnit.SECONDS -> {
             val second = this.asSeconds
             val result = flatmap { _: Time ->
-                Time(0, 0, 0, 0, 0, second, 0)
+                Time(0, 0, 0, 0, 0, second, 0, 0)
             }
             result.flatmap { _: TimeContextUnit ->
                 TimeContextUnit.Second(second)
@@ -196,7 +206,7 @@ infix fun UnitBasedTimeContainer.into(context: TimeUnit): UnitBasedTimeContainer
         TimeUnit.MINUTES -> {
             val minute = this.asMinute
             val result = flatmap { _: Time ->
-                Time(0, 0, 0, 0, minute, 0, 0)
+                Time(0, 0, 0, 0, minute, 0, 0, 0)
             }
             result.flatmap { _: TimeContextUnit ->
                 TimeContextUnit.Minute(minute)
@@ -205,7 +215,7 @@ infix fun UnitBasedTimeContainer.into(context: TimeUnit): UnitBasedTimeContainer
         TimeUnit.HOURS -> {
             val hour = this.asHour
             val result = flatmap { _: Time ->
-                Time(0, 0, 0, hour, 0, 0, 0)
+                Time(0, 0, 0, hour, 0, 0, 0, 0)
             }
             result.flatmap { _: TimeContextUnit ->
                 TimeContextUnit.Hour(hour)

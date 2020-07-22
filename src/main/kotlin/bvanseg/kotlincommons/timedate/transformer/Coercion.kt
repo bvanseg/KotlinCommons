@@ -36,6 +36,8 @@ by DefaultTimePerformer(original){
                 UnitBasedTimeContainer(TimeContextUnit.Minute(original.asMinute))
             TimeUnit.SECOND ->
                 UnitBasedTimeContainer(TimeContextUnit.Second(original.asSeconds))
+            TimeUnit.MILLIS ->
+                UnitBasedTimeContainer(TimeContextUnit.Millis(original.asMillis))
             TimeUnit.NANO ->
                 UnitBasedTimeContainer(TimeContextUnit.Nano(original.asNano))
         }
@@ -68,6 +70,8 @@ infix fun TimeContext.into(unit: TimeUnit): UnitBasedTimeContainer =
                     UnitBasedTimeContainer(TimeContextUnit.Minute((this.right into minutes).timeObject.minute - (this.left into minutes).timeObject.minute))
                 TimeUnit.SECOND ->
                     UnitBasedTimeContainer(TimeContextUnit.Second((this.right into seconds).timeObject.second - (this.left into seconds).timeObject.second))
+                TimeUnit.MILLIS ->
+                    UnitBasedTimeContainer(TimeContextUnit.Nano((this.right into millis).timeObject.millis - (this.left into millis).timeObject.nano))
                 TimeUnit.NANO ->
                     UnitBasedTimeContainer(TimeContextUnit.Nano((this.right into nanos).timeObject.nano - (this.left into nanos).timeObject.nano))
             }
@@ -86,6 +90,8 @@ infix fun TimeContext.into(unit: TimeUnit): UnitBasedTimeContainer =
                     UnitBasedTimeContainer(TimeContextUnit.Minute((this.boundedContext into minutes).timeObject.minute))
                 TimeUnit.SECOND ->
                     UnitBasedTimeContainer(TimeContextUnit.Second((this.boundedContext into seconds).timeObject.second))
+                TimeUnit.MILLIS ->
+                    UnitBasedTimeContainer(TimeContextUnit.Nano((this.boundedContext into millis).timeObject.millis))
                 TimeUnit.NANO ->
                     UnitBasedTimeContainer(TimeContextUnit.Nano((this.boundedContext into nanos).timeObject.nano))
             }
@@ -98,6 +104,7 @@ infix fun TimeContext.into(unit: TimeUnit): UnitBasedTimeContainer =
                 TimeUnit.HOUR -> this into hours
                 TimeUnit.MINUTE -> this into minutes
                 TimeUnit.SECOND -> this into seconds
+                TimeUnit.MILLIS -> this into millis
                 TimeUnit.NANO -> this into nanos
             }
         is UnitBasedTimeContainer ->
@@ -108,6 +115,7 @@ infix fun TimeContext.into(unit: TimeUnit): UnitBasedTimeContainer =
                 TimeUnit.HOUR -> this into hours
                 TimeUnit.MINUTE -> this into minutes
                 TimeUnit.SECOND -> this into seconds
+                TimeUnit.MILLIS -> this into millis
                 TimeUnit.NANO -> this into nanos
             }
         is TimePerformer ->
@@ -118,6 +126,7 @@ infix fun TimeContext.into(unit: TimeUnit): UnitBasedTimeContainer =
                 TimeUnit.HOUR -> inner into hours
                 TimeUnit.MINUTE -> inner into minutes
                 TimeUnit.SECOND -> inner into seconds
+                TimeUnit.MILLIS -> inner into millis
                 TimeUnit.NANO -> inner into nanos
             }
         else -> TODO("Will fill in other stuff later :)")
@@ -136,6 +145,7 @@ infix fun UnitBasedTimeContainer.into(unit: TimeUnit): UnitBasedTimeContainer{
     return result.flatmap { _: TimeContextUnit ->
         when(unit){
             TimeUnit.NANO -> TimeContextUnit.Nano(result.timeObject.nano)
+            TimeUnit.MILLIS -> TimeContextUnit.Millis(result.timeObject.millis)
             TimeUnit.SECOND -> TimeContextUnit.Second(result.timeObject.second)
             TimeUnit.MINUTE -> TimeContextUnit.Minute(result.timeObject.minute)
             TimeUnit.HOUR -> TimeContextUnit.Hour(result.timeObject.hour)

@@ -21,15 +21,20 @@ interface TimeContainer: TimeContext{
     }
 }
 
-class LocalDateTimeContainer(val currentTime: LocalDateTime, override val timeObject: Time = Time(
-    currentTime.year.toLong(),
-    currentTime.month.value.toLong(),
-    currentTime.dayOfWeek.value.toLong(),
-    currentTime.hour.toLong(),
-    currentTime.minute.toLong(),
-    currentTime.second.toLong(),
-    currentTime.nano.toLong()
-)): TimeContainer {
+class LocalDateTimeContainer(
+    val currentTime: LocalDateTime,
+    override val timeObject: Time =
+        Time(
+            currentTime.year.toLong(),
+            currentTime.month.value.toLong(),
+            currentTime.dayOfWeek.value.toLong(),
+            currentTime.hour.toLong(),
+            currentTime.minute.toLong(),
+            currentTime.second.toLong(),
+            currentTime.second.toLong() * 1000L,
+            currentTime.nano.toLong()
+        )
+): TimeContainer {
     override val unit: TimeContextUnit = TimeContextUnit.Year(timeObject.year)
 
     override val asHour: Long
@@ -76,15 +81,16 @@ class LocalDateTimeContainer(val currentTime: LocalDateTime, override val timeOb
 
 class UnitBasedTimeContainer(override val unit: TimeContextUnit, override val timeObject: Time =
     when(unit){
-        is TimeContextUnit.Year -> Time(unit.years, 0, 0, 0, 0, 0, 0)
-        is TimeContextUnit.Month -> Time(0, unit.months, 0, 0, 0, 0, 0)
-        is TimeContextUnit.Week -> Time(0, 0, unit.weeks * 7, 0, 0, 0, 0)
-        is TimeContextUnit.Day -> Time(0, 0, unit.days, 0, 0, 0, 0)
-        is TimeContextUnit.Hour -> Time(0, 0, 0, unit.hours, 0, 0, 0)
-        is TimeContextUnit.Minute -> Time(0, 0, 0, 0, unit.minute, 0, 0)
-        is TimeContextUnit.Second -> Time(0, 0, 0, 0, 0, unit.seconds, 0)
-        is TimeContextUnit.Nano -> Time(0, 0, 0, 0, 0, 0, unit.nanosecs)
-        else -> Time(0, 0, 0, 0, 0, 0, 0)
+        is TimeContextUnit.Year -> Time(unit.years, 0, 0, 0, 0, 0, 0, 0)
+        is TimeContextUnit.Month -> Time(0, unit.months, 0, 0, 0, 0, 0,0)
+        is TimeContextUnit.Week -> Time(0, 0, unit.weeks * 7, 0, 0, 0, 0,0)
+        is TimeContextUnit.Day -> Time(0, 0, unit.days, 0, 0, 0, 0,0)
+        is TimeContextUnit.Hour -> Time(0, 0, 0, unit.hours, 0, 0, 0,0)
+        is TimeContextUnit.Minute -> Time(0, 0, 0, 0, unit.minute, 0, 0,0)
+        is TimeContextUnit.Second -> Time(0, 0, 0, 0, 0, unit.seconds, 0,0)
+        is TimeContextUnit.Millis -> Time(0, 0, 0, 0, 0, 0, unit.millisecs, 0)
+        is TimeContextUnit.Nano -> Time(0, 0, 0, 0, 0, 0, 0, unit.nanosecs)
+        else -> Time(0, 0, 0, 0, 0, 0, 0, 0)
     }): TimeContainer{
 
     override val asHour: Long
@@ -127,6 +133,7 @@ class UnitBasedTimeContainer(override val unit: TimeContextUnit, override val ti
 }
 
 val Int.nanos get() = UnitBasedTimeContainer(TimeContextUnit.Nano(this.toLong()))
+val Int.millis get() = UnitBasedTimeContainer(TimeContextUnit.Millis(this.toLong()))
 val Int.seconds get() = UnitBasedTimeContainer(TimeContextUnit.Second(this.toLong()))
 val Int.minutes get() = UnitBasedTimeContainer(TimeContextUnit.Minute(this.toLong()))
 val Int.hours get() = UnitBasedTimeContainer(TimeContextUnit.Hour(this.toLong()))
