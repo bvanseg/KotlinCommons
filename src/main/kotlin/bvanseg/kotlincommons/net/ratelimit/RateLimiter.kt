@@ -49,10 +49,10 @@ cycleStrategy: (RateLimiter<T>, AtomicLong, ConcurrentLinkedDeque<Pair<T, (T) ->
      * @param unit - The unit to be submitted.
      * @param ratelimitCallback - The callback to run on [unit] once it has a token.
      */
-    fun submit(unit: T, ratelimitCallback: (T) -> Unit) {
+    fun submit(unit: T, consume: Long = 1, ratelimitCallback: (T) -> Unit) {
         logger.trace("Received asynchronous submission.")
         if(queue.isEmpty()) {
-            val result = tokenBucket.tryConsume()
+            val result = tokenBucket.tryConsume(consume)
 
             if(result) {
                 logger.trace("Immediately executing asynchronous submission: TokenBucket (${tokenBucket.currentTokenCount}/${tokenBucket.tokenLimit}).")
@@ -66,11 +66,11 @@ cycleStrategy: (RateLimiter<T>, AtomicLong, ConcurrentLinkedDeque<Pair<T, (T) ->
         }
     }
 
-    fun <R> submitBlocking(unit: T, callback: (T) -> R): R {
+    fun <R> submitBlocking(unit: T, consume: Long = 1, callback: (T) -> R): R {
         blockingCount.incrementAndGet()
 
         logger.trace("Received blocking submission.")
-        while(!tokenBucket.tryConsume()) { Thread.onSpinWait() }
+        while(!tokenBucket.tryConsume(consume)) { Thread.onSpinWait() }
 
         logger.trace("Executing blocking submission...")
         val result = callback(unit)
@@ -78,11 +78,11 @@ cycleStrategy: (RateLimiter<T>, AtomicLong, ConcurrentLinkedDeque<Pair<T, (T) ->
         return result
     }
 
-    fun <R> submitBlocking(callback: () -> R): R {
+    fun <R> submitBlocking(consume: Long = 1, callback: () -> R): R {
         blockingCount.incrementAndGet()
 
         logger.trace("Received blocking submission.")
-        while(!tokenBucket.tryConsume()) { Thread.onSpinWait() }
+        while(!tokenBucket.tryConsume(consume)) { Thread.onSpinWait() }
 
         logger.trace("Executing blocking submission...")
         val result = callback()
@@ -90,11 +90,11 @@ cycleStrategy: (RateLimiter<T>, AtomicLong, ConcurrentLinkedDeque<Pair<T, (T) ->
         return result
     }
 
-    fun submitBlocking() {
+    fun submitBlocking(consume: Long = 1) {
         blockingCount.incrementAndGet()
 
         logger.trace("Received blocking submission.")
-        while(!tokenBucket.tryConsume()) { Thread.onSpinWait() }
+        while(!tokenBucket.tryConsume(consume)) { Thread.onSpinWait() }
 
         logger.trace("Executing blocking submission...")
         blockingCount.decrementAndGet()
