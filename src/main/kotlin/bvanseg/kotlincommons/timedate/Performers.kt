@@ -4,10 +4,7 @@ import bvanseg.kotlincommons.timedate.transformer.BoundedContext
 import bvanseg.kotlincommons.timedate.transformer.into
 import bvanseg.kotlincommons.timedate.transformer.truncate
 import bvanseg.kotlincommons.timedate.transformer.until
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import java.util.concurrent.TimeUnit
 
 inline fun sleep(container: TimeContext) = TimeUnit.MILLISECONDS.sleep(container.asMillis)
@@ -32,7 +29,7 @@ class TimeScheduleContext(val boundedContext: BoundedContext, val frequency: Tim
      */
     fun perform(callback: () -> Unit) {
         var tracker = 0L
-        val freq = boundedContext.asSeconds / unit.unit.value
+        val freq = boundedContext.asSeconds / unit.asSeconds
 
         /*
             09:30:13 - starting condition
@@ -46,6 +43,8 @@ class TimeScheduleContext(val boundedContext: BoundedContext, val frequency: Tim
             val start = now
             val delta = waitCondition from start
             val end = (delta truncate seconds) into seconds
+            println("delta: $delta")
+            println("end: $end")
             TimeUnit.MILLISECONDS.sleep(end.asMillis - start.asMillis)
             println("done sleeping")
         }
@@ -57,9 +56,10 @@ class TimeScheduleContext(val boundedContext: BoundedContext, val frequency: Tim
                 val waitCondition = frequency.waitUntilCondition.unwrap.start
                 val start = now
                 val delta = waitCondition from start
-                println(delta)
+                println("delta: $delta")
                 println("offset: $offset")
                 val end = (delta truncate seconds) into seconds
+                println("(end.asMillis - start.asMillis) - offset: ${(end.asMillis - start.asMillis) - offset}")
                 TimeUnit.MILLISECONDS.sleep((end.asMillis - start.asMillis) - offset)
             }else {
                 println("frequency millis: ${frequency.asMillis}")
@@ -71,35 +71,38 @@ class TimeScheduleContext(val boundedContext: BoundedContext, val frequency: Tim
         }
     }
 
-    fun performAsync(callback: suspend () -> Unit) {
+    fun performAsync(callback: suspend () -> Unit): Job {
         var tracker = 0L
-        val freq = boundedContext.asSeconds / unit.unit.value
+        val freq = boundedContext.asSeconds / unit.asSeconds
 
-        if(frequency.flag == TimePerformerFlag.EXACTLY){
+        if(frequency.waitUntilCondition.isSome) {
+            val waitCondition = frequency.waitUntilCondition.unwrap.start
             val start = now
-            val end = (start into seconds) + unit into seconds
-            val diff = start until end
-            sleep(diff)
+            val delta = waitCondition from start
+            val end = (delta truncate seconds) into seconds
+            TimeUnit.MILLISECONDS.sleep(end.asMillis - start.asMillis)
         }
 
-        GlobalScope.launch {
+        return GlobalScope.launch {
             while(true) {
+                val offset = System.currentTimeMillis() % 1000
                 callback()
-                val waitFlag = frequency.waitUntilCondition
-                if(waitFlag.isSome) {
-                    val startCondition = frequency.waitUntilCondition.unwrap.start
+                if(frequency.waitUntilCondition.isSome) {
+                    val waitCondition = frequency.waitUntilCondition.unwrap.start
                     val start = now
-                    val end = (start into seconds) + (startCondition into seconds)
-                    val diff = start until end
-                    delay(diff)
-                }
-                else
+                    val delta = waitCondition from start
+                    val end = (delta truncate seconds) into seconds
+                    delay((end.asMillis - start.asMillis) - offset)
+                }else {
                     delay(frequency)
+                }
                 tracker++
+                println("tracker / frequency: $tracker / $freq")
                 if(tracker >= freq)
                     break
             }
         }
+
     }
 }
 

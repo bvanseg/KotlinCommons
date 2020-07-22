@@ -3,6 +3,8 @@ package bvanseg.kotlincommons.timedate
 import bvanseg.kotlincommons.prettyprinter.buildPrettyString
 import bvanseg.kotlincommons.timedate.transformer.into
 import bvanseg.kotlincommons.timedate.transformer.until
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 import java.time.Instant
 import java.time.LocalDateTime
 
@@ -30,7 +32,7 @@ val now get() = LocalDateTimeContainer(LocalDateTime.now())
 val yesterday get() = 24.hours before now
 val tomorrow get() = 24.hours from now
 
-fun main() {
+fun main() = runBlocking {
     println(now + 1000.years)
     println(yesterday)
     println(tomorrow)
@@ -50,13 +52,22 @@ fun main() {
         09:33:00
      */
     (start until (10.minutes from start)
-            every ((1.minutes.exactly)
-            waitUntil (1.minutes.exactly)
-            starting (1.minutes from now)))
+            every ((30.seconds.exactly)
+            waitUntil (15.seconds.exactly)
+            starting (25.seconds from now)))
         .perform {
-            Thread.sleep(1000)
             println("Hello, world! - ${Instant.now()}")
         }
+
+//    val job = (start until (10.minutes from start)
+//            every ((1.minutes.exactly)
+//            waitUntil (1.minutes.exactly)
+//            starting (1.minutes from now)))
+//        .performAsync {
+//            delay(1000)
+//            println("Hello, world! - ${Instant.now()}")
+//        }
+//    job.join()
 
     println("Reached end of function.")
 }

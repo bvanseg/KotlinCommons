@@ -4,6 +4,32 @@ import bvanseg.kotlincommons.timedate.transformer.BoundedContext
 import java.lang.Exception
 import java.util.concurrent.TimeUnit
 
+private fun TimeContainer.checkAndCorrectNanoOverflow(): TimeContainer =
+    this.flatmap { it: Time ->
+        if(it.nano >= 100_000){
+            //101000
+            val overflow = it.nano % 100_000
+            when{
+                overflow > 0 ->
+                    Time(it.year, it.month, it.day, it.hour, it.minute, it.second, overflow, 0)
+                overflow == 0L ->
+                    Time(it.year, it.month, it.day, it.hour, it.minute, it.second, it.millis, 0)
+                else -> it
+            }
+        }else{
+            it
+        }
+    }
+
+private fun TimeContainer.checkAndCorrectOver(): TimeContainer =
+    this.checkAndCorrectNanoOverflow()
+        /*
+            .checkAndCorrectMillisOverflow()
+            .checkAndCorrectSecondOverflow()
+            .checkAndCorrectMinuteOverflow()
+            .checkAndCorrectHourOverflow()
+         */
+
 /**
  * This should be done using a flatMap operator. Add an abstract method flatMap to [TimeContainer] such that
  * all TimeContainers can be flatMap'd. We also need a way of constructing timeObjects directly into a [TimeContainer],
