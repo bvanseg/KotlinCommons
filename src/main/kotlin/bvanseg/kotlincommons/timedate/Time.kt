@@ -1,7 +1,9 @@
 package bvanseg.kotlincommons.timedate
 
+import bvanseg.kotlincommons.prettyprinter.buildPrettyString
+import bvanseg.kotlincommons.timedate.transformer.into
+import bvanseg.kotlincommons.timedate.transformer.until
 import java.time.LocalDateTime
-import java.util.concurrent.TimeUnit
 
 data class Time(
     val year: Long,
@@ -11,29 +13,47 @@ data class Time(
     val minute: Long,
     val second: Long,
     val nano: Long
-)
+){
+    @ExperimentalStdlibApi
+    override fun toString(): String =
+        buildPrettyString {
+            append("$year/$month/$day/$hour:$minute:$second.$nano")
+        }
+}
+
+infix fun TimeContext.from(container: TimeContext) =
+    container + this
 
 val now get() = LocalDateTimeContainer(LocalDateTime.now())
-val yesterday get() = now offset (-24).hours
-val tomorrow get() = now offset 24.hours
+val yesterday get() = 24.hours before now
+val tomorrow get() = 24.hours from now
 
-val nanoseconds = TimeUnit.NANOSECONDS
-val seconds = TimeUnit.SECONDS
-val minutes = TimeUnit.MINUTES
-val hours = TimeUnit.HOURS
-val days = TimeUnit.DAYS
+fun main() {
+    println(now + 1000.years)
+    println(yesterday)
+    println(tomorrow)
+    println(now isBefore tomorrow)
+    println(now isBefore (10.minutes from now))
 
-//fun main() {
-//    println(now + 1000.years)
-//    println(yesterday)
-//    println(tomorrow)
-//    println(now isBefore tomorrow)
-//
-//    //println(now until 1.minutes into 1.seconds) // Should get 60 seconds as a result.
-//
-//    (now until now + 10.minutes everyExact 1.minutes).perform {
-//        println("Hello, world! - ${Instant.now()}")
-//    }
-//
-//    println("Reached end of function.")
-//}
+    println(now until (1.minutes from now) into seconds)
+
+    val start = now
+//    sleep(1.minutes)
+    println(start)
+    /*
+        now = 09:30:13.2000
+        09:30:13
+        09:31:13
+        09:32:00
+        09:33:00
+     */
+    (start until (10.minutes from start)
+            every ((1.minutes.exactly)
+            waitUntil (1.minutes.exactly)
+            starting (1.minutes from now)))
+        .perform {
+            println("Hello, world! - $now")
+        }
+
+    println("Reached end of function.")
+}

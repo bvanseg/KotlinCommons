@@ -17,4 +17,12 @@ interface TimeContext{
      * This will be used for coercions to nanoseconds.
      */
     val asNano: Long
+
+    /**
+     * This will be used for coercions to milliseconds
+     */
+    val asMillis: Long
+
+    val pronto: TimePerformer
+    val exactly: TimePerformer
 }

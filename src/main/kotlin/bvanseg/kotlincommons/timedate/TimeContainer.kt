@@ -1,13 +1,24 @@
 package bvanseg.kotlincommons.timedate
 
-import bvanseg.kotlincommons.prettyprinter.buildPrettyString
 import java.time.LocalDateTime
 
 interface TimeContainer: TimeContext{
     val timeObject: Time
-//    val coerce: TimeContainer
+    val unit: TimeContextUnit
 
-    fun flatmap(cb: (Time) -> Time): TimeContainer
+    @Suppress("INAPPLICABLE_JVM_NAME")
+    @JvmName("flatmapTime")
+    fun flatmap(cb: (time: Time) -> Time): TimeContainer  {
+        val newTimeObject = cb(timeObject)
+        return UnitBasedTimeContainer(unit, newTimeObject)
+    }
+
+    @Suppress("INAPPLICABLE_JVM_NAME")
+    @JvmName("flatmapUnit")
+    fun flatmap(cb: (unit: TimeContextUnit) -> TimeContextUnit): TimeContainer{
+        val newTimeUnit = cb(unit)
+        return UnitBasedTimeContainer(newTimeUnit, timeObject)
+    }
 }
 
 class LocalDateTimeContainer(val currentTime: LocalDateTime, override val timeObject: Time = Time(
@@ -19,47 +30,51 @@ class LocalDateTimeContainer(val currentTime: LocalDateTime, override val timeOb
     currentTime.second.toLong(),
     currentTime.nano.toLong()
 )): TimeContainer {
-
-    override fun flatmap(cb: (Time) -> Time): UnitBasedTimeContainer  {
-        val newTimeObject = cb(timeObject)
-        return UnitBasedTimeContainer(TimeContextUnit.None, newTimeObject)
-    }
+    override val unit: TimeContextUnit = TimeContextUnit.Year(timeObject.year)
 
     override val asHour: Long
-        get() = ((timeObject.year - 1970) * 365 * 24) +
+        get() =
+            if(timeObject.year == 0L) {
                 (timeObject.month * 4 * 7 * 24) +
-                (timeObject.day * 7 * 24) +
-                (timeObject.hour)
+                        (timeObject.day * 7 * 24) +
+                        (timeObject.hour)
+            }else{
+                ((timeObject.year - 1970) * 365 * 24) +
+                        (timeObject.month * 4 * 7 * 24) +
+                        (timeObject.day * 7 * 24) +
+                        (timeObject.hour)
+            }
 
     override val asMinute: Long
-        get() = ((timeObject.year - 1970) * 365 * 24 * 60) +
-                (timeObject.month * 4 * 7 * 24 * 60) +
-                (timeObject.day * 7 * 24 * 60) +
-                (timeObject.hour * 60) +
+        get() = (asHour * 60) +
                 (timeObject.minute)
 
     override val asSeconds: Long
-        get() = ((timeObject.year - 1970) * 365 * 24 * 60 * 60) +
-                (timeObject.month * 4 * 7 * 24 * 60 * 60) +
-                (timeObject.day * 7 * 24 * 60 * 60) +
-                (timeObject.hour * 60 * 60) +
-                (timeObject.minute * 60) +
-                (timeObject.second)
+        get() = (asMinute * 60) + timeObject.second
 
     override val asNano: Long
-        get() = ((timeObject.year - 1970) * 365 * 24 * 60 * 60 * 1000) +
-                (timeObject.month * 4 * 7 * 24 * 60 * 60 * 1000) +
-                (timeObject.day * 7 * 24 * 60 * 60 * 1000) +
-                (timeObject.hour * 60 * 60 * 60 * 1000) +
-                (timeObject.minute * 60 * 1000) +
-                (timeObject.second * 1000)
+        get() = (asSeconds * 1000 * 1000000) + timeObject.nano
+
+    override val asMillis: Long = asSeconds * 1000
+
+    override val pronto: TimePerformer
+        get(){
+            val performer = TimePerformer(this)
+            return performer.pronto
+        }
+    override val exactly: TimePerformer
+        get(){
+            val performer = TimePerformer(this)
+            return performer.exactly
+        }
 
     fun toUnitBasedTimeContainer() = UnitBasedTimeContainer(TimeContextUnit.Year(currentTime.year.toLong()), timeObject)
 
-    override fun toString(): String = currentTime.toString()
+    @ExperimentalStdlibApi
+    override fun toString(): String = timeObject.toString()
 }
 
-class UnitBasedTimeContainer(val unit: TimeContextUnit, override val timeObject: Time =
+class UnitBasedTimeContainer(override val unit: TimeContextUnit, override val timeObject: Time =
     when(unit){
         is TimeContextUnit.Year -> Time(unit.years, 0, 0, 0, 0, 0, 0)
         is TimeContextUnit.Month -> Time(0, unit.months, 0, 0, 0, 0, 0)
@@ -72,45 +87,43 @@ class UnitBasedTimeContainer(val unit: TimeContextUnit, override val timeObject:
         else -> Time(0, 0, 0, 0, 0, 0, 0)
     }): TimeContainer{
 
-    override fun flatmap(cb: (Time) -> Time): UnitBasedTimeContainer  {
-        val newTimeObject = cb(timeObject)
-        return UnitBasedTimeContainer(unit, newTimeObject)
-    }
-
     override val asHour: Long
-        get() = ((timeObject.year - 1970) * 365 * 24) +
+        get() =
+            if(timeObject.year == 0L) {
                 (timeObject.month * 4 * 7 * 24) +
-                (timeObject.day * 7 * 24) +
-                (timeObject.hour)
-
+                    (timeObject.day * 7 * 24) +
+                    (timeObject.hour)
+            }else{
+                ((timeObject.year - 1970) * 365 * 24) +
+                    (timeObject.month * 4 * 7 * 24) +
+                    (timeObject.day * 7 * 24) +
+                    (timeObject.hour)
+            }
     override val asMinute: Long
-        get() = ((timeObject.year - 1970) * 365 * 24 * 60) +
-                (timeObject.month * 4 * 7 * 24 * 60) +
-                (timeObject.day * 7 * 24 * 60) +
-                (timeObject.hour * 60) +
-                (timeObject.minute)
+        get() = (asHour * 60) +
+            (timeObject.minute)
 
     override val asSeconds: Long
-        get() = ((timeObject.year - 1970) * 365 * 24 * 60 * 60) +
-                (timeObject.month * 4 * 7 * 24 * 60 * 60) +
-                (timeObject.day * 7 * 24 * 60 * 60) +
-                (timeObject.hour * 60 * 60) +
-                (timeObject.minute * 60) +
-                (timeObject.second)
+        get() = (asMinute * 60) + timeObject.second
+
+    override val asMillis: Long
+        get() = asSeconds * 1000
 
     override val asNano: Long
-        get() = ((timeObject.year - 1970) * 365 * 24 * 60 * 60 * 1000) +
-                (timeObject.month * 4 * 7 * 24 * 60 * 60 * 1000) +
-                (timeObject.day * 7 * 24 * 60 * 60 * 1000) +
-                (timeObject.hour * 60 * 60 * 60 * 1000) +
-                (timeObject.minute * 60 * 1000) +
-                (timeObject.second * 1000)
+        get() = (asMillis * 1000000) + timeObject.nano
+
+    override val pronto: TimePerformer
+        get() = TimePerformer(this)
+
+    override val exactly: TimePerformer
+        get(){
+            val performer = TimePerformer(this)
+            return performer.exactly
+        }
 
     @ExperimentalStdlibApi
-    override fun toString(): String =
-        buildPrettyString {
-            append("${timeObject.year}/${timeObject.month}/${timeObject.day}/${timeObject.hour}:${timeObject.minute}:${timeObject.second}.${timeObject.nano}")
-        }
+    override fun toString(): String = timeObject.toString()
+
 }
 
 val Int.nanos get() = UnitBasedTimeContainer(TimeContextUnit.Nano(this.toLong()))

@@ -1,22 +1,30 @@
 package bvanseg.kotlincommons.timedate
 
 import bvanseg.kotlincommons.timedate.transformer.BoundedContext
+import bvanseg.kotlincommons.timedate.transformer.into
+import bvanseg.kotlincommons.timedate.transformer.truncate
+import bvanseg.kotlincommons.timedate.transformer.until
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.time.Instant
-import java.time.temporal.ChronoUnit
+import java.util.concurrent.TimeUnit
 
-class TimeScheduleContext(val boundedContext: BoundedContext, val frequency: UnitBasedTimeContainer, private val ceiled: Boolean = false): TimeContext {
+inline fun sleep(container: TimeContext) = TimeUnit.MILLISECONDS.sleep(container.asMillis)
+suspend fun CoroutineScope.delay(container: TimeContext) = delay(container.asMillis)
 
-    override val asHour: Long
-        get() = boundedContext.asHour
-    override val asMinute: Long
-        get() = boundedContext.asMinute
-    override val asSeconds: Long
-        get() = boundedContext.asSeconds
-    override val asNano: Long
-        get() = boundedContext.asNano
+class TimeScheduleContext(val boundedContext: BoundedContext, val frequency: TimePerformer): TimeContext by boundedContext {
+
+    private val unit: UnitBasedTimeContainer = when(frequency.inner){
+        is UnitBasedTimeContainer -> frequency.inner
+        is TimePerformer ->
+            when(frequency.inner){
+                is UnitBasedTimeContainer -> frequency.inner
+                is LocalDateTimeContainer -> frequency.inner.toUnitBasedTimeContainer()
+                else -> TODO("That won't work!")
+            }
+        else -> TODO("That won't work!")
+    }
 
     /**
      * Things to implement before finishing this method:
@@ -24,53 +32,77 @@ class TimeScheduleContext(val boundedContext: BoundedContext, val frequency: Uni
      */
     fun perform(callback: () -> Unit) {
         var tracker = 0L
-        val freq = boundedContext.asSeconds / frequency.unit.value
+        val freq = boundedContext.asSeconds / unit.unit.value
 
-        if(ceiled) {
-            val start = Instant.now()
-            val end = start.truncatedTo(frequency.unit.asChrono()).plusSeconds(frequency.unit.asSeconds)
-            val diff = start.until(end, ChronoUnit.MILLIS)
-            Thread.sleep(diff)
+//        if(frequency.startingCondition.isSome){
+//            val startCondition = frequency.startingCondition.unwrap.start into seconds
+//            val start = now into seconds
+//            val diff = start until startCondition
+//            println("diff: ${diff.asMillis}")
+////            sleep(diff)
+//            TimeUnit.MILLISECONDS.sleep(diff.asMillis)
+//            println("done sleeping")
+//        }
+
+        /*
+            09:30:13 - starting condition
+            09:31:13 - wait until condition
+            09:32:13 - truncate
+            09:32:00 - start performance
+            09:33:00 - next performance
+         */
+        if(frequency.waitUntilCondition.isSome) {
+            val waitCondition = frequency.waitUntilCondition.unwrap.start
+            val start = now
+            val delta = waitCondition from start
+            val end = (delta truncate seconds) into seconds
+            TimeUnit.MILLISECONDS.sleep(end.asMillis - start.asMillis)
+            println("done sleeping")
         }
 
         while(true) {
             callback()
-            if(ceiled) {
-                val start = Instant.now()
-                val end = start.truncatedTo(frequency.unit.asChrono()).plusSeconds(frequency.unit.asSeconds)
-                val diff = start.until(end, ChronoUnit.MILLIS)
-                Thread.sleep(diff)
+            if(frequency.waitUntilCondition.isSome) {
+                val waitCondition = frequency.waitUntilCondition.unwrap.start
+                val start = now
+                val delta = waitCondition from start
+                val end = (delta truncate seconds) into seconds
+                println("end - start (ms): ${end.asMillis - start.asMillis}")
+                TimeUnit.MILLISECONDS.sleep(end.asMillis - start.asMillis)
             }
             else
-                Thread.sleep(frequency.unit.getTimeMillis())
+                println("frequency millis: ${frequency.asMillis}")
+                sleep(frequency)
             tracker++
             if(tracker >= freq)
                 break
         }
     }
 
-    fun performAsync(callback: () -> Unit) {
+    fun performAsync(callback: suspend () -> Unit) {
         var tracker = 0L
-        val freq = boundedContext.asSeconds / frequency.unit.value
+        val freq = boundedContext.asSeconds / unit.unit.value
 
-        if(ceiled) {
-            val start = Instant.now()
-            val end = start.truncatedTo(frequency.unit.asChrono()).plusSeconds(frequency.unit.asSeconds)
-            val diff = start.until(end, ChronoUnit.MILLIS)
-            Thread.sleep(diff)
+        if(frequency.flag == TimePerformerFlag.EXACTLY){
+            val start = now
+            val end = (start into seconds) + unit into seconds
+            val diff = start until end
+            sleep(diff)
         }
 
         GlobalScope.launch {
             while(true) {
                 callback()
-                if(ceiled) {
-                    val start = Instant.now()
-                    val end = start.truncatedTo(frequency.unit.asChrono()).plusSeconds(frequency.unit.asSeconds)
-                    val diff = start.until(end, ChronoUnit.MILLIS)
+                val waitFlag = frequency.waitUntilCondition
+                if(waitFlag.isSome) {
+                    val startCondition = frequency.waitUntilCondition.unwrap.start
+                    val start = now
+                    val end = (start into seconds) + (startCondition into seconds)
+                    val diff = start until end
                     delay(diff)
                 }
                 else
-                    delay(frequency.unit.getTimeMillis())
+                    delay(frequency)
                 tracker++
                 if(tracker >= freq)
                     break
@@ -79,5 +111,4 @@ class TimeScheduleContext(val boundedContext: BoundedContext, val frequency: Uni
     }
 }
 
-infix fun BoundedContext.every(context: UnitBasedTimeContainer) = TimeScheduleContext(this, context)
-infix fun BoundedContext.everyExact(context: UnitBasedTimeContainer) = TimeScheduleContext(this, context, true)
+infix fun BoundedContext.every(container: TimePerformer) = TimeScheduleContext(this, container)

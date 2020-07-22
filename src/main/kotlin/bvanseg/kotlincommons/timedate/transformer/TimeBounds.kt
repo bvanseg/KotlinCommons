@@ -1,6 +1,7 @@
 package bvanseg.kotlincommons.timedate.transformer
 
-import bvanseg.kotlincommons.timedate.TimeContext
+import bvanseg.kotlincommons.prettyprinter.buildPrettyString
+import bvanseg.kotlincommons.timedate.*
 
 interface BoundedContext: TimeTransformerContext {
     /**
@@ -25,7 +26,12 @@ interface BoundedContext: TimeTransformerContext {
 
 }
 
-class UntilContext(override val left: TimeContext, override val right: TimeContext): BoundedContext {
+class UntilContext(
+    override val left: TimeContext,
+    override val right: TimeContext
+): BoundedContext,
+    TimeContext
+    by DefaultTimePerformer(left) {
     override val asHour: Long
         get(){
             val leftTime = left.asHour
@@ -51,6 +57,16 @@ class UntilContext(override val left: TimeContext, override val right: TimeConte
             val rightTime = right.asNano
             return rightTime - leftTime
         }
+    override val asMillis: Long = right.asMillis - left.asMillis
+//        get(){
+//            val leftTime = left.asMillis
+//            val rightTime = right.asMillis
+//            return rightTime - leftTime
+//        }
+
+    @ExperimentalStdlibApi
+    override fun toString(): String =
+        (right - left).toString()
 }
 
 infix fun TimeContext.until(context: TimeContext) = UntilContext(this, context)
