@@ -36,9 +36,9 @@ data class TokenBucket(
     fun isEmpty() = currentTokenCount == 0L
     fun isNotEmpty() = currentTokenCount > 0L
 
-    fun tryConsume(): Boolean = synchronized(this) {
-        if(isNotEmpty()) {
-            currentTokenCount--
+    fun tryConsume(amount: Long = 1): Boolean = synchronized(this) {
+        if(currentTokenCount >= amount) {
+            currentTokenCount -= amount
             return true
         }
         return false
