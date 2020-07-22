@@ -54,6 +54,7 @@ fun main() {
             waitUntil (1.minutes.exactly)
             starting (1.minutes from now)))
         .perform {
+            Thread.sleep(1000)
             println("Hello, world! - ${Instant.now()}")
         }
 
