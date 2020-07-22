@@ -15,22 +15,32 @@ data class TokenBucket(
     val refillTime: Long,
     private val initUpdate: Long,
     private val initTokenCount: Long = tokenLimit,
-    val refreshStrategy: (TokenBucket) -> Unit = {
-        it.currentTokenCount.set(tokenLimit)
+    private val refreshStrategy: (TokenBucket) -> Unit = {
+        it.currentTokenCount = tokenLimit
     }
 ) {
-    var lastUpdate = AtomicLong(initUpdate)
-    var currentTokenCount: AtomicLong = AtomicLong(initTokenCount)
+    @Volatile
+    var lastUpdate = initUpdate
+        private set
 
-    fun refill() {
+    @Volatile
+    var currentTokenCount: Long = initTokenCount
+
+    fun refill() = synchronized(this) {
         refreshStrategy(this)
-        lastUpdate.set(System.currentTimeMillis())
+        lastUpdate = System.currentTimeMillis()
     }
 
-    fun isFull() = currentTokenCount.get() == tokenLimit
-    fun isNotFull() = currentTokenCount.get() != tokenLimit
-    fun isEmpty() = currentTokenCount.get() == 0L
-    fun isNotEmpty() = currentTokenCount.get() > 0L
+    fun isFull() = currentTokenCount
+    fun isNotFull() = currentTokenCount != tokenLimit
+    fun isEmpty() = currentTokenCount == 0L
+    fun isNotEmpty() = currentTokenCount > 0L
 
-    fun tryConsume() = currentTokenCount.getAndDecrement() > 0
+    fun tryConsume(amount: Long = 1): Boolean = synchronized(this) {
+        if(currentTokenCount >= amount) {
+            currentTokenCount -= amount
+            return true
+        }
+        return false
+    }
 }
