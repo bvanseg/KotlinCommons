@@ -70,9 +70,10 @@ class TimeScheduleContext(val boundedContext: BoundedContext, val frequency: Tim
                 println("end - start (ms): ${end.asMillis - start.asMillis}")
                 TimeUnit.MILLISECONDS.sleep(end.asMillis - start.asMillis)
             }
-            else
+            else {
                 println("frequency millis: ${frequency.asMillis}")
                 sleep(frequency)
+            }
             tracker++
             if(tracker >= freq)
                 break
