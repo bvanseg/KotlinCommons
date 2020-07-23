@@ -4,17 +4,6 @@ import java.time.temporal.ChronoUnit
 
 sealed class TimeContextUnit(val value: Long, val maxValueNoOverflow: Long, val valueInMillis: Long): TimeContext {
 
-    fun asChrono() = when(this) {
-        is Nano -> ChronoUnit.NANOS
-        is Second -> ChronoUnit.SECONDS
-        is Minute -> ChronoUnit.MINUTES
-        is Hour -> ChronoUnit.HOURS
-        is Day -> ChronoUnit.DAYS
-        is Month -> ChronoUnit.MONTHS
-        is Year -> ChronoUnit.YEARS
-        else -> throw Exception("Failed to convert time context to chrono unit representation!")
-    }
-
     object None: TimeContextUnit(-1, -1, -1) {
         override val asHour: Long
             get() = -1

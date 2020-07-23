@@ -34,6 +34,11 @@ class TestPerform {
 //            .perform {
 //                println("Hello, world! - ${Instant.now()}") // action
 //            }
+        ((10.minutes from start) until (10.years from start) // Execute forever.
+                every ((1.minutes.exactly) waitUntil (0.seconds) starting (60.seconds from start)) // execute only on the mark of 1 minute intervals.
+                ) perform {
+                    println("Hello, world! - ${Instant.now()}") // action
+                }
 
         println("Reached end of function.")
     }

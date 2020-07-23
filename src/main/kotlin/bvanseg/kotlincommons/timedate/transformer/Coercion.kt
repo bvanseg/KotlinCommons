@@ -25,21 +25,21 @@ by DefaultTimePerformer(original){
     val coercedTime =
         when(unit){
             TimeUnit.YEAR ->
-                UnitBasedTimeContainer(TimeContextUnit.Year(original.timeObject.year))
+                TimeContextUnit.Year(original.timeObject.year)
             TimeUnit.MONTH ->
-                UnitBasedTimeContainer(TimeContextUnit.Month(original.timeObject.month))
+                TimeContextUnit.Month(original.timeObject.month)
             TimeUnit.DAY ->
-                UnitBasedTimeContainer(TimeContextUnit.Day(original.timeObject.day))
+                TimeContextUnit.Day(original.timeObject.day)
             TimeUnit.HOUR ->
-                UnitBasedTimeContainer(TimeContextUnit.Hour(original.asHour))
+                TimeContextUnit.Hour(original.asHour)
             TimeUnit.MINUTE ->
-                UnitBasedTimeContainer(TimeContextUnit.Minute(original.asMinute))
+                TimeContextUnit.Minute(original.asMinute)
             TimeUnit.SECOND ->
-                UnitBasedTimeContainer(TimeContextUnit.Second(original.asSeconds))
+                TimeContextUnit.Second(original.asSeconds)
             TimeUnit.MILLIS ->
-                UnitBasedTimeContainer(TimeContextUnit.Millis(original.asMillis))
+                TimeContextUnit.Millis(original.asMillis)
             TimeUnit.NANO ->
-                UnitBasedTimeContainer(TimeContextUnit.Nano(original.asNano))
+                TimeContextUnit.Nano(original.asNano)
         }
     override val asHour: Long
         get() = original.asHour
@@ -54,46 +54,46 @@ by DefaultTimePerformer(original){
 
 }
 
-infix fun TimeContext.into(unit: TimeUnit): UnitBasedTimeContainer =
+infix fun TimeContext.into(unit: TimeUnit): TimeContextUnit =
     when(this){
         is BoundedContext -> {
             when(unit){
                 TimeUnit.YEAR ->
-                    UnitBasedTimeContainer(TimeContextUnit.Year((this.right into years).timeObject.year - (this.left into years).timeObject.year))
+                    TimeContextUnit.Year((this.right into years).value - (this.left into years).value)
                 TimeUnit.MONTH ->
-                    UnitBasedTimeContainer(TimeContextUnit.Month((this.right into months).timeObject.month - (this.left into months).timeObject.month))
+                    TimeContextUnit.Month((this.right into months).value - (this.left into months).value)
                 TimeUnit.DAY ->
-                    UnitBasedTimeContainer(TimeContextUnit.Day((this.right into days).timeObject.day - (this.left into days).timeObject.day))
+                    TimeContextUnit.Day((this.right into days).value - (this.left into days).value)
                 TimeUnit.HOUR ->
-                    UnitBasedTimeContainer(TimeContextUnit.Hour((this.right into hours).timeObject.hour - (this.left into hours).timeObject.hour))
+                    TimeContextUnit.Hour((this.right into hours).value - (this.left into hours).value)
                 TimeUnit.MINUTE ->
-                    UnitBasedTimeContainer(TimeContextUnit.Minute((this.right into minutes).timeObject.minute - (this.left into minutes).timeObject.minute))
+                    TimeContextUnit.Minute((this.right into minutes).value - (this.left into minutes).value)
                 TimeUnit.SECOND ->
-                    UnitBasedTimeContainer(TimeContextUnit.Second((this.right into seconds).timeObject.second - (this.left into seconds).timeObject.second))
+                    TimeContextUnit.Second((this.right into seconds).value - (this.left into seconds).value)
                 TimeUnit.MILLIS ->
-                    UnitBasedTimeContainer(TimeContextUnit.Nano((this.right into millis).timeObject.millis - (this.left into millis).timeObject.nano))
+                    TimeContextUnit.Nano((this.right into millis).value - (this.left into millis).value)
                 TimeUnit.NANO ->
-                    UnitBasedTimeContainer(TimeContextUnit.Nano((this.right into nanos).timeObject.nano - (this.left into nanos).timeObject.nano))
+                    TimeContextUnit.Nano((this.right into nanos).value - (this.left into nanos).value)
             }
         }
         is TimeScheduleContext -> {
             when(unit){
                 TimeUnit.YEAR ->
-                    UnitBasedTimeContainer(TimeContextUnit.Year((this.boundedContext into years).timeObject.year))
+                    TimeContextUnit.Year((this.boundedContext into years).value)
                 TimeUnit.MONTH ->
-                    UnitBasedTimeContainer(TimeContextUnit.Month((this.boundedContext into months).timeObject.month))
+                    TimeContextUnit.Month((this.boundedContext into months).value)
                 TimeUnit.DAY ->
-                    UnitBasedTimeContainer(TimeContextUnit.Day((this.boundedContext into days).timeObject.day))
+                    TimeContextUnit.Day((this.boundedContext into days).value)
                 TimeUnit.HOUR ->
-                    UnitBasedTimeContainer(TimeContextUnit.Hour((this.boundedContext into hours).timeObject.hour))
+                    TimeContextUnit.Hour((this.boundedContext into hours).value)
                 TimeUnit.MINUTE ->
-                    UnitBasedTimeContainer(TimeContextUnit.Minute((this.boundedContext into minutes).timeObject.minute))
+                    TimeContextUnit.Minute((this.boundedContext into minutes).value)
                 TimeUnit.SECOND ->
-                    UnitBasedTimeContainer(TimeContextUnit.Second((this.boundedContext into seconds).timeObject.second))
+                    TimeContextUnit.Second((this.boundedContext into seconds).value)
                 TimeUnit.MILLIS ->
-                    UnitBasedTimeContainer(TimeContextUnit.Nano((this.boundedContext into millis).timeObject.millis))
+                    TimeContextUnit.Nano((this.boundedContext into millis).value)
                 TimeUnit.NANO ->
-                    UnitBasedTimeContainer(TimeContextUnit.Nano((this.boundedContext into nanos).timeObject.nano))
+                    TimeContextUnit.Nano((this.boundedContext into nanos).value)
             }
         }
         is LocalDateTimeContainer ->
@@ -132,26 +132,22 @@ infix fun TimeContext.into(unit: TimeUnit): UnitBasedTimeContainer =
         else -> TODO("Will fill in other stuff later :)")
     }
 
-infix fun LocalDateTimeContainer.into(unit: TimeUnit): UnitBasedTimeContainer{
+infix fun LocalDateTimeContainer.into(unit: TimeUnit): TimeContextUnit{
     val here = this.toUnitBasedTimeContainer()
     return here into unit
 }
 
-infix fun UnitBasedTimeContainer.into(unit: TimeUnit): UnitBasedTimeContainer{
-    val result = flatmap { _: Time ->
-        val context = TimeCoercionContext(this, unit)
-        context.coercedTime.timeObject
-    } as UnitBasedTimeContainer
-    return result.flatmap { _: TimeContextUnit ->
-        when(unit){
-            TimeUnit.NANO -> TimeContextUnit.Nano(result.timeObject.nano)
-            TimeUnit.MILLIS -> TimeContextUnit.Millis(result.timeObject.millis)
-            TimeUnit.SECOND -> TimeContextUnit.Second(result.timeObject.second)
-            TimeUnit.MINUTE -> TimeContextUnit.Minute(result.timeObject.minute)
-            TimeUnit.HOUR -> TimeContextUnit.Hour(result.timeObject.hour)
-            TimeUnit.DAY -> TimeContextUnit.Day(result.timeObject.day)
-            TimeUnit.MONTH -> TimeContextUnit.Month(result.timeObject.month)
-            TimeUnit.YEAR -> TimeContextUnit.Year(result.timeObject.year)
-        }
-    } as UnitBasedTimeContainer
+infix fun UnitBasedTimeContainer.into(unit: TimeUnit): TimeContextUnit{
+    val context = TimeCoercionContext(this, unit)
+    val result = context.coercedTime
+    return when(unit){
+        TimeUnit.NANO -> TimeContextUnit.Nano(result.value)
+        TimeUnit.MILLIS -> TimeContextUnit.Millis(result.value)
+        TimeUnit.SECOND -> TimeContextUnit.Second(result.value)
+        TimeUnit.MINUTE -> TimeContextUnit.Minute(result.value)
+        TimeUnit.HOUR -> TimeContextUnit.Hour(result.value)
+        TimeUnit.DAY -> TimeContextUnit.Day(result.value)
+        TimeUnit.MONTH -> TimeContextUnit.Month(result.value)
+        TimeUnit.YEAR -> TimeContextUnit.Year(result.value)
+    }
 }

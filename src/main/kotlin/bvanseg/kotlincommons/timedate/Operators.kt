@@ -184,15 +184,24 @@ operator fun UnitBasedTimeContainer.minus(context: UnitBasedTimeContainer): Unit
     } as UnitBasedTimeContainer
 }
 
+infix fun UnitBasedTimeContainer.isBefore(context: TimeContextUnit) = this isBefore UnitBasedTimeContainer(context)
+infix fun TimeContextUnit.isBefore(context: TimeContextUnit) = UnitBasedTimeContainer(this) isBefore UnitBasedTimeContainer(context)
+infix fun UnitBasedTimeContainer.isAfter(context: TimeContextUnit) = this isAfter UnitBasedTimeContainer(context)
+infix fun TimeContextUnit.isAfter(context: TimeContextUnit) = UnitBasedTimeContainer(this) isAfter UnitBasedTimeContainer(context)
+
 infix fun UnitBasedTimeContainer.after(context: LocalDateTimeContainer) = this + context
 infix fun UnitBasedTimeContainer.from(context: LocalDateTimeContainer) = this + context
 infix fun UnitBasedTimeContainer.before(context: LocalDateTimeContainer) = this - context
 
-infix fun LocalDateTimeContainer.isBefore(context: UnitBasedTimeContainer): Boolean = this.asSeconds < context.asSeconds
-infix fun LocalDateTimeContainer.isBefore(context: LocalDateTimeContainer): Boolean = this isBefore context.toUnitBasedTimeContainer()
+infix fun UnitBasedTimeContainer.isBefore(context: UnitBasedTimeContainer): Boolean = this.asMillis < context.asMillis
 
-infix fun LocalDateTimeContainer.isAfter(context: UnitBasedTimeContainer): Boolean = this.asSeconds > context.asSeconds
-infix fun LocalDateTimeContainer.isAfter(context: LocalDateTimeContainer): Boolean = this isAfter context.toUnitBasedTimeContainer()
+infix fun LocalDateTimeContainer.isBefore(context: UnitBasedTimeContainer): Boolean = this.toUnitBasedTimeContainer() isBefore context
+infix fun LocalDateTimeContainer.isBefore(context: LocalDateTimeContainer): Boolean = this.toUnitBasedTimeContainer() isBefore context.toUnitBasedTimeContainer()
+
+infix fun UnitBasedTimeContainer.isAfter(context: UnitBasedTimeContainer): Boolean = this.asMillis > context.asMillis
+
+infix fun LocalDateTimeContainer.isAfter(context: UnitBasedTimeContainer): Boolean = this.toUnitBasedTimeContainer() isAfter context
+infix fun LocalDateTimeContainer.isAfter(context: LocalDateTimeContainer): Boolean = this.toUnitBasedTimeContainer() isAfter context.toUnitBasedTimeContainer()
 
 infix fun LocalDateTimeContainer.offset(context: UnitBasedTimeContainer): LocalDateTimeContainer {
     val ctx = context.unit

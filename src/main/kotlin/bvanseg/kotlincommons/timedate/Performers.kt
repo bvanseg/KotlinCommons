@@ -2,12 +2,27 @@ package bvanseg.kotlincommons.timedate
 
 import bvanseg.kotlincommons.KotlinCommons
 import bvanseg.kotlincommons.timedate.transformer.BoundedContext
+import bvanseg.kotlincommons.timedate.transformer.into
 import kotlinx.coroutines.*
 import java.util.concurrent.TimeUnit
+import kotlin.time.seconds
 
 inline fun sleep(container: TimeContext) = TimeUnit.MILLISECONDS.sleep(container.asMillis)
 suspend fun CoroutineScope.delay(container: TimeContext) = delay(container.asMillis)
 
+/**
+ * A time scheduling context, which is used to scheduling either blocking or non-blocking performances within time
+ * constraints. This requires a *time pattern*, which is constructed via the DSL (see [perform]).
+ * This at least requires a [BoundedContext] which is a context with an upper and lower time bounds such as
+ * `now until 10.minutes from now` which is used for knowing what times are being used for execution. This could be
+ * any kind of bounds such as `(1.hours from now) until (2.hours from now)`, which will wait until the time is within
+ * those two bounds, and use it as a minimal start condition and maximal start condition. The [frequency] is used
+ * for constructing how often we are going to perform. This is created *after* the `every` operator, and could be
+ * `1.minutes.exactly` which would mean we are performing every 1 minute exactly. [exactly] means we are going to
+ * wait until we are on the minute every minute before performing our action. If the time is `09:31:13` it will calculate
+ * how much time before now and the next minute to execute, such that we perform our action at `09:32:00` with respect
+ * to millisecond precision.
+ */
 class TimeScheduleContext(val boundedContext: BoundedContext, val frequency: TimePerformer): TimeContext by boundedContext {
 
     private val unit: UnitBasedTimeContainer = when(frequency.inner){
@@ -24,10 +39,25 @@ class TimeScheduleContext(val boundedContext: BoundedContext, val frequency: Tim
     val freq = boundedContext.asSeconds / unit.asSeconds
 
     /**
-     * Things to implement before finishing this method:
-     *  We first must fully implement coercion. Coercion is used to calculate the frequency.
+     * Perform a blocking action such that it is within a time context. This requires a [TimePerformer] such that
+     * the context of how to time the performance, whether it be an initial delay, exact time execution, and/or some
+     * kind of iteration count based on how long to run, how often to run, how to run, when to run.
+     *
+     * ```
+     * val start = now
+     * (start until (10.minutes from start)         //from start/[now] until 10.minutes from start/[now]
+     *      every (1.minutes.exactly                //Every 1 minute exactly
+     *          (waitUntil 1.minutes)               //wait until 1 minute of the hour
+     *          (starting (1.minutes from start)))  //starting 1 minute from start/now
+     *      .perform{                               //Perform this...
+     *          println("Hello, world!")
+     *      }
+     * ```
+     *
+     * @author Boston Vanseghi
+     * @author Alex Couch
      */
-    fun perform(callback: () -> Unit) {
+    infix fun perform(callback: () -> Unit) {
         var tracker: Long
 
         handleStart()
@@ -102,6 +132,19 @@ class TimeScheduleContext(val boundedContext: BoundedContext, val frequency: Tim
      * @author Jacob Glickman
      */
     private fun handleStart() {
+
+        /*
+            If we have a lower bound greater than [now] then let's wait until [now] is within the bounded context
+         */
+        val lowerBounds = boundedContext.left
+        val now = now
+        if((lowerBounds into seconds) isAfter (now into seconds)){
+            KotlinCommons.KC_LOGGER.debug("PRESTART_DELAY - Lower bounds of bounded time condition is $lowerBounds")
+            val delta = (lowerBounds.asMillis - now.asMillis)
+            KotlinCommons.KC_LOGGER.debug("PRESTART_DELAY - Delaying start until time is within lower and upper bounds with $delta seconds of delay ")
+            sleep(now - lowerBounds)
+        }
+
         KotlinCommons.KC_LOGGER.debug("PERFORM_START - Starting performance at $now for $freq cycles.")
 
         /*

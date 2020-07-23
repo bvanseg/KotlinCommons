@@ -1,5 +1,7 @@
 package bvanseg.kotlincommons.monads
 
+import bvanseg.kotlincommons.prettyprinter.buildPrettyString
+
 /**
  * ```
  * val myInt = 1.some()
@@ -50,3 +52,12 @@ sealed class Option<T>{
 
 fun <T> T.some() = Option.Some(this)
 fun <T> none() = Option.None<T>()
+
+@ExperimentalStdlibApi
+fun main(){
+    println(buildPrettyString{
+        red {
+            appendWithNewLine("Hello, world!")
+        }
+    })
+}
