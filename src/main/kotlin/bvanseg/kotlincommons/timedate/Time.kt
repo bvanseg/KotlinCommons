@@ -1,12 +1,67 @@
 package bvanseg.kotlincommons.timedate
 
+import bvanseg.kotlincommons.numbers.format
 import bvanseg.kotlincommons.prettyprinter.buildPrettyString
 import bvanseg.kotlincommons.timedate.transformer.into
 import bvanseg.kotlincommons.timedate.transformer.until
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import java.time.Instant
+import java.time.LocalDate
 import java.time.LocalDateTime
+
+internal fun Time.checkAndCorrectNanoOverflow(): Time = if (nano >= 1_000_000_000) {
+    //101000
+    val overflow = nano / 1_000_000
+    val nonOverflow = nano % 1_000_000
+    Time(year, month, day, hour, minute, second, millis + overflow, nonOverflow)
+} else {
+    this
+}
+
+internal fun Time.checkAndCorrectMillisOverflow(): Time = if (millis >= 1_000) {
+    //1010 == 1 second, 10ms
+    val overflow = millis / 1_000
+    val nonOverflow = millis % 1_000
+    Time(year, month, day, hour, minute, second + overflow, nonOverflow, nano)
+} else {
+    this
+}
+
+internal fun Time.checkAndCorrectSecondOverflow(): Time = if(second >= 60){
+    // 76
+    val overflow = second / 60
+    val nonOverflow = second % 60
+    Time(year, month, day, hour, minute + overflow, nonOverflow, millis, nano)
+} else {
+    this
+}
+
+
+internal fun Time.checkAndCorrectMinuteOverflow(): Time = if(minute >= 60){
+    // 76 = 1 hour, 16 minutes.
+    val overflow = minute / 60
+    val nonOverflow = minute % 60
+    Time(year, month, day, hour + overflow, nonOverflow, second, millis, nano)
+} else {
+    this
+}
+
+internal fun Time.checkAndCorrectHourOverflow(): Time = if(hour >= 24){
+    // 25 = 1 day, 1 hour.
+    val overflow = hour / 24
+    val nonOverflow = hour % 24
+    Time(year, month, day + overflow, nonOverflow, minute, second, millis, nano)
+} else {
+    this
+}
+
+internal fun Time.checkAndCorrectOver(): Time =
+    this.checkAndCorrectNanoOverflow()
+        .checkAndCorrectMillisOverflow()
+        .checkAndCorrectSecondOverflow()
+        .checkAndCorrectMinuteOverflow()
+        .checkAndCorrectHourOverflow()
 
 data class Time(
     val year: Long,
@@ -21,7 +76,7 @@ data class Time(
     @ExperimentalStdlibApi
     override fun toString(): String =
         buildPrettyString {
-            append("$year/$month/$day/$hour:$minute:$second.$millis,$nano")
+            append("$year-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')} ${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}:${second.toString().padStart(2, '0')}.${millis.toString().padStart(3, '0')}/$nano")
         }
 }
 
@@ -31,43 +86,3 @@ infix fun TimeContext.from(container: TimeContext) =
 val now get() = LocalDateTimeContainer(LocalDateTime.now())
 val yesterday get() = 24.hours before now
 val tomorrow get() = 24.hours from now
-
-fun main() = runBlocking {
-    println(now + 1000.years)
-    println(yesterday)
-    println(tomorrow)
-    println(now isBefore tomorrow)
-    println(now isBefore (10.minutes from now))
-
-    println(now until (1.minutes from now) into seconds)
-
-    val start = now
-//    sleep(1.minutes)
-    println(start)
-    /*
-        now = 09:30:13.2000
-        09:30:13
-        09:31:13
-        09:32:00
-        09:33:00
-     */
-    (start until (10.minutes from start)
-            every ((30.seconds.exactly)
-            waitUntil (15.seconds.exactly)
-            starting (25.seconds from now)))
-        .perform {
-            println("Hello, world! - ${Instant.now()}")
-        }
-
-//    val job = (start until (10.minutes from start)
-//            every ((1.minutes.exactly)
-//            waitUntil (1.minutes.exactly)
-//            starting (1.minutes from now)))
-//        .performAsync {
-//            delay(1000)
-//            println("Hello, world! - ${Instant.now()}")
-//        }
-//    job.join()
-
-    println("Reached end of function.")
-}

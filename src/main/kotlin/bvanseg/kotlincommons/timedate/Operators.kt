@@ -4,31 +4,38 @@ import bvanseg.kotlincommons.timedate.transformer.BoundedContext
 import java.lang.Exception
 import java.util.concurrent.TimeUnit
 
-private fun TimeContainer.checkAndCorrectNanoOverflow(): TimeContainer =
+internal fun TimeContainer.checkAndCorrectNanoOverflow(): TimeContainer =
     this.flatmap { it: Time ->
-        if(it.nano >= 100_000){
-            //101000
-            val overflow = it.nano % 100_000
-            when{
-                overflow > 0 ->
-                    Time(it.year, it.month, it.day, it.hour, it.minute, it.second, overflow, 0)
-                overflow == 0L ->
-                    Time(it.year, it.month, it.day, it.hour, it.minute, it.second, it.millis, 0)
-                else -> it
-            }
-        }else{
-            it
-        }
+        it.checkAndCorrectNanoOverflow()
     }
 
-private fun TimeContainer.checkAndCorrectOver(): TimeContainer =
+internal fun TimeContainer.checkAndCorrectMillisOverflow(): TimeContainer =
+    this.flatmap { it: Time ->
+        it.checkAndCorrectMillisOverflow()
+    }
+
+internal fun TimeContainer.checkAndCorrectSecondOverflow(): TimeContainer =
+    this.flatmap { it: Time ->
+        it.checkAndCorrectSecondOverflow()
+    }
+
+
+internal fun TimeContainer.checkAndCorrectMinuteOverflow(): TimeContainer =
+    this.flatmap { it: Time ->
+        it.checkAndCorrectMinuteOverflow()
+    }
+
+internal fun TimeContainer.checkAndCorrectHourOverflow(): TimeContainer =
+    this.flatmap { it: Time ->
+        it.checkAndCorrectHourOverflow()
+    }
+
+internal fun <T: TimeContainer> T.checkAndCorrectOver(): T =
     this.checkAndCorrectNanoOverflow()
-        /*
-            .checkAndCorrectMillisOverflow()
-            .checkAndCorrectSecondOverflow()
-            .checkAndCorrectMinuteOverflow()
-            .checkAndCorrectHourOverflow()
-         */
+        .checkAndCorrectMillisOverflow()
+        .checkAndCorrectSecondOverflow()
+        .checkAndCorrectMinuteOverflow()
+        .checkAndCorrectHourOverflow() as T
 
 /**
  * This should be done using a flatMap operator. Add an abstract method flatMap to [TimeContainer] such that
@@ -66,8 +73,8 @@ operator fun LocalDateTimeContainer.plus(context: TimeContext): UnitBasedTimeCon
         is TimePerformer -> this + context.inner
         is TimeContainer ->
             when(context){
-                is LocalDateTimeContainer -> this + context
-                is UnitBasedTimeContainer -> this + context
+                is LocalDateTimeContainer -> (this + context).checkAndCorrectOver() as UnitBasedTimeContainer
+                is UnitBasedTimeContainer -> (this + context).checkAndCorrectOver() as UnitBasedTimeContainer
                 else -> TODO("Not sure what you did but I like it ;)")
             }
         else -> TODO("Not sure what you did but I like it ;)")
@@ -76,7 +83,7 @@ operator fun LocalDateTimeContainer.plus(context: TimeContext): UnitBasedTimeCon
 operator fun TimeContext.plus(context: TimeContext): UnitBasedTimeContainer =
     when(this){
         is BoundedContext -> this + context
-        is TimePerformer -> this.inner + context
+        is TimePerformer -> this.inner + context // FIXME: Can potentially cause a stackoverflow
         is TimeContainer -> when(this){
             is LocalDateTimeContainer -> this + context
             is UnitBasedTimeContainer -> this + context
@@ -91,7 +98,7 @@ operator fun BoundedContext.plus(context: TimeContext): UnitBasedTimeContainer {
 
 operator fun UnitBasedTimeContainer.plus(context: UnitBasedTimeContainer): UnitBasedTimeContainer {
     val unit = context.unit
-    return flatmap { it: Time ->
+    return (flatmap { it: Time ->
         when(unit){
             is TimeContextUnit.Nano -> Time(it.year, it.month, it.day, it.hour, it.minute, it.second, it.millis, it.nano + unit.nanosecs)
             is TimeContextUnit.Millis -> Time(it.year, it.month, it.day, it.hour, it.minute, it.second, it.millis + unit.millisecs, it.nano)
@@ -104,7 +111,7 @@ operator fun UnitBasedTimeContainer.plus(context: UnitBasedTimeContainer): UnitB
             is TimeContextUnit.Year -> Time(it.year + unit.years, it.month, it.day, it.hour, it.minute, it.second, it.millis, it.nano)
             else -> TODO()
         }
-    }as UnitBasedTimeContainer
+    } as UnitBasedTimeContainer).checkAndCorrectOver()
 }
 
 operator fun LocalDateTimeContainer.minus(context: UnitBasedTimeContainer): UnitBasedTimeContainer {
