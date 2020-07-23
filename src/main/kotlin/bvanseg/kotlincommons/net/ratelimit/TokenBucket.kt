@@ -41,11 +41,12 @@ data class TokenBucket(
     fun isEmpty() = currentTokenCount == 0L
     fun isNotEmpty() = currentTokenCount > 0L
 
-    fun tryConsume(amount: Long = 1): Boolean = synchronized(this) {
-        if(currentTokenCount >= amount) {
+    fun <R> tryConsume(amount: Long = 1, callback: () -> R): Pair<Boolean, R?> = synchronized(this) {
+        if (currentTokenCount >= amount) {
             currentTokenCount -= amount
-            return true
+            return true to callback()
         }
-        return false
+
+        return false to null
     }
 }
