@@ -59,7 +59,8 @@ internal fun <T: TimeContainer> T.checkAndCorrectOver(): T =
  */
 
 operator fun LocalDateTimeContainer.plus(context: UnitBasedTimeContainer): UnitBasedTimeContainer {
-    val here = this.toUnitBasedTimeContainer()
+    // Prefer the unit of the unit-based time container (context.unit) over the local date's 'None' unit.
+    val here = this.toUnitBasedTimeContainer(context.unit)
     return here + context
 }
 

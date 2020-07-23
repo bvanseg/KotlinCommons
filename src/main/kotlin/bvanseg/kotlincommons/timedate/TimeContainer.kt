@@ -35,7 +35,8 @@ class LocalDateTimeContainer(
             currentTime.nano.toLong() % 1_000_000L
         ).checkAndCorrectOver()
 ): TimeContainer {
-    override val unit: TimeContextUnit = TimeContextUnit.Year(timeObject.year)
+    // No context for a local date time container, as it is not just a single unit.
+    override val unit: TimeContextUnit = TimeContextUnit.None
 
     override val asHour: Long
         get() =
@@ -73,7 +74,8 @@ class LocalDateTimeContainer(
             return performer.exactly
         }
 
-    fun toUnitBasedTimeContainer() = UnitBasedTimeContainer(TimeContextUnit.Year(currentTime.year.toLong()), timeObject)
+    // Inherit unit and time object.
+    fun toUnitBasedTimeContainer(ctxUnit: TimeContextUnit? = null) = UnitBasedTimeContainer(ctxUnit ?: unit, timeObject)
 
     @ExperimentalStdlibApi
     override fun toString(): String = timeObject.toString()
@@ -83,7 +85,8 @@ class UnitBasedTimeContainer(override val unit: TimeContextUnit, override val ti
     when(unit){
         is TimeContextUnit.Year -> Time(unit.years, 0, 0, 0, 0, 0, 0, 0)
         is TimeContextUnit.Month -> Time(0, unit.months, 0, 0, 0, 0, 0,0)
-        is TimeContextUnit.Week -> Time(0, 0, unit.weeks, 0, 0, 0, 0,0)
+        // FIXME: timeObject has no field for weeks?
+        is TimeContextUnit.Week -> Time(0, 0, unit.weeks * 7, 0, 0, 0, 0,0)
         is TimeContextUnit.Day -> Time(0, 0, unit.days, 0, 0, 0, 0,0)
         is TimeContextUnit.Hour -> Time(0, 0, 0, unit.hours, 0, 0, 0,0)
         is TimeContextUnit.Minute -> Time(0, 0, 0, 0, unit.minute, 0, 0,0)
