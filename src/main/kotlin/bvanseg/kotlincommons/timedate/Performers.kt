@@ -140,9 +140,9 @@ class TimeScheduleContext(val boundedContext: BoundedContext, val frequency: Tim
         val now = now
         if((lowerBounds into seconds) isAfter (now into seconds)){
             KotlinCommons.KC_LOGGER.debug("PRESTART_DELAY - Lower bounds of bounded time condition is $lowerBounds")
-            val delta = (lowerBounds.asMillis - now.asMillis)
+            val delta = ((lowerBounds into millis) - (now into millis))
             KotlinCommons.KC_LOGGER.debug("PRESTART_DELAY - Delaying start until time is within lower and upper bounds with $delta seconds of delay ")
-            sleep(now - lowerBounds)
+            sleep(delta)
         }
 
         KotlinCommons.KC_LOGGER.debug("PERFORM_START - Starting performance at $now for $freq cycles.")

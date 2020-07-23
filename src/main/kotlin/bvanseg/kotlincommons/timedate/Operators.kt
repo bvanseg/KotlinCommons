@@ -115,6 +115,22 @@ operator fun UnitBasedTimeContainer.plus(context: UnitBasedTimeContainer): UnitB
     } as UnitBasedTimeContainer).checkAndCorrectOver()
 }
 
+operator fun TimeContextUnit.plus(context: LocalDateTimeContainer): UnitBasedTimeContainer {
+    val here = UnitBasedTimeContainer(this)
+    return here + context
+}
+
+operator fun TimeContextUnit.plus(context: UnitBasedTimeContainer): UnitBasedTimeContainer {
+    val here = UnitBasedTimeContainer(this)
+    return here + context
+}
+
+operator fun TimeContextUnit.plus(context: TimeContextUnit): UnitBasedTimeContainer {
+    val here = UnitBasedTimeContainer(this)
+    val there = UnitBasedTimeContainer(context)
+    return here + there
+}
+
 operator fun LocalDateTimeContainer.minus(context: UnitBasedTimeContainer): UnitBasedTimeContainer {
     val here = this.toUnitBasedTimeContainer()
     return here - context
@@ -151,6 +167,22 @@ operator fun UnitBasedTimeContainer.minus(context: LocalDateTimeContainer): Unit
     return here - this
 }
 
+operator fun TimeContextUnit.minus(context: LocalDateTimeContainer): UnitBasedTimeContainer {
+    val here = UnitBasedTimeContainer(this)
+    return here - context
+}
+
+operator fun TimeContextUnit.minus(context: UnitBasedTimeContainer): UnitBasedTimeContainer {
+    val here = UnitBasedTimeContainer(this)
+    return here - context
+}
+
+operator fun TimeContextUnit.minus(context: TimeContextUnit): UnitBasedTimeContainer {
+    val here = UnitBasedTimeContainer(this)
+    val there = UnitBasedTimeContainer(context)
+    return here - there
+}
+
 operator fun TimeContext.minus(context: TimeContext): UnitBasedTimeContainer =
     when(this){
         is BoundedContext -> this - context
@@ -160,6 +192,7 @@ operator fun TimeContext.minus(context: TimeContext): UnitBasedTimeContainer =
             is UnitBasedTimeContainer -> this - context
             else -> TODO("Not sure what you did but I like it ;)")
         }
+        is TimeContextUnit -> this - context
         else -> TODO("Not sure what you did but I like it ;)")
     }
 
