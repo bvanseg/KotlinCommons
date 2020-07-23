@@ -1,7 +1,6 @@
 package bvanseg.kotlincommons.net.ratelimit
 
 import bvanseg.kotlincommons.any.getLogger
-import java.time.Instant
 import java.util.concurrent.*
 import java.util.concurrent.atomic.AtomicLong
 
@@ -52,21 +51,22 @@ cycleStrategy: (RateLimiter<T>, AtomicLong, ConcurrentLinkedDeque<Pair<T, (T) ->
     fun submit(unit: T, consume: Long = 1, ratelimitCallback: (T) -> Unit) {
         logger.trace("Received asynchronous submission.")
         if(queue.isEmpty()) {
-            val result = tokenBucket.tryConsume(consume)
+            synchronized(tokenBucket) {
+                val result = tokenBucket.tryConsume(consume)
 
-            if(result) {
-                logger.trace("Immediately executing asynchronous submission: TokenBucket (${tokenBucket.currentTokenCount}/${tokenBucket.tokenLimit}).")
-                ratelimitCallback(unit)
+                if (result) {
+                    logger.trace("Immediately executing asynchronous submission: TokenBucket (${tokenBucket.currentTokenCount}/${tokenBucket.tokenLimit}).")
+                    ratelimitCallback(unit)
+                } else
+                    queue.addLast(unit to ratelimitCallback)
             }
-            else
-                queue.addLast(unit to ratelimitCallback)
         }
         else if(queue.size < tokenBucket.maxSize) {
             queue.addLast(unit to ratelimitCallback)
         }
     }
 
-    fun <R> submitBlocking(unit: T, consume: Long = 1, callback: (T) -> R): R {
+    fun <R> submitBlocking(unit: T, consume: Long = 1, callback: (T) -> R): R = synchronized(tokenBucket) {
         blockingCount.incrementAndGet()
 
         logger.trace("Received blocking submission.")
@@ -74,11 +74,12 @@ cycleStrategy: (RateLimiter<T>, AtomicLong, ConcurrentLinkedDeque<Pair<T, (T) ->
 
         logger.trace("Executing blocking submission...")
         val result = callback(unit)
+        logger.trace("Finished executing submission: TokenBucket (${tokenBucket.currentTokenCount}/${tokenBucket.tokenLimit}).")
         blockingCount.decrementAndGet()
         return result
     }
 
-    fun <R> submitBlocking(consume: Long = 1, callback: () -> R): R {
+    fun <R> submitBlocking(consume: Long = 1, callback: () -> R): R = synchronized(tokenBucket) {
         blockingCount.incrementAndGet()
 
         logger.trace("Received blocking submission.")
@@ -86,17 +87,18 @@ cycleStrategy: (RateLimiter<T>, AtomicLong, ConcurrentLinkedDeque<Pair<T, (T) ->
 
         logger.trace("Executing blocking submission...")
         val result = callback()
+        logger.trace("Finished executing submission: TokenBucket (${tokenBucket.currentTokenCount}/${tokenBucket.tokenLimit}).")
         blockingCount.decrementAndGet()
         return result
     }
 
-    fun submitBlocking(consume: Long = 1) {
+    fun submitBlocking(consume: Long = 1) = synchronized(tokenBucket) {
         blockingCount.incrementAndGet()
 
-        logger.trace("Received blocking submission.")
+        logger.trace("Entering blocking submission...")
         while(!tokenBucket.tryConsume(consume)) { Thread.onSpinWait() }
 
-        logger.trace("Executing blocking submission...")
+        logger.trace("Leaving blocking submission: TokenBucket (${tokenBucket.currentTokenCount}/${tokenBucket.tokenLimit}).")
         blockingCount.decrementAndGet()
     }
 

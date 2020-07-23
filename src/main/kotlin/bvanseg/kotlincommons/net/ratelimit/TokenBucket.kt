@@ -1,5 +1,6 @@
 package bvanseg.kotlincommons.net.ratelimit
 
+import bvanseg.kotlincommons.any.getLogger
 import java.util.concurrent.atomic.AtomicLong
 
 /**
@@ -23,11 +24,15 @@ data class TokenBucket(
     var lastUpdate = initUpdate
         private set
 
+    private val logger = getLogger()
+
     @Volatile
     var currentTokenCount: Long = initTokenCount
 
     fun refill() = synchronized(this) {
+        logger.trace("Refreshing tokens: TokenBucket ($currentTokenCount/$tokenLimit).")
         refreshStrategy(this)
+        logger.trace("Finished refreshing tokens: TokenBucket ($currentTokenCount/$tokenLimit).")
         lastUpdate = System.currentTimeMillis()
     }
 

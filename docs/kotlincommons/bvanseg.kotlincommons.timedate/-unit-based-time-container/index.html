@@ -20,7 +20,8 @@
 <code><span class="identifier">UnitBasedTimeContainer</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate.UnitBasedTimeContainer$<init>(bvanseg.kotlincommons.timedate.TimeContextUnit, bvanseg.kotlincommons.timedate.Time)/unit">unit</span><span class="symbol">:</span>&nbsp;<a href="../-time-context-unit/index.html"><span class="identifier">TimeContextUnit</span></a><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.timedate.UnitBasedTimeContainer$<init>(bvanseg.kotlincommons.timedate.TimeContextUnit, bvanseg.kotlincommons.timedate.Time)/timeObject">timeObject</span><span class="symbol">:</span>&nbsp;<a href="../-time/index.html"><span class="identifier">Time</span></a>&nbsp;<span class="symbol">=</span>&nbsp;when(unit){
         is TimeContextUnit.Year -&gt; Time(unit.years, 0, 0, 0, 0, 0, 0, 0)
         is TimeContextUnit.Month -&gt; Time(0, unit.months, 0, 0, 0, 0, 0,0)
-        is TimeContextUnit.Week -&gt; Time(0, 0, unit.weeks, 0, 0, 0, 0,0)
+        // FIXME: timeObject has no field for weeks?
+        is TimeContextUnit.Week -&gt; Time(0, 0, unit.weeks * 7, 0, 0, 0, 0,0)
         is TimeContextUnit.Day -&gt; Time(0, 0, unit.days, 0, 0, 0, 0,0)
         is TimeContextUnit.Hour -&gt; Time(0, 0, 0, unit.hours, 0, 0, 0,0)
         is TimeContextUnit.Minute -&gt; Time(0, 0, 0, 0, unit.minute, 0, 0,0)
@@ -154,7 +155,23 @@
 <h4><a href="../../bvanseg.kotlincommons.timedate.transformer/into.html">into</a></h4>
 </td>
 <td>
-<code><span class="keyword">infix</span> <span class="keyword">fun </span><a href="./index.html"><span class="identifier">UnitBasedTimeContainer</span></a><span class="symbol">.</span><span class="identifier">into</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate.transformer$into(bvanseg.kotlincommons.timedate.UnitBasedTimeContainer, bvanseg.kotlincommons.timedate.TimeUnit)/unit">unit</span><span class="symbol">:</span>&nbsp;<a href="../-time-unit/index.html"><span class="identifier">TimeUnit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">UnitBasedTimeContainer</span></a></code></td>
+<code><span class="keyword">infix</span> <span class="keyword">fun </span><a href="./index.html"><span class="identifier">UnitBasedTimeContainer</span></a><span class="symbol">.</span><span class="identifier">into</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate.transformer$into(bvanseg.kotlincommons.timedate.UnitBasedTimeContainer, bvanseg.kotlincommons.timedate.TimeUnit)/unit">unit</span><span class="symbol">:</span>&nbsp;<a href="../-time-unit/index.html"><span class="identifier">TimeUnit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="../-time-context-unit/index.html"><span class="identifier">TimeContextUnit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="../is-after.html">isAfter</a></h4>
+</td>
+<td>
+<code><span class="keyword">infix</span> <span class="keyword">fun </span><a href="./index.html"><span class="identifier">UnitBasedTimeContainer</span></a><span class="symbol">.</span><span class="identifier">isAfter</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate$isAfter(bvanseg.kotlincommons.timedate.UnitBasedTimeContainer, bvanseg.kotlincommons.timedate.TimeContextUnit)/context">context</span><span class="symbol">:</span>&nbsp;<a href="../-time-context-unit/index.html"><span class="identifier">TimeContextUnit</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Boolean</span></code><br/>
+<code><span class="keyword">infix</span> <span class="keyword">fun </span><a href="./index.html"><span class="identifier">UnitBasedTimeContainer</span></a><span class="symbol">.</span><span class="identifier">isAfter</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate$isAfter(bvanseg.kotlincommons.timedate.UnitBasedTimeContainer, bvanseg.kotlincommons.timedate.UnitBasedTimeContainer)/context">context</span><span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">UnitBasedTimeContainer</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Boolean</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="../is-before.html">isBefore</a></h4>
+</td>
+<td>
+<code><span class="keyword">infix</span> <span class="keyword">fun </span><a href="./index.html"><span class="identifier">UnitBasedTimeContainer</span></a><span class="symbol">.</span><span class="identifier">isBefore</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate$isBefore(bvanseg.kotlincommons.timedate.UnitBasedTimeContainer, bvanseg.kotlincommons.timedate.TimeContextUnit)/context">context</span><span class="symbol">:</span>&nbsp;<a href="../-time-context-unit/index.html"><span class="identifier">TimeContextUnit</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Boolean</span></code><br/>
+<code><span class="keyword">infix</span> <span class="keyword">fun </span><a href="./index.html"><span class="identifier">UnitBasedTimeContainer</span></a><span class="symbol">.</span><span class="identifier">isBefore</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate$isBefore(bvanseg.kotlincommons.timedate.UnitBasedTimeContainer, bvanseg.kotlincommons.timedate.UnitBasedTimeContainer)/context">context</span><span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">UnitBasedTimeContainer</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Boolean</span></code></td>
 </tr>
 <tr>
 <td>
