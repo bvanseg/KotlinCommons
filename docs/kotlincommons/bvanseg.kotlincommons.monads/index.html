@@ -1,0 +1,51 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>bvanseg.kotlincommons.monads - kotlincommons</title>
+<link rel="stylesheet" href="../../style.css">
+</HEAD>
+<BODY>
+<a href="../index.html">kotlincommons</a>&nbsp;/&nbsp;<a href="./index.html">bvanseg.kotlincommons.monads</a><br/>
+<br/>
+<h2>Package bvanseg.kotlincommons.monads</h2>
+<h3>Types</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="-option/index.html">Option</a></h4>
+</td>
+<td>
+<pre><code>val myInt = 1.some()
+val myString = "hello, world".some()
+val myNewInt = myInt.map{
+ it + 1
+}
+val myNewString = myString.map{
+ it += "!"
+}
+</code></pre><code><span class="keyword">sealed</span> <span class="keyword">class </span><span class="identifier">Option</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="none.html">none</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span> <span class="identifier">none</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">None</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="some.html">some</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span> <span class="identifier">T</span><span class="symbol">.</span><span class="identifier">some</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Some</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

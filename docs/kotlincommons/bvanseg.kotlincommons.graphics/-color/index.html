@@ -1,0 +1,1262 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Color - kotlincommons</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">kotlincommons</a>&nbsp;/&nbsp;<a href="../index.html">bvanseg.kotlincommons.graphics</a>&nbsp;/&nbsp;<a href="./index.html">Color</a><br/>
+<br/>
+<h1>Color</h1>
+<code><span class="keyword">class </span><span class="identifier">Color</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Serializable</span></code>
+<p>A cleaner (yet more advanced) implementation of <a href="#">java.awt.Color</a> that provides additional functionality.</p>
+<p><strong>Author</strong><br/>
+Boston Vanseghi</p>
+<p><strong>Since</strong><br/>
+2.0.2</p>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="-init-.html">&lt;init&gt;</a></h4>
+</td>
+<td>
+<code><span class="identifier">Color</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.graphics.Color$<init>(kotlin.Int, kotlin.Int)/color">color</span><span class="symbol">:</span>&nbsp;<span class="identifier">Int</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.graphics.Color$<init>(kotlin.Int, kotlin.Int)/alpha">alpha</span><span class="symbol">:</span>&nbsp;<span class="identifier">Int</span>&nbsp;<span class="symbol">=</span>&nbsp;0xFF<span class="symbol">)</span></code><br/>
+<code><span class="identifier">Color</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.graphics.Color$<init>(kotlin.Int, kotlin.Int, kotlin.Int, kotlin.Int)/red">red</span><span class="symbol">:</span>&nbsp;<span class="identifier">Int</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.graphics.Color$<init>(kotlin.Int, kotlin.Int, kotlin.Int, kotlin.Int)/green">green</span><span class="symbol">:</span>&nbsp;<span class="identifier">Int</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.graphics.Color$<init>(kotlin.Int, kotlin.Int, kotlin.Int, kotlin.Int)/blue">blue</span><span class="symbol">:</span>&nbsp;<span class="identifier">Int</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.graphics.Color$<init>(kotlin.Int, kotlin.Int, kotlin.Int, kotlin.Int)/alpha">alpha</span><span class="symbol">:</span>&nbsp;<span class="identifier">Int</span>&nbsp;<span class="symbol">=</span>&nbsp;0xFF<span class="symbol">)</span></code><br/>
+<code><span class="identifier">Color</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.graphics.Color$<init>(kotlin.Float, kotlin.Float, kotlin.Float, kotlin.Float)/red">red</span><span class="symbol">:</span>&nbsp;<span class="identifier">Float</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.graphics.Color$<init>(kotlin.Float, kotlin.Float, kotlin.Float, kotlin.Float)/green">green</span><span class="symbol">:</span>&nbsp;<span class="identifier">Float</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.graphics.Color$<init>(kotlin.Float, kotlin.Float, kotlin.Float, kotlin.Float)/blue">blue</span><span class="symbol">:</span>&nbsp;<span class="identifier">Float</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.graphics.Color$<init>(kotlin.Float, kotlin.Float, kotlin.Float, kotlin.Float)/alpha">alpha</span><span class="symbol">:</span>&nbsp;<span class="identifier">Float</span>&nbsp;<span class="symbol">=</span>&nbsp;1.0f<span class="symbol">)</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="color.html">color</a></h4>
+</td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">color</span><span class="symbol">: </span><span class="identifier">Int</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="get-alpha.html">getAlpha</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">getAlpha</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="get-blue.html">getBlue</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">getBlue</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="get-green.html">getGreen</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">getGreen</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="get-h-s-l.html">getHSL</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">getHSL</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Triple</span><span class="symbol">&lt;</span><span class="identifier">Int</span><span class="symbol">,</span>&nbsp;<span class="identifier">Int</span><span class="symbol">,</span>&nbsp;<span class="identifier">Int</span><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="get-h-s-l-a.html">getHSLA</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">getHSLA</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="../../bvanseg.kotlincommons.tuples/-quad/index.html"><span class="identifier">Quad</span></a><span class="symbol">&lt;</span><span class="identifier">Int</span><span class="symbol">,</span>&nbsp;<span class="identifier">Int</span><span class="symbol">,</span>&nbsp;<span class="identifier">Int</span><span class="symbol">,</span>&nbsp;<span class="identifier">Int</span><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="get-hue.html">getHue</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">getHue</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="get-luminance.html">getLuminance</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">getLuminance</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="get-red.html">getRed</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">getRed</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="get-r-g-b.html">getRGB</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">getRGB</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Triple</span><span class="symbol">&lt;</span><span class="identifier">Int</span><span class="symbol">,</span>&nbsp;<span class="identifier">Int</span><span class="symbol">,</span>&nbsp;<span class="identifier">Int</span><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="get-r-g-b-a.html">getRGBA</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">getRGBA</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="../../bvanseg.kotlincommons.tuples/-quad/index.html"><span class="identifier">Quad</span></a><span class="symbol">&lt;</span><span class="identifier">Int</span><span class="symbol">,</span>&nbsp;<span class="identifier">Int</span><span class="symbol">,</span>&nbsp;<span class="identifier">Int</span><span class="symbol">,</span>&nbsp;<span class="identifier">Int</span><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="get-saturation.html">getSaturation</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">getSaturation</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="plus.html">plus</a></h4>
+</td>
+<td>
+<p>OPERATORS</p>
+<code><span class="keyword">operator</span> <span class="keyword">fun </span><span class="identifier">plus</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.graphics.Color$plus(bvanseg.kotlincommons.graphics.Color)/otherColor">otherColor</span><span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">Color</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="set-alpha.html">setAlpha</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">setAlpha</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.graphics.Color$setAlpha(kotlin.Int)/value">value</span><span class="symbol">:</span>&nbsp;<span class="identifier">Int</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="set-blue.html">setBlue</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">setBlue</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.graphics.Color$setBlue(kotlin.Int)/value">value</span><span class="symbol">:</span>&nbsp;<span class="identifier">Int</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="set-green.html">setGreen</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">setGreen</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.graphics.Color$setGreen(kotlin.Int)/value">value</span><span class="symbol">:</span>&nbsp;<span class="identifier">Int</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="set-red.html">setRed</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">setRed</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.graphics.Color$setRed(kotlin.Int)/value">value</span><span class="symbol">:</span>&nbsp;<span class="identifier">Int</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="shade.html">shade</a></h4>
+</td>
+<td>
+<p>Applies shading to the <a href="./index.html">Color</a>.</p>
+<code><span class="keyword">fun </span><span class="identifier">shade</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.graphics.Color$shade(kotlin.Float)/shadeFactor">shadeFactor</span><span class="symbol">:</span>&nbsp;<span class="identifier">Float</span><span class="symbol">)</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="shade-blue.html">shadeBlue</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">shadeBlue</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.graphics.Color$shadeBlue(kotlin.Float)/shadeFactor">shadeFactor</span><span class="symbol">:</span>&nbsp;<span class="identifier">Float</span><span class="symbol">)</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="shade-green.html">shadeGreen</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">shadeGreen</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.graphics.Color$shadeGreen(kotlin.Float)/shadeFactor">shadeFactor</span><span class="symbol">:</span>&nbsp;<span class="identifier">Float</span><span class="symbol">)</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="shade-red.html">shadeRed</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">shadeRed</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.graphics.Color$shadeRed(kotlin.Float)/shadeFactor">shadeFactor</span><span class="symbol">:</span>&nbsp;<span class="identifier">Float</span><span class="symbol">)</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="tint.html">tint</a></h4>
+</td>
+<td>
+<p>Applies a tint to the <a href="./index.html">Color</a>.</p>
+<code><span class="keyword">fun </span><span class="identifier">tint</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.graphics.Color$tint(kotlin.Float)/tintFactor">tintFactor</span><span class="symbol">:</span>&nbsp;<span class="identifier">Float</span><span class="symbol">)</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="tint-blue.html">tintBlue</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">tintBlue</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.graphics.Color$tintBlue(kotlin.Float)/tintFactor">tintFactor</span><span class="symbol">:</span>&nbsp;<span class="identifier">Float</span><span class="symbol">)</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="tint-green.html">tintGreen</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">tintGreen</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.graphics.Color$tintGreen(kotlin.Float)/tintFactor">tintFactor</span><span class="symbol">:</span>&nbsp;<span class="identifier">Float</span><span class="symbol">)</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="tint-red.html">tintRed</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">tintRed</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.graphics.Color$tintRed(kotlin.Float)/tintFactor">tintFactor</span><span class="symbol">:</span>&nbsp;<span class="identifier">Float</span><span class="symbol">)</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Companion Object Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="-a-l-i-c-e_-b-l-u-e.html">ALICE_BLUE</a></h4>
+</td>
+<td>
+<p>BROWSER-COMPLIANT COLORS</p>
+<code><span class="keyword">val </span><span class="identifier">ALICE_BLUE</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-a-n-t-i-q-u-e_-w-h-i-t-e.html">ANTIQUE_WHITE</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">ANTIQUE_WHITE</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-a-q-u-a.html">AQUA</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">AQUA</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-a-q-u-a-m-a-r-i-n-e.html">AQUAMARINE</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">AQUAMARINE</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-a-z-u-r-e.html">AZURE</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">AZURE</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-b-e-i-g-e.html">BEIGE</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">BEIGE</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-b-i-s-q-u-e.html">BISQUE</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">BISQUE</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-b-l-a-c-k.html">BLACK</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">BLACK</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-b-l-a-n-c-h-e-d_-a-l-m-o-n-d.html">BLANCHED_ALMOND</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">BLANCHED_ALMOND</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-b-l-u-e.html">BLUE</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">BLUE</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-b-l-u-e_-v-i-o-l-e-t.html">BLUE_VIOLET</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">BLUE_VIOLET</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-b-r-o-w-n.html">BROWN</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">BROWN</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-b-u-r-l-y_-w-o-o-d.html">BURLY_WOOD</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">BURLY_WOOD</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-c-a-d-e-t_-b-l-u-e.html">CADET_BLUE</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">CADET_BLUE</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-c-h-a-r-t-r-e-u-s-e.html">CHARTREUSE</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">CHARTREUSE</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-c-h-o-c-o-l-a-t-e.html">CHOCOLATE</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">CHOCOLATE</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-c-o-r-a-l.html">CORAL</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">CORAL</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-c-o-r-n-f-l-o-w-e-r_-b-l-u-e.html">CORNFLOWER_BLUE</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">CORNFLOWER_BLUE</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-c-o-r-n-s-i-l-k.html">CORNSILK</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">CORNSILK</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-c-r-i-m-s-o-n.html">CRIMSON</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">CRIMSON</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-c-y-a-n.html">CYAN</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">CYAN</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-d-a-r-k_-b-l-u-e.html">DARK_BLUE</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">DARK_BLUE</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-d-a-r-k_-c-y-a-n.html">DARK_CYAN</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">DARK_CYAN</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-d-a-r-k_-g-o-l-d-e-n_-r-o-d.html">DARK_GOLDEN_ROD</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">DARK_GOLDEN_ROD</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-d-a-r-k_-g-r-a-y.html">DARK_GRAY</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">DARK_GRAY</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-d-a-r-k_-g-r-e-e-n.html">DARK_GREEN</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">DARK_GREEN</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-d-a-r-k_-g-r-e-y.html">DARK_GREY</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">DARK_GREY</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-d-a-r-k_-k-h-a-k-i.html">DARK_KHAKI</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">DARK_KHAKI</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-d-a-r-k_-m-a-g-e-n-t-a.html">DARK_MAGENTA</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">DARK_MAGENTA</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-d-a-r-k_-o-l-i-v-e_-g-r-e-e-n.html">DARK_OLIVE_GREEN</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">DARK_OLIVE_GREEN</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-d-a-r-k_-o-r-a-n-g-e.html">DARK_ORANGE</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">DARK_ORANGE</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-d-a-r-k_-o-r-c-h-i-d.html">DARK_ORCHID</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">DARK_ORCHID</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-d-a-r-k_-r-e-d.html">DARK_RED</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">DARK_RED</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-d-a-r-k_-s-a-l-m-o-n.html">DARK_SALMON</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">DARK_SALMON</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-d-a-r-k_-s-e-a_-g-r-e-e-n.html">DARK_SEA_GREEN</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">DARK_SEA_GREEN</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-d-a-r-k_-s-l-a-t-e_-b-l-u-e.html">DARK_SLATE_BLUE</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">DARK_SLATE_BLUE</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-d-a-r-k_-s-l-a-t-e_-g-r-a-y.html">DARK_SLATE_GRAY</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">DARK_SLATE_GRAY</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-d-a-r-k_-s-l-a-t-e_-g-r-e-y.html">DARK_SLATE_GREY</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">DARK_SLATE_GREY</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-d-a-r-k_-t-u-r-q-u-o-i-s-e.html">DARK_TURQUOISE</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">DARK_TURQUOISE</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-d-a-r-k_-v-i-o-l-e-t.html">DARK_VIOLET</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">DARK_VIOLET</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-d-e-e-p_-p-i-n-k.html">DEEP_PINK</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">DEEP_PINK</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-d-e-e-p_-s-k-y_-b-l-u-e.html">DEEP_SKY_BLUE</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">DEEP_SKY_BLUE</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-d-i-m_-g-r-a-y.html">DIM_GRAY</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">DIM_GRAY</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-d-i-m_-g-r-e-y.html">DIM_GREY</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">DIM_GREY</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-d-o-d-g-e-r_-b-l-u-e.html">DODGER_BLUE</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">DODGER_BLUE</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-f-i-r-e_-b-r-i-c-k.html">FIRE_BRICK</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">FIRE_BRICK</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-f-l-o-r-a-l_-w-h-i-t-e.html">FLORAL_WHITE</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">FLORAL_WHITE</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-f-o-r-e-s-t_-g-r-e-e-n.html">FOREST_GREEN</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">FOREST_GREEN</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-f-u-c-h-s-i-a.html">FUCHSIA</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">FUCHSIA</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-g-a-i-n-s-b-o-r-o.html">GAINSBORO</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">GAINSBORO</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-g-h-o-s-t_-w-h-i-t-e.html">GHOST_WHITE</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">GHOST_WHITE</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-g-o-l-d.html">GOLD</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">GOLD</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-g-o-l-d-e-n_-r-o-d.html">GOLDEN_ROD</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">GOLDEN_ROD</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-g-r-a-y.html">GRAY</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">GRAY</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-g-r-e-e-n.html">GREEN</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">GREEN</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-g-r-e-e-n_-y-e-l-l-o-w.html">GREEN_YELLOW</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">GREEN_YELLOW</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-g-r-e-y.html">GREY</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">GREY</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-h-o-n-e-y_-d-e-w.html">HONEY_DEW</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">HONEY_DEW</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-h-o-t_-p-i-n-k.html">HOT_PINK</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">HOT_PINK</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-i-n-d-i-a-n_-r-e-d.html">INDIAN_RED</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">INDIAN_RED</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-i-n-d-i-g-o.html">INDIGO</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">INDIGO</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-i-v-o-r-y.html">IVORY</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">IVORY</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-k-h-a-k-i.html">KHAKI</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">KHAKI</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-l-a-v-e-n-d-e-r.html">LAVENDER</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">LAVENDER</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-l-a-v-e-n-d-e-r_-b-l-u-s-h.html">LAVENDER_BLUSH</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">LAVENDER_BLUSH</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-l-a-w-n_-g-r-e-e-n.html">LAWN_GREEN</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">LAWN_GREEN</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-l-e-m-m-o-n_-c-h-i-f-f-o-n.html">LEMMON_CHIFFON</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">LEMMON_CHIFFON</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-l-i-g-h-t_-b-l-u-e.html">LIGHT_BLUE</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">LIGHT_BLUE</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-l-i-g-h-t_-c-o-r-a-l.html">LIGHT_CORAL</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">LIGHT_CORAL</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-l-i-g-h-t_-c-y-a-n.html">LIGHT_CYAN</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">LIGHT_CYAN</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-l-i-g-h-t_-g-o-l-d-e-n_-r-o-d_-y-e-l-l-o-w.html">LIGHT_GOLDEN_ROD_YELLOW</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">LIGHT_GOLDEN_ROD_YELLOW</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-l-i-g-h-t_-g-r-a-y.html">LIGHT_GRAY</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">LIGHT_GRAY</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-l-i-g-h-t_-g-r-e-e-n.html">LIGHT_GREEN</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">LIGHT_GREEN</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-l-i-g-h-t_-g-r-e-y.html">LIGHT_GREY</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">LIGHT_GREY</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-l-i-g-h-t_-p-i-n-k.html">LIGHT_PINK</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">LIGHT_PINK</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-l-i-g-h-t_-s-a-l-m-o-n.html">LIGHT_SALMON</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">LIGHT_SALMON</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-l-i-g-h-t_-s-e-a_-g-r-e-e-n.html">LIGHT_SEA_GREEN</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">LIGHT_SEA_GREEN</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-l-i-g-h-t_-s-k-y_-b-l-u-e.html">LIGHT_SKY_BLUE</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">LIGHT_SKY_BLUE</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-l-i-g-h-t_-s-l-a-t-e_-g-r-a-y.html">LIGHT_SLATE_GRAY</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">LIGHT_SLATE_GRAY</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-l-i-g-h-t_-s-l-a-t-e_-g-r-e-y.html">LIGHT_SLATE_GREY</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">LIGHT_SLATE_GREY</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-l-i-g-h-t_-s-t-e-e-l_-b-l-u-e.html">LIGHT_STEEL_BLUE</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">LIGHT_STEEL_BLUE</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-l-i-g-h-t_-y-e-l-l-o-w.html">LIGHT_YELLOW</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">LIGHT_YELLOW</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-l-i-m-e.html">LIME</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">LIME</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-l-i-m-e_-g-r-e-e-n.html">LIME_GREEN</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">LIME_GREEN</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-l-i-n-e-n.html">LINEN</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">LINEN</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-m-a-g-e-n-t-a.html">MAGENTA</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">MAGENTA</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-m-a-r-o-o-n.html">MAROON</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">MAROON</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-m-e-d-i-u-m_-a-q-u-a_-m-a-r-i-n-e.html">MEDIUM_AQUA_MARINE</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">MEDIUM_AQUA_MARINE</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-m-e-d-i-u-m_-b-l-u-e.html">MEDIUM_BLUE</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">MEDIUM_BLUE</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-m-e-d-i-u-m_-o-r-c-h-i-d.html">MEDIUM_ORCHID</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">MEDIUM_ORCHID</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-m-e-d-i-u-m_-p-u-r-p-l-e.html">MEDIUM_PURPLE</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">MEDIUM_PURPLE</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-m-e-d-i-u-m_-s-e-a_-g-r-e-e-n.html">MEDIUM_SEA_GREEN</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">MEDIUM_SEA_GREEN</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-m-e-d-i-u-m_-s-l-a-t-e_-b-l-u-e.html">MEDIUM_SLATE_BLUE</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">MEDIUM_SLATE_BLUE</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-m-e-d-i-u-m_-s-p-r-i-n-g_-g-r-e-e-n.html">MEDIUM_SPRING_GREEN</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">MEDIUM_SPRING_GREEN</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-m-e-d-i-u-m_-t-u-r-q-u-o-i-s-e.html">MEDIUM_TURQUOISE</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">MEDIUM_TURQUOISE</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-m-e-d-i-u-m_-v-i-o-l-e-t_-r-e-d.html">MEDIUM_VIOLET_RED</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">MEDIUM_VIOLET_RED</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-m-i-d-n-i-g-h-t_-b-l-u-e.html">MIDNIGHT_BLUE</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">MIDNIGHT_BLUE</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-m-i-n-t_-c-r-e-a-m.html">MINT_CREAM</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">MINT_CREAM</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-m-i-s-t-y_-r-o-s-e.html">MISTY_ROSE</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">MISTY_ROSE</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-m-o-c-c-a-s-i-n.html">MOCCASIN</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">MOCCASIN</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-n-a-v-a-j-o_-w-h-i-t-e.html">NAVAJO_WHITE</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">NAVAJO_WHITE</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-n-a-v-y.html">NAVY</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">NAVY</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-o-l-d_-l-a-c-e.html">OLD_LACE</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">OLD_LACE</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-o-l-i-v-e.html">OLIVE</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">OLIVE</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-o-l-i-v-e_-d-r-a-b.html">OLIVE_DRAB</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">OLIVE_DRAB</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-o-r-a-n-g-e.html">ORANGE</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">ORANGE</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-o-r-a-n-g-e_-r-e-d.html">ORANGE_RED</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">ORANGE_RED</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-o-r-c-h-i-d.html">ORCHID</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">ORCHID</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-p-a-l-e_-g-o-l-d-e-n_-r-o-d.html">PALE_GOLDEN_ROD</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">PALE_GOLDEN_ROD</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-p-a-l-e_-g-r-e-e-n.html">PALE_GREEN</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">PALE_GREEN</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-p-a-l-e_-t-u-r-q-u-o-i-s-e.html">PALE_TURQUOISE</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">PALE_TURQUOISE</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-p-a-l-e_-v-i-o-l-e-t_-r-e-d.html">PALE_VIOLET_RED</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">PALE_VIOLET_RED</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-p-a-p-a-y-a_-w-h-i-p.html">PAPAYA_WHIP</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">PAPAYA_WHIP</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-p-e-a-c-h_-p-u-f-f.html">PEACH_PUFF</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">PEACH_PUFF</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-p-e-r-u.html">PERU</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">PERU</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-p-i-n-k.html">PINK</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">PINK</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-p-l-u-m.html">PLUM</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">PLUM</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-p-o-w-d-e-r_-b-l-u-e.html">POWDER_BLUE</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">POWDER_BLUE</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-p-u-r-p-l-e.html">PURPLE</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">PURPLE</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-r-e-b-e-c-c-a_-p-u-r-p-l-e.html">REBECCA_PURPLE</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">REBECCA_PURPLE</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-r-e-d.html">RED</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">RED</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-r-o-s-y_-b-r-o-w-n.html">ROSY_BROWN</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">ROSY_BROWN</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-r-o-y-a-l_-b-l-u-e.html">ROYAL_BLUE</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">ROYAL_BLUE</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-s-a-d-d-l-e_-b-r-o-w-n.html">SADDLE_BROWN</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">SADDLE_BROWN</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-s-a-l-m-o-n.html">SALMON</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">SALMON</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-s-a-n-d-y_-b-r-o-w-n.html">SANDY_BROWN</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">SANDY_BROWN</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-s-e-a_-g-r-e-e-n.html">SEA_GREEN</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">SEA_GREEN</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-s-e-a_-s-h-e-l-l.html">SEA_SHELL</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">SEA_SHELL</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-s-i-e-n-n-a.html">SIENNA</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">SIENNA</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-s-i-l-v-e-r.html">SILVER</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">SILVER</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-s-k-y_-b-l-u-e.html">SKY_BLUE</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">SKY_BLUE</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-s-l-a-t-e_-b-l-u-e.html">SLATE_BLUE</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">SLATE_BLUE</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-s-l-a-t-e_-g-r-a-y.html">SLATE_GRAY</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">SLATE_GRAY</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-s-l-a-t-e_-g-r-e-y.html">SLATE_GREY</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">SLATE_GREY</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-s-n-o-w.html">SNOW</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">SNOW</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-s-p-r-i-n-g_-g-r-e-e-n.html">SPRING_GREEN</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">SPRING_GREEN</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-s-t-e-e-l_-b-l-u-e.html">STEEL_BLUE</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">STEEL_BLUE</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-t-a-n.html">TAN</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">TAN</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-t-e-a-l.html">TEAL</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">TEAL</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-t-h-i-s-t-l-e.html">THISTLE</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">THISTLE</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-t-o-m-a-t-o.html">TOMATO</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">TOMATO</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-t-u-r-q-u-o-i-s-e.html">TURQUOISE</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">TURQUOISE</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-v-i-o-l-e-t.html">VIOLET</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">VIOLET</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-w-h-e-a-t.html">WHEAT</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">WHEAT</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-w-h-i-t-e.html">WHITE</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">WHITE</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-w-h-i-t-e_-s-m-o-k-e.html">WHITE_SMOKE</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">WHITE_SMOKE</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-y-e-l-l-o-w.html">YELLOW</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">YELLOW</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-y-e-l-l-o-w_-g-r-e-e-n.html">YELLOW_GREEN</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">YELLOW_GREEN</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Color</span></a></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

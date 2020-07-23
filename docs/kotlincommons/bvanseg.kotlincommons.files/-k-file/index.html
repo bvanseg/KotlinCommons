@@ -1,0 +1,74 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>KFile - kotlincommons</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">kotlincommons</a>&nbsp;/&nbsp;<a href="../index.html">bvanseg.kotlincommons.files</a>&nbsp;/&nbsp;<a href="./index.html">KFile</a><br/>
+<br/>
+<h1>KFile</h1>
+<code><span class="keyword">class </span><span class="identifier">KFile</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">File</span></code>
+<p>Lightweight wrapper around a <a href="#">File</a> that automatically creates directories and the
+actual <a href="#">File</a> on instantiation (if the file does not already exist).</p>
+<p><strong>Author</strong><br/>
+Boston Vanseghi</p>
+<p><strong>Since</strong><br/>
+2.0.1</p>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="-init-.html">&lt;init&gt;</a></h4>
+</td>
+<td>
+<code><span class="identifier">KFile</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.files.KFile$<init>(kotlin.String)/path">path</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span></code><br/>
+<code><span class="identifier">KFile</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.files.KFile$<init>(java.net.URI)/uri">uri</span><span class="symbol">:</span>&nbsp;<span class="identifier">URI</span><span class="symbol">)</span></code><br/>
+<code><span class="identifier">KFile</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.files.KFile$<init>(kotlin.String, kotlin.String)/parent">parent</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.files.KFile$<init>(kotlin.String, kotlin.String)/child">child</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span></code><br/>
+<code><span class="identifier">KFile</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.files.KFile$<init>(java.io.File, kotlin.String)/parent">parent</span><span class="symbol">:</span>&nbsp;<span class="identifier">File</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.files.KFile$<init>(java.io.File, kotlin.String)/path">path</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="mk.html">mk</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">mk</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="rename.html">rename</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">rename</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.files.KFile$rename(kotlin.String)/newName">newName</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">KFile</span></a></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Extension Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="../../bvanseg.kotlincommons.comparable/clamp.html">clamp</a></h4>
+</td>
+<td>
+<p>Clamps the <a href="#">Comparable</a> object between a <a href="../../bvanseg.kotlincommons.comparable/clamp.html#bvanseg.kotlincommons.comparable$clamp(bvanseg.kotlincommons.comparable.clamp.T, bvanseg.kotlincommons.comparable.clamp.T, bvanseg.kotlincommons.comparable.clamp.T)/min">min</a> and a <a href="../../bvanseg.kotlincommons.comparable/clamp.html#bvanseg.kotlincommons.comparable$clamp(bvanseg.kotlincommons.comparable.clamp.T, bvanseg.kotlincommons.comparable.clamp.T, bvanseg.kotlincommons.comparable.clamp.T)/max">max</a>.</p>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Comparable</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span> <span class="identifier">T</span><span class="symbol">.</span><span class="identifier">clamp</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.comparable$clamp(bvanseg.kotlincommons.comparable.clamp.T, bvanseg.kotlincommons.comparable.clamp.T, bvanseg.kotlincommons.comparable.clamp.T)/min">min</span><span class="symbol">:</span>&nbsp;<span class="identifier">T</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.comparable$clamp(bvanseg.kotlincommons.comparable.clamp.T, bvanseg.kotlincommons.comparable.clamp.T, bvanseg.kotlincommons.comparable.clamp.T)/max">max</span><span class="symbol">:</span>&nbsp;<span class="identifier">T</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">T</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="../../bvanseg.kotlincommons.comparable/clamp-or-null.html">clampOrNull</a></h4>
+</td>
+<td>
+<p>Clamps the <a href="#">Comparable</a> object between a <a href="../../bvanseg.kotlincommons.comparable/clamp-or-null.html#bvanseg.kotlincommons.comparable$clampOrNull(bvanseg.kotlincommons.comparable.clampOrNull.T, bvanseg.kotlincommons.comparable.clampOrNull.T, bvanseg.kotlincommons.comparable.clampOrNull.T)/min">min</a> and a <a href="../../bvanseg.kotlincommons.comparable/clamp-or-null.html#bvanseg.kotlincommons.comparable$clampOrNull(bvanseg.kotlincommons.comparable.clampOrNull.T, bvanseg.kotlincommons.comparable.clampOrNull.T, bvanseg.kotlincommons.comparable.clampOrNull.T)/max">max</a>.</p>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Comparable</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span> <span class="identifier">T</span><span class="symbol">?</span><span class="symbol">.</span><span class="identifier">clampOrNull</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.comparable$clampOrNull(bvanseg.kotlincommons.comparable.clampOrNull.T, bvanseg.kotlincommons.comparable.clampOrNull.T, bvanseg.kotlincommons.comparable.clampOrNull.T)/min">min</span><span class="symbol">:</span>&nbsp;<span class="identifier">T</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.comparable$clampOrNull(bvanseg.kotlincommons.comparable.clampOrNull.T, bvanseg.kotlincommons.comparable.clampOrNull.T, bvanseg.kotlincommons.comparable.clampOrNull.T)/max">max</span><span class="symbol">:</span>&nbsp;<span class="identifier">T</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">T</span><span class="symbol">?</span></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

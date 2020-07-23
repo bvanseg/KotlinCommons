@@ -1,0 +1,41 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>RateLimiter.<init> - kotlincommons</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">kotlincommons</a>&nbsp;/&nbsp;<a href="../index.html">bvanseg.kotlincommons.net.ratelimit</a>&nbsp;/&nbsp;<a href="index.html">RateLimiter</a>&nbsp;/&nbsp;<a href="./-init-.html">&lt;init&gt;</a><br/>
+<br/>
+<h1>&lt;init&gt;</h1>
+<a name="bvanseg.kotlincommons.net.ratelimit.RateLimiter$&lt;init&gt;(bvanseg.kotlincommons.net.ratelimit.TokenBucket, java.util.concurrent.ScheduledExecutorService, kotlin.Function3((bvanseg.kotlincommons.net.ratelimit.RateLimiter((bvanseg.kotlincommons.net.ratelimit.RateLimiter.T)), java.util.concurrent.atomic.AtomicLong, java.util.concurrent.ConcurrentLinkedDeque((kotlin.Pair((, kotlin.Function1((, kotlin.Unit)))))), )))"></a>
+<code><span class="identifier">RateLimiter</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.net.ratelimit.RateLimiter$<init>(bvanseg.kotlincommons.net.ratelimit.TokenBucket, java.util.concurrent.ScheduledExecutorService, kotlin.Function3((bvanseg.kotlincommons.net.ratelimit.RateLimiter((bvanseg.kotlincommons.net.ratelimit.RateLimiter.T)), java.util.concurrent.atomic.AtomicLong, java.util.concurrent.ConcurrentLinkedDeque((kotlin.Pair((, kotlin.Function1((, kotlin.Unit)))))), )))/tokenBucket">tokenBucket</span><span class="symbol">:</span>&nbsp;<a href="../-token-bucket/index.html"><span class="identifier">TokenBucket</span></a><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.net.ratelimit.RateLimiter$<init>(bvanseg.kotlincommons.net.ratelimit.TokenBucket, java.util.concurrent.ScheduledExecutorService, kotlin.Function3((bvanseg.kotlincommons.net.ratelimit.RateLimiter((bvanseg.kotlincommons.net.ratelimit.RateLimiter.T)), java.util.concurrent.atomic.AtomicLong, java.util.concurrent.ConcurrentLinkedDeque((kotlin.Pair((, kotlin.Function1((, kotlin.Unit)))))), )))/service">service</span><span class="symbol">:</span>&nbsp;<span class="identifier">ScheduledExecutorService</span>&nbsp;<span class="symbol">=</span>&nbsp;Executors.newSingleThreadScheduledExecutor {
+    val thread = Thread(it)
+    thread.isDaemon = true
+    thread
+}<span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.net.ratelimit.RateLimiter$<init>(bvanseg.kotlincommons.net.ratelimit.TokenBucket, java.util.concurrent.ScheduledExecutorService, kotlin.Function3((bvanseg.kotlincommons.net.ratelimit.RateLimiter((bvanseg.kotlincommons.net.ratelimit.RateLimiter.T)), java.util.concurrent.atomic.AtomicLong, java.util.concurrent.ConcurrentLinkedDeque((kotlin.Pair((, kotlin.Function1((, kotlin.Unit)))))), )))/cycleStrategy">cycleStrategy</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="index.html"><span class="identifier">RateLimiter</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">,</span>&nbsp;<span class="identifier">AtomicLong</span><span class="symbol">,</span>&nbsp;<span class="identifier">ConcurrentLinkedDeque</span><span class="symbol">&lt;</span><span class="identifier">Pair</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">,</span>&nbsp;<span class="symbol">(</span><span class="identifier">T</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<span class="identifier">Unit</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<span class="identifier">Unit</span>&nbsp;<span class="symbol">=</span>&nbsp;{ ratelimiter, bc, q -&gt;
+    service.scheduleAtFixedRate({
+        tokenBucket.refill()
+
+        while(tokenBucket.isNotEmpty()) {
+            while(bc.get() &gt; 0) { Thread.onSpinWait() }
+            val next = q.pollFirst()
+            next?.let {
+                val result = tokenBucket.tryConsume()
+                if(result) {
+                    it.second(it.first)
+                    ratelimiter.logger.trace("Executing queued submission: TokenBucket (${tokenBucket.currentTokenCount}/${tokenBucket.tokenLimit}).")
+                } else
+                    q.addFirst(it.first to it.second)
+            } ?: break
+        }
+    }, tokenBucket.refillTime, tokenBucket.refillTime, TimeUnit.MILLISECONDS)
+}<span class="symbol">)</span></code>
+<p><strong>Author</strong><br/>
+Boston Vanseghi</p>
+<p><strong>Author</strong><br/>
+Jacob Glickman (https://github.com/jhg023)<a href="https://github.com/jhg023">https://github.com/jhg023</a></p>
+<p><strong>Since</strong><br/>
+2.3.4</p>
+</BODY>
+</HTML>

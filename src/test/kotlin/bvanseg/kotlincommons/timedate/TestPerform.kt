@@ -27,12 +27,12 @@ class TestPerform {
             09:32:00
             09:33:00
          */
-        (start until (1.hours from start)
-                every ((30.seconds.pronto)
-                waitUntil (1.minutes from now)))
-            .perform {
-                println("Hello, world! - ${Instant.now()}")
-            }
+//        (start until (1.hours from start)
+//                every ((30.seconds.pronto)
+//                waitUntil (1.minutes from now)))
+//            .perform {
+//                println("Hello, world! - ${Instant.now()}")
+//            }
 
 //    val job = (start until (10.minutes from start)
 //            every ((1.minutes.exactly)
