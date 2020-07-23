@@ -4,6 +4,7 @@ import bvanseg.kotlincommons.monads.Option
 import bvanseg.kotlincommons.monads.none
 import bvanseg.kotlincommons.monads.some
 import bvanseg.kotlincommons.timedate.transformer.TimeTransformerContext
+import bvanseg.kotlincommons.timedate.transformer.until
 
 class TimePerformer(val inner: TimeContext): TimeContext by inner{
     internal var flag: TimePerformerFlag = TimePerformerFlag.PRONTO
@@ -33,18 +34,49 @@ class DefaultTimePerformer(val inner: TimeContext): TimeContext by inner, TimeTr
         get() = TimePerformer(this)
 }
 
+infix fun TimePerformer.at(context: TimeContainer): TimePerformer{
+    this.waitUntilCondition = TimePerformerConditions.WaitUntil(context.pronto).some()
+    return this
+}
+
+infix fun TimePerformer.at(context: TimePerformer): TimePerformer{
+    this.waitUntilCondition = TimePerformerConditions.WaitUntil(context).some()
+    return this
+}
+
+infix fun TimePerformer.at(context: TimeContextUnit): TimePerformer{
+    this.waitUntilCondition = TimePerformerConditions.WaitUntil(context.pronto).some()
+    return this
+}
+
+@Deprecated("Use `at` instead")
 infix fun TimePerformer.waitUntil(context: TimeContainer): TimePerformer{
     this.waitUntilCondition = TimePerformerConditions.WaitUntil(context.pronto).some()
     return this
 }
 
+@Deprecated("Use `at` instead")
 infix fun TimePerformer.waitUntil(context: TimePerformer): TimePerformer{
     this.waitUntilCondition = TimePerformerConditions.WaitUntil(context).some()
     return this
 }
 
+@Deprecated("Use `at` instead")
+infix fun TimePerformer.waitUntil(context: TimeContextUnit): TimePerformer{
+    val ctx = now until context
+    this.startingCondition = TimePerformerConditions.Starting(ctx.pronto).some()
+    return this
+}
+
 infix fun TimePerformer.starting(context: TimeContainer): TimePerformer{
-    this.startingCondition = TimePerformerConditions.Starting(context.pronto).some()
+    val ctx = now until context
+    this.startingCondition = TimePerformerConditions.Starting(ctx.pronto).some()
+    return this
+}
+
+infix fun TimePerformer.starting(context: TimeContextUnit): TimePerformer{
+    val ctx = now until context
+    this.startingCondition = TimePerformerConditions.Starting(ctx.pronto).some()
     return this
 }
 
@@ -60,6 +92,8 @@ enum class TimePerformerFlag{
 }
 
 sealed class TimePerformerConditions(val start: TimePerformer){
+    @Deprecated("Deprecated in favor of At")
     class WaitUntil(waitUntil: TimePerformer): TimePerformerConditions(waitUntil)
+    class At(at: TimePerformer): TimePerformerConditions(at)
     class Starting(starting: TimePerformer): TimePerformerConditions(starting)
 }

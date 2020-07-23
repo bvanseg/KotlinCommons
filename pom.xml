@@ -166,18 +166,18 @@
                 <groupId>org.jetbrains.dokka</groupId>
                 <artifactId>dokka-maven-plugin</artifactId>
                 <version>0.10.0</version>
-                <executions>
-                    <execution>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>dokka</goal>
-                        </goals>
-                        <configuration>
-                            <outputFormat>html</outputFormat>
-                            <outputDir>docs</outputDir>
-                        </configuration>
-                    </execution>
-                </executions>
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <phase>compile</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>dokka</goal>-->
+<!--                        </goals>-->
+<!--                        <configuration>-->
+<!--                            <outputFormat>html</outputFormat>-->
+<!--                            <outputDir>docs</outputDir>-->
+<!--                        </configuration>-->
+<!--                    </execution>-->
+<!--                </executions>-->
             </plugin>
             <plugin>
                 <artifactId>maven-jar-plugin</artifactId>

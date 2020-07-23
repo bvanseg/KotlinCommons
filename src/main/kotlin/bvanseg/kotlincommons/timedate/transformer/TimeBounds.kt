@@ -29,9 +29,7 @@ interface BoundedContext: TimeTransformerContext {
 class UntilContext(
     override val left: TimeContext,
     override val right: TimeContext
-): BoundedContext,
-    TimeContext
-    by DefaultTimePerformer(left) {
+): BoundedContext{
     override val asHour: Long
         get(){
             val leftTime = left.asHour
@@ -58,11 +56,15 @@ class UntilContext(
             return rightTime - leftTime
         }
     override val asMillis: Long = right.asMillis - left.asMillis
-//        get(){
-//            val leftTime = left.asMillis
-//            val rightTime = right.asMillis
-//            return rightTime - leftTime
-//        }
+
+    override val pronto: TimePerformer
+        get() = TimePerformer(this)
+
+    override val exactly: TimePerformer
+        get(){
+            val performer = TimePerformer(this)
+            return performer.exactly
+        }
 
     @ExperimentalStdlibApi
     override fun toString(): String =

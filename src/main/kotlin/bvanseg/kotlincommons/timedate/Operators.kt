@@ -178,9 +178,26 @@ operator fun TimeContextUnit.minus(context: UnitBasedTimeContainer): UnitBasedTi
 }
 
 operator fun TimeContextUnit.minus(context: TimeContextUnit): UnitBasedTimeContainer {
-    val here = UnitBasedTimeContainer(this)
-    val there = UnitBasedTimeContainer(context)
-    return here - there
+    return UnitBasedTimeContainer(when(this){
+        is TimeContextUnit.Year ->
+            TimeContextUnit.Year(this.value - context.value)
+        is TimeContextUnit.Month ->
+            TimeContextUnit.Month(this.value - context.value)
+        is TimeContextUnit.Day ->
+            TimeContextUnit.Day(this.value - context.value)
+        is TimeContextUnit.Hour ->
+            TimeContextUnit.Hour(this.value - context.value)
+        is TimeContextUnit.Minute ->
+            TimeContextUnit.Minute(this.value - context.value)
+        is TimeContextUnit.Second ->
+            TimeContextUnit.Second(this.value - context.value)
+        is TimeContextUnit.Millis ->
+            TimeContextUnit.Millis(this.value - context.value)
+        is TimeContextUnit.Nano ->
+            TimeContextUnit.Nano(this.value - context.value)
+        is TimeContextUnit.None -> TimeContextUnit.None
+        else -> TODO()
+    })
 }
 
 operator fun TimeContext.minus(context: TimeContext): UnitBasedTimeContainer =
@@ -205,6 +222,7 @@ operator fun UnitBasedTimeContainer.minus(context: UnitBasedTimeContainer): Unit
     return flatmap { it: Time ->
         when(ctx){
             is TimeContextUnit.Nano -> Time(it.year, it.month, it.day, it.hour, it.minute, it.second, it.millis, it.nano - ctx.nanosecs)
+            is TimeContextUnit.Millis -> Time(it.year, it.month, it.day, it.hour, it.minute, it.second, it.millis - ctx.millisecs, it.nano)
             is TimeContextUnit.Second -> Time(it.year, it.month, it.day, it.hour, it.minute, it.second - ctx.seconds, it.millis, it.nano)
             is TimeContextUnit.Minute -> Time(it.year, it.month, it.day, it.hour, it.minute - ctx.minute, it.second, it.millis, it.nano)
             is TimeContextUnit.Hour -> Time(it.year, it.month, it.day, it.hour - ctx.hours, it.minute, it.second, it.millis, it.nano)
@@ -225,6 +243,9 @@ infix fun TimeContextUnit.isAfter(context: TimeContextUnit) = UnitBasedTimeConta
 infix fun UnitBasedTimeContainer.after(context: LocalDateTimeContainer) = this + context
 infix fun UnitBasedTimeContainer.from(context: LocalDateTimeContainer) = this + context
 infix fun UnitBasedTimeContainer.before(context: LocalDateTimeContainer) = this - context
+infix fun LocalDateTimeContainer.before(context: LocalDateTimeContainer) = this - context
+infix fun TimeContext.before(context: LocalDateTimeContainer) = this - context
+infix fun TimeContext.before(context: TimeContext) = this - context
 
 infix fun UnitBasedTimeContainer.isBefore(context: UnitBasedTimeContainer): Boolean = this.asMillis < context.asMillis
 

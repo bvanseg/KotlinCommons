@@ -28,9 +28,9 @@ sealed class TimeContextUnit(val value: Long, val maxValueNoOverflow: Long, val 
         override val asMillis: Long = asSeconds * 1000
         override val asNano: Long = asMillis * 1000000
         override val pronto: TimePerformer
-            get() = TODO("Not yet implemented")
+            get() = TimePerformer(UnitBasedTimeContainer(this))
         override val exactly: TimePerformer
-            get() = TODO("Not yet implemented")
+            get() = TimePerformer(UnitBasedTimeContainer(this)).exactly
     }
 
     data class Week(val weeks: Long): TimeContextUnit(weeks, 4, 7 * 24 * 60 * 60 * 1000L) {
@@ -45,9 +45,9 @@ sealed class TimeContextUnit(val value: Long, val maxValueNoOverflow: Long, val 
         override val asMillis: Long
             get() = TODO()
         override val pronto: TimePerformer
-            get() = TODO("Not yet implemented")
+            get() = TimePerformer(UnitBasedTimeContainer(this))
         override val exactly: TimePerformer
-            get() = TODO("Not yet implemented")
+            get() = TimePerformer(UnitBasedTimeContainer(this)).exactly
     }
 
     data class Month(val months: Long): TimeContextUnit(months, 12, 4 * 7 * 24 * 60 * 60 * 1000L) {
@@ -62,9 +62,9 @@ sealed class TimeContextUnit(val value: Long, val maxValueNoOverflow: Long, val 
         override val asMillis: Long
             get() = asSeconds * 1000
         override val pronto: TimePerformer
-            get() = TODO("Not yet implemented")
+            get() = TimePerformer(UnitBasedTimeContainer(this))
         override val exactly: TimePerformer
-            get() = TODO("Not yet implemented")
+            get() = TimePerformer(UnitBasedTimeContainer(this)).exactly
     }
 
     data class Year(val years: Long): TimeContextUnit(years, Long.MAX_VALUE, 365 * 24 * 60 * 60 * 1000L) {
@@ -79,9 +79,9 @@ sealed class TimeContextUnit(val value: Long, val maxValueNoOverflow: Long, val 
         override val asMillis: Long
             get() = asSeconds * 1000
         override val pronto: TimePerformer
-            get() = TODO("Not yet implemented")
+            get() = TimePerformer(UnitBasedTimeContainer(this))
         override val exactly: TimePerformer
-            get() = TODO("Not yet implemented")
+            get() = TimePerformer(UnitBasedTimeContainer(this)).exactly
     }
 
     data class Hour(val hours: Long): TimeContextUnit(hours, 24, 60 * 60 * 1000L) {
@@ -96,9 +96,9 @@ sealed class TimeContextUnit(val value: Long, val maxValueNoOverflow: Long, val 
         override val asMillis: Long
             get() = asSeconds * 1000
         override val pronto: TimePerformer
-            get() = TODO("Not yet implemented")
+            get() = TimePerformer(UnitBasedTimeContainer(this))
         override val exactly: TimePerformer
-            get() = TODO("Not yet implemented")
+            get() = TimePerformer(UnitBasedTimeContainer(this)).exactly
     }
 
     data class Minute(val minute: Long): TimeContextUnit(minute, 60, 60 * 1000L) {
@@ -113,9 +113,9 @@ sealed class TimeContextUnit(val value: Long, val maxValueNoOverflow: Long, val 
         override val asMillis: Long
             get() = asSeconds * 1000
         override val pronto: TimePerformer
-            get() = TODO("Not yet implemented")
+            get() = TimePerformer(UnitBasedTimeContainer(this))
         override val exactly: TimePerformer
-            get() = TODO("Not yet implemented")
+            get() = TimePerformer(UnitBasedTimeContainer(this)).exactly
     }
 
     data class Second(val seconds: Long): TimeContextUnit(seconds, 60, 1000L) {
@@ -130,9 +130,9 @@ sealed class TimeContextUnit(val value: Long, val maxValueNoOverflow: Long, val 
         override val asMillis: Long
             get() = asSeconds * 1000
         override val pronto: TimePerformer
-            get() = TODO("Not yet implemented")
+            get() = TimePerformer(UnitBasedTimeContainer(this))
         override val exactly: TimePerformer
-            get() = TODO("Not yet implemented")
+            get() = TimePerformer(UnitBasedTimeContainer(this)).exactly
     }
 
     data class Millis(val millisecs: Long): TimeContextUnit(millisecs, 1_000, 1) {
@@ -142,9 +142,9 @@ sealed class TimeContextUnit(val value: Long, val maxValueNoOverflow: Long, val 
         override val asMillis: Long = millisecs
         override val asSeconds: Long = 1000 / millisecs
         override val pronto: TimePerformer
-            get() = TODO("Not yet implemented")
+            get() = TimePerformer(UnitBasedTimeContainer(this))
         override val exactly: TimePerformer
-            get() = TODO("Not yet implemented")
+            get() = TimePerformer(UnitBasedTimeContainer(this)).exactly
     }
 
     data class Nano(val nanosecs: Long): TimeContextUnit(nanosecs, 1_000_000, 1 / 1_000_000L) {
@@ -154,9 +154,9 @@ sealed class TimeContextUnit(val value: Long, val maxValueNoOverflow: Long, val 
         override val asMillis: Long = nanosecs / 1000000
         override val asSeconds: Long = if(asMillis == 0L) 0 else 1000000L / asMillis
         override val pronto: TimePerformer
-            get() = TODO("Not yet implemented")
+            get() = TimePerformer(UnitBasedTimeContainer(this))
         override val exactly: TimePerformer
-            get() = TODO("Not yet implemented")
+            get() = TimePerformer(UnitBasedTimeContainer(this)).exactly
     }
 }
 
@@ -177,5 +177,5 @@ val days = TimeUnit.DAY
 val hours = TimeUnit.HOUR
 val minutes = TimeUnit.MINUTE
 val seconds = TimeUnit.SECOND
-val millis = TimeUnit.NANO
+val millis = TimeUnit.MILLIS
 val nanos = TimeUnit.NANO

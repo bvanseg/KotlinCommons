@@ -71,7 +71,7 @@ infix fun TimeContext.into(unit: TimeUnit): TimeContextUnit =
                 TimeUnit.SECOND ->
                     TimeContextUnit.Second((this.right into seconds).value - (this.left into seconds).value)
                 TimeUnit.MILLIS ->
-                    TimeContextUnit.Nano((this.right into millis).value - (this.left into millis).value)
+                    TimeContextUnit.Millis((this.right into millis).value - (this.left into millis).value)
                 TimeUnit.NANO ->
                     TimeContextUnit.Nano((this.right into nanos).value - (this.left into nanos).value)
             }
@@ -91,7 +91,7 @@ infix fun TimeContext.into(unit: TimeUnit): TimeContextUnit =
                 TimeUnit.SECOND ->
                     TimeContextUnit.Second((this.boundedContext into seconds).value)
                 TimeUnit.MILLIS ->
-                    TimeContextUnit.Nano((this.boundedContext into millis).value)
+                    TimeContextUnit.Millis((this.boundedContext into millis).value)
                 TimeUnit.NANO ->
                     TimeContextUnit.Nano((this.boundedContext into nanos).value)
             }
