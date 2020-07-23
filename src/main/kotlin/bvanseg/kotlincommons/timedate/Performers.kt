@@ -121,7 +121,7 @@ class TimeScheduleContext(val boundedContext: BoundedContext, val frequency: Tim
                         break
                     }
                 }
-            } while(frequency.startingCondition.isSome)
+            } while(frequency.waitUntilCondition.isSome)
         }
     }
 
