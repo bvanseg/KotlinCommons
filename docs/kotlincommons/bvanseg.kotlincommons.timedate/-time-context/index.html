@@ -83,7 +83,7 @@
 <h4><a href="../../bvanseg.kotlincommons.timedate.transformer/into.html">into</a></h4>
 </td>
 <td>
-<code><span class="keyword">infix</span> <span class="keyword">fun </span><a href="./index.html"><span class="identifier">TimeContext</span></a><span class="symbol">.</span><span class="identifier">into</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate.transformer$into(bvanseg.kotlincommons.timedate.TimeContext, bvanseg.kotlincommons.timedate.TimeUnit)/unit">unit</span><span class="symbol">:</span>&nbsp;<a href="../-time-unit/index.html"><span class="identifier">TimeUnit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="../-unit-based-time-container/index.html"><span class="identifier">UnitBasedTimeContainer</span></a></code></td>
+<code><span class="keyword">infix</span> <span class="keyword">fun </span><a href="./index.html"><span class="identifier">TimeContext</span></a><span class="symbol">.</span><span class="identifier">into</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate.transformer$into(bvanseg.kotlincommons.timedate.TimeContext, bvanseg.kotlincommons.timedate.TimeUnit)/unit">unit</span><span class="symbol">:</span>&nbsp;<a href="../-time-unit/index.html"><span class="identifier">TimeUnit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="../-time-context-unit/index.html"><span class="identifier">TimeContextUnit</span></a></code></td>
 </tr>
 <tr>
 <td>
@@ -158,6 +158,17 @@
 <h4><a href="../-time-schedule-context/index.html">TimeScheduleContext</a></h4>
 </td>
 <td>
+<p>A time scheduling context, which is used to scheduling either blocking or non-blocking performances within time
+constraints. This requires a <em>time pattern</em>, which is constructed via the DSL (see <a href="../-time-schedule-context/perform.html">perform</a>).
+This at least requires a <a href="../../bvanseg.kotlincommons.timedate.transformer/-bounded-context/index.html">BoundedContext</a> which is a context with an upper and lower time bounds such as
+<code>now until 10.minutes from now</code> which is used for knowing what times are being used for execution. This could be
+any kind of bounds such as <code>(1.hours from now) until (2.hours from now)</code>, which will wait until the time is within
+those two bounds, and use it as a minimal start condition and maximal start condition. The <a href="../-time-schedule-context/frequency.html">frequency</a> is used
+for constructing how often we are going to perform. This is created <em>after</em> the <code>every</code> operator, and could be
+<code>1.minutes.exactly</code> which would mean we are performing every 1 minute exactly. <a href="#">exactly</a> means we are going to
+wait until we are on the minute every minute before performing our action. If the time is <code>09:31:13</code> it will calculate
+how much time before now and the next minute to execute, such that we perform our action at <code>09:32:00</code> with respect
+to millisecond precision.</p>
 <code><span class="keyword">class </span><span class="identifier">TimeScheduleContext</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">TimeContext</span></a></code></td>
 </tr>
 <tr>

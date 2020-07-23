@@ -121,7 +121,7 @@ class TimeScheduleContext(val boundedContext: BoundedContext, val frequency: Tim
                         break
                     }
                 }
-            } while(frequency.startingCondition.isSome)
+            } while(frequency.waitUntilCondition.isSome)
         }
     }
 
@@ -195,12 +195,16 @@ class TimeScheduleContext(val boundedContext: BoundedContext, val frequency: Tim
             val waitTimePerformer = waitUntilCondition.start
             val waitConditionMillis = waitTimePerformer.asMillis
 
+            // Ex. if we want to wait until the 15 second mark, and we are at the 5 second mark, wait 10 seconds.
             if (unitProgression < waitConditionMillis) {
                 val sleep = waitConditionMillis - unitProgression
                 KotlinCommons.KC_LOGGER.debug("WAIT_UNTIL - Sleeping for $sleep milliseconds. Starting time: $start, Expected Awake Time: ${start + sleep.toInt().millis}")
                 TimeUnit.MILLISECONDS.sleep(sleep)
                 KotlinCommons.KC_LOGGER.debug("WAIT_UNTIL - Awakened from sleep at $now")
-            } else {
+            }
+            // Otherwise, if we are at the 20 second mark, and want to wait until the 15 second mark, we have to
+            // wait 55 seconds: sleep = 60,000ms - 20,000ms + 15,000ms = 55,000ms
+            else {
                 val sleep = unitMaxInMillis - unitProgression + waitConditionMillis
                 KotlinCommons.KC_LOGGER.debug("WAIT_UNTIL - Sleeping for $sleep milliseconds. Starting time: $start, Expected Awake Time: ${start + sleep.toInt().millis}")
                 TimeUnit.MILLISECONDS.sleep(sleep)

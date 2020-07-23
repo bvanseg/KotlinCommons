@@ -9,6 +9,17 @@
 <br/>
 <h1>TimeScheduleContext</h1>
 <code><span class="keyword">class </span><span class="identifier">TimeScheduleContext</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-time-context/index.html"><span class="identifier">TimeContext</span></a></code>
+<p>A time scheduling context, which is used to scheduling either blocking or non-blocking performances within time
+constraints. This requires a <em>time pattern</em>, which is constructed via the DSL (see <a href="perform.html">perform</a>).
+This at least requires a <a href="../../bvanseg.kotlincommons.timedate.transformer/-bounded-context/index.html">BoundedContext</a> which is a context with an upper and lower time bounds such as
+<code>now until 10.minutes from now</code> which is used for knowing what times are being used for execution. This could be
+any kind of bounds such as <code>(1.hours from now) until (2.hours from now)</code>, which will wait until the time is within
+those two bounds, and use it as a minimal start condition and maximal start condition. The <a href="frequency.html">frequency</a> is used
+for constructing how often we are going to perform. This is created <em>after</em> the <code>every</code> operator, and could be
+<code>1.minutes.exactly</code> which would mean we are performing every 1 minute exactly. <a href="#">exactly</a> means we are going to
+wait until we are on the minute every minute before performing our action. If the time is <code>09:31:13</code> it will calculate
+how much time before now and the next minute to execute, such that we perform our action at <code>09:32:00</code> with respect
+to millisecond precision.</p>
 <h3>Constructors</h3>
 <table>
 <tbody>
@@ -17,6 +28,17 @@
 <h4><a href="-init-.html">&lt;init&gt;</a></h4>
 </td>
 <td>
+<p>A time scheduling context, which is used to scheduling either blocking or non-blocking performances within time
+constraints. This requires a <em>time pattern</em>, which is constructed via the DSL (see <a href="perform.html">perform</a>).
+This at least requires a <a href="../../bvanseg.kotlincommons.timedate.transformer/-bounded-context/index.html">BoundedContext</a> which is a context with an upper and lower time bounds such as
+<code>now until 10.minutes from now</code> which is used for knowing what times are being used for execution. This could be
+any kind of bounds such as <code>(1.hours from now) until (2.hours from now)</code>, which will wait until the time is within
+those two bounds, and use it as a minimal start condition and maximal start condition. The <a href="frequency.html">frequency</a> is used
+for constructing how often we are going to perform. This is created <em>after</em> the <code>every</code> operator, and could be
+<code>1.minutes.exactly</code> which would mean we are performing every 1 minute exactly. <a href="#">exactly</a> means we are going to
+wait until we are on the minute every minute before performing our action. If the time is <code>09:31:13</code> it will calculate
+how much time before now and the next minute to execute, such that we perform our action at <code>09:32:00</code> with respect
+to millisecond precision.</p>
 <code><span class="identifier">TimeScheduleContext</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate.TimeScheduleContext$<init>(bvanseg.kotlincommons.timedate.transformer.BoundedContext, bvanseg.kotlincommons.timedate.TimePerformer)/boundedContext">boundedContext</span><span class="symbol">:</span>&nbsp;<a href="../../bvanseg.kotlincommons.timedate.transformer/-bounded-context/index.html"><span class="identifier">BoundedContext</span></a><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.timedate.TimeScheduleContext$<init>(bvanseg.kotlincommons.timedate.transformer.BoundedContext, bvanseg.kotlincommons.timedate.TimePerformer)/frequency">frequency</span><span class="symbol">:</span>&nbsp;<a href="../-time-performer/index.html"><span class="identifier">TimePerformer</span></a><span class="symbol">)</span></code></td>
 </tr>
 </tbody>
@@ -30,6 +52,13 @@
 </td>
 <td>
 <code><span class="keyword">val </span><span class="identifier">boundedContext</span><span class="symbol">: </span><a href="../../bvanseg.kotlincommons.timedate.transformer/-bounded-context/index.html"><span class="identifier">BoundedContext</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="freq.html">freq</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">freq</span><span class="symbol">: </span><span class="identifier">Long</span></code></td>
 </tr>
 <tr>
 <td>
@@ -48,9 +77,10 @@
 <h4><a href="perform.html">perform</a></h4>
 </td>
 <td>
-<p>Things to implement before finishing this method:
-We first must fully implement coercion. Coercion is used to calculate the frequency.</p>
-<code><span class="keyword">fun </span><span class="identifier">perform</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate.TimeScheduleContext$perform(kotlin.Function0((kotlin.Unit)))/callback">callback</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<span class="identifier">Unit</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code></td>
+<p>Perform a blocking action such that it is within a time context. This requires a <a href="../-time-performer/index.html">TimePerformer</a> such that
+the context of how to time the performance, whether it be an initial delay, exact time execution, and/or some
+kind of iteration count based on how long to run, how often to run, how to run, when to run.</p>
+<code><span class="keyword">infix</span> <span class="keyword">fun </span><span class="identifier">perform</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate.TimeScheduleContext$perform(kotlin.Function0((kotlin.Unit)))/callback">callback</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<span class="identifier">Unit</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code></td>
 </tr>
 <tr>
 <td>
@@ -76,7 +106,7 @@ We first must fully implement coercion. Coercion is used to calculate the freque
 <h4><a href="../../bvanseg.kotlincommons.timedate.transformer/into.html">into</a></h4>
 </td>
 <td>
-<code><span class="keyword">infix</span> <span class="keyword">fun </span><a href="../-time-context/index.html"><span class="identifier">TimeContext</span></a><span class="symbol">.</span><span class="identifier">into</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate.transformer$into(bvanseg.kotlincommons.timedate.TimeContext, bvanseg.kotlincommons.timedate.TimeUnit)/unit">unit</span><span class="symbol">:</span>&nbsp;<a href="../-time-unit/index.html"><span class="identifier">TimeUnit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="../-unit-based-time-container/index.html"><span class="identifier">UnitBasedTimeContainer</span></a></code></td>
+<code><span class="keyword">infix</span> <span class="keyword">fun </span><a href="../-time-context/index.html"><span class="identifier">TimeContext</span></a><span class="symbol">.</span><span class="identifier">into</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate.transformer$into(bvanseg.kotlincommons.timedate.TimeContext, bvanseg.kotlincommons.timedate.TimeUnit)/unit">unit</span><span class="symbol">:</span>&nbsp;<a href="../-time-unit/index.html"><span class="identifier">TimeUnit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="../-time-context-unit/index.html"><span class="identifier">TimeContextUnit</span></a></code></td>
 </tr>
 <tr>
 <td>
