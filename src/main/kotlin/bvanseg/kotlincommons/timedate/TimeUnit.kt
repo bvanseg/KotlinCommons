@@ -2,7 +2,7 @@ package bvanseg.kotlincommons.timedate
 
 import java.time.temporal.ChronoUnit
 
-sealed class TimeContextUnit(val value: Long): TimeContext {
+sealed class TimeContextUnit(val value: Long, val maxValueNoOverflow: Long, val valueInMillis: Long): TimeContext {
 
     fun asChrono() = when(this) {
         is Nano -> ChronoUnit.NANOS
@@ -15,7 +15,7 @@ sealed class TimeContextUnit(val value: Long): TimeContext {
         else -> throw Exception("Failed to convert time context to chrono unit representation!")
     }
 
-    object None: TimeContextUnit(-1) {
+    object None: TimeContextUnit(-1, -1, -1) {
         override val asHour: Long
             get() = -1
         override val asMinute: Long
@@ -32,7 +32,7 @@ sealed class TimeContextUnit(val value: Long): TimeContext {
             get() = TODO("Not yet implemented")
     }
 
-    data class Day(val days: Long): TimeContextUnit(days) {
+    data class Day(val days: Long): TimeContextUnit(days, 28, 24 * 60 * 60 * 1000L) {
         override val asHour: Long = days * 24
         override val asMinute: Long = asHour * 60
         override val asSeconds: Long = asMinute * 60
@@ -44,7 +44,7 @@ sealed class TimeContextUnit(val value: Long): TimeContext {
             get() = TODO("Not yet implemented")
     }
 
-    data class Week(val weeks: Long): TimeContextUnit(weeks) {
+    data class Week(val weeks: Long): TimeContextUnit(weeks, 4, 7 * 24 * 60 * 60 * 1000L) {
         override val asHour: Long
             get() = TODO("Not yet implemented")
         override val asMinute: Long
@@ -61,7 +61,7 @@ sealed class TimeContextUnit(val value: Long): TimeContext {
             get() = TODO("Not yet implemented")
     }
 
-    data class Month(val months: Long): TimeContextUnit(months) {
+    data class Month(val months: Long): TimeContextUnit(months, 12, 4 * 7 * 24 * 60 * 60 * 1000L) {
         override val asHour: Long
             get() = months * 7 * 4 * 24
         override val asMinute: Long
@@ -78,7 +78,7 @@ sealed class TimeContextUnit(val value: Long): TimeContext {
             get() = TODO("Not yet implemented")
     }
 
-    data class Year(val years: Long): TimeContextUnit(years) {
+    data class Year(val years: Long): TimeContextUnit(years, Long.MAX_VALUE, 365 * 24 * 60 * 60 * 1000L) {
         override val asHour: Long
             get() = TODO("Not yet implemented")
         override val asMinute: Long
@@ -95,7 +95,7 @@ sealed class TimeContextUnit(val value: Long): TimeContext {
             get() = TODO("Not yet implemented")
     }
 
-    data class Hour(val hours: Long): TimeContextUnit(hours) {
+    data class Hour(val hours: Long): TimeContextUnit(hours, 24, 60 * 60 * 1000L) {
         override val asHour: Long
             get() = hours
         override val asMinute: Long
@@ -112,7 +112,7 @@ sealed class TimeContextUnit(val value: Long): TimeContext {
             get() = TODO("Not yet implemented")
     }
 
-    data class Minute(val minute: Long): TimeContextUnit(minute) {
+    data class Minute(val minute: Long): TimeContextUnit(minute, 60, 60 * 1000L) {
         override val asHour: Long
             get() = minute / 60
         override val asMinute: Long
@@ -129,7 +129,7 @@ sealed class TimeContextUnit(val value: Long): TimeContext {
             get() = TODO("Not yet implemented")
     }
 
-    data class Second(val seconds: Long): TimeContextUnit(seconds) {
+    data class Second(val seconds: Long): TimeContextUnit(seconds, 60, 1000L) {
         override val asHour: Long
             get() = 60 / 60 / seconds
         override val asMinute: Long
@@ -146,7 +146,7 @@ sealed class TimeContextUnit(val value: Long): TimeContext {
             get() = TODO("Not yet implemented")
     }
 
-    data class Millis(val millisecs: Long): TimeContextUnit(millisecs) {
+    data class Millis(val millisecs: Long): TimeContextUnit(millisecs, 1_000, 1) {
         override val asHour: Long = 60 / 60 / 1000 / millisecs
         override val asMinute: Long = 60 / 1000 / millisecs
         override val asNano: Long = millisecs * 1000000
@@ -158,12 +158,12 @@ sealed class TimeContextUnit(val value: Long): TimeContext {
             get() = TODO("Not yet implemented")
     }
 
-    data class Nano(val nanosecs: Long): TimeContextUnit(nanosecs) {
+    data class Nano(val nanosecs: Long): TimeContextUnit(nanosecs, 1_000_000, 1 / 1_000_000L) {
         override val asHour: Long = 60 / 60 / 1000 / nanosecs
         override val asMinute: Long = 60 / 1000 / nanosecs
         override val asNano: Long = nanosecs
         override val asMillis: Long = nanosecs / 1000000
-        override val asSeconds: Long = 1000000 / asMillis
+        override val asSeconds: Long = if(asMillis == 0L) 0 else 1000000L / asMillis
         override val pronto: TimePerformer
             get() = TODO("Not yet implemented")
         override val exactly: TimePerformer
