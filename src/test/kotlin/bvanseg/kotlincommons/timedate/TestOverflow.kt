@@ -8,7 +8,7 @@ class TestOverflow {
 	@Test
 	fun testNanoOverflow() {
 		// Given
-		var timeContainer = UnitBasedTimeContainer(TimeContextUnit.Nano(123_456_789))
+		var timeContainer = UnitBasedTimeContainer(TimeContextUnit.Nano(1_123_456_789))
 
 		// When
 		timeContainer = timeContainer.checkAndCorrectOver()
@@ -19,7 +19,7 @@ class TestOverflow {
 		assertEquals(0, timeContainer.timeObject.day)
 		assertEquals(0, timeContainer.timeObject.hour)
 		assertEquals(0, timeContainer.timeObject.minute)
-		assertEquals(0, timeContainer.timeObject.second)
+		assertEquals(1, timeContainer.timeObject.second)
 		assertEquals(123, timeContainer.timeObject.millis)
 		assertEquals(456_789, timeContainer.timeObject.nano)
 	}
