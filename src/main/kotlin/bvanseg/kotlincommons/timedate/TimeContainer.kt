@@ -27,13 +27,13 @@ class LocalDateTimeContainer(
         Time(
             currentTime.year.toLong(),
             currentTime.month.value.toLong(),
-            currentTime.dayOfWeek.value.toLong(),
+            currentTime.dayOfMonth.toLong(),
             currentTime.hour.toLong(),
             currentTime.minute.toLong(),
             currentTime.second.toLong(),
-            currentTime.second.toLong() * 1000L,
-            currentTime.nano.toLong()
-        )
+            currentTime.nano / 1_000_000L,
+            currentTime.nano.toLong() % 1_000_000L
+        ).checkAndCorrectOver()
 ): TimeContainer {
     override val unit: TimeContextUnit = TimeContextUnit.Year(timeObject.year)
 
@@ -60,7 +60,7 @@ class LocalDateTimeContainer(
     override val asNano: Long
         get() = (asSeconds * 1000 * 1000000) + timeObject.nano
 
-    override val asMillis: Long = asSeconds * 1000
+    override val asMillis: Long = asSeconds * 1000 + timeObject.millis
 
     override val pronto: TimePerformer
         get(){
@@ -83,7 +83,7 @@ class UnitBasedTimeContainer(override val unit: TimeContextUnit, override val ti
     when(unit){
         is TimeContextUnit.Year -> Time(unit.years, 0, 0, 0, 0, 0, 0, 0)
         is TimeContextUnit.Month -> Time(0, unit.months, 0, 0, 0, 0, 0,0)
-        is TimeContextUnit.Week -> Time(0, 0, unit.weeks * 7, 0, 0, 0, 0,0)
+        is TimeContextUnit.Week -> Time(0, 0, unit.weeks, 0, 0, 0, 0,0)
         is TimeContextUnit.Day -> Time(0, 0, unit.days, 0, 0, 0, 0,0)
         is TimeContextUnit.Hour -> Time(0, 0, 0, unit.hours, 0, 0, 0,0)
         is TimeContextUnit.Minute -> Time(0, 0, 0, 0, unit.minute, 0, 0,0)
@@ -91,7 +91,7 @@ class UnitBasedTimeContainer(override val unit: TimeContextUnit, override val ti
         is TimeContextUnit.Millis -> Time(0, 0, 0, 0, 0, 0, unit.millisecs, 0)
         is TimeContextUnit.Nano -> Time(0, 0, 0, 0, 0, 0, 0, unit.nanosecs)
         else -> Time(0, 0, 0, 0, 0, 0, 0, 0)
-    }): TimeContainer{
+    }.checkAndCorrectOver()): TimeContainer{
 
     override val asHour: Long
         get() =
