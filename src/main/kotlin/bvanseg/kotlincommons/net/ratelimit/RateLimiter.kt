@@ -66,7 +66,7 @@ cycleStrategy: (RateLimiter<T>, AtomicLong, ConcurrentLinkedDeque<Pair<T, (T) ->
         }
     }
 
-    fun <R> submitBlocking(unit: T, consume: Long = 1, callback: (T) -> R): R = synchronized(tokenBucket) {
+    fun <R> submitBlocking(unit: T, consume: Long = 1, callback: (T) -> R): R {
         blockingCount.incrementAndGet()
 
         logger.trace("Received blocking submission.")
@@ -79,7 +79,7 @@ cycleStrategy: (RateLimiter<T>, AtomicLong, ConcurrentLinkedDeque<Pair<T, (T) ->
         return result
     }
 
-    fun <R> submitBlocking(consume: Long = 1, callback: () -> R): R = synchronized(tokenBucket) {
+    fun <R> submitBlocking(consume: Long = 1, callback: () -> R): R {
         blockingCount.incrementAndGet()
 
         logger.trace("Received blocking submission.")
@@ -92,7 +92,7 @@ cycleStrategy: (RateLimiter<T>, AtomicLong, ConcurrentLinkedDeque<Pair<T, (T) ->
         return result
     }
 
-    fun submitBlocking(consume: Long = 1) = synchronized(tokenBucket) {
+    fun submitBlocking(consume: Long = 1) {
         blockingCount.incrementAndGet()
 
         logger.trace("Entering blocking submission...")
