@@ -112,7 +112,7 @@ class TimeScheduleContext(val boundedContext: BoundedContext, val frequency: Tim
                     } else {
                         val sleep = frequency.inner.asMillis
                         KotlinCommons.KC_LOGGER.debug("CYCLE_PRONTO - Sleeping for $sleep milliseconds. Starting Time: $sleep, Expected Awake Time: ${start + sleep.toInt().millis}")
-                        sleep(frequency)
+                        delay(frequency)
                         KotlinCommons.KC_LOGGER.debug("CYCLE_PRONTO - Awakened from sleep at $now")
                     }
                     tracker++

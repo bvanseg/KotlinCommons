@@ -27,6 +27,13 @@ class TestPerform {
             09:33:00
          */
 
+//        (start until (tomorrow) // Execute forever.
+//            every ((1.minutes.exactly) at (0.seconds)) // execute only on the mark of 1 minute intervals.
+//            )
+//            .performAsync {
+//                println("Hello, is it me you're looking for?")
+//            }
+
 //        (start until (5.seconds from start) // Execute for 5 seconds.
 //                every ((1.seconds.exactly) // execute only on the mark of 1 second intervals.
 //                waitUntil (0.seconds) // Execute on every 1st second.

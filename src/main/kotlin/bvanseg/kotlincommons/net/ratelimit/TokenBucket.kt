@@ -2,6 +2,7 @@ package bvanseg.kotlincommons.net.ratelimit
 
 import bvanseg.kotlincommons.any.getLogger
 import java.util.concurrent.atomic.AtomicLong
+import java.util.concurrent.locks.ReentrantLock
 
 /**
  * A simple implementation of a token bucket.
@@ -26,14 +27,18 @@ data class TokenBucket(
 
     private val logger = getLogger()
 
+    private val lock = ReentrantLock(true)
+
     @Volatile
     var currentTokenCount: Long = initTokenCount
 
-    fun refill() = synchronized(this) {
+    fun refill() {
+        lock.lock()
         logger.trace("Refreshing tokens: TokenBucket ($currentTokenCount/$tokenLimit).")
         refreshStrategy(this)
         logger.trace("Finished refreshing tokens: TokenBucket ($currentTokenCount/$tokenLimit).")
         lastUpdate = System.currentTimeMillis()
+        lock.unlock()
     }
 
     fun isFull() = currentTokenCount
@@ -41,12 +46,21 @@ data class TokenBucket(
     fun isEmpty() = currentTokenCount == 0L
     fun isNotEmpty() = currentTokenCount > 0L
 
-    fun <R> tryConsume(amount: Long = 1, callback: () -> R): Pair<Boolean, R?> = synchronized(this) {
+    fun <R> tryConsume(amount: Long = 1, callback: () -> R): Pair<Boolean, R?> {
+        lock.lock()
         if (currentTokenCount >= amount) {
             currentTokenCount -= amount
-            return true to callback()
+            try {
+                return true to callback()
+            } finally {
+            	lock.unlock()
+            }
         }
 
-        return false to null
+        try {
+            return false to null
+        } finally {
+        	lock.unlock()
+        }
     }
 }

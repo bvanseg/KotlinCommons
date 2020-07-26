@@ -68,30 +68,36 @@ cycleStrategy: (RateLimiter<T>, AtomicLong, ConcurrentLinkedDeque<Pair<Long, () 
     }
 
     fun <R> submitBlocking(consume: Long = 1, callback: () -> R): R {
-        blockingCount.incrementAndGet()
 
         logger.trace("Executing blocking submission...")
 
         while (true) {
+            blockingCount.incrementAndGet()
             val pair = tokenBucket.tryConsume(consume, callback)
+            blockingCount.decrementAndGet()
 
             if (pair.first) {
                 logger.trace("Finished executing submission: TokenBucket " +
                         "(${tokenBucket.currentTokenCount}/${tokenBucket.tokenLimit}).")
-                blockingCount.decrementAndGet()
                 return pair.second!!
             }
         }
     }
 
     fun submitBlocking(consume: Long = 1) {
-        blockingCount.incrementAndGet()
 
         logger.trace("Entering blocking submission...")
-        while(!(tokenBucket.tryConsume(consume) {}).first) { Thread.onSpinWait() }
+        while (true) {
+            blockingCount.incrementAndGet()
+            val pair =  tokenBucket.tryConsume(consume) {}
+            blockingCount.decrementAndGet()
 
-        logger.trace("Leaving blocking submission: TokenBucket (${tokenBucket.currentTokenCount}/${tokenBucket.tokenLimit}).")
-        blockingCount.decrementAndGet()
+            if (pair.first) {
+                logger.trace("Finished executing submission: TokenBucket " +
+                    "(${tokenBucket.currentTokenCount}/${tokenBucket.tokenLimit}).")
+                break
+            }
+        }
     }
 
     fun shutdown() {
