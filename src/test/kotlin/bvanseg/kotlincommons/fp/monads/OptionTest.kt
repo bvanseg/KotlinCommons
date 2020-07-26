@@ -28,10 +28,13 @@ class OptionTest{
     fun optionMapTest(){
         //Given
         val noInt = none<Int>()
+        val five = 5.some()
         //When
-        val five = noInt.map { 5 }
+        val mapNone = noInt.map { 5 }
+        val mapFive = five.map { 10 }
         //Then
-        assert(five.isSome)
+        assert(mapNone.isNone)
+        assert(mapFive.isSome)
     }
 
     @Test
@@ -40,11 +43,13 @@ class OptionTest{
         val noInt = none<Int>()
         val five = 5.some()
         //When
-        val flat = noInt.flatMap { five }
+        val flatNone = noInt.flatMap { five }
+        val flatFive = five.flatMap { 10.some() }
         //Then
-        assert(flat.isSome)
-        if(flat is Option.Some){
-            assert(flat.t.isSome)
+        assert(flatNone.isNone)
+        assert(flatFive.isSome)
+        if(flatFive is Option.Some){
+            assert(flatFive.t == 10)
         }
     }
 

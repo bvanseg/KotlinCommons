@@ -36,13 +36,10 @@ sealed class Option<T>{
     @Suppress("UNCHECKED_CAST")
     internal fun <S> fix(): Option<S> = this as Option<S>
 
-    fun <S> flatMap(callback: (T)->S): Option<S> =
+    fun <S> flatMap(callback: (T)->Option<S>): Option<S> =
         when(this){
             is Some<T> -> {
-                when(val result = callback(t)){
-                    is Some<*> -> result.t.some().fix()
-                    else -> result.some()
-                }
+                callback(t)
             }
             else -> none()
         }
