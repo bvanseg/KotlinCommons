@@ -1,8 +1,8 @@
 package bvanseg.kotlincommons.timedate
 
-import bvanseg.kotlincommons.monads.Option
-import bvanseg.kotlincommons.monads.none
-import bvanseg.kotlincommons.monads.some
+import bvanseg.kotlincommons.fp.dataclasses.Option
+import bvanseg.kotlincommons.fp.dataclasses.none
+import bvanseg.kotlincommons.fp.dataclasses.some
 import bvanseg.kotlincommons.timedate.transformer.TimeTransformerContext
 import bvanseg.kotlincommons.timedate.transformer.until
 
