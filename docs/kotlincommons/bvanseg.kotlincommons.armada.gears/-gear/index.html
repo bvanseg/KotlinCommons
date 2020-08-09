@@ -1,0 +1,64 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Gear - kotlincommons</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">kotlincommons</a>&nbsp;/&nbsp;<a href="../index.html">bvanseg.kotlincommons.armada.gears</a>&nbsp;/&nbsp;<a href="./index.html">Gear</a><br/>
+<br/>
+<h1>Gear</h1>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">Gear</span></code>
+<p>Represents a container for a set of commands. Command functions should always go into these.</p>
+<p><strong>Author</strong><br/>
+Boston Vanseghi</p>
+<p><strong>Since</strong><br/>
+2.1.0</p>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="-init-.html">&lt;init&gt;</a></h4>
+</td>
+<td>
+<p>Represents a container for a set of commands. Command functions should always go into these.</p>
+<code><span class="identifier">Gear</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.gears.Gear$<init>(kotlin.String)/gearName">gearName</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;null<span class="symbol">)</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="command-manager.html">commandManager</a></h4>
+</td>
+<td>
+<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">commandManager</span><span class="symbol">: </span><a href="../../bvanseg.kotlincommons.armada/-command-manager/index.html"><span class="identifier">CommandManager</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="commands.html">commands</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">commands</span><span class="symbol">: </span><span class="identifier">ArrayList</span><span class="symbol">&lt;</span><a href="../../bvanseg.kotlincommons.armada.commands/-internal-command/index.html"><span class="identifier">InternalCommand</span></a><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="is-enabled.html">isEnabled</a></h4>
+</td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">isEnabled</span><span class="symbol">: </span><span class="identifier">Boolean</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="name.html">name</a></h4>
+</td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">name</span><span class="symbol">: </span><span class="identifier">String</span></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

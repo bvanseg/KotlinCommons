@@ -1,0 +1,23 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>LocalDateTimeContainer.<init> - kotlincommons</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">kotlincommons</a>&nbsp;/&nbsp;<a href="../index.html">bvanseg.kotlincommons.timedate</a>&nbsp;/&nbsp;<a href="index.html">LocalDateTimeContainer</a>&nbsp;/&nbsp;<a href="./-init-.html">&lt;init&gt;</a><br/>
+<br/>
+<h1>&lt;init&gt;</h1>
+<a name="bvanseg.kotlincommons.timedate.LocalDateTimeContainer$&lt;init&gt;(java.time.LocalDateTime, bvanseg.kotlincommons.timedate.Time)"></a>
+<code><span class="identifier">LocalDateTimeContainer</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate.LocalDateTimeContainer$<init>(java.time.LocalDateTime, bvanseg.kotlincommons.timedate.Time)/currentTime">currentTime</span><span class="symbol">:</span>&nbsp;<span class="identifier">LocalDateTime</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.timedate.LocalDateTimeContainer$<init>(java.time.LocalDateTime, bvanseg.kotlincommons.timedate.Time)/timeObject">timeObject</span><span class="symbol">:</span>&nbsp;<a href="../-time/index.html"><span class="identifier">Time</span></a>&nbsp;<span class="symbol">=</span>&nbsp;Time(
+            currentTime.year.toLong(),
+            currentTime.month.value.toLong(),
+            currentTime.dayOfMonth.toLong(),
+            currentTime.hour.toLong(),
+            currentTime.minute.toLong(),
+            currentTime.second.toLong(),
+            currentTime.nano / 1_000_000L,
+            currentTime.nano.toLong() % 1_000_000L
+        ).checkAndCorrectOver()<span class="symbol">)</span></code>
+</BODY>
+</HTML>

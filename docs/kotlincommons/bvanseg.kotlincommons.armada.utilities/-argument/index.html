@@ -1,0 +1,96 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Argument - kotlincommons</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">kotlincommons</a>&nbsp;/&nbsp;<a href="../index.html">bvanseg.kotlincommons.armada.utilities</a>&nbsp;/&nbsp;<a href="./index.html">Argument</a><br/>
+<br/>
+<h1>Argument</h1>
+<code><span class="keyword">class </span><span class="identifier">Argument</span></code>
+<p>Represents a "wildcard" argument, where the type can be anything. Getter methods will return null if the input can't
+be properly converted.</p>
+<p><strong>Author</strong><br/>
+Boston Vanseghi</p>
+<p><strong>Since</strong><br/>
+2.1.0</p>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="-init-.html">&lt;init&gt;</a></h4>
+</td>
+<td>
+<p>Represents a "wildcard" argument, where the type can be anything. Getter methods will return null if the input can't
+be properly converted.</p>
+<code><span class="identifier">Argument</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.utilities.Argument$<init>(kotlin.String)/raw">raw</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="get-as-byte.html">getAsByte</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">getAsByte</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Byte</span><span class="symbol">?</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="get-as-double.html">getAsDouble</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">getAsDouble</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Double</span><span class="symbol">?</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="get-as-float.html">getAsFloat</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">getAsFloat</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Float</span><span class="symbol">?</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="get-as-int.html">getAsInt</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">getAsInt</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span><span class="symbol">?</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="get-as-long.html">getAsLong</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">getAsLong</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Long</span><span class="symbol">?</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="get-as-short.html">getAsShort</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">getAsShort</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Short</span><span class="symbol">?</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="get-raw.html">getRaw</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">getRaw</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">String</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="transform-to.html">transformTo</a></h4>
+</td>
+<td>
+<p>Transforms raw input into any registered {@link Transformer} type from within the {@link Command} function. Will
+return null if the transformation fails.</p>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Any</span><span class="symbol">&gt;</span> <span class="identifier">transformTo</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.armada.utilities.Argument$transformTo(bvanseg.kotlincommons.armada.CommandManager((kotlin.Any)), kotlin.reflect.KClass((bvanseg.kotlincommons.armada.utilities.Argument.transformTo.T)))/commandManager">commandManager</span><span class="symbol">:</span>&nbsp;<a href="../../bvanseg.kotlincommons.armada/-command-manager/index.html"><span class="identifier">CommandManager</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.armada.utilities.Argument$transformTo(bvanseg.kotlincommons.armada.CommandManager((kotlin.Any)), kotlin.reflect.KClass((bvanseg.kotlincommons.armada.utilities.Argument.transformTo.T)))/clazz">clazz</span><span class="symbol">:</span>&nbsp;<span class="identifier">KClass</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Any</span><span class="symbol">?</span></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

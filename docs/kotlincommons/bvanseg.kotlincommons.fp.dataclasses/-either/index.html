@@ -1,0 +1,114 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Either - kotlincommons</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">kotlincommons</a>&nbsp;/&nbsp;<a href="../index.html">bvanseg.kotlincommons.fp.dataclasses</a>&nbsp;/&nbsp;<a href="./index.html">Either</a><br/>
+<br/>
+<h1>Either</h1>
+<code><span class="keyword">sealed</span> <span class="keyword">class </span><span class="identifier">Either</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">L</span><span class="symbol">, </span><span class="keyword">out</span>&nbsp;<span class="identifier">R</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-either-of.html"><span class="identifier">EitherOf</span></a><span class="symbol">&lt;</span><span class="identifier">L</span><span class="symbol">,</span>&nbsp;<span class="identifier">R</span><span class="symbol">&gt;</span></code>
+<p>val result = someFunction()
+return result.flatMap{
+"An error occurred while doing something: $it"
+}</p>
+<h3>Types</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="-left/index.html">Left</a></h4>
+</td>
+<td>
+<code><span class="keyword">data</span> <span class="keyword">class </span><span class="identifier">Left</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">L</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">Either</span></a><span class="symbol">&lt;</span><span class="identifier">L</span><span class="symbol">,</span>&nbsp;<span class="identifier">Nothing</span><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-right/index.html">Right</a></h4>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">Right</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">R</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">Either</span></a><span class="symbol">&lt;</span><span class="identifier">Nothing</span><span class="symbol">,</span>&nbsp;<span class="identifier">R</span><span class="symbol">&gt;</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="is-left.html">isLeft</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">isLeft</span><span class="symbol">: </span><span class="identifier">Boolean</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="is-right.html">isRight</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">isRight</span><span class="symbol">: </span><span class="identifier">Boolean</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="fold.html">fold</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">, </span><span class="identifier">U</span><span class="symbol">&gt;</span> <span class="identifier">fold</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.fp.dataclasses.Either$fold(kotlin.Function1((bvanseg.kotlincommons.fp.dataclasses.Either.L, bvanseg.kotlincommons.fp.dataclasses.Either.fold.T)), kotlin.Function1((bvanseg.kotlincommons.fp.dataclasses.Either.R, bvanseg.kotlincommons.fp.dataclasses.Either.fold.U)))/left">left</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="identifier">L</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<span class="identifier">T</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.fp.dataclasses.Either$fold(kotlin.Function1((bvanseg.kotlincommons.fp.dataclasses.Either.L, bvanseg.kotlincommons.fp.dataclasses.Either.fold.T)), kotlin.Function1((bvanseg.kotlincommons.fp.dataclasses.Either.R, bvanseg.kotlincommons.fp.dataclasses.Either.fold.U)))/right">right</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="identifier">R</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<span class="identifier">U</span><span class="symbol">)</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Either</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">,</span>&nbsp;<span class="identifier">U</span><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="fold-left.html">foldLeft</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">C</span><span class="symbol">&gt;</span> <span class="identifier">foldLeft</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.fp.dataclasses.Either$foldLeft(bvanseg.kotlincommons.fp.dataclasses.Either.foldLeft.C, kotlin.Function2((bvanseg.kotlincommons.fp.dataclasses.Either.foldLeft.C, bvanseg.kotlincommons.fp.dataclasses.Either.R, )))/initial">initial</span><span class="symbol">:</span>&nbsp;<span class="identifier">C</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.fp.dataclasses.Either$foldLeft(bvanseg.kotlincommons.fp.dataclasses.Either.foldLeft.C, kotlin.Function2((bvanseg.kotlincommons.fp.dataclasses.Either.foldLeft.C, bvanseg.kotlincommons.fp.dataclasses.Either.R, )))/rightOperation">rightOperation</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="identifier">C</span><span class="symbol">,</span>&nbsp;<span class="identifier">R</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<span class="identifier">C</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">C</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="fold-right.html">foldRight</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">C</span><span class="symbol">&gt;</span> <span class="identifier">foldRight</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.fp.dataclasses.Either$foldRight(bvanseg.kotlincommons.fp.dataclasses.Either.foldRight.C, kotlin.Function2((bvanseg.kotlincommons.fp.dataclasses.Either.R, bvanseg.kotlincommons.fp.dataclasses.Either.foldRight.C, )))/initial">initial</span><span class="symbol">:</span>&nbsp;<span class="identifier">C</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.fp.dataclasses.Either$foldRight(bvanseg.kotlincommons.fp.dataclasses.Either.foldRight.C, kotlin.Function2((bvanseg.kotlincommons.fp.dataclasses.Either.R, bvanseg.kotlincommons.fp.dataclasses.Either.foldRight.C, )))/rightOperation">rightOperation</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="identifier">R</span><span class="symbol">,</span>&nbsp;<span class="identifier">C</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<span class="identifier">C</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">C</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="map-left.html">mapLeft</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span> <span class="identifier">mapLeft</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.fp.dataclasses.Either$mapLeft(kotlin.Function1((bvanseg.kotlincommons.fp.dataclasses.Either.L, bvanseg.kotlincommons.fp.dataclasses.Either.mapLeft.T)))/callback">callback</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="identifier">L</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<span class="identifier">T</span><span class="symbol">)</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Either</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">,</span>&nbsp;<a href="./index.html"><span class="identifier">Either</span></a><span class="symbol">&lt;</span><span class="identifier">L</span><span class="symbol">,</span>&nbsp;<span class="identifier">R</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="map-right.html">mapRight</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span> <span class="identifier">mapRight</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.fp.dataclasses.Either$mapRight(kotlin.Function1((bvanseg.kotlincommons.fp.dataclasses.Either.R, bvanseg.kotlincommons.fp.dataclasses.Either.mapRight.T)))/callback">callback</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="identifier">R</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<span class="identifier">T</span><span class="symbol">)</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Either</span></a><span class="symbol">&lt;</span><a href="./index.html"><span class="identifier">Either</span></a><span class="symbol">&lt;</span><span class="identifier">L</span><span class="symbol">,</span>&nbsp;<span class="identifier">R</span><span class="symbol">&gt;</span><span class="symbol">,</span>&nbsp;<span class="identifier">T</span><span class="symbol">&gt;</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Extension Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="../fix.html">fix</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">A</span><span class="symbol">, </span><span class="identifier">B</span><span class="symbol">&gt;</span> <a href="../-either-of.html"><span class="identifier">EitherOf</span></a><span class="symbol">&lt;</span><span class="identifier">A</span><span class="symbol">,</span>&nbsp;<span class="identifier">B</span><span class="symbol">&gt;</span><span class="symbol">.</span><span class="identifier">fix</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Either</span></a><span class="symbol">&lt;</span><span class="identifier">A</span><span class="symbol">,</span>&nbsp;<span class="identifier">B</span><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="../flat-map.html">flatMap</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">L</span><span class="symbol">, </span><span class="identifier">R</span><span class="symbol">, </span><span class="identifier">T</span><span class="symbol">&gt;</span> <a href="./index.html"><span class="identifier">Either</span></a><span class="symbol">&lt;</span><span class="identifier">L</span><span class="symbol">,</span>&nbsp;<span class="identifier">R</span><span class="symbol">&gt;</span><span class="symbol">.</span><span class="identifier">flatMap</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.fp.dataclasses$flatMap(bvanseg.kotlincommons.fp.dataclasses.Either((bvanseg.kotlincommons.fp.dataclasses.flatMap.L, bvanseg.kotlincommons.fp.dataclasses.flatMap.R)), kotlin.Function1((bvanseg.kotlincommons.fp.dataclasses.flatMap.L, bvanseg.kotlincommons.fp.dataclasses.Either((bvanseg.kotlincommons.fp.dataclasses.flatMap.T, bvanseg.kotlincommons.fp.dataclasses.flatMap.R)))))/callback">callback</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="identifier">L</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="./index.html"><span class="identifier">Either</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">,</span>&nbsp;<span class="identifier">R</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Either</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">,</span>&nbsp;<span class="identifier">R</span><span class="symbol">&gt;</span></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

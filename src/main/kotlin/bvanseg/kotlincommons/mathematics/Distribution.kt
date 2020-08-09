@@ -8,7 +8,7 @@ import kotlin.math.sqrt
  * @author Boston Vanseghi
  * @since 2.2.5
  */
-fun normalPdf(x: Double): Double = exp((abs(x * x)) / 2) / sqrt(2 * Math.PI)
+fun normalPdf(x: Double): Double = exp((-x * x) / 2) / sqrt(2 * Math.PI)
 
 /**
  * @author Boston Vanseghi

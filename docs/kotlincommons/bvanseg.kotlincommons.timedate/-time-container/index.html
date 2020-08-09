@@ -1,0 +1,126 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>TimeContainer - kotlincommons</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">kotlincommons</a>&nbsp;/&nbsp;<a href="../index.html">bvanseg.kotlincommons.timedate</a>&nbsp;/&nbsp;<a href="./index.html">TimeContainer</a><br/>
+<br/>
+<h1>TimeContainer</h1>
+<code><span class="keyword">interface </span><span class="identifier">TimeContainer</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-time-context/index.html"><span class="identifier">TimeContext</span></a></code>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="time-object.html">timeObject</a></h4>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">val </span><span class="identifier">timeObject</span><span class="symbol">: </span><a href="../-time/index.html"><span class="identifier">Time</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="unit.html">unit</a></h4>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">val </span><span class="identifier">unit</span><span class="symbol">: </span><a href="../-time-context-unit/index.html"><span class="identifier">TimeContextUnit</span></a></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="flatmap.html">flatmap</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">flatmap</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate.TimeContainer$flatmap(kotlin.Function1((bvanseg.kotlincommons.timedate.Time, )))/cb">cb</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="identifier">time</span><span class="symbol">:</span>&nbsp;<a href="../-time/index.html"><span class="identifier">Time</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="../-time/index.html"><span class="identifier">Time</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">TimeContainer</span></a></code><br/>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">flatmap</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate.TimeContainer$flatmap(kotlin.Function1((bvanseg.kotlincommons.timedate.TimeContextUnit, )))/cb">cb</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="identifier">unit</span><span class="symbol">:</span>&nbsp;<a href="../-time-context-unit/index.html"><span class="identifier">TimeContextUnit</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="../-time-context-unit/index.html"><span class="identifier">TimeContextUnit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">TimeContainer</span></a></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Extension Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="../before.html">before</a></h4>
+</td>
+<td>
+<code><span class="keyword">infix</span> <span class="keyword">fun </span><a href="../-time-context/index.html"><span class="identifier">TimeContext</span></a><span class="symbol">.</span><span class="identifier">before</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate$before(bvanseg.kotlincommons.timedate.TimeContext, bvanseg.kotlincommons.timedate.LocalDateTimeContainer)/context">context</span><span class="symbol">:</span>&nbsp;<a href="../-local-date-time-container/index.html"><span class="identifier">LocalDateTimeContainer</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="../-unit-based-time-container/index.html"><span class="identifier">UnitBasedTimeContainer</span></a></code><br/>
+<code><span class="keyword">infix</span> <span class="keyword">fun </span><a href="../-time-context/index.html"><span class="identifier">TimeContext</span></a><span class="symbol">.</span><span class="identifier">before</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate$before(bvanseg.kotlincommons.timedate.TimeContext, bvanseg.kotlincommons.timedate.TimeContext)/context">context</span><span class="symbol">:</span>&nbsp;<a href="../-time-context/index.html"><span class="identifier">TimeContext</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="../-unit-based-time-container/index.html"><span class="identifier">UnitBasedTimeContainer</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="../from.html">from</a></h4>
+</td>
+<td>
+<code><span class="keyword">infix</span> <span class="keyword">fun </span><a href="../-time-context/index.html"><span class="identifier">TimeContext</span></a><span class="symbol">.</span><span class="identifier">from</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate$from(bvanseg.kotlincommons.timedate.TimeContext, bvanseg.kotlincommons.timedate.TimeContext)/container">container</span><span class="symbol">:</span>&nbsp;<a href="../-time-context/index.html"><span class="identifier">TimeContext</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="../-unit-based-time-container/index.html"><span class="identifier">UnitBasedTimeContainer</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="../../bvanseg.kotlincommons.timedate.transformer/into.html">into</a></h4>
+</td>
+<td>
+<code><span class="keyword">infix</span> <span class="keyword">fun </span><a href="../-time-context/index.html"><span class="identifier">TimeContext</span></a><span class="symbol">.</span><span class="identifier">into</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate.transformer$into(bvanseg.kotlincommons.timedate.TimeContext, bvanseg.kotlincommons.timedate.TimeUnit)/unit">unit</span><span class="symbol">:</span>&nbsp;<a href="../-time-unit/index.html"><span class="identifier">TimeUnit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="../-time-context-unit/index.html"><span class="identifier">TimeContextUnit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="../minus.html">minus</a></h4>
+</td>
+<td>
+<code><span class="keyword">operator</span> <span class="keyword">fun </span><a href="../-time-context/index.html"><span class="identifier">TimeContext</span></a><span class="symbol">.</span><span class="identifier">minus</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate$minus(bvanseg.kotlincommons.timedate.TimeContext, bvanseg.kotlincommons.timedate.TimeContext)/context">context</span><span class="symbol">:</span>&nbsp;<a href="../-time-context/index.html"><span class="identifier">TimeContext</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="../-unit-based-time-container/index.html"><span class="identifier">UnitBasedTimeContainer</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="../plus.html">plus</a></h4>
+</td>
+<td>
+<code><span class="keyword">operator</span> <span class="keyword">fun </span><a href="../-time-context/index.html"><span class="identifier">TimeContext</span></a><span class="symbol">.</span><span class="identifier">plus</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate$plus(bvanseg.kotlincommons.timedate.TimeContext, bvanseg.kotlincommons.timedate.TimeContext)/context">context</span><span class="symbol">:</span>&nbsp;<a href="../-time-context/index.html"><span class="identifier">TimeContext</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="../-unit-based-time-container/index.html"><span class="identifier">UnitBasedTimeContainer</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="../../bvanseg.kotlincommons.timedate.transformer/truncate.html">truncate</a></h4>
+</td>
+<td>
+<code><span class="keyword">infix</span> <span class="keyword">fun </span><a href="../-time-context/index.html"><span class="identifier">TimeContext</span></a><span class="symbol">.</span><span class="identifier">truncate</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate.transformer$truncate(bvanseg.kotlincommons.timedate.TimeContext, bvanseg.kotlincommons.timedate.TimeUnit)/unit">unit</span><span class="symbol">:</span>&nbsp;<a href="../-time-unit/index.html"><span class="identifier">TimeUnit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="../-time-context/index.html"><span class="identifier">TimeContext</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="../../bvanseg.kotlincommons.timedate.transformer/until.html">until</a></h4>
+</td>
+<td>
+<code><span class="keyword">infix</span> <span class="keyword">fun </span><a href="../-time-context/index.html"><span class="identifier">TimeContext</span></a><span class="symbol">.</span><span class="identifier">until</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate.transformer$until(bvanseg.kotlincommons.timedate.TimeContext, bvanseg.kotlincommons.timedate.TimeContext)/context">context</span><span class="symbol">:</span>&nbsp;<a href="../-time-context/index.html"><span class="identifier">TimeContext</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="../../bvanseg.kotlincommons.timedate.transformer/-until-context/index.html"><span class="identifier">UntilContext</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="../../bvanseg.kotlincommons.timedate.transformer/without.html">without</a></h4>
+</td>
+<td>
+<code><span class="keyword">infix</span> <span class="keyword">fun </span><a href="../-time-context/index.html"><span class="identifier">TimeContext</span></a><span class="symbol">.</span><span class="identifier">without</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.timedate.transformer$without(bvanseg.kotlincommons.timedate.TimeContext, bvanseg.kotlincommons.timedate.TimeUnit)/unit">unit</span><span class="symbol">:</span>&nbsp;<a href="../-time-unit/index.html"><span class="identifier">TimeUnit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="../-time-context/index.html"><span class="identifier">TimeContext</span></a></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Inheritors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="../-local-date-time-container/index.html">LocalDateTimeContainer</a></h4>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">LocalDateTimeContainer</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">TimeContainer</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="../-unit-based-time-container/index.html">UnitBasedTimeContainer</a></h4>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">UnitBasedTimeContainer</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">TimeContainer</span></a></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

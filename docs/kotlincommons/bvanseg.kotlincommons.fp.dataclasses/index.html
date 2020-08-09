@@ -1,0 +1,104 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>bvanseg.kotlincommons.fp.dataclasses - kotlincommons</title>
+<link rel="stylesheet" href="../../style.css">
+</HEAD>
+<BODY>
+<a href="../index.html">kotlincommons</a>&nbsp;/&nbsp;<a href="./index.html">bvanseg.kotlincommons.fp.dataclasses</a><br/>
+<br/>
+<h2>Package bvanseg.kotlincommons.fp.dataclasses</h2>
+<h3>Types</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="-either/index.html">Either</a></h4>
+</td>
+<td>
+<p>val result = someFunction()
+return result.flatMap{
+"An error occurred while doing something: $it"
+}</p>
+<code><span class="keyword">sealed</span> <span class="keyword">class </span><span class="identifier">Either</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">L</span><span class="symbol">, </span><span class="keyword">out</span>&nbsp;<span class="identifier">R</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-either-of.html"><span class="identifier">EitherOf</span></a><span class="symbol">&lt;</span><span class="identifier">L</span><span class="symbol">,</span>&nbsp;<span class="identifier">R</span><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-either-of.html">EitherOf</a></h4>
+</td>
+<td>
+<code><span class="keyword">typealias </span><span class="identifier">EitherOf</span><span class="symbol">&lt;</span><span class="identifier">A</span><span class="symbol">, </span><span class="identifier">B</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">=</span>&nbsp;<a href="../bvanseg.kotlincommons.fp/-kind2.html"><span class="identifier">Kind2</span></a><span class="symbol">&lt;</span><a href="-for-either-of/index.html"><span class="identifier">ForEitherOf</span></a><span class="symbol">,</span>&nbsp;<span class="identifier">A</span><span class="symbol">,</span>&nbsp;<span class="identifier">B</span><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-for-either-of/index.html">ForEitherOf</a></h4>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">ForEitherOf</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-option/index.html">Option</a></h4>
+</td>
+<td>
+<pre><code>val myInt = 1.some()
+val myString = "hello, world".some()
+val myNewInt = myInt.map{
+ it + 1
+}
+val myNewString = myString.map{
+ it += "!"
+}
+</code></pre><code><span class="keyword">sealed</span> <span class="keyword">class </span><span class="identifier">Option</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="fix.html">fix</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">A</span><span class="symbol">, </span><span class="identifier">B</span><span class="symbol">&gt;</span> <a href="-either-of.html"><span class="identifier">EitherOf</span></a><span class="symbol">&lt;</span><span class="identifier">A</span><span class="symbol">,</span>&nbsp;<span class="identifier">B</span><span class="symbol">&gt;</span><span class="symbol">.</span><span class="identifier">fix</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="-either/index.html"><span class="identifier">Either</span></a><span class="symbol">&lt;</span><span class="identifier">A</span><span class="symbol">,</span>&nbsp;<span class="identifier">B</span><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="flat-map.html">flatMap</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">L</span><span class="symbol">, </span><span class="identifier">R</span><span class="symbol">, </span><span class="identifier">T</span><span class="symbol">&gt;</span> <a href="-either/index.html"><span class="identifier">Either</span></a><span class="symbol">&lt;</span><span class="identifier">L</span><span class="symbol">,</span>&nbsp;<span class="identifier">R</span><span class="symbol">&gt;</span><span class="symbol">.</span><span class="identifier">flatMap</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.fp.dataclasses$flatMap(bvanseg.kotlincommons.fp.dataclasses.Either((bvanseg.kotlincommons.fp.dataclasses.flatMap.L, bvanseg.kotlincommons.fp.dataclasses.flatMap.R)), kotlin.Function1((bvanseg.kotlincommons.fp.dataclasses.flatMap.L, bvanseg.kotlincommons.fp.dataclasses.Either((bvanseg.kotlincommons.fp.dataclasses.flatMap.T, bvanseg.kotlincommons.fp.dataclasses.flatMap.R)))))/callback">callback</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="identifier">L</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="-either/index.html"><span class="identifier">Either</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">,</span>&nbsp;<span class="identifier">R</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="-either/index.html"><span class="identifier">Either</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">,</span>&nbsp;<span class="identifier">R</span><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="left.html">left</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span> <span class="identifier">T</span><span class="symbol">.</span><span class="identifier">left</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Left</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="none.html">none</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span> <span class="identifier">none</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">None</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="right.html">right</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span> <span class="identifier">T</span><span class="symbol">.</span><span class="identifier">right</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Right</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="some.html">some</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span> <span class="identifier">T</span><span class="symbol">.</span><span class="identifier">some</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Some</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

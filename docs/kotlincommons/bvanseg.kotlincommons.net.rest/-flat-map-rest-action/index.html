@@ -1,0 +1,66 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>FlatMapRestAction - kotlincommons</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">kotlincommons</a>&nbsp;/&nbsp;<a href="../index.html">bvanseg.kotlincommons.net.rest</a>&nbsp;/&nbsp;<a href="./index.html">FlatMapRestAction</a><br/>
+<br/>
+<h1>FlatMapRestAction</h1>
+<code><span class="keyword">class </span><span class="identifier">FlatMapRestAction</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">, </span><span class="identifier">O</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-rest-action/index.html"><span class="identifier">RestAction</span></a><span class="symbol">&lt;</span><span class="identifier">O</span><span class="symbol">&gt;</span></code>
+<p>An expansion of <a href="../-rest-action/index.html">RestAction</a> that allows for chaining <a href="../-rest-action/index.html">RestAction</a> queues.</p>
+<p><strong>Author</strong><br/>
+Boston Vanseghi</p>
+<p><strong>Since</strong><br/>
+2.3.0</p>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="-init-.html">&lt;init&gt;</a></h4>
+</td>
+<td>
+<p>An expansion of <a href="../-rest-action/index.html">RestAction</a> that allows for chaining <a href="../-rest-action/index.html">RestAction</a> queues.</p>
+<code><span class="identifier">FlatMapRestAction</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.net.rest.FlatMapRestAction$<init>(kotlin.Function1((bvanseg.kotlincommons.net.rest.FlatMapRestAction.T, bvanseg.kotlincommons.net.rest.RestAction((bvanseg.kotlincommons.net.rest.FlatMapRestAction.O)))), bvanseg.kotlincommons.net.rest.RestAction((bvanseg.kotlincommons.net.rest.FlatMapRestAction.T)))/callback">callback</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="identifier">T</span><span class="symbol">?</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="../-rest-action/index.html"><span class="identifier">RestAction</span></a><span class="symbol">&lt;</span><span class="identifier">O</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="bvanseg.kotlincommons.net.rest.FlatMapRestAction$<init>(kotlin.Function1((bvanseg.kotlincommons.net.rest.FlatMapRestAction.T, bvanseg.kotlincommons.net.rest.RestAction((bvanseg.kotlincommons.net.rest.FlatMapRestAction.O)))), bvanseg.kotlincommons.net.rest.RestAction((bvanseg.kotlincommons.net.rest.FlatMapRestAction.T)))/parent">parent</span><span class="symbol">:</span>&nbsp;<a href="../-rest-action/index.html"><span class="identifier">RestAction</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">)</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="callback.html">callback</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">callback</span><span class="symbol">: </span><span class="symbol">(</span><span class="identifier">T</span><span class="symbol">?</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="../-rest-action/index.html"><span class="identifier">RestAction</span></a><span class="symbol">&lt;</span><span class="identifier">O</span><span class="symbol">&gt;</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="complete-impl.html">completeImpl</a></h4>
+</td>
+<td>
+<p>Intended to fully block until the model is returned.</p>
+<code><span class="keyword">fun </span><span class="identifier">completeImpl</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">O</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="queue-impl.html">queueImpl</a></h4>
+</td>
+<td>
+<p>Intended to send a REST request asynchronously.</p>
+<code><span class="keyword">fun </span><span class="identifier">queueImpl</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code>
+<p>Has the same intention as <a href="../-rest-action/queue.html">queue</a>, but instead takes a callback to execute upon the async request completing.</p>
+<code><span class="keyword">fun </span><span class="identifier">queueImpl</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.net.rest.FlatMapRestAction$queueImpl(kotlin.Function1((bvanseg.kotlincommons.net.rest.FlatMapRestAction.O, kotlin.Unit)))/callback">callback</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="identifier">O</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<span class="identifier">Unit</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>
