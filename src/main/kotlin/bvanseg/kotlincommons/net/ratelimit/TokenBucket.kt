@@ -33,12 +33,17 @@ data class TokenBucket(
     var currentTokenCount: Long = initTokenCount
 
     fun refill() {
-        lock.lock()
-        logger.trace("Refreshing tokens: TokenBucket ($currentTokenCount/$tokenLimit).")
-        refreshStrategy(this)
-        logger.trace("Finished refreshing tokens: TokenBucket ($currentTokenCount/$tokenLimit).")
-        lastUpdate = System.currentTimeMillis()
-        lock.unlock()
+        if (currentTokenCount < tokenLimit) {
+            try {
+                lock.lock()
+                logger.debug("Refreshing tokens: TokenBucket ($currentTokenCount/$tokenLimit).")
+                refreshStrategy(this)
+                logger.debug("Finished refreshing tokens: TokenBucket ($currentTokenCount/$tokenLimit).")
+                lastUpdate = System.currentTimeMillis()
+            } finally {
+                lock.unlock()
+            }
+        }
     }
 
     fun isFull() = currentTokenCount
@@ -47,18 +52,19 @@ data class TokenBucket(
     fun isNotEmpty() = currentTokenCount > 0L
 
     fun <R> tryConsume(amount: Long = 1, callback: () -> R): Pair<Boolean, R?> {
-        lock.lock()
-        if (currentTokenCount >= amount) {
-            currentTokenCount -= amount
-            try {
-                return true to callback()
-            } finally {
-            	lock.unlock()
-            }
+        if (amount < 0) {
+            throw IllegalArgumentException("Consume amount may not be negative!")
         }
 
         try {
+            lock.lock()
+            if (currentTokenCount >= amount) {
+                currentTokenCount -= amount
+                return true to callback()
+            }
+
             return false to null
+
         } finally {
         	lock.unlock()
         }
