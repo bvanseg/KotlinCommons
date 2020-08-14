@@ -6,12 +6,7 @@ package bvanseg.kotlincommons.throwable
  * @author bright_spark
  * @since 2.2.5
  */
-class ExceptionAnalysis(val exception: Throwable, val rootPackage: String = defaultRootPackage) {
-    companion object {
-        /** The default root package, created from the first 3 packages of this class' qualified name */
-        var defaultRootPackage = this::class.qualifiedName!!.split('.').take(3).joinToString(".")
-    }
-
+class ExceptionAnalysis(val exception: Throwable, val rootPackage: String) {
     /** The exception message. */
     val message = exception.toString()
     /** A list of each exception that causes the [exception] */

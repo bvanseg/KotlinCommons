@@ -18,8 +18,9 @@ fun Throwable.printToString(): String = StringWriter().use { sw ->
 
 /**
  * Returns this [Throwable] as an [ExceptionAnalysis] which provides a breakdown of the exception.
+ * Can use [bvanseg.kotlincommons.any.packagePath] to easily get the package path of the current class.
  *
  * @author bright_spark
  * @since 2.2.5
  */
-fun Throwable.analyse() = ExceptionAnalysis(this)
+fun Throwable.analyse(rootPackage: String) = ExceptionAnalysis(this, rootPackage)

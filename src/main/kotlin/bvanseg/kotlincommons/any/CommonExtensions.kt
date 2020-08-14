@@ -39,3 +39,14 @@ fun Any.getLogger(): Logger = LoggerFactory.getLogger(this::class.java)
  * @since 2.0.1
  */
 fun <T> T.toOptional(): Optional<T> = Optional.of(this)
+
+/**
+ * Gets the package path of the current class, optionally with a [depth] limit.
+ * A [depth] of 0 or less will return the whole path.
+ *
+ * @author bright_spark
+ * @since 2.4.0
+ */
+fun Any.packagePath(depth: Int = 0): String = this::class.qualifiedName!!.substringBeforeLast('.').let { path ->
+	if (depth <= 0) path else path.split('.').take(depth).joinToString(".")
+}
