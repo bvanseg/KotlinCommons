@@ -1,6 +1,7 @@
 $dokka.format:html
 $dokka.linkExtension:html
 $dokka.location:bvanseg.kotlincommons.any$getLogger(kotlin.Any)bvanseg.kotlincommons.any/kotlin.-any/get-logger.html
+$dokka.location:bvanseg.kotlincommons.any$packagePath(kotlin.Any, kotlin.Int)bvanseg.kotlincommons.any/kotlin.-any/package-path.html
 $dokka.location:bvanseg.kotlincommons.arrays$anyNull(kotlin.Array((bvanseg.kotlincommons.arrays.anyNull.T)))bvanseg.kotlincommons.arrays/kotlin.-array/any-null.html
 $dokka.location:bvanseg.kotlincommons.arrays$anyNull(kotlin.Array((kotlin.Array((bvanseg.kotlincommons.arrays.anyNull.T)))))bvanseg.kotlincommons.arrays/kotlin.-array/any-null.html
 $dokka.location:bvanseg.kotlincommons.arrays$anyNull(kotlin.Array((kotlin.Array((kotlin.Array((bvanseg.kotlincommons.arrays.anyNull.T)))))))bvanseg.kotlincommons.arrays/kotlin.-array/any-null.html
@@ -82,7 +83,7 @@ $dokka.location:bvanseg.kotlincommons.string$remove(kotlin.String, kotlin.Array(
 $dokka.location:bvanseg.kotlincommons.string$toURI(kotlin.String)bvanseg.kotlincommons.string/kotlin.-string/to-u-r-i.html
 $dokka.location:bvanseg.kotlincommons.string$toURL(kotlin.String)bvanseg.kotlincommons.string/kotlin.-string/to-u-r-l.html
 $dokka.location:bvanseg.kotlincommons.string$truncate(kotlin.String, kotlin.Int, kotlin.String)bvanseg.kotlincommons.string/kotlin.-string/truncate.html
-$dokka.location:bvanseg.kotlincommons.throwable$analyse(kotlin.Throwable)bvanseg.kotlincommons.throwable/kotlin.-throwable/analyse.html
+$dokka.location:bvanseg.kotlincommons.throwable$analyse(kotlin.Throwable, kotlin.String)bvanseg.kotlincommons.throwable/kotlin.-throwable/analyse.html
 $dokka.location:bvanseg.kotlincommons.throwable$printToString(kotlin.Throwable)bvanseg.kotlincommons.throwable/kotlin.-throwable/print-to-string.html
 $dokka.location:bvanseg.kotlincommons.time$format(java.time.Duration, kotlin.Boolean, kotlin.Boolean)bvanseg.kotlincommons.time/java.time.-duration/format.html
 $dokka.location:bvanseg.kotlincommons.time$toFileSafeString(java.time.LocalDateTime)bvanseg.kotlincommons.time/java.time.-local-date-time/to-file-safe-string.html
