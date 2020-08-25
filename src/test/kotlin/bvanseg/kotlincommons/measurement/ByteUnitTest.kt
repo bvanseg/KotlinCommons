@@ -1,6 +1,6 @@
 package bvanseg.kotlincommons.measurement
 
-import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 
@@ -54,6 +54,6 @@ internal class ByteUnitTest {
         val result = inputUnit.to(inputVal, outputUnit)
 
         // Then
-        Assertions.assertEquals(expectedVal, result)
+        assertEquals(expectedVal, result)
     }
 }

@@ -21,7 +21,7 @@ Boston Vanseghi</p>
 <h4><a href="-init-.html">&lt;init&gt;</a></h4>
 </td>
 <td>
-<code><span class="identifier">FlagManager</span><span class="symbol">(</span><span class="symbol">)</span></code></td>
+<code><span class="identifier">FlagManager</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.flags.FlagManager$<init>(java.lang.Class((bvanseg.kotlincommons.flags.FlagManager.T)))/enumClass">enumClass</span><span class="symbol">:</span>&nbsp;<span class="identifier">Class</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">)</span></code></td>
 </tr>
 </tbody>
 </table>
@@ -30,24 +30,17 @@ Boston Vanseghi</p>
 <tbody>
 <tr>
 <td>
-<h4><a href="build.html">build</a></h4>
-</td>
-<td>
-<code><span class="keyword">fun </span><span class="identifier">build</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.flags.FlagManager$build(kotlin.collections.List((kotlin.Enum((bvanseg.kotlincommons.flags.FlagManager.T)))))/values">values</span><span class="symbol">:</span>&nbsp;<span class="identifier">List</span><span class="symbol">&lt;</span><span class="identifier">Enum</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Long</span></code></td>
-</tr>
-<tr>
-<td>
 <h4><a href="get-offset-for.html">getOffsetFor</a></h4>
 </td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">getOffsetFor</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.flags.FlagManager$getOffsetFor(kotlin.Enum((bvanseg.kotlincommons.flags.FlagManager.T)))/value">value</span><span class="symbol">:</span>&nbsp;<span class="identifier">Enum</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code></td>
+<code><span class="keyword">fun </span><span class="identifier">getOffsetFor</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.flags.FlagManager$getOffsetFor(kotlin.Enum((bvanseg.kotlincommons.flags.FlagManager.T)))/value">value</span><span class="symbol">:</span>&nbsp;<span class="identifier">Enum</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Long</span></code></td>
 </tr>
 <tr>
 <td>
 <h4><a href="get-value.html">getValue</a></h4>
 </td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">getValue</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.flags.FlagManager$getValue(kotlin.Int)/offset">offset</span><span class="symbol">:</span>&nbsp;<span class="identifier">Int</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Enum</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">?</span></code></td>
+<code><span class="keyword">fun </span><span class="identifier">getValue</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.flags.FlagManager$getValue(kotlin.Long)/offset">offset</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Enum</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">?</span></code></td>
 </tr>
 <tr>
 <td>
@@ -55,14 +48,21 @@ Boston Vanseghi</p>
 </td>
 <td>
 <p>Reads in a number and spits out a list of values.</p>
-<code><span class="keyword">fun </span><span class="identifier">read</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.flags.FlagManager$read(kotlin.Long)/number">number</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">List</span><span class="symbol">&lt;</span><span class="identifier">Enum</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code></td>
+<code><span class="keyword">fun </span><span class="identifier">read</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.flags.FlagManager$read(kotlin.Long)/number">number</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">EnumSet</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code></td>
 </tr>
 <tr>
 <td>
 <h4><a href="register.html">register</a></h4>
 </td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">register</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.flags.FlagManager$register(kotlin.Enum((bvanseg.kotlincommons.flags.FlagManager.T)))/value">value</span><span class="symbol">:</span>&nbsp;<span class="identifier">Enum</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code></td>
+<code><span class="keyword">fun </span><span class="identifier">register</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.flags.FlagManager$register(bvanseg.kotlincommons.flags.FlagManager.T)/value">value</span><span class="symbol">:</span>&nbsp;<span class="identifier">T</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="write.html">write</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">write</span><span class="symbol">(</span><span class="identifier" id="bvanseg.kotlincommons.flags.FlagManager$write(java.util.EnumSet((bvanseg.kotlincommons.flags.FlagManager.T)))/values">values</span><span class="symbol">:</span>&nbsp;<span class="identifier">EnumSet</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Long</span></code></td>
 </tr>
 </tbody>
 </table>
@@ -83,10 +83,10 @@ Boston Vanseghi</p>
 <tbody>
 <tr>
 <td>
-<h4><a href="register.html">register</a></h4>
+<h4><a href="create-manager.html">createManager</a></h4>
 </td>
 <td>
-<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Enum</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span> <span class="identifier">register</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">FlagManager</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code></td>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Enum</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span> <span class="identifier">createManager</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">FlagManager</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code></td>
 </tr>
 </tbody>
 </table>
