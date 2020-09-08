@@ -29,7 +29,7 @@ package bvanseg.kotlincommons.numbers
  * @author Boston Vanseghi
  * @since 2.1.1
  */
-class Hasher(clazz: Any) {
+class HashCodeBuilder(clazz: Any) {
 
     init {
         this.append(clazz::class.simpleName)
@@ -39,7 +39,7 @@ class Hasher(clazz: Any) {
 
     private val mult = 37
 
-    fun append(value: Any?): Hasher {
+    fun append(value: Any?): HashCodeBuilder {
         if(value == null)
             total *= mult
         else {
@@ -52,7 +52,7 @@ class Hasher(clazz: Any) {
         return this
     }
 
-    fun append(array: Array<Any?>): Hasher {
+    fun append(array: Array<Any?>): HashCodeBuilder {
         array.forEach {
             total = total * mult + it.hashCode()
         }
@@ -64,7 +64,7 @@ class Hasher(clazz: Any) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
-        other as Hasher
+        other as HashCodeBuilder
         if (total != other.total) return false
         return true
     }

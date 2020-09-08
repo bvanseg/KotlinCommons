@@ -6,13 +6,13 @@ import org.junit.jupiter.api.Test
 /**
  * @author Boston Vanseghi
  */
-internal class TextualizerTest {
+internal class ToStringBuilderTest {
     class Account {
         val balance = 0.0
         val foo = arrayOf("Bar", "FooBar", "MoreFooBar")
         val bar = mapOf("boo" to 1, "ooga" to 2)
 
-        override fun toString() = Textualizer.builder(this)
+        override fun toString() = ToStringBuilder.builder(this)
             .append("balance", balance)
             .append("foo", foo)
             .append("bar", bar)
@@ -30,7 +30,7 @@ internal class TextualizerTest {
         val age = 22
         val gender = Gender.MALE
         val acct: Account = Account()
-        override fun toString(): String = Textualizer.builder(this)
+        override fun toString(): String = ToStringBuilder.builder(this)
             .append("name", name)
             .append("age", age)
             .append("gender", gender)

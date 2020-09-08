@@ -23,7 +23,7 @@
  */
 package bvanseg.kotlincommons.evenir.event
 
-import bvanseg.kotlincommons.string.Textualizer
+import bvanseg.kotlincommons.string.ToStringBuilder
 import kotlin.reflect.KFunction
 import kotlin.reflect.full.*
 
@@ -59,5 +59,5 @@ class InternalEvent(
         return function.callBy(map)
     }
 
-    override fun toString(): String = Textualizer.builder(this).append("functionName", function.name).toString()
+    override fun toString(): String = ToStringBuilder.builder(this).append("functionName", function.name).toString()
 }

@@ -31,16 +31,16 @@ import java.lang.StringBuilder
  * @author Boston Vanseghi
  * @since 2.0.1
  */
-class Textualizer private constructor() {
+class ToStringBuilder private constructor() {
 
     private val data = StringBuilder()
 
     private var elements: Int = 0
 
-    fun append(string: String): Textualizer = this.apply { data.append(string) }
+    fun append(string: String): ToStringBuilder = this.apply { data.append(string) }
 
     @Suppress("IMPLICIT_CAST_TO_ANY")
-    fun <T: Any> append(field: String, value: T): Textualizer = this.apply {
+    fun <T: Any> append(field: String, value: T): ToStringBuilder = this.apply {
         val con = when(value::class) {
             String::class -> "\"${value as String}\""
             Map::class -> (value as Map<*, *>).entries.joinToString(", ")
@@ -65,7 +65,7 @@ class Textualizer private constructor() {
 
     companion object {
         @JvmStatic
-        fun builder(clazz: Any): Textualizer = Textualizer().apply {
+        fun builder(clazz: Any): ToStringBuilder = ToStringBuilder().apply {
             this.append("${clazz::class.simpleName}(")
         }
     }

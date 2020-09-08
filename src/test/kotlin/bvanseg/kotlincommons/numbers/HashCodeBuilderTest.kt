@@ -1,21 +1,20 @@
 package bvanseg.kotlincommons.numbers
 
-import bvanseg.kotlincommons.string.Textualizer
-import org.junit.jupiter.api.Assertions.assertEquals
+import bvanseg.kotlincommons.string.ToStringBuilder
 import org.junit.jupiter.api.Test
 
-class HasherTest {
+class HashCodeBuilderTest {
 
     class Account {
         val balance = 0.0
         val foo = arrayOf("Bar", "FooBar", "MoreFooBar")
 
-        override fun toString() = Textualizer.builder(this)
+        override fun toString() = ToStringBuilder.builder(this)
             .append("balance", balance)
             .append("foo", foo)
             .toString()
 
-        override fun hashCode(): Int = Hasher(this)
+        override fun hashCode(): Int = HashCodeBuilder(this)
             .append(balance)
             .append(foo)
             .hashCode()
@@ -32,14 +31,14 @@ class HasherTest {
         var age = 22
         val gender = Gender.MALE
         val acct: Account = Account()
-        override fun toString(): String = Textualizer.builder(this)
+        override fun toString(): String = ToStringBuilder.builder(this)
             .append("name", name)
             .append("age", age)
             .append("gender", gender)
             .append("account", acct)
             .toString()
 
-        override fun hashCode(): Int = Hasher(this)
+        override fun hashCode(): Int = HashCodeBuilder(this)
             .append(name)
             .append(age)
             .append(gender)
