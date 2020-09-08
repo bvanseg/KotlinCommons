@@ -26,6 +26,18 @@ class TestFlagManager {
     }
 
     @Test
+    fun testExtensiveWriting() {
+        // GIVEN
+        val flags = flagManager.extensiveWrite(EnumSet.of(TestEnum.RED, TestEnum.GREEN))
+
+        // WHEN
+
+        // THEN
+        assertEquals(3, flags.toLong())
+    }
+
+
+    @Test
     fun testReading() {
         // GIVEN
         val none = 0L

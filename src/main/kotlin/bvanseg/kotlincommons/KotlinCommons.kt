@@ -37,7 +37,7 @@ object KotlinCommons {
     /**
      * The version of KotlinCommons.
      */
-    val VERSION = Version(2, 4, 0, "alpha2")
+    val VERSION = Version(2, 4, 0)
 
     val KC_LOGGER = getLogger()
 }

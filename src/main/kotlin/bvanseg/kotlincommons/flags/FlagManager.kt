@@ -1,23 +1,30 @@
 package bvanseg.kotlincommons.flags
 
 import bvanseg.kotlincommons.collections.DualHashMap
+import java.math.BigInteger
 import java.util.*
 
 /**
-*
-* @author Boston Vanseghi
-* @since 2.2.4
+ * A utility class that uses bitwise operators to read and write an [EnumSet] to and from a [Long]. Significantly useful
+ * for compressing enum sets into a single long value.
+ *
+ * @author Boston Vanseghi
+ * @since 2.2.4
 */
 class FlagManager<T : Enum<T>>(private val enumClass: Class<T>) {
 
-	private val map = DualHashMap<Long, T>()
+	private val offsetsToEnumValues = DualHashMap<Long, T>()
 
 	/**
-	* Current offset in bits. Max is 64.
+	* Current offset in bits.
 	*/
 	private var currentOffset: Long = 0
 
 	companion object {
+		/**
+		 * Creates a [FlagManager] on the given [Enum] type. Automatically invokes [register] on every [Enum] value within
+		 * the enum type.
+		 */
 		inline fun <reified T : Enum<T>> createManager(): FlagManager<T> {
 			val manager = FlagManager(T::class.java)
 
@@ -30,38 +37,65 @@ class FlagManager<T : Enum<T>>(private val enumClass: Class<T>) {
 		}
 	}
 
+	/**
+	 * Registers a given [Enum] value into the [FlagManager]. If an [Enum] is not registered to the [FlagManager], it is
+	 * not accessible via offset fetching. Invoking [createManager] on an [Enum] type will call this function for all
+	 * corresponding values of that [Enum] type.
+	 */
 	fun register(value: T) {
-		map[currentOffset++] = value
+		offsetsToEnumValues[currentOffset++] = value
 	}
 
-	fun getOffsetFor(value: Enum<T>): Long = map.reverse()[value]!!
+	/**
+	 * Returns the offset as a [Long] for the given [Enum] value.
+	 *
+	 * @param value The [Enum] value to get the offset for.
+	 *
+	 * @return The offset as a [Long] for the given [Enum] type.
+	 */
+	fun getOffsetFor(value: Enum<T>): Long = offsetsToEnumValues.reverse()[value]!!
 
+	/**
+	 * Gets the [Enum] value represented by the given offset.
+	 *
+	 * @param offset The [Long] value that maps to the desired [Enum] type.
+	 *
+	 * @return An [Enum] value from its corresponding offset.
+	 */
 	fun getValue(offset: Long): Enum<T>? {
 		if (offset < 0)
-			throw Exception("Invalid offset of $offset, must fall in range of 0 - 31.")
+			throw IndexOutOfBoundsException("Offset can not be negative: $offset")
 
-		return map[offset] // Can't assert here, offset might be something absurd.
+		return offsetsToEnumValues[offset] // Can't assert here, offset might be something absurd.
 	}
 
 	/**
 	* Reads in a number and spits out a list of values.
 	*
-	* @param number - The number to read. Must not be negative.
+	* @param number The number to read. Must not be negative.
 	*
 	* @return a [List] of [Enum]s of type [T].
 	*/
 	fun read(number: Long): EnumSet<T> {
 		val values = EnumSet.noneOf(enumClass)
 
-		for (offset in 0L..31L) {
+		for (offset in 0L..offsetsToEnumValues.size) {
 			if (number and (1L shl offset.toInt()) != 0L)
-				if (map[offset] != null)
-					values.add(map[offset]!!)
+				if (offsetsToEnumValues[offset] != null)
+					values.add(offsetsToEnumValues[offset]!!)
 		}
 
 		return values
 	}
 
+	/**
+	 * Writes a given [EnumSet] to a [Long] value. Note that for [Enum]s with more than 64 values, you should use
+	 * [extensiveWrite], as that allows for writing larger sets of enums to a numeric value.
+	 *
+	 * @param values The [Enum] values to write to a [Long] format.
+	 *
+	 * @return a [Long] encoded from the [Enum] values.
+	 */
 	fun write(values: EnumSet<T>): Long {
 		var currentValue = 0L
 
@@ -71,5 +105,24 @@ class FlagManager<T : Enum<T>>(private val enumClass: Class<T>) {
 		}
 
 		return currentValue
+	}
+
+	/**
+	 * Writes a given [EnumSet] to a [BigInteger] value. Similar to [write], but provides support for an [EnumSet] of more
+	 * than 64 [Enum] values.
+	 *
+	 * @param values The [Enum] values to write to a [BigInteger] format.
+	 *
+	 * @return a [BigInteger] encoded from the [Enum] values.
+	 */
+	fun extensiveWrite(values: EnumSet<T>): BigInteger {
+		var encodedValue = BigInteger.valueOf(0)
+
+		for (value in values) {
+			val offset = getOffsetFor(value)
+			encodedValue = encodedValue.setBit(offset.toInt())
+		}
+
+		return encodedValue
 	}
 }
