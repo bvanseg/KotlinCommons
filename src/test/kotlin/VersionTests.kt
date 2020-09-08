@@ -1,4 +1,5 @@
 import bvanseg.kotlincommons.projects.Version
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 class VersionTests {
@@ -13,21 +14,21 @@ class VersionTests {
         val v010b = Version("0.1.0-beta")
         val v010r = Version("0.1.0-release")
 
-        println(v001.compareTo(v010))
-        println(v010.compareTo(v100))
+        assertEquals(-1, v001.compareTo(v010))
+        assertEquals(-1, v010.compareTo(v100))
 
-        println(v100.compareTo(v010))
-        println(v010.compareTo(v001))
+        assertEquals(1, v100.compareTo(v010))
+        assertEquals(1, v010.compareTo(v001))
 
-        println(v010.compareTo(v010))
+        assertEquals(0, v010a.compareTo(v010b))
+        assertEquals(0, v010b.compareTo(v010a))
 
-        println(v010a.compareTo(v010b))
-        println(v010b.compareTo(v010a))
+        assertEquals(0, v010r.compareTo(v010a))
+        assertEquals(0, v010r.compareTo(v010b))
 
-        println(v010r.compareTo(v010a))
-        println(v010r.compareTo(v010b))
+        assertEquals(0, v010a.compareTo(v010r))
+        assertEquals(0, v010b.compareTo(v010r))
 
-        println(v010a.compareTo(v010r))
-        println(v010b.compareTo(v010r))
+        assertEquals(0, v010.compareTo(v010))
     }
 }

@@ -48,6 +48,7 @@ internal class ByteUnitTest {
         "1048576,       KB, GB, 1",
         "1073741824,    KB, TB, 1"
     )
+    
     fun to(inputVal: Long, inputUnit: ByteUnit, outputUnit: ByteUnit, expectedVal: Long) {
         // Given
         // When

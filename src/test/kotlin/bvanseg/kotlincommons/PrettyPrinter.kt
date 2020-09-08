@@ -11,7 +11,6 @@ class PrettyPrinterTest{
         val string = buildPrettyString {
             append("Hello, world!")
         }
-        println(string)
     }
 
     @ExperimentalStdlibApi
@@ -20,7 +19,6 @@ class PrettyPrinterTest{
         val string = buildPrettyString {
             appendWithNewLine("Hello, world!")
         }
-        println(string)
     }
 
     @ExperimentalStdlibApi
@@ -65,8 +63,7 @@ class PrettyPrinterTest{
             "${PrettyColors.UNDERLINE.ansi}Hello, world!\n${PrettyColors.RESET.ansi}" +
             "${PrettyColors.BOLD.ansi}Hello, world!\n${PrettyColors.RESET.ansi}" +
             "${PrettyColors.ITALIC.ansi}Hello, world!\n${PrettyColors.RESET.ansi}"
-        println(string)
-        println(target)
+
         assert(string == target)
     }
 }

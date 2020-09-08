@@ -13,8 +13,7 @@ class StopwatchTest {
         watch.start()
         Thread.sleep(1000)
         watch.stop()
-
-        assertTrue(watch.getElapsedTime() < 2000000000)
+        assertTrue(watch.getElapsedTime(TimeUnit.MILLISECONDS) >= 999)
     }
 
     @Test
@@ -29,21 +28,7 @@ class StopwatchTest {
         Thread.sleep(1000)
         watch.stop()
 
-        assertTrue(watch.getElapsedTime() < 3000000000)
-    }
-
-    @Test
-    fun testUnitConversion() {
-        val watch = Stopwatch()
-
-        watch.start()
-        Thread.sleep(1000)
-        watch.pause()
-        Thread.sleep(1000)
-        watch.resume()
-        Thread.sleep(1000)
-        watch.stop()
-
-        println(watch.getElapsedTime(TimeUnit.MICROSECONDS))
+        assertTrue(watch.getElapsedTime(TimeUnit.MILLISECONDS) < 2500)
+        assertTrue(watch.getElapsedTime(TimeUnit.MILLISECONDS) >= 1999)
     }
 }

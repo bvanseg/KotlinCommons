@@ -45,14 +45,4 @@ class HashCodeBuilderTest {
             .append(acct)
             .hashCode()
     }
-
-    @Test
-    fun testHasher() {
-        // Given
-        // When
-//        val person = Person()
-//        println(person.hashCode())
-//        person.age++
-//        println(person.hashCode())
-    }
 }

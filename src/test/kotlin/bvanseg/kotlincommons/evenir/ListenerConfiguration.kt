@@ -6,16 +6,10 @@ import bvanseg.kotlincommons.evenir.bus.EventBus
 object BasicListener {
 
     @SubscribeEvent
-    fun parentHandler(parent: Parent)
-    {
-        println("Hello, world! I am the parent!")
-    }
+    fun parentHandler(parent: Parent) = Unit
 
     @SubscribeEvent
-    fun childHandler(child: Child)
-    {
-        println("Hello, world! I am the child!")
-    }
+    fun childHandler(child: Child)  = Unit
 }
 
 open class Parent

@@ -238,16 +238,12 @@ class InternalCommandTest {
 		fun union(data: Union<Int, Float>) {
 			this.getLogger().debug(data.first)
 			this.getLogger().debug(data.second)
-			println(data.first)
-			println(data.second)
 		}
 
 		@Command
 		fun unionTrans(data: Union<BigInteger, BigDecimal>) {
 			this.getLogger().debug(data.first)
 			this.getLogger().debug(data.second)
-			println(data.first)
-			println(data.second)
 		}
 
 		@Command
