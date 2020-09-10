@@ -25,6 +25,7 @@ package bvanseg.kotlincommons.numbers
 
 import bvanseg.kotlincommons.graphics.Color
 import java.text.NumberFormat
+import kotlin.math.log10
 
 private val numberFormat = NumberFormat.getNumberInstance()
 
@@ -53,6 +54,23 @@ fun Number.toColor(): Color = Color(this.toInt())
  * @author bright_spark
  */
 fun Number.isOdd(): Boolean = !isEven()
+
+fun Number.numDigits(): Int = (log10(this.toDouble()) + 1).toInt()
+
+fun Int.getDigits(): IntArray {
+    if(this == 0) return intArrayOf()
+
+    var number = this
+
+    val array = IntArray(this.numDigits())
+    var i = 0
+    while (number > 0) {
+        array[i++] = number % 10
+        number /= 10
+    }
+    array.reverse()
+    return array
+}
 
 /**
  * Returns the value of this [Number] as the number type [T]
