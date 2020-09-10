@@ -8,11 +8,40 @@ import java.util.concurrent.ConcurrentHashMap
  */
 class Cache<K, V>(private val defaultTimeToLiveMS: Long) {
 
-    val map = ConcurrentHashMap<K, CacheEntry<V>>()
+    private val map = ConcurrentHashMap<K, CacheEntry<V>>()
+
+    private val size
+        get() = map.size
+
+    fun isEmpty() = map.isEmpty()
+    fun isNotEmpty() = map.isNotEmpty()
 
     fun give(key: K, value: V, timeToLiveMS: Long = defaultTimeToLiveMS) = insert(createKey(key, timeToLiveMS), value)
 
-    private fun insert(key: CacheKey<K>, value: V) {
+    fun getEntry(key: K): CacheEntry<V>? = synchronized(map) { map[key] }
+
+    fun get(key: K): V? = synchronized(map) {
+        val cacheEntry = map[key]
+
+        val currentTimeMS = System.currentTimeMillis()
+        cacheEntry?.let {
+            return if(currentTimeMS > it.expiration) {
+                null
+            } else {
+                it.value
+            }
+        }
+
+        return null
+    }
+
+    fun getAndInvalidate(key: K): V? = synchronized(map) {
+        val value = getEntry(key)
+        map.remove(key)
+        return value?.value
+    }
+
+    private fun insert(key: CacheKey<K>, value: V) = synchronized(map) {
         map[key.value] = CacheEntry(value, key.timeToLiveMS + System.currentTimeMillis())
     }
 
