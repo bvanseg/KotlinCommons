@@ -41,28 +41,22 @@ class Cache<K, V>(private val defaultTimeToLiveMS: Long) {
 
     fun give(key: K, value: V, timeToLiveMS: Long = defaultTimeToLiveMS) = insert(createKey(key, timeToLiveMS), value)
 
-    fun getEntry(key: K): CacheEntry<V>? = synchronized(map) { map[key] }
+    fun getEntry(key: K): CacheEntry<V>? = map[key]
 
-    fun get(key: K): V? = synchronized(map) {
-        val cacheEntry = map[key]
-
+    fun get(key: K): V? = map.compute(key) { k, entry ->
         val currentTimeMS = System.currentTimeMillis()
-        cacheEntry?.let {
-            return if(currentTimeMS > it.expiration) {
+
+        return@compute entry?.run {
+            if(currentTimeMS >= expiration) {
+                map.remove(k)
                 null
             } else {
-                it.value
+                entry
             }
         }
+    }?.value
 
-        return null
-    }
-
-    fun getAndInvalidate(key: K): V? = synchronized(map) {
-        val value = getEntry(key)
-        map.remove(key)
-        return value?.value
-    }
+    fun getAndInvalidate(key: K): V? = map.remove(key)?.value
 
     private fun insert(key: CacheKey<K>, value: V) = synchronized(map) {
         map[key.value] = CacheEntry(value, key.timeToLiveMS + System.currentTimeMillis())

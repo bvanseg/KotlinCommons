@@ -15,7 +15,7 @@ class CacheTest {
         cache.give(0, "Bob")
 
         // THEN
-        // Test that stored value is stored.
+        // Test that value is actually stored.
         assertEquals("Bob", cache.get(0))
         // Test that the next value is some null value.
         assertEquals(null, cache.get(1))
@@ -38,7 +38,6 @@ class CacheTest {
     fun testCacheFetchInvalidation() {
         // GIVEN
         val cache = Cache<Long, String>(60_000L)
-        cache.give(0, "Bob")
 
         // WHEN
         cache.give(0, "Bob")
