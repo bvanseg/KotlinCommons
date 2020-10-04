@@ -34,6 +34,16 @@ sealed class ByteData(open var value: Long, val type: ByteUnit) {
     data class MegaByte(override var value: Long): ByteData(value, ByteUnit.MB)
     data class GigaByte(override var value: Long): ByteData(value, ByteUnit.GB)
     data class TeraByte(override var value: Long): ByteData(value, ByteUnit.TB)
+
+    companion object {
+        fun createFromType(type: ByteUnit, value: Long) = when (type) {
+            ByteUnit.B -> Byte(value)
+            ByteUnit.KB -> KiloByte(value)
+            ByteUnit.MB -> MegaByte(value)
+            ByteUnit.GB -> GigaByte(value)
+            ByteUnit.TB -> TeraByte(value)
+        }
+    }
 }
 
 val Number.B: ByteData.Byte
@@ -66,6 +76,27 @@ val KB = ByteUnit.KB
 val MB = ByteUnit.MB
 val GB = ByteUnit.GB
 val TB = ByteUnit.TB
+
+operator fun ByteData.plus(other: ByteData): ByteData = when {
+    // Ex. this.type == Kilobytes and other.type == Bytes
+    this.type > other.type -> {
+        val thisAmount = this into other.type
+        val thatAmount = other into other.type
+
+        val total = thisAmount + thatAmount
+
+        ByteData.createFromType(other.type, total)
+    }
+    this.type < other.type || this.type == other.type -> {
+        val thisAmount = this into this.type
+        val thatAmount = other into this.type
+
+        val total = thisAmount + thatAmount
+
+        ByteData.createFromType(this.type, total)
+    }
+    else -> throw RuntimeException("Incomparable types: ${this.type} to ${other.type}")
+}
 
 infix fun ByteData.into(other: ByteUnit): Long {
     return this.type.to(this.value, other)
