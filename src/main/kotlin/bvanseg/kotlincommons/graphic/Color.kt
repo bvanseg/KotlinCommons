@@ -39,16 +39,15 @@ class Color: Serializable {
     var color: Int = 0
 
     constructor(color: Int, alpha: Int = 0xFF) {
-        this.color = color
-        this.color = this.color or (alpha shl 24)
+        this.color = color or (alpha shl 24)
     }
 
     constructor(red: Int, green: Int, blue: Int, alpha: Int = 0xFF) {
-        this.color = this.color or (red shl 16) or (green shl 8) or blue or (alpha shl 24)
+        this.color = 0 or (red shl 16) or (green shl 8) or blue or (alpha shl 24)
     }
 
     constructor(red: Float, green: Float, blue: Float, alpha: Float = 1.0f) {
-        this.color = this.color or ((255 * red).toInt() shl 16) or ((255 * green).toInt() shl 8) or (255 * blue).toInt() or ((255 * alpha).toInt() shl 24)
+        this.color = 0 or ((255 * red).toInt() shl 16) or ((255 * green).toInt() shl 8) or (255 * blue).toInt() or ((255 * alpha).toInt() shl 24)
     }
 
     /**
