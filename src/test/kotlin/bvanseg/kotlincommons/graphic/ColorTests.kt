@@ -11,11 +11,11 @@ class ColorTests {
         val color = Color(0x369BE5)
 
         // When
-        val red = color.getRed()
-        val green = color.getGreen()
-        val blue = color.getBlue()
-        color.setAlpha(0xFA)
-        val alpha = color.getAlpha()
+        val red = color.red
+        val green = color.green
+        val blue = color.blue
+        color.alpha = 0xFA
+        val alpha = color.alpha
 
 
         // Then
@@ -35,15 +35,15 @@ class ColorTests {
         val newColor = redColor + greenColor
 
         // Then
-        assertEquals(0x80, newColor.getRed())
-        assertEquals(0x80, newColor.getGreen())
+        assertEquals(0x80, newColor.red)
+        assertEquals(0x80, newColor.green)
     }
 
     @Test
     fun testQuadColors() {
         // Given
         val color = Color(0xFAEBD7)
-        val quad = color.getRGBA()
+        val quad = color.rgba
 
         // When
         // Then

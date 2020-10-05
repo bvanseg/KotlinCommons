@@ -36,7 +36,89 @@ import kotlin.math.round
  */
 class Color: Serializable {
 
+    lateinit var rgb: Triple<Int, Int, Int>
+    lateinit var rgba: Quad<Int, Int, Int, Int>
+
+    val hue: Int
+        get() {
+            val r = red / 255f
+            val g = green / 255f
+            val b = blue / 255f
+
+            return when {
+                r > g && g >= b -> round(((g-b)/(r-b)) * 60).toInt()
+                g > r && r >= b -> round((2.0 - ((r-b)/(g-b))) * 60).toInt()
+                g >= b && b > r -> round((2.0 + ((b-r)/(g-r))) * 60).toInt()
+                b > g && g > r -> round((4.0 - ((g-r)/(b-r))) * 60).toInt()
+                b > r && r >= g -> round((4.0 + ((r-g)/(b-g))) * 60).toInt()
+                r >= b && b > g -> round((6.0 - ((b-g)/(r-g))) * 60).toInt()
+                else -> -1
+            }
+        }
+
+    val luminance: Int
+        get() {
+            val r = red / 255f
+            val g = green / 255f
+            val b = blue / 255f
+
+            val max = maxOf(r, g, b)
+            val min = minOf(r, g, b)
+
+            return round(((max + min) / 2f) * 100f).toInt()
+        }
+
+    val saturation: Int
+        get() {
+            val r = red / 255f
+            val g = green / 255f
+            val b = blue / 255f
+            val luminance = luminance
+
+            val max = maxOf(r, g, b)
+            val min = minOf(r, g, b)
+
+            return when {
+                luminance / 100f < 1 -> round(((max-min)/(1 - (2 * (luminance/100f) - 1))) * 100).toInt()
+                else -> 0
+            }
+        }
+
+    lateinit var hsl: Triple<Int, Int, Int>
+    lateinit var hsla: Quad<Int, Int, Int, Int>
+
     var color: Int = 0
+        set(value) {
+            field = value
+            rgb = Triple(red, green, blue)
+            rgba = Quad(red, green, blue, alpha)
+            hsl = Triple(hue, saturation, luminance)
+            hsla = Quad(hue, saturation, luminance, alpha)
+        }
+
+    var alpha: Int
+        get() = (color shr 24) and 0xFF
+        set(value) {
+            this.color = 0 or (red shl 16) or (green shl 8) or blue or (value shl 24)
+        }
+
+    var red: Int
+        get() = (color shr 16) and 0xFF
+        set(value) {
+            this.color = 0 or (value shl 16) or (green shl 8) or blue or (alpha shl 24)
+        }
+
+    var green: Int
+        get() = (color shr 8) and 0xFF
+        set(value) {
+            this.color = 0 or (red shl 16) or (value shl 8) or blue or (alpha shl 24)
+        }
+
+    var blue: Int
+        get() = color and 0xFF
+        set(value) {
+            this.color = 0 or (red shl 16) or (green shl 8) or value or (alpha shl 24)
+        }
 
     constructor(color: Int, alpha: Int = 0xFF) {
         this.color = color or (alpha shl 24)
@@ -64,25 +146,25 @@ class Color: Serializable {
         red = (red * (1 - shadeFactor)).toInt()
         green = (green * (1 - shadeFactor)).toInt()
         blue = (blue * (1 - shadeFactor)).toInt()
-        color = 0 or (red shl 16) or (green shl 8) or blue or (getAlpha())
+        color = 0 or (red shl 16) or (green shl 8) or blue or (alpha)
     }
 
     fun shadeRed(shadeFactor: Float): Color = this.apply {
         var red: Int = (color shr 16) and 0xFF
         red = (red * (1 - shadeFactor)).toInt()
-        color = 0 or (red shl 16) or (getGreen() shl 8) or getBlue() or (getAlpha())
+        color = 0 or (red shl 16) or (green shl 8) or blue or (alpha)
     }
 
     fun shadeGreen(shadeFactor: Float): Color = this.apply {
         var green: Int = (color shr 8) and 0xFF
         green = (green * (1 - shadeFactor)).toInt()
-        color = 0 or (getRed() shl 16) or (green shl 8) or getBlue() or (getAlpha())
+        color = 0 or (red shl 16) or (green shl 8) or blue or (alpha)
     }
 
     fun shadeBlue(shadeFactor: Float): Color = this.apply {
         var blue: Int = color and 0xFF
         blue = (blue * (1 - shadeFactor)).toInt()
-        color = 0 or (getRed() shl 16) or (getGreen() shl 8) or blue or (getAlpha())
+        color = 0 or (red shl 16) or (green shl 8) or blue or (alpha)
     }
 
     /**
@@ -99,103 +181,38 @@ class Color: Serializable {
         red = (red * tintFactor).toInt()
         green = (green * tintFactor).toInt()
         blue = (blue * tintFactor).toInt()
-        color = 0 or (red shl 16) or (green shl 8) or blue or (getAlpha())
+        color = 0 or (red shl 16) or (green shl 8) or blue or (alpha)
     }
 
     fun tintRed(tintFactor: Float): Color = this.apply {
         var red: Int = (color shr 16) and 0xFF
         red = (red * tintFactor).toInt()
-        color = 0 or (red shl 16) or (getGreen() shl 8) or getBlue() or (getAlpha())
+        color = 0 or (red shl 16) or (green shl 8) or blue or (alpha)
     }
 
     fun tintGreen(tintFactor: Float): Color = this.apply {
         var green: Int = (color shr 8) and 0xFF
         green = (green * tintFactor).toInt()
-        color = 0 or (getRed() shl 16) or (green shl 8) or getBlue() or (getAlpha())
+        color = 0 or (red shl 16) or (green shl 8) or blue or (alpha)
     }
 
     fun tintBlue(tintFactor: Float): Color = this.apply {
         var blue: Int = color and 0xFF
         blue = (blue * tintFactor).toInt()
-        color = 0 or (getRed() shl 16) or (getGreen() shl 8) or blue or (getAlpha())
+        color = 0 or (red shl 16) or (green shl 8) or blue or (alpha)
     }
 
     /** OPERATORS **/
 
     operator fun plus(otherColor: Color) = this.apply {
-        setRed(ceil((otherColor.getRed() + this.getRed()) / 2.0).toInt())
-        setGreen(ceil((otherColor.getGreen() + this.getGreen()) / 2.0).toInt())
-        setBlue(ceil((otherColor.getBlue() + this.getBlue()) / 2.0).toInt())
-        setAlpha(ceil((otherColor.getAlpha() + this.getAlpha()) / 2.0).toInt())
+        red = ceil((otherColor.red + this.red) / 2.0).toInt()
+        green = ceil((otherColor.green + this.green) / 2.0).toInt()
+        blue = ceil((otherColor.blue + this.blue) / 2.0).toInt()
+        alpha = ceil((otherColor.alpha + this.alpha) / 2.0).toInt()
     }
 
-    fun getAlpha(): Int = (color shr 24) and 0xFF
-    fun getRed(): Int = (color shr 16) and 0xFF
-    fun getGreen(): Int = (color shr 8) and 0xFF
-    fun getBlue(): Int = color and 0xFF
-    fun getRGB(): Triple<Int, Int, Int> = Triple(getRed(), getGreen(), getBlue())
-    fun getRGBA(): Quad<Int, Int, Int, Int> = Quad(getRed(), getGreen(), getBlue(), getAlpha())
-    fun getHSL(): Triple<Int, Int, Int> = Triple(getHue(), getSaturation(), getLuminance())
-    fun getHSLA(): Quad<Int, Int, Int, Int> = Quad(getHue(), getSaturation(), getLuminance(), getAlpha())
-
-    fun setAlpha(value: Int) {
-        this.color = 0 or (getRed() shl 16) or (getGreen() shl 8) or getBlue() or (value shl 24)
-    }
-
-    fun setRed(value: Int) {
-        this.color = 0 or (value shl 16) or (getGreen() shl 8) or getBlue() or (getAlpha() shl 24)
-    }
-
-    fun setGreen(value: Int) {
-        this.color = 0 or (getRed() shl 16) or (value shl 8) or getBlue() or (getAlpha() shl 24)
-    }
-
-    fun setBlue(value: Int) {
-        this.color = 0 or (getRed() shl 16) or (getGreen() shl 8) or value or (getAlpha() shl 24)
-    }
-
-    fun getLuminance(): Int {
-        val r = getRed() / 255f
-        val g = getGreen() / 255f
-        val b = getBlue() / 255f
-
-        val max = maxOf(r, g, b)
-        val min = minOf(r, g, b)
-
-        return round(((max + min) / 2f) * 100f).toInt()
-    }
-
-    fun getSaturation(): Int {
-        val r = getRed() / 255f
-        val g = getGreen() / 255f
-        val b = getBlue() / 255f
-        val luminance = getLuminance()
-
-        val max = maxOf(r, g, b)
-        val min = minOf(r, g, b)
-
-        return when {
-            luminance / 100f < 1 -> round(((max-min)/(1 - (2 * (getLuminance()/100f) - 1))) * 100).toInt()
-            else -> 0
-        }
-    }
-
-    fun getHue(): Int {
-        val r = getRed() / 255f
-        val g = getGreen() / 255f
-        val b = getBlue() / 255f
-
-        when {
-            r > g && g >= b -> return round((((g-b)/(r-b))) * 60).toInt()
-            g > r && r >= b -> return round((2.0 - ((r-b)/(g-b))) * 60).toInt()
-            g >= b && b > r -> return round((2.0 + ((b-r)/(g-r))) * 60).toInt()
-            b > g && g > r -> return round((4.0 - ((g-r)/(b-r))) * 60).toInt()
-            b > r && r >= g -> return round((4.0 + ((r-g)/(b-g))) * 60).toInt()
-            r >= b && b > g -> return round((6.0 - ((b-g)/(r-g))) * 60).toInt()
-        }
-
-        return -1
-    }
+    override fun equals(other: Any?): Boolean = other is Color && this.color == other.color
+    override fun hashCode() = color
 
     @Suppress("unused")
     companion object {
