@@ -23,6 +23,7 @@
  */
 package bvanseg.kotlincommons.graphic
 
+import bvanseg.kotlincommons.comparable.clamp
 import bvanseg.kotlincommons.tuple.Quad
 import java.io.Serializable
 import kotlin.math.ceil
@@ -121,15 +122,15 @@ class Color: Serializable {
         }
 
     constructor(color: Int, alpha: Int = 0xFF) {
-        this.color = color or (alpha shl 24)
+        this.color = color or (clamp(alpha, 0, 255) shl 24)
     }
 
     constructor(red: Int, green: Int, blue: Int, alpha: Int = 0xFF) {
-        this.color = 0 or (red shl 16) or (green shl 8) or blue or (alpha shl 24)
+        this.color = 0 or (clamp(red, 0, 255) shl 16) or (clamp(green, 0, 255) shl 8) or clamp(blue, 0, 255) or (clamp(alpha, 0, 255) shl 24)
     }
 
     constructor(red: Float, green: Float, blue: Float, alpha: Float = 1.0f) {
-        this.color = 0 or ((255 * red).toInt() shl 16) or ((255 * green).toInt() shl 8) or (255 * blue).toInt() or ((255 * alpha).toInt() shl 24)
+        this.color = 0 or ((255 * clamp(red, 0.0f, 1.0f)).toInt() shl 16) or ((255 * clamp(green, 0.0f, 1.0f)).toInt() shl 8) or (255 * clamp(blue, 0.0f, 1.0f)).toInt() or ((255 * clamp(alpha, 0.0f, 1.0f)).toInt() shl 24)
     }
 
     /**
