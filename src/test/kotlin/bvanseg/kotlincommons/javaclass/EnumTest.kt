@@ -1,5 +1,6 @@
 package bvanseg.kotlincommons.javaclass
 
+import bvanseg.kotlincommons.enum.enumValueOfOrNull
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
