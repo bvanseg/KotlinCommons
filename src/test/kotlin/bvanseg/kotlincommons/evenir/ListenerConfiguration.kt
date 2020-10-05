@@ -1,7 +1,6 @@
 package bvanseg.kotlincommons.evenir
 
-import bvanseg.kotlincommons.evenir.annotations.SubscribeEvent
-import bvanseg.kotlincommons.evenir.bus.EventBus
+import bvanseg.kotlincommons.evenir.annotation.SubscribeEvent
 
 object BasicListener {
 

@@ -24,7 +24,7 @@
 package bvanseg.kotlincommons
 
 import bvanseg.kotlincommons.any.getLogger
-import bvanseg.kotlincommons.projects.Version
+import bvanseg.kotlincommons.project.Version
 
 /**
  * An object representing KotlinCommons, storing miscellaneous data about the overall project.
@@ -37,7 +37,7 @@ object KotlinCommons {
     /**
      * The version of KotlinCommons.
      */
-    val VERSION = Version(2, 5, 2)
+    val VERSION = Version(2, 6, 0)
 
     val KC_LOGGER = getLogger()
 }

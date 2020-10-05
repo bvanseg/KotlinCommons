@@ -1,8 +1,8 @@
 package bvanseg.kotlincommons.fp.monads
 
-import bvanseg.kotlincommons.fp.dataclasses.Option
-import bvanseg.kotlincommons.fp.dataclasses.none
-import bvanseg.kotlincommons.fp.dataclasses.some
+import bvanseg.kotlincommons.fp.dataclass.Option
+import bvanseg.kotlincommons.fp.dataclass.none
+import bvanseg.kotlincommons.fp.dataclass.some
 import org.junit.jupiter.api.Test
 
 class OptionTest{

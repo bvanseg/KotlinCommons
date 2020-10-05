@@ -24,9 +24,9 @@
 package bvanseg.kotlincommons.evenir.bus
 
 import bvanseg.kotlincommons.any.getLogger
-import bvanseg.kotlincommons.evenir.annotations.SubscribeEvent
+import bvanseg.kotlincommons.evenir.annotation.SubscribeEvent
 import bvanseg.kotlincommons.evenir.event.InternalEvent
-import bvanseg.kotlincommons.kclasses.getKClass
+import bvanseg.kotlincommons.kclass.getKClass
 import kotlin.reflect.full.findAnnotation
 import kotlin.reflect.full.memberFunctions
 import kotlin.reflect.full.superclasses

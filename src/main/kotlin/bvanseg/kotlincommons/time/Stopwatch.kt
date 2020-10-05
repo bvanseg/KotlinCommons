@@ -23,7 +23,7 @@
  */
 package bvanseg.kotlincommons.time
 
-import bvanseg.kotlincommons.collections.iterables.sumByLong
+import bvanseg.kotlincommons.collection.iterable.sumByLong
 import java.lang.RuntimeException
 import java.util.concurrent.TimeUnit
 

@@ -1,9 +1,9 @@
 package bvanseg.kotlincommons.fp.monads
 
-import bvanseg.kotlincommons.fp.dataclasses.Either
-import bvanseg.kotlincommons.fp.dataclasses.flatMap
-import bvanseg.kotlincommons.fp.dataclasses.left
-import bvanseg.kotlincommons.fp.dataclasses.right
+import bvanseg.kotlincommons.fp.dataclass.Either
+import bvanseg.kotlincommons.fp.dataclass.flatMap
+import bvanseg.kotlincommons.fp.dataclass.left
+import bvanseg.kotlincommons.fp.dataclass.right
 import org.junit.jupiter.api.Test
 
 class EitherTest{

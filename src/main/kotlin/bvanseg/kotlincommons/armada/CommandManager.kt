@@ -24,16 +24,16 @@
 package bvanseg.kotlincommons.armada
 
 import bvanseg.kotlincommons.any.getLogger
-import bvanseg.kotlincommons.armada.annotations.*
-import bvanseg.kotlincommons.armada.commands.BaseCommand
-import bvanseg.kotlincommons.armada.commands.CommandModule
-import bvanseg.kotlincommons.armada.commands.InternalCommand
-import bvanseg.kotlincommons.armada.contexts.Context
-import bvanseg.kotlincommons.armada.contexts.EmptyContext
-import bvanseg.kotlincommons.armada.events.*
-import bvanseg.kotlincommons.armada.exceptions.DuplicateTransformerException
-import bvanseg.kotlincommons.armada.gears.Gear
-import bvanseg.kotlincommons.armada.transformers.*
+import bvanseg.kotlincommons.armada.annotation.*
+import bvanseg.kotlincommons.armada.command.BaseCommand
+import bvanseg.kotlincommons.armada.command.CommandModule
+import bvanseg.kotlincommons.armada.command.InternalCommand
+import bvanseg.kotlincommons.armada.context.Context
+import bvanseg.kotlincommons.armada.context.EmptyContext
+import bvanseg.kotlincommons.armada.event.*
+import bvanseg.kotlincommons.armada.exception.DuplicateTransformerException
+import bvanseg.kotlincommons.armada.gear.Gear
+import bvanseg.kotlincommons.armada.transformer.*
 import bvanseg.kotlincommons.evenir.bus.EventBus
 import kotlin.collections.set
 import kotlin.reflect.KClass

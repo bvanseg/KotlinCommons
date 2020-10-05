@@ -1,4 +1,4 @@
-import bvanseg.kotlincommons.projects.Version
+import bvanseg.kotlincommons.project.Version
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 

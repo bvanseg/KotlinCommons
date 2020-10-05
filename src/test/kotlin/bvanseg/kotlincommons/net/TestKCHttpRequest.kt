@@ -1,5 +1,6 @@
 package bvanseg.kotlincommons.net
 
+import bvanseg.kotlincommons.net.http.httpRequest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 

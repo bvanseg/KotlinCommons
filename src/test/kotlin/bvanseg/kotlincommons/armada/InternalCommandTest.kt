@@ -1,14 +1,14 @@
 package bvanseg.kotlincommons.armada
 
 import bvanseg.kotlincommons.any.getLogger
-import bvanseg.kotlincommons.armada.annotations.Command
-import bvanseg.kotlincommons.armada.annotations.IntRange
-import bvanseg.kotlincommons.armada.commands.CommandModule
-import bvanseg.kotlincommons.armada.commands.InternalCommand
-import bvanseg.kotlincommons.armada.contexts.EmptyContext
-import bvanseg.kotlincommons.armada.gears.Gear
-import bvanseg.kotlincommons.armada.utilities.Argument
-import bvanseg.kotlincommons.armada.utilities.Union
+import bvanseg.kotlincommons.armada.annotation.Command
+import bvanseg.kotlincommons.armada.annotation.IntRange
+import bvanseg.kotlincommons.armada.command.CommandModule
+import bvanseg.kotlincommons.armada.command.InternalCommand
+import bvanseg.kotlincommons.armada.context.EmptyContext
+import bvanseg.kotlincommons.armada.gear.Gear
+import bvanseg.kotlincommons.armada.util.Argument
+import bvanseg.kotlincommons.armada.util.Union
 import bvanseg.kotlincommons.logging.debug
 import com.nhaarman.mockitokotlin2.anyOrNull
 import com.nhaarman.mockitokotlin2.argumentCaptor
@@ -18,9 +18,7 @@ import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
-import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments.arguments
-import org.junit.jupiter.params.provider.MethodSource
 import org.mockito.Mockito
 import java.math.BigDecimal
 import java.math.BigInteger
