@@ -224,6 +224,9 @@ class Color: Serializable {
         val GREEN by lazy { Color(0, 0xFF, 0) }
         val BLUE by lazy { Color(0, 0, 0xFF) }
 
+        /** NOTEWORTHY COLORS **/
+        val BLURPLE by lazy { Color(0x7289DA) } // Discord
+
         /** BROWSER-COMPLIANT COLORS **/
         val ALICE_BLUE by lazy { Color(0xF0F8FF) }
         val ANTIQUE_WHITE by lazy { Color(0xFAEBD7) }
