@@ -25,6 +25,7 @@ package bvanseg.kotlincommons.string
 
 import java.net.URI
 import java.net.URL
+import java.util.*
 
 fun List<String>.joinStrings(startIndex: Int = 0, endIndex: Int = -1): String {
     val sb = StringBuilder()
@@ -63,6 +64,14 @@ fun String.toURI(): URI = URI.create(this)
  * @since 2.1.6
  */
 fun String.toURL(): URL = URL(this)
+
+/**
+ * Encodes a String to [Base64].
+ *
+ * @author Boston Vanseghi
+ * @since 2.6.0
+ */
+fun String.toBase64(): String = Base64.getEncoder().encodeToString(this.toByteArray(Charsets.US_ASCII))
 
 /**
  * Returns a truncated string containing the first [n] characters from this string, or the entire string if this string
