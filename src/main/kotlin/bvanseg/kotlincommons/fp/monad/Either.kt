@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package bvanseg.kotlincommons.fp.dataclass
+package bvanseg.kotlincommons.fp.monad
 
 import bvanseg.kotlincommons.fp.Kind2
 
