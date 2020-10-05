@@ -43,4 +43,4 @@ fun <T> createNewInstance(clazz: Class<T>, parameterTypes: Array<Class<*>>?, var
 /**
  * Returns an enum entry with the specified name or `null` if no such entry was found.
  */
-inline fun <reified T : Enum<T>> enumValueOfOrNull(name: String): T? = enumValues<T>().find { it.name == name }
+inline fun <reified T : Enum<T>> enumValueOfOrNull(name: String?): T? = if (name == null) null else enumValues<T>().find { it.name == name }
