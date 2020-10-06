@@ -100,25 +100,25 @@ class Color: Serializable {
     var alpha: Int
         get() = (color shr 24) and 0xFF
         set(value) {
-            this.color = 0 or (red shl 16) or (green shl 8) or blue or (value shl 24)
+            this.color = 0 or (red shl 16) or (green shl 8) or blue or (clamp(value, 0, 255) shl 24)
         }
 
     var red: Int
         get() = (color shr 16) and 0xFF
         set(value) {
-            this.color = 0 or (value shl 16) or (green shl 8) or blue or (alpha shl 24)
+            this.color = 0 or (clamp(value, 0, 255) shl 16) or (green shl 8) or blue or (alpha shl 24)
         }
 
     var green: Int
         get() = (color shr 8) and 0xFF
         set(value) {
-            this.color = 0 or (red shl 16) or (value shl 8) or blue or (alpha shl 24)
+            this.color = 0 or (red shl 16) or (clamp(value, 0, 255) shl 8) or blue or (alpha shl 24)
         }
 
     var blue: Int
         get() = color and 0xFF
         set(value) {
-            this.color = 0 or (red shl 16) or (green shl 8) or value or (alpha shl 24)
+            this.color = 0 or (red shl 16) or (green shl 8) or clamp(value, 0, 255) or (alpha shl 24)
         }
 
     constructor(color: Int, alpha: Int = 0xFF) {
