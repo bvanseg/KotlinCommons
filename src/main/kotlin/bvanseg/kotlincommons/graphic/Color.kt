@@ -100,25 +100,25 @@ class Color: Serializable {
     var alpha: Int
         get() = (color shr 24) and 0xFF
         set(value) {
-            this.color = 0 or (red shl 16) or (green shl 8) or blue or (clamp(value, 0, 255) shl 24)
+            setColor(alpha = clamp(value, 0, 255))
         }
 
     var red: Int
         get() = (color shr 16) and 0xFF
         set(value) {
-            this.color = 0 or (clamp(value, 0, 255) shl 16) or (green shl 8) or blue or (alpha shl 24)
+            setColor(red = clamp(value, 0, 255))
         }
 
     var green: Int
         get() = (color shr 8) and 0xFF
         set(value) {
-            this.color = 0 or (red shl 16) or (clamp(value, 0, 255) shl 8) or blue or (alpha shl 24)
+            setColor(green = clamp(value, 0, 255))
         }
 
     var blue: Int
         get() = color and 0xFF
         set(value) {
-            this.color = 0 or (red shl 16) or (green shl 8) or clamp(value, 0, 255) or (alpha shl 24)
+            setColor(blue = clamp(value, 0, 255))
         }
 
     constructor(color: Int, alpha: Int = 0xFF) {
@@ -131,6 +131,10 @@ class Color: Serializable {
 
     constructor(red: Float, green: Float, blue: Float, alpha: Float = 1.0f) {
         this.color = 0 or ((255 * clamp(red, 0.0f, 1.0f)).toInt() shl 16) or ((255 * clamp(green, 0.0f, 1.0f)).toInt() shl 8) or (255 * clamp(blue, 0.0f, 1.0f)).toInt() or ((255 * clamp(alpha, 0.0f, 1.0f)).toInt() shl 24)
+    }
+
+    private fun setColor(red: Int = this.red, blue: Int = this.blue, green: Int = this.green, alpha: Int = this.alpha) {
+        color = 0 or (red shl 16) or (green shl 8) or blue or (alpha shl 24)
     }
 
     /**
@@ -147,25 +151,25 @@ class Color: Serializable {
         red = (red * (1 - shadeFactor)).toInt()
         green = (green * (1 - shadeFactor)).toInt()
         blue = (blue * (1 - shadeFactor)).toInt()
-        color = 0 or (red shl 16) or (green shl 8) or blue or (alpha)
+        setColor(red, blue, green)
     }
 
     fun shadeRed(shadeFactor: Float): Color = this.apply {
         var red: Int = (color shr 16) and 0xFF
         red = (red * (1 - shadeFactor)).toInt()
-        color = 0 or (red shl 16) or (green shl 8) or blue or (alpha)
+        setColor(red = red)
     }
 
     fun shadeGreen(shadeFactor: Float): Color = this.apply {
         var green: Int = (color shr 8) and 0xFF
         green = (green * (1 - shadeFactor)).toInt()
-        color = 0 or (red shl 16) or (green shl 8) or blue or (alpha)
+        setColor(green = green)
     }
 
     fun shadeBlue(shadeFactor: Float): Color = this.apply {
         var blue: Int = color and 0xFF
         blue = (blue * (1 - shadeFactor)).toInt()
-        color = 0 or (red shl 16) or (green shl 8) or blue or (alpha)
+        setColor(blue = blue)
     }
 
     /**
@@ -182,25 +186,25 @@ class Color: Serializable {
         red = (red * tintFactor).toInt()
         green = (green * tintFactor).toInt()
         blue = (blue * tintFactor).toInt()
-        color = 0 or (red shl 16) or (green shl 8) or blue or (alpha)
+        setColor(red, green, blue)
     }
 
     fun tintRed(tintFactor: Float): Color = this.apply {
         var red: Int = (color shr 16) and 0xFF
         red = (red * tintFactor).toInt()
-        color = 0 or (red shl 16) or (green shl 8) or blue or (alpha)
+        setColor(red = red)
     }
 
     fun tintGreen(tintFactor: Float): Color = this.apply {
         var green: Int = (color shr 8) and 0xFF
         green = (green * tintFactor).toInt()
-        color = 0 or (red shl 16) or (green shl 8) or blue or (alpha)
+        setColor(green = green)
     }
 
     fun tintBlue(tintFactor: Float): Color = this.apply {
         var blue: Int = color and 0xFF
         blue = (blue * tintFactor).toInt()
-        color = 0 or (red shl 16) or (green shl 8) or blue or (alpha)
+        setColor(blue = blue)
     }
 
     /** OPERATORS **/
