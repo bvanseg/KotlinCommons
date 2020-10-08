@@ -26,11 +26,22 @@ package bvanseg.kotlincommons.any
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.util.*
+import kotlin.reflect.full.companionObject
+import kotlin.reflect.full.companionObjectInstance
 
 /**
  * Allows any class to get a logger of itself.
  */
-fun Any.getLogger(): Logger = LoggerFactory.getLogger(this::class.java)
+fun Any.getLogger(): Logger {
+	val klass = this::class
+	val clazz = klass.java
+
+	return if (klass.isCompanion) {
+		LoggerFactory.getLogger(clazz.declaringClass)
+	} else {
+		LoggerFactory.getLogger(clazz)
+	}
+}
 
 /**
  * Converts any Object to an [Optional].
