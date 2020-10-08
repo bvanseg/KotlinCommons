@@ -50,7 +50,7 @@ class RateLimiter<T>(val tokenBucket: TokenBucket, private val service: Schedule
                 val pair = tokenBucket.tryConsume(it.first, it.second)
 
                 if (pair.first) {
-                    ratelimiter.logger.trace("Executed queued submission: TokenBucket (${tokenBucket.currentTokenCount}/${tokenBucket.tokenLimit}).")
+                    logger.trace("Executed queued submission: TokenBucket (${tokenBucket.currentTokenCount}/${tokenBucket.tokenLimit}).")
                 } else {
                     q.addFirst(it.first to it.second)
                 }
@@ -59,7 +59,9 @@ class RateLimiter<T>(val tokenBucket: TokenBucket, private val service: Schedule
     }, tokenBucket.refillTime, tokenBucket.refillTime, TimeUnit.MILLISECONDS)
 }) {
 
-    val logger = getLogger()
+    companion object {
+        val logger = getLogger()
+    }
     private val blockingCount = AtomicLong(0)
     private val queue = ConcurrentLinkedDeque<Pair<Long, () -> Unit>>()
 

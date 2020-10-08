@@ -39,7 +39,14 @@ import kotlin.reflect.full.valueParameters
  * @since 2.1.0
  */
 class EventBus {
-    private val log = getLogger()
+
+    companion object {
+        @JvmStatic
+        val DEFAULT = EventBus()
+
+        private val logger = getLogger()
+    }
+
     private val listeners: MutableList<Any> = mutableListOf()
     private val events: HashMap<Class<*>, MutableList<InternalEvent>> = hashMapOf()
 
@@ -53,15 +60,15 @@ class EventBus {
 
                 events[clazz]?.let {
                     if (it.add(event))
-                        log.debug("Successfully added event $event with parameter type $clazz for listener $listener")
-                } ?: log.warn("Failed to add event $event for listener $listener!")
+                        logger.debug("Successfully added event $event with parameter type $clazz for listener $listener")
+                } ?: logger.warn("Failed to add event $event for listener $listener!")
 
             }
                 ?: throw RuntimeException("Failed to add event listener. Subscribed event function must have a single parameter!")
         }
 
         listeners.add(listener)
-        log.debug("Successfully added listener $listener")
+        logger.debug("Successfully added listener $listener")
     }
 
     fun removeListener(listener: Any) = listeners.remove(listener)
@@ -69,7 +76,7 @@ class EventBus {
     fun fire(e: Any) {
         events[e::class.java]?.let { list ->
             list.forEach {
-                log.debug("Firing event $it with object $e")
+                logger.debug("Firing event $it with object $e")
                 it.invoke(e)
             }
 
@@ -83,10 +90,5 @@ class EventBus {
                 }
             }
         }
-    }
-
-    companion object {
-        @JvmStatic
-        val DEFAULT = EventBus()
     }
 }

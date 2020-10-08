@@ -48,7 +48,9 @@ data class TokenBucket(
     var lastUpdate = initUpdate
         private set
 
-    private val logger = getLogger()
+    companion object {
+        private val logger = getLogger()
+    }
 
     private val lock = ReentrantLock(true)
 
@@ -74,7 +76,7 @@ data class TokenBucket(
     fun isEmpty() = currentTokenCount == 0L
     fun isNotEmpty() = currentTokenCount > 0L
 
-    fun <R> tryConsume(amount: Long = 1, callback: () -> R): Pair<Boolean, R?> {
+    fun <R> tryConsume(amount: Long = 1, callback: () -> R?): Pair<Boolean, R?> {
         if (amount < 0) {
             throw IllegalArgumentException("Consume amount may not be negative!")
         }

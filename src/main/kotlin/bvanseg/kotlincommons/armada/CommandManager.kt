@@ -49,7 +49,20 @@ import kotlin.reflect.full.memberFunctions
  * @since 2.1.0
  */
 class CommandManager<T : Any>(val prefix: String = "!") {
-    private val log = getLogger()
+
+    companion object {
+        private val logger = getLogger()
+
+        val ranges = listOf(
+                ByteRange::class,
+                ShortRange::class,
+                IntRange::class,
+                FloatRange::class,
+                DoubleRange::class,
+                LongRange::class
+        )
+    }
+
     var capsInsensitive = true
     val commandModules = hashMapOf<String, CommandModule>()
     val gears = arrayListOf<Gear>()
@@ -81,17 +94,6 @@ class CommandManager<T : Any>(val prefix: String = "!") {
                 BigDecimalTransformer,
                 TimeUnitTransformer
             )
-    }
-
-    companion object {
-        val ranges = listOf(
-            ByteRange::class,
-            ShortRange::class,
-            IntRange::class,
-            FloatRange::class,
-            DoubleRange::class,
-            LongRange::class
-        )
     }
 
     /**
@@ -133,7 +135,7 @@ class CommandManager<T : Any>(val prefix: String = "!") {
 
         val commandNameAndArgs = splitCommand(stripPrefix(rawCommand, commandPrefix))
         var commandName = commandNameAndArgs.first
-        log.debug("Receiving command: $commandName with prefix $commandPrefix")
+        logger.debug("Receiving command: $commandName with prefix $commandPrefix")
 
         if (capsInsensitive)
             commandName = commandName.toLowerCase()
@@ -143,7 +145,7 @@ class CommandManager<T : Any>(val prefix: String = "!") {
 
         commandModules[commandName]?.let {
             val args = commandNameAndArgs.second
-            log.debug("Executing command ($commandName) from CommandModule (${it.tag})")
+            logger.debug("Executing command ($commandName) from CommandModule (${it.tag})")
             val command = it.findCandidateCommand(args, context)
             command?.let { cmd ->
                 val pre = CommandExecuteEvent.Pre(this, cmd, context)
@@ -155,7 +157,7 @@ class CommandManager<T : Any>(val prefix: String = "!") {
                 return result
             }
         }
-        log.debug("Command $commandName does not exist!")
+        logger.debug("Command $commandName does not exist!")
         return null
     }
 
@@ -208,7 +210,7 @@ class CommandManager<T : Any>(val prefix: String = "!") {
             module.commands.add(com)
             gear.commands.add(com)
             eventBus.fire(post)
-            log.debug("Registered base command (${com.name}) for gear (${gear::class})")
+            logger.debug("Registered base command (${com.name}) for gear (${gear::class})")
         }
     }
 
@@ -229,7 +231,7 @@ class CommandManager<T : Any>(val prefix: String = "!") {
         val post = GearAddEvent.Post(gear, this)
         eventBus.fire(pre)
         if(pre.isCancelled) return
-        log.debug("Registering gear ${gear::class}...")
+        logger.debug("Registering gear ${gear::class}...")
         gear.commandManager = this
         gears.add(gear)
         gear::class.memberFunctions.filter { it.findAnnotation<Command>() != null }.forEach { method ->
@@ -254,11 +256,11 @@ class CommandManager<T : Any>(val prefix: String = "!") {
 
             module.commands.add(command)
             gear.commands.add(command)
-            log.debug("Registered command (${command.name}) for gear (${gear::class})")
+            logger.debug("Registered command (${command.name}) for gear (${gear::class})")
         }
 
         eventBus.fire(post)
-        log.debug("Successfully registered gear (${gear::class})")
+        logger.debug("Successfully registered gear (${gear::class})")
     }
 
     /**
@@ -275,7 +277,7 @@ class CommandManager<T : Any>(val prefix: String = "!") {
 
         transformers[transformer.type] = transformer
         eventBus.fire(post)
-        log.debug("Registered transformer with type (${transformer.type})")
+        logger.debug("Registered transformer with type (${transformer.type})")
     }
 
     /**
