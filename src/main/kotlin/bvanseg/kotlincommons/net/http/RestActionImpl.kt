@@ -23,10 +23,34 @@
  */
 package bvanseg.kotlincommons.net.http
 
+import com.fasterxml.jackson.core.type.TypeReference
+import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 
-class RestActionImpl<T>(private val request: HttpRequest, val type: Class<T>): RestAction<T>() {
+/**
+ * An implementation of the [RestAction] class inspired by JDA (Java Discord REST-API Wrapper).
+ *
+ * This implementation makes use of the default [KCHttp.DEFAULT_HTTP_CLIENT] found in [KCHttp]. This implementation also
+ * features an operator overload for constructor invocation in order to make use of the type [T] as a reified generic
+ * parameter. This is necessary in order to construct a [TypeReference], which persists the full generic parameter at
+ * runtime, allowing support for complex generic parameter types such as [Collection]s.
+ *
+ * @param request The [HttpRequest] the [RestAction] will act upon.
+ * @param type The generic parameter [T] as a [Class] object.
+ * @param typeReference The special Jackson class used to persist complex generic parameters at runtime.
+ *
+ * @author Boston Vanseghi
+ * @since 2.3.0
+ */
+class RestActionImpl<T>(private val request: HttpRequest, private val type: Class<T>, private val typeReference: TypeReference<T>): RestAction<T>() {
+
+    companion object {
+        inline operator fun <reified T : Any>invoke(request: HttpRequest): RestActionImpl<T> {
+            return RestActionImpl(request, T::class.java, jacksonTypeRef())
+        }
+    }
+
 
     override fun queueImpl() {
         KCHttp.DEFAULT_HTTP_CLIENT.sendAsync(request, HttpResponse.BodyHandlers.discarding()).thenAcceptAsync {
@@ -37,12 +61,13 @@ class RestActionImpl<T>(private val request: HttpRequest, val type: Class<T>): R
     override fun queueImpl(callback: (T) -> Unit) {
         KCHttp.DEFAULT_HTTP_CLIENT.sendAsync(request, HttpResponse.BodyHandlers.ofString()).thenAcceptAsync { response ->
             try {
-                if (response.body().isNotEmpty() && type != HttpResponse::class.java && type != String::class.java)
-                    callback(KCHttp.jsonMapper.readValue(response.body(), type))
-                else if(type == HttpResponse::class.java)
+                if (response.body().isNotEmpty() && type != HttpResponse::class.java && type != String::class.java) {
+                    callback(KCHttp.jsonMapper.readValue(response.body(), typeReference))
+                } else if(type == HttpResponse::class.java) {
                     callback(response as T)
-                else if(type == String::class.java)
+                } else if(type == String::class.java) {
                     callback(response.body() as T)
+                }
 
                 successCallback?.invoke(response)
             } catch (e: Exception) {
@@ -56,7 +81,7 @@ class RestActionImpl<T>(private val request: HttpRequest, val type: Class<T>): R
         val response = KCHttp.DEFAULT_HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString())
 
         return if (response.body().isNotEmpty())
-            KCHttp.jsonMapper.readValue(response.body(), type)
+            KCHttp.jsonMapper.readValue(response.body(), typeReference)
         else
             response as T
     }
