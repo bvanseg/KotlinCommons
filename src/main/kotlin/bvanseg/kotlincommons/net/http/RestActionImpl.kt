@@ -65,14 +65,15 @@ open class RestActionImpl<T>(private val request: HttpRequest, private val type:
 
     override fun queueImpl() {
         client.sendAsync(request, HttpResponse.BodyHandlers.discarding()).whenComplete { response, throwable ->
+            throwable?.let { e ->
+                exceptionCallback?.invoke(e)
+                return@whenComplete
+            }
+
             if(response.statusCode() in 400..599) {
                 errorCallback?.invoke(response)
             } else {
                 successCallback?.invoke(response)
-            }
-
-            throwable?.let { e ->
-                exceptionCallback?.invoke(e)
             }
         }
     }
@@ -80,6 +81,12 @@ open class RestActionImpl<T>(private val request: HttpRequest, private val type:
     override fun queueImpl(callback: (T) -> Unit) {
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString()).whenComplete { response, throwable ->
             try {
+
+                throwable?.let { e ->
+                    exceptionCallback?.invoke(e)
+                    return@whenComplete
+                }
+
                 // Invoked no matter what.
                 if(response.statusCode() in 400..599) {
                     errorCallback?.invoke(response)
@@ -105,10 +112,6 @@ open class RestActionImpl<T>(private val request: HttpRequest, private val type:
                     callback(Optional.empty<Any>() as T)
                 }
             } catch (e: Exception) {
-                exceptionCallback?.invoke(e)
-            }
-
-            throwable?.let { e ->
                 exceptionCallback?.invoke(e)
             }
         }
