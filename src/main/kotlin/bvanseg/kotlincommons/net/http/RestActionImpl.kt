@@ -23,6 +23,7 @@
  */
 package bvanseg.kotlincommons.net.http
 
+import bvanseg.kotlincommons.any.getLogger
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import java.net.http.HttpClient
@@ -48,23 +49,36 @@ import java.util.*
 open class RestActionImpl<T>(private val request: HttpRequest, private val type: Class<T>, private val typeReference: TypeReference<T>, private val client: HttpClient = KCHttp.DEFAULT_HTTP_CLIENT): RestAction<T>() {
 
     companion object {
+
+        val logger = getLogger()
+
         inline operator fun <reified T : Any>invoke(request: HttpRequest): RestActionImpl<T> {
             return RestActionImpl(request, T::class.java, jacksonTypeRef())
         }
     }
 
+    init {
+        this.exceptionCallback = {
+            logger.error("An exception has occurred while executing a RestAction", it)
+        }
+    }
+
     override fun queueImpl() {
-        client.sendAsync(request, HttpResponse.BodyHandlers.discarding()).thenAcceptAsync { response ->
+        client.sendAsync(request, HttpResponse.BodyHandlers.discarding()).whenComplete { response, throwable ->
             if(response.statusCode() in 400..599) {
                 errorCallback?.invoke(response)
             } else {
                 successCallback?.invoke(response)
             }
+
+            throwable?.let { e ->
+                exceptionCallback?.invoke(e)
+            }
         }
     }
 
     override fun queueImpl(callback: (T) -> Unit) {
-        client.sendAsync(request, HttpResponse.BodyHandlers.ofString()).thenAcceptAsync { response ->
+        client.sendAsync(request, HttpResponse.BodyHandlers.ofString()).whenComplete { response, throwable ->
             try {
                 // Invoked no matter what.
                 if(response.statusCode() in 400..599) {
@@ -77,30 +91,36 @@ open class RestActionImpl<T>(private val request: HttpRequest, private val type:
                 if(type == HttpResponse::class.java) {
                     // If the type needed is an HttpResponse, the response itself can be used in the queue callback.
                     callback(response as T)
-                    return@thenAcceptAsync
+                    return@whenComplete
                 } else if(type == String::class.java) {
                     // If the type needed is a String, the body itself can be returned as a String.
                     callback(response.body() as T)
-                    return@thenAcceptAsync
+                    return@whenComplete
                 }
 
                 if(response.body().isNotEmpty()) {
                     callback(KCHttp.jsonMapper.readValue(response.body(), typeReference))
-                } else {
-                    if(type == Optional::class.java) {
-                        // If the type needed is a String, the body itself can be returned as a String.
-                        callback(Optional.empty<Any>() as T)
-                    }
+                } else if(type == Optional::class.java) {
+                    // If the type needed is a String, the body itself can be returned as a String.
+                    callback(Optional.empty<Any>() as T)
                 }
             } catch (e: Exception) {
-                e.printStackTrace()
+                exceptionCallback?.invoke(e)
+            }
+
+            throwable?.let { e ->
                 exceptionCallback?.invoke(e)
             }
         }
     }
 
-    override fun completeImpl(): T {
-        val response = client.send(request, HttpResponse.BodyHandlers.ofString())
+    override fun completeImpl(): T? {
+        val response = try {
+            client.send(request, HttpResponse.BodyHandlers.ofString())
+        } catch (e: Exception) {
+            exceptionCallback?.invoke(e)
+            return null
+        }
 
         // Invoked no matter what.
         if(response.statusCode() in 400..599) {
@@ -109,24 +129,26 @@ open class RestActionImpl<T>(private val request: HttpRequest, private val type:
             successCallback?.invoke(response)
         }
 
-        // Fine to invoke whether or not the body is empty.
-        if(type == HttpResponse::class.java) {
-            // If the type needed is an HttpResponse, the response itself can be used in the queue callback.
-            return response as T
-        } else if(type == String::class.java) {
-            // If the type needed is a String, the body itself can be returned as a String.
-            return response.body() as T
-        }
+        try {
+            // Fine to invoke whether or not the body is empty.
+            if(type == HttpResponse::class.java) {
+                // If the type needed is an HttpResponse, the response itself can be used in the queue callback.
+                return response as T
+            } else if(type == String::class.java) {
+                // If the type needed is a String, the body itself can be returned as a String.
+                return response.body() as T
+            }
 
-        if(response.body().isNotEmpty()) {
-            return KCHttp.jsonMapper.readValue(response.body(), typeReference)
-        } else {
-            if(type == Optional::class.java) {
+            if(response.body().isNotEmpty()) {
+                return KCHttp.jsonMapper.readValue(response.body(), typeReference)
+            } else if(type == Optional::class.java) {
                 // If the type needed is a String, the body itself can be returned as a String.
                 return Optional.empty<Any>() as T
             }
+        } catch (e: Exception) {
+            exceptionCallback?.invoke(e)
         }
 
-        throw IllegalStateException("Failed to parse given response body to the required type: ${response.body()}")
+        return null
     }
 }
