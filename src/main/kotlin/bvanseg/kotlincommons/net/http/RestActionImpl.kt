@@ -44,7 +44,7 @@ import java.util.*
  * @author Boston Vanseghi
  * @since 2.3.0
  */
-class RestActionImpl<T>(private val request: HttpRequest, private val type: Class<T>, private val typeReference: TypeReference<T>): RestAction<T>() {
+open class RestActionImpl<T>(private val request: HttpRequest, private val type: Class<T>, private val typeReference: TypeReference<T>): RestAction<T>() {
 
     companion object {
         inline operator fun <reified T : Any>invoke(request: HttpRequest): RestActionImpl<T> {
