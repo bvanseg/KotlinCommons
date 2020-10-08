@@ -25,6 +25,7 @@ package bvanseg.kotlincommons.net.http
 
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
+import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 import java.util.*
@@ -44,7 +45,7 @@ import java.util.*
  * @author Boston Vanseghi
  * @since 2.3.0
  */
-open class RestActionImpl<T>(private val request: HttpRequest, private val type: Class<T>, private val typeReference: TypeReference<T>): RestAction<T>() {
+open class RestActionImpl<T>(private val request: HttpRequest, private val type: Class<T>, private val typeReference: TypeReference<T>, private val client: HttpClient = KCHttp.DEFAULT_HTTP_CLIENT): RestAction<T>() {
 
     companion object {
         inline operator fun <reified T : Any>invoke(request: HttpRequest): RestActionImpl<T> {
@@ -53,7 +54,7 @@ open class RestActionImpl<T>(private val request: HttpRequest, private val type:
     }
 
     override fun queueImpl() {
-        KCHttp.DEFAULT_HTTP_CLIENT.sendAsync(request, HttpResponse.BodyHandlers.discarding()).thenAcceptAsync { response ->
+        client.sendAsync(request, HttpResponse.BodyHandlers.discarding()).thenAcceptAsync { response ->
             if(response.statusCode() in 400..599) {
                 errorCallback?.invoke(response)
             } else {
@@ -63,7 +64,7 @@ open class RestActionImpl<T>(private val request: HttpRequest, private val type:
     }
 
     override fun queueImpl(callback: (T) -> Unit) {
-        KCHttp.DEFAULT_HTTP_CLIENT.sendAsync(request, HttpResponse.BodyHandlers.ofString()).thenAcceptAsync { response ->
+        client.sendAsync(request, HttpResponse.BodyHandlers.ofString()).thenAcceptAsync { response ->
             try {
                 // Invoked no matter what.
                 if(response.statusCode() in 400..599) {
@@ -99,7 +100,7 @@ open class RestActionImpl<T>(private val request: HttpRequest, private val type:
     }
 
     override fun completeImpl(): T {
-        val response = KCHttp.DEFAULT_HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString())
+        val response = client.send(request, HttpResponse.BodyHandlers.ofString())
 
         // Invoked no matter what.
         if(response.statusCode() in 400..599) {
