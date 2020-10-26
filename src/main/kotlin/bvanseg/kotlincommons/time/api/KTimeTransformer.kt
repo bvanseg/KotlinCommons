@@ -1,10 +1,10 @@
 package bvanseg.kotlincommons.time.api
 
-abstract class KTimeTransformer {
-    abstract fun transform(value: Double, unit: KTimeUnit): Double
+interface KTimeTransformer {
+    fun transform(value: Double, unit: KTimeUnit): Double
 }
 
-object NanosecondTransformer: KTimeTransformer() {
+object NanosecondTransformer: KTimeTransformer {
     override fun transform(value: Double, unit: KTimeUnit): Double {
         return when(unit) {
             KTimeUnit.NANOSECOND -> value
@@ -23,7 +23,7 @@ object NanosecondTransformer: KTimeTransformer() {
     }
 }
 
-object MicrosecondTransformer: KTimeTransformer() {
+object MicrosecondTransformer: KTimeTransformer {
     override fun transform(value: Double, unit: KTimeUnit): Double {
         return when(unit) {
             KTimeUnit.NANOSECOND -> value * 1_000.0
@@ -42,7 +42,7 @@ object MicrosecondTransformer: KTimeTransformer() {
     }
 }
 
-object MillisecondTransformer: KTimeTransformer() {
+object MillisecondTransformer: KTimeTransformer {
     override fun transform(value: Double, unit: KTimeUnit): Double {
         return when(unit) {
             KTimeUnit.NANOSECOND -> value * 1_000_000.0
@@ -61,7 +61,7 @@ object MillisecondTransformer: KTimeTransformer() {
     }
 }
 
-object SecondTransformer: KTimeTransformer() {
+object SecondTransformer: KTimeTransformer {
     override fun transform(value: Double, unit: KTimeUnit): Double {
         return when(unit) {
             KTimeUnit.NANOSECOND -> value * 1_000_000.0 * 1000
@@ -80,7 +80,7 @@ object SecondTransformer: KTimeTransformer() {
     }
 }
 
-object MinuteTransformer: KTimeTransformer() {
+object MinuteTransformer: KTimeTransformer {
     override fun transform(value: Double, unit: KTimeUnit): Double {
         return when(unit) {
             KTimeUnit.NANOSECOND -> value * 1_000_000.0 * 1000 * 60
@@ -99,7 +99,7 @@ object MinuteTransformer: KTimeTransformer() {
     }
 }
 
-object HourTransformer: KTimeTransformer() {
+object HourTransformer: KTimeTransformer {
     override fun transform(value: Double, unit: KTimeUnit): Double {
         return when(unit) {
             KTimeUnit.NANOSECOND -> value * 1_000_000.0 * 1000 * 60 * 60
@@ -118,7 +118,7 @@ object HourTransformer: KTimeTransformer() {
     }
 }
 
-object DayTransformer: KTimeTransformer() {
+object DayTransformer: KTimeTransformer {
     override fun transform(value: Double, unit: KTimeUnit): Double {
         return when(unit) {
             KTimeUnit.NANOSECOND -> value * 1_000_000.0 * 1000 * 60 * 60 * 24
@@ -137,7 +137,7 @@ object DayTransformer: KTimeTransformer() {
     }
 }
 
-object WeekTransformer: KTimeTransformer() {
+object WeekTransformer: KTimeTransformer {
     override fun transform(value: Double, unit: KTimeUnit): Double {
         return when(unit) {
             KTimeUnit.NANOSECOND -> value * 1_000_000.0 * 1000 * 60 * 60 * 24 * 7
@@ -156,7 +156,7 @@ object WeekTransformer: KTimeTransformer() {
     }
 }
 
-object YearTransformer: KTimeTransformer() {
+object YearTransformer: KTimeTransformer {
     override fun transform(value: Double, unit: KTimeUnit): Double {
         return when(unit) {
             KTimeUnit.NANOSECOND -> value * 1_000_000.0 * 1000 * 60 * 60 * 24 * 365
@@ -175,7 +175,7 @@ object YearTransformer: KTimeTransformer() {
     }
 }
 
-object DecadeTransformer: KTimeTransformer() {
+object DecadeTransformer: KTimeTransformer {
     override fun transform(value: Double, unit: KTimeUnit): Double {
         return when(unit) {
             KTimeUnit.NANOSECOND -> value * 1_000_000.0 * 1000 * 60 * 60 * 24 * 365 * 10
@@ -194,7 +194,7 @@ object DecadeTransformer: KTimeTransformer() {
     }
 }
 
-object CenturyTransformer: KTimeTransformer() {
+object CenturyTransformer: KTimeTransformer {
     override fun transform(value: Double, unit: KTimeUnit): Double {
         return when(unit) {
             KTimeUnit.NANOSECOND -> value * 1_000_000.0 * 1000 * 60 * 60 * 24 * 365 * 100
@@ -213,7 +213,7 @@ object CenturyTransformer: KTimeTransformer() {
     }
 }
 
-object MillenniumTransformer: KTimeTransformer() {
+object MillenniumTransformer: KTimeTransformer {
     override fun transform(value: Double, unit: KTimeUnit): Double {
         return when(unit) {
             KTimeUnit.NANOSECOND -> value * 1_000_000.0 * 1000 * 60 * 60 * 24 * 365 * 1000
