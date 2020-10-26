@@ -43,8 +43,9 @@ class KTimePerformer(val frequency: KTime, val action: (KTimePerformer) -> Unit,
      * @param date The date for the time performer to start at.
      */
     fun startAt(date: LocalDateTime): KTimePerformer {
-        val currentMillis = LocalDateTime.now().toInstant(OffsetDateTime.now().offset).toEpochMilli()
-        val millisToExecuteAt = date.toInstant(OffsetDateTime.now().offset).toEpochMilli()
+        val odt = OffsetDateTime.now()
+        val currentMillis = odt.toInstant().toEpochMilli()
+        val millisToExecuteAt = date.toInstant(odt.offset).toEpochMilli()
 
         startDelay = millisToExecuteAt - currentMillis
         return this
