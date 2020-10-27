@@ -137,11 +137,7 @@ class CommandManager<T : Any>(val prefix: String = "!") {
         var commandName = commandNameAndArgs.first
         logger.debug("Receiving command: $commandName with prefix $commandPrefix")
 
-        if (capsInsensitive)
-            commandName = commandName.toLowerCase()
-
-        if (aliasMap[commandName] != null)
-            commandName = aliasMap[commandName]!!
+        commandName = (aliasMap[commandName] ?: commandName).let { if (capsInsensitive) it.toLowerCase() else it }
 
         commandModules[commandName]?.let {
             val args = commandNameAndArgs.second
