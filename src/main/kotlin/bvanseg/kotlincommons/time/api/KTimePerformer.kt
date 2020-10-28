@@ -156,4 +156,6 @@ class KTimePerformer(val frequency: KTime, val action: (KTimePerformer) -> Unit,
             }
         }
     }
+
+    operator fun invoke(async: Boolean = false) = execute(async)
 }
