@@ -75,6 +75,9 @@ operator fun KTime.compareTo(other: KTime): Int {
     }
 }
 
+operator fun KTime.dec(): KTime = this.apply { this.value -= 1 }
+operator fun KTime.inc(): KTime = this.apply { this.value += 1 }
+
 operator fun KTime.plus(other: Number): KTime = this.apply { this.value += other.toDouble() }
 operator fun KTime.minus(other: Number): KTime = this.apply { this.value -= other.toDouble() }
 
