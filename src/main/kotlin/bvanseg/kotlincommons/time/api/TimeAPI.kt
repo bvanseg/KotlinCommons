@@ -75,6 +75,8 @@ operator fun KTime.compareTo(other: KTime): Int {
     }
 }
 
+operator fun KTime.rangeTo(other: KTime): KTime = other - this
+
 operator fun KTime.dec(): KTime = this.apply { this.value -= 1 }
 operator fun KTime.inc(): KTime = this.apply { this.value += 1 }
 
@@ -94,10 +96,10 @@ operator fun KTime.plus(other: KTime): KTime {
     return when {
         // This context has the greater time unit. Convert down to other.
         comparable > 0 -> {
-            KTime(this.unit.convertTo(other.value, other.unit) + other.value, other.unit)
+            KTime(this.convertTo(other.unit) + other.value, other.unit)
         }
         comparable < 0 -> {
-            KTime(other.unit.convertTo(this.value, this.unit) + other.value, this.unit)
+            KTime(other.convertTo(this.unit) + this.value, this.unit)
         }
         else -> {
             KTime(this.value + other.value, this.unit)
@@ -111,10 +113,10 @@ operator fun KTime.minus(other: KTime): KTime {
     return when {
         // This context has the greater time unit. Convert down to other.
         comparable > 0 -> {
-            KTime(this.unit.convertTo(other.value, other.unit) - other.value, other.unit)
+            KTime(this.convertTo(other.unit) - other.value, other.unit)
         }
         comparable < 0 -> {
-            KTime(other.unit.convertTo(this.value, this.unit) - other.value, this.unit)
+            KTime(other.convertTo(this.unit) - this.value, this.unit)
         }
         else -> {
             KTime(this.value - other.value, this.unit)
@@ -128,11 +130,11 @@ operator fun KTime.minusAssign(other: KTime) {
     when {
         // This context has the greater time unit. Convert down to other.
         comparable > 0 -> {
-            this.value = this.unit.convertTo(other.value, other.unit) - other.value
+            this.value = this.convertTo(other.unit) - other.value
             this.unit = other.unit
         }
         comparable < 0 -> {
-            this.value = this.unit.convertTo(other.value, other.unit) - this.value
+            this.value = other.convertTo(this.unit) - this.value
         }
         else -> {
             this.value = this.value - other.value
