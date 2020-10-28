@@ -3,7 +3,7 @@ package bvanseg.kotlincommons.time.api
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
-class TestTimeOperators {
+class TestTimePlusMinus {
 
     @Test
     fun testKTimePlus() {
