@@ -45,6 +45,36 @@ infix fun KTime.into(other: KTimeBase): KTime {
 
 fun every(frequency: KTime, counterDrift: Boolean = false, cb: (KTimePerformer) -> Unit): KTimePerformer = KTimePerformer(frequency, cb, counterDrift)
 
+operator fun KTime.compareTo(other: Number): Int {
+    val otherValue = other.toDouble()
+    return when {
+        this.value == otherValue -> 0
+        this.value > otherValue -> 1
+        this.value < otherValue -> -1
+        else -> -1
+    }
+}
+
+operator fun Number.compareTo(other: KTime): Int {
+    val thisValue = this.toDouble()
+    return when {
+        thisValue == other.value -> 0
+        thisValue > other.value -> 1
+        thisValue < other.value -> -1
+        else -> -1
+    }
+}
+
+operator fun KTime.compareTo(other: KTime): Int {
+    val equalUnitValue = this.convertTo(other.unit)
+    return when {
+        equalUnitValue == other.value -> 0
+        equalUnitValue > other.value -> 1
+        equalUnitValue < other.value -> -1
+        else -> -1
+    }
+}
+
 operator fun KTime.plus(other: Number): KTime = this.apply { this.value += other.toDouble() }
 operator fun KTime.minus(other: Number): KTime = this.apply { this.value -= other.toDouble() }
 
