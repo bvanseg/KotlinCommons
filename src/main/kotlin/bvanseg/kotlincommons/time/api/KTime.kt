@@ -17,4 +17,6 @@ data class KTime(var value: Double, override var unit: KTimeUnit): KTimeBase(uni
     }
 
     fun toMillis(): Long = KTime(unit.convertTo(value, KTimeUnit.MILLISECOND), KTimeUnit.MILLISECOND).value.toLong()
+
+    fun convertTo(otherUnit: KTimeUnit) = this.unit.convertTo(this.value, otherUnit)
 }
