@@ -31,6 +31,8 @@ import kotlin.reflect.full.findAnnotation
 import kotlin.reflect.full.memberFunctions
 import kotlin.reflect.full.superclasses
 import kotlin.reflect.full.valueParameters
+import kotlin.reflect.jvm.isAccessible
+import kotlin.reflect.jvm.javaMethod
 
 /**
  * The primary manager for events. Registers listeners and fires events.
@@ -52,6 +54,11 @@ class EventBus {
 
     fun addListener(listener: Any) {
         listener::class.memberFunctions.filter { it.findAnnotation<SubscribeEvent>() != null }.forEach { function ->
+
+            if (!function.isAccessible) {
+                function.javaMethod?.trySetAccessible()
+            }
+
             val event = InternalEvent(function, listener)
             function.valueParameters.firstOrNull()?.let { param ->
                 val clazz = param.type.getKClass().java

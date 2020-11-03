@@ -87,8 +87,4 @@ class DualHashMap<K, V>: MutableMap<K, V> {
     }
 
     fun reverse(): DualHashMap<V, K> = DualHashMap(backward, forward)
-
-    companion object {
-
-    }
 }
