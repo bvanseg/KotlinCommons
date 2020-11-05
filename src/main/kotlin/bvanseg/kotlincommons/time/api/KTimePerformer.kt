@@ -30,6 +30,9 @@ class KTimePerformer(val frequency: KTime, val action: (KTimePerformer) -> Unit,
     var initDelay: Long = -1L
     var startDelay: Long = -1L
 
+    @Volatile
+    private var shouldStop: Boolean = false
+
     private var exceptionCallback: (Throwable) -> Unit = {
         it.printStackTrace()
     }
@@ -80,6 +83,10 @@ class KTimePerformer(val frequency: KTime, val action: (KTimePerformer) -> Unit,
         return this
     }
 
+    fun stop() {
+        shouldStop = true
+    }
+
     /**
      * Adds a limit to how many times the performer executes. By default, performers execute forever.
      *
@@ -111,6 +118,10 @@ class KTimePerformer(val frequency: KTime, val action: (KTimePerformer) -> Unit,
         }
 
         while(true) {
+            if(shouldStop) {
+                break
+            }
+
             // Offset-based delay.
             if (offset > 0) {
                 kotlinx.coroutines.delay(offset)
