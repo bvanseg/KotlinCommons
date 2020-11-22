@@ -36,7 +36,7 @@ import java.net.http.HttpResponse
 abstract class RestAction<T> {
     protected var successCallback: ((HttpResponse<*>) -> Unit)? = null
     protected var errorCallback: ((HttpResponse<*>) -> Unit)? = null
-    protected var exceptionCallback: ((Throwable) -> Unit)? = null
+    protected var exceptionCallback: ((HttpResponse<*>?, Throwable) -> Unit)? = null
 
     open fun onSuccess(callback: (HttpResponse<*>) -> Unit): RestAction<T> {
         successCallback = callback
@@ -48,7 +48,7 @@ abstract class RestAction<T> {
         return this
     }
 
-    open fun onException(callback: (Throwable) -> Unit): RestAction<T> {
+    open fun onException(callback: (HttpResponse<*>?, Throwable) -> Unit): RestAction<T> {
         exceptionCallback = callback
         return this
     }

@@ -58,15 +58,15 @@ open class RestActionImpl<T>(private val request: HttpRequest, private val type:
     }
 
     init {
-        this.exceptionCallback = {
-            logger.error("An exception has occurred while executing a RestAction", it)
+        this.exceptionCallback = { _, throwable ->
+            logger.error("An exception has occurred while executing a RestAction", throwable)
         }
     }
 
     override fun queueImpl() {
         client.sendAsync(request, HttpResponse.BodyHandlers.discarding()).whenComplete { response, throwable ->
             throwable?.let { e ->
-                exceptionCallback?.invoke(e)
+                exceptionCallback?.invoke(response, e)
                 return@whenComplete
             }
 
@@ -83,7 +83,7 @@ open class RestActionImpl<T>(private val request: HttpRequest, private val type:
             try {
 
                 throwable?.let { e ->
-                    exceptionCallback?.invoke(e)
+                    exceptionCallback?.invoke(response, e)
                     return@whenComplete
                 }
 
@@ -112,7 +112,7 @@ open class RestActionImpl<T>(private val request: HttpRequest, private val type:
                     callback(Optional.empty<Any>() as T)
                 }
             } catch (e: Exception) {
-                exceptionCallback?.invoke(e)
+                exceptionCallback?.invoke(response, e)
             }
         }
     }
@@ -121,7 +121,7 @@ open class RestActionImpl<T>(private val request: HttpRequest, private val type:
         val response = try {
             client.send(request, HttpResponse.BodyHandlers.ofString())
         } catch (e: Exception) {
-            exceptionCallback?.invoke(e)
+            exceptionCallback?.invoke(null, e)
             return null
         }
 
@@ -149,7 +149,7 @@ open class RestActionImpl<T>(private val request: HttpRequest, private val type:
                 return Optional.empty<Any>() as T
             }
         } catch (e: Exception) {
-            exceptionCallback?.invoke(e)
+            exceptionCallback?.invoke(response, e)
         }
 
         return null
