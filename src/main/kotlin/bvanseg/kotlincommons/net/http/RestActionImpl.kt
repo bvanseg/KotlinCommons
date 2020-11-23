@@ -57,6 +57,11 @@ open class RestActionImpl<T>(private val request: HttpRequest, private val type:
         }
     }
 
+    private val bodyHandlerType = when(type) {
+        ByteArray::class.java -> HttpResponse.BodyHandlers.ofByteArray()
+        else -> HttpResponse.BodyHandlers.ofString()
+    }
+
     init {
         this.exceptionCallback = { _, throwable ->
             logger.error("An exception has occurred while executing a RestAction", throwable)
@@ -79,7 +84,7 @@ open class RestActionImpl<T>(private val request: HttpRequest, private val type:
     }
 
     override fun queueImpl(callback: (T) -> Unit) {
-        client.sendAsync(request, HttpResponse.BodyHandlers.ofString()).whenComplete { response, throwable ->
+        client.sendAsync(request, bodyHandlerType).whenComplete { response, throwable ->
             try {
 
                 throwable?.let { e ->
@@ -99,14 +104,16 @@ open class RestActionImpl<T>(private val request: HttpRequest, private val type:
                     // If the type needed is an HttpResponse, the response itself can be used in the queue callback.
                     callback(response as T)
                     return@whenComplete
-                } else if(type == String::class.java) {
+                } else if(type == String::class.java || type == ByteArray::class.java) {
                     // If the type needed is a String, the body itself can be returned as a String.
                     callback(response.body() as T)
                     return@whenComplete
                 }
 
-                if(response.body().isNotEmpty()) {
-                    callback(KCHttp.jsonMapper.readValue(response.body(), typeReference))
+                val strBody = response.body() as String
+
+                if(strBody.isNotEmpty()) {
+                    callback(KCHttp.jsonMapper.readValue(strBody, typeReference))
                 } else if(type == Optional::class.java) {
                     // If the type needed is a String, the body itself can be returned as a String.
                     callback(Optional.empty<Any>() as T)
@@ -118,8 +125,9 @@ open class RestActionImpl<T>(private val request: HttpRequest, private val type:
     }
 
     override fun completeImpl(): T? {
+
         val response = try {
-            client.send(request, HttpResponse.BodyHandlers.ofString())
+            client.send(request, bodyHandlerType)
         } catch (e: Exception) {
             exceptionCallback?.invoke(null, e)
             return null
@@ -137,13 +145,15 @@ open class RestActionImpl<T>(private val request: HttpRequest, private val type:
             if(type == HttpResponse::class.java) {
                 // If the type needed is an HttpResponse, the response itself can be used in the queue callback.
                 return response as T
-            } else if(type == String::class.java) {
+            } else if(type == String::class.java || type == ByteArray::class.java) {
                 // If the type needed is a String, the body itself can be returned as a String.
                 return response.body() as T
             }
 
-            if(response.body().isNotEmpty()) {
-                return KCHttp.jsonMapper.readValue(response.body(), typeReference)
+            val strBody = response.body() as String
+
+            if(strBody.isNotEmpty()) {
+                return KCHttp.jsonMapper.readValue(strBody, typeReference)
             } else if(type == Optional::class.java) {
                 // If the type needed is a String, the body itself can be returned as a String.
                 return Optional.empty<Any>() as T
