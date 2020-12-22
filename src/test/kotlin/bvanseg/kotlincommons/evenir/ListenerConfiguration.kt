@@ -8,7 +8,7 @@ object BasicListener {
     fun parentHandler(parent: Parent) = Unit
 
     @SubscribeEvent
-    fun childHandler(child: Child)  = Unit
+    fun childHandler(child: Child) = Unit
 }
 
 open class Parent

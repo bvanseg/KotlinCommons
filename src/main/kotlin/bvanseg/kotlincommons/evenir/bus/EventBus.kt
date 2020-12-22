@@ -50,6 +50,7 @@ class EventBus {
     }
 
     private val listeners: MutableList<Any> = mutableListOf()
+    private val listenerEvents: HashMap<Class<*>, MutableList<InternalEvent>> = hashMapOf()
     private val events: HashMap<Class<*>, MutableList<InternalEvent>> = hashMapOf()
 
     fun addListener(listener: Any) {
@@ -70,8 +71,13 @@ class EventBus {
                         logger.debug("Successfully added event $event with parameter type $clazz for listener $listener")
                 } ?: logger.warn("Failed to add event $event for listener $listener!")
 
+            } ?: throw RuntimeException("Failed to add event listener. Subscribed event function must have a single parameter!")
+
+            if (listenerEvents[listener::class.java] == null) {
+                listenerEvents[listener::class.java] = mutableListOf()
             }
-                ?: throw RuntimeException("Failed to add event listener. Subscribed event function must have a single parameter!")
+
+            listenerEvents[listener::class.java]!!.add(event)
         }
 
         listeners.add(listener)
@@ -93,6 +99,27 @@ class EventBus {
                 events[c.java]?.let {
                     it.forEach {
                         it.invoke(e)
+                    }
+                }
+            }
+        }
+    }
+
+    fun fireForListener(listener: Any, event: Any) = fireForListener(listener::class.java, event)
+
+    fun fireForListener(listener: Class<*>, event: Any) {
+        listenerEvents[listener]?.forEach {
+            it.function.valueParameters.firstOrNull()?.let { param ->
+                val clazz = param.type.getKClass().java
+
+                if (event::class.java == clazz) {
+                    it.invoke(event)
+                }
+
+                // Walk up the superclasses and fire those, as well.
+                for(c in event::class.superclasses) {
+                    if (clazz == c.java) {
+                        it.invoke(event)
                     }
                 }
             }
