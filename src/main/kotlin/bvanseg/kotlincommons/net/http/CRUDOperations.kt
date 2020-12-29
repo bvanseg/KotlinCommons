@@ -33,19 +33,23 @@ import java.time.Duration
  */
 
 class Headers {
-    val map: HashMap<String, String> = hashMapOf()
+    private val map: HashMap<String, String> = hashMapOf()
 
-    infix fun String.to(value: String) {
-        map[this] = value
+    fun addHeader(key: String, value: Any) {
+        map[key] = value.toString()
     }
+
+    fun get(): Map<String, String> = map
 }
 
 class Parameters {
-    val map: HashMap<String, String> = hashMapOf()
+    private val map: HashMap<String, String> = hashMapOf()
 
-    infix fun String.to(value: String) {
-        map[this] = value
+    fun addParameter(key: String, value: Any) {
+        map[key] = value.toString()
     }
+
+    fun get(): Map<String, String> = map
 }
 
 open class CRUDOperation {

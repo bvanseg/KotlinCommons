@@ -41,15 +41,15 @@ class KCHttpRequest {
         requestBuilder.apply {
             targetBuilder.append(op.target)
 
-            if(op.parameters.map.isNotEmpty())
+            if(op.parameters.get().isNotEmpty())
                 targetBuilder.append("?")
 
-            targetBuilder.append(op.parameters.map.entries.joinToString("&") { (key, value) -> "${key}=${value}" })
+            targetBuilder.append(op.parameters.get().entries.joinToString("&") { (key, value) -> "${key}=${value}" })
 
             requestBuilder.uri(URI.create(targetBuilder.toString())).timeout(op.timeout).version(op.version)
         }
 
-        for(header in op.headers.map) {
+        for(header in op.headers.get()) {
             requestBuilder.apply { requestBuilder.setHeader(header.key, header.value) }
         }
 
