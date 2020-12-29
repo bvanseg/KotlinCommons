@@ -14,11 +14,11 @@ class TestKCHttpRequest {
                 target = "http://www.google.com/search"
 
                 headers {
-                    "foo" to "bar"
+                    addHeader("foo", "bar")
                 }
 
                 parameters {
-                    "q" to "chocolate"
+                    addParameter("q", "chocolate")
                 }
             }
         }
