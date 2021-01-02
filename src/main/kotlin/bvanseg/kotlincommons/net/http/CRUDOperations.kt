@@ -39,6 +39,10 @@ class Headers {
         map[key] = value.toString()
     }
 
+    infix fun String.to(value: Any) {
+        map[this] = value.toString()
+    }
+
     fun get(): Map<String, String> = map
 }
 
