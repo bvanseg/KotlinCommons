@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test
 class TestKCHttpRequest {
 
     @Test
-    fun testHeaderParameterBlocks() {
+    fun testHeaderParameterBlock() {
         // Given
         val r = httpRequest {
             get {
@@ -18,8 +18,31 @@ class TestKCHttpRequest {
                 }
 
                 parameters {
-                    addParameter("q", "chocolate")
+                    "q" to "chocolate"
                 }
+            }
+        }
+
+        // When
+        // Then
+        assertEquals("bar", r.headers().map()["foo"]?.first())
+        assertEquals("http://www.google.com/search?q=chocolate", r.uri().toString())
+    }
+
+    @Test
+    fun testHeaderParameterBlockMapVersion() {
+        // Given
+        val r = httpRequest {
+            get {
+                target = "http://www.google.com/search"
+
+                headers {
+                    addHeader("foo", "bar")
+                }
+
+                parameters(mapOf(
+                    "q" to "chocolate"
+                ))
             }
         }
 

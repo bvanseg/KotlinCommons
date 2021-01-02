@@ -49,6 +49,10 @@ class Parameters {
         map[key] = value.toString()
     }
 
+    infix fun String.to(value: Any) {
+        map[this] = value.toString()
+    }
+
     fun get(): Map<String, String> = map
 }
 
@@ -66,6 +70,10 @@ open class CRUDOperation {
 
     fun parameters(block: Parameters.() -> Unit) {
         parameters.apply(block)
+    }
+
+    fun parameters(map: Map<String, Any>) {
+        map.forEach { (key, value) -> parameters.addParameter(key, value) }
     }
 
     @Deprecated("CRUD operations can not be nested!", level = DeprecationLevel.ERROR,
