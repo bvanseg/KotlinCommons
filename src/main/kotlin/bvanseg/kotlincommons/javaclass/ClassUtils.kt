@@ -44,8 +44,8 @@ fun <T: Any> Class<T>.createInstance(): T = this.kotlin.createInstance()
  */
 fun <T: Any> createInstanceFrom(clazz: Class<T>): T = clazz.kotlin.createInstance()
 
-fun <T> createNewInstance(clazz: Class<T>, parameterTypes: Array<Class<*>>?, vararg arguments: Any): T {
-    lateinit var constructor: Constructor<T>
+fun <T> createNewInstance(clazz: Class<T>, parameterTypes: Array<Class<*>>?, vararg arguments: Any): T? {
+    var constructor: Constructor<T>? = null
     try {
         constructor = if (parameterTypes == null)
             clazz.getDeclaredConstructor()
@@ -54,5 +54,5 @@ fun <T> createNewInstance(clazz: Class<T>, parameterTypes: Array<Class<*>>?, var
     } catch (e: Exception) {
         e.printStackTrace()
     }
-    return constructor.newInstance(*arguments)
+    return constructor?.newInstance(*arguments)
 }
