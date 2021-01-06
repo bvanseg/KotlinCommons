@@ -56,7 +56,7 @@ import bvanseg.kotlincommons.armada.transformer.ShortTransformer
 import bvanseg.kotlincommons.armada.transformer.StringTransformer
 import bvanseg.kotlincommons.armada.transformer.TimeUnitTransformer
 import bvanseg.kotlincommons.armada.transformer.Transformer
-import bvanseg.kotlincommons.evenir.bus.EventBus
+import bvanseg.kotlincommons.event.bus.EventBus
 import kotlin.collections.set
 import kotlin.ranges.IntRange
 import kotlin.ranges.LongRange
