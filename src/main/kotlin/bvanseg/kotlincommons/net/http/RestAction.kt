@@ -24,6 +24,7 @@
 package bvanseg.kotlincommons.net.http
 
 import java.net.http.HttpResponse
+import java.util.concurrent.CompletableFuture
 
 /**
  * A simple interface that outlines a model of handling RESTful requests.
@@ -53,19 +54,19 @@ abstract class RestAction<T> {
         return this
     }
 
-    open fun queue() = queueImpl()
-    open fun queue(callback: (T) -> Unit) = queueImpl(callback)
+    open fun queue(): CompletableFuture<out HttpResponse<*>> = queueImpl()
+    open fun queue(callback: (T) -> Unit): CompletableFuture<out HttpResponse<*>> = queueImpl(callback)
     open fun complete() = completeImpl()
 
     /**
      * Intended to send a REST request asynchronously.
      */
-    protected abstract fun queueImpl()
+    protected abstract fun queueImpl(): CompletableFuture<out HttpResponse<*>>
 
     /**
      * Has the same intention as [queue], but instead takes a callback to execute upon the async request completing.
      */
-    protected abstract fun queueImpl(callback: (T) -> Unit)
+    protected abstract fun queueImpl(callback: (T) -> Unit): CompletableFuture<out HttpResponse<*>>
 
     /**
      * Intended to fully block until the model is returned.

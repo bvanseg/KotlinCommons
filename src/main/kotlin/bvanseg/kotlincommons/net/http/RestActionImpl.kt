@@ -30,6 +30,7 @@ import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 import java.util.*
+import java.util.concurrent.CompletableFuture
 
 /**
  * An implementation of the [RestAction] class inspired by JDA (Java Discord REST-API Wrapper).
@@ -73,7 +74,7 @@ open class RestActionImpl<T>(
         }
     }
 
-    override fun queueImpl() {
+    override fun queueImpl(): CompletableFuture<out HttpResponse<*>> =
         client.sendAsync(request, HttpResponse.BodyHandlers.discarding()).whenComplete { response, throwable ->
             throwable?.let { e ->
                 exceptionCallback?.invoke(response, e)
@@ -86,9 +87,8 @@ open class RestActionImpl<T>(
                 successCallback?.invoke(response)
             }
         }
-    }
 
-    override fun queueImpl(callback: (T) -> Unit) {
+    override fun queueImpl(callback: (T) -> Unit): CompletableFuture<out HttpResponse<*>> =
         client.sendAsync(request, bodyHandlerType).whenComplete { response, throwable ->
             try {
 
@@ -127,7 +127,6 @@ open class RestActionImpl<T>(
                 exceptionCallback?.invoke(response, e)
             }
         }
-    }
 
     override fun completeImpl(): T? {
 
