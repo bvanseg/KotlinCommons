@@ -45,8 +45,16 @@ fun <T> cartesianProduct(lists: List<List<T>>): List<List<T>> {
     return resultLists
 }
 
+/**
+ * @author Boston Vanseghi
+ * @since 2.7.0
+ */
 fun <T> linkedListOf(): LinkedList<T> = LinkedList()
 
+/**
+ * @author Boston Vanseghi
+ * @since 2.7.0
+ */
 inline fun <reified T> List<T>.toLinkedList(): LinkedList<T> {
     val llist = LinkedList<T>()
     for(e in this) {
