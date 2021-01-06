@@ -23,17 +23,15 @@
  */
 package bvanseg.kotlincommons.number
 
+import kotlin.reflect.KClass
+
 /**
  * Hashes any given data to a unique hash code.
  *
  * @author Boston Vanseghi
  * @since 2.1.1
  */
-class HashCodeBuilder(clazz: Any) {
-
-    init {
-        this.append(clazz::class.simpleName)
-    }
+class HashCodeBuilder private constructor() {
 
     var total = 17
 
@@ -67,5 +65,10 @@ class HashCodeBuilder(clazz: Any) {
         other as HashCodeBuilder
         if (total != other.total) return false
         return true
+    }
+
+    companion object {
+        @JvmStatic
+        fun builder(clazz: KClass<*>) = HashCodeBuilder().append(clazz.simpleName)
     }
 }

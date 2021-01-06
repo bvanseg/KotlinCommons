@@ -13,7 +13,7 @@ class HashCodeBuilderTest {
             .append("foo", foo)
             .toString()
 
-        override fun hashCode(): Int = HashCodeBuilder(this)
+        override fun hashCode(): Int = HashCodeBuilder.builder(this::class)
             .append(balance)
             .append(foo)
             .hashCode()
@@ -37,7 +37,7 @@ class HashCodeBuilderTest {
             .append("account", acct)
             .toString()
 
-        override fun hashCode(): Int = HashCodeBuilder(this)
+        override fun hashCode(): Int = HashCodeBuilder.builder(this::class)
             .append(name)
             .append(age)
             .append(gender)

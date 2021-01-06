@@ -65,7 +65,7 @@ class Version : Comparable<Version> {
 
     override fun toString(): String = "$major.$minor.$patch" + if (label != "") "-$label" else ""
     override fun hashCode(): Int =
-        HashCodeBuilder(this).append(major).append(minor).append(patch).append(label).hashCode()
+        HashCodeBuilder.builder(this::class).append(major).append(minor).append(patch).append(label).hashCode()
 
     override fun compareTo(other: Version): Int {
         return if (this.major > other.major) {
