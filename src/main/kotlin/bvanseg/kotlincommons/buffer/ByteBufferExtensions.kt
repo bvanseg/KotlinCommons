@@ -25,7 +25,7 @@ package bvanseg.kotlincommons.buffer
 
 import bvanseg.kotlincommons.project.Version
 import java.nio.ByteBuffer
-import java.util.*
+import java.util.UUID
 
 fun ByteBuffer.getBytes(): ByteArray = getBytes(this.short.toInt())
 

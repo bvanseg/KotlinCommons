@@ -23,7 +23,7 @@
  */
 package bvanseg.kotlincommons.array
 
-import java.util.*
+import java.util.Random
 
 /**
  * Gets a random element from the [Array].

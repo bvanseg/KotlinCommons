@@ -25,7 +25,7 @@ package bvanseg.kotlincommons.armada.util
 
 import bvanseg.kotlincommons.armada.CommandManager
 import bvanseg.kotlincommons.armada.context.Context
-import java.util.*
+import java.util.Objects
 import kotlin.reflect.KClass
 
 /**

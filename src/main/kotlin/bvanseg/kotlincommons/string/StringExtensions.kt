@@ -25,7 +25,7 @@ package bvanseg.kotlincommons.string
 
 import java.net.URI
 import java.net.URL
-import java.util.*
+import java.util.Base64
 
 fun List<String>.joinStrings(startIndex: Int = 0, endIndex: Int = -1): String {
     val sb = StringBuilder()

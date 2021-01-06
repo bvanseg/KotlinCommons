@@ -24,7 +24,6 @@
 package bvanseg.kotlincommons.ratelimit
 
 import bvanseg.kotlincommons.any.getLogger
-import java.util.concurrent.atomic.AtomicLong
 import java.util.concurrent.locks.ReentrantLock
 
 /**

@@ -2,7 +2,7 @@ package bvanseg.kotlincommons.flag
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import java.util.*
+import java.util.EnumSet
 
 class TestFlagManager {
 

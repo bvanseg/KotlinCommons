@@ -25,7 +25,9 @@ package bvanseg.kotlincommons.evenir.event
 
 import bvanseg.kotlincommons.string.ToStringBuilder
 import kotlin.reflect.KFunction
-import kotlin.reflect.full.*
+import kotlin.reflect.full.extensionReceiverParameter
+import kotlin.reflect.full.instanceParameter
+import kotlin.reflect.full.valueParameters
 
 /**
  * A wrapper around an event method that was marked by the subscribe event annotation. Does the actual firing of the

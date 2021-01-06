@@ -23,7 +23,8 @@
  */
 package bvanseg.kotlincommons.collection
 
-import java.util.*
+import java.util.ArrayList
+import java.util.LinkedList
 
 fun <T> cartesianProduct(lists: List<List<T>>): List<List<T>> {
     val resultLists = ArrayList<List<T>>()

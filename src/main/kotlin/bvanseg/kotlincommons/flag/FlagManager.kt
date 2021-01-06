@@ -25,7 +25,7 @@ package bvanseg.kotlincommons.flag
 
 import bvanseg.kotlincommons.collection.DualHashMap
 import java.math.BigInteger
-import java.util.*
+import java.util.EnumSet
 
 /**
  * A utility class that uses bitwise operators to read and write an [EnumSet] to and from a [Long]. Significantly useful

@@ -23,8 +23,6 @@
  */
 package bvanseg.kotlincommons.string
 
-import java.lang.StringBuilder
-
 /**
  * A class that builds [Any] object into a [String] through appending members. Should be used in toString building.
  *

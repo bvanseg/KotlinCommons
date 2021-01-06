@@ -23,7 +23,8 @@
  */
 package bvanseg.kotlincommons.collection
 
-import java.util.*
+import java.util.ArrayList
+import java.util.HashMap
 
 /**
  * A class used in mapping multiple values [V] to a single key [K]. The values of this particular [MultiMap] can be altered.

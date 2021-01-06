@@ -23,7 +23,7 @@
  */
 package bvanseg.kotlincommons.collection
 
-import java.util.*
+import java.util.LinkedList
 
 /**
  * A very minimal class that limits the number of elements that can be added to it.

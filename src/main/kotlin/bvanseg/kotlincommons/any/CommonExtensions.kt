@@ -25,9 +25,7 @@ package bvanseg.kotlincommons.any
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import java.util.*
-import kotlin.reflect.full.companionObject
-import kotlin.reflect.full.companionObjectInstance
+import java.util.Optional
 
 /**
  * Allows any class to get a logger of itself.
