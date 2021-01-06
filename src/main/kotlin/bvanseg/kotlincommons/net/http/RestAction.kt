@@ -39,6 +39,9 @@ abstract class RestAction<T> {
     protected var errorCallback: ((HttpResponse<*>) -> Unit)? = null
     protected var exceptionCallback: ((HttpResponse<*>?, Throwable) -> Unit)? = null
 
+    var future: CompletableFuture<out HttpResponse<*>>? = null
+        protected set
+
     open fun onSuccess(callback: (HttpResponse<*>) -> Unit): RestAction<T> {
         successCallback = callback
         return this
@@ -54,23 +57,12 @@ abstract class RestAction<T> {
         return this
     }
 
-    open fun queue(): CompletableFuture<out HttpResponse<*>> = queueImpl()
-    open fun queue(callback: (T) -> Unit): CompletableFuture<out HttpResponse<*>> = queueImpl(callback)
-    open fun complete() = completeImpl()
+    fun queue(): RestAction<T> = queueImpl()
+    fun queue(callback: (T) -> Unit): RestAction<T> = queueImpl(callback)
+    fun complete() = completeImpl()
 
-    /**
-     * Intended to send a REST request asynchronously.
-     */
-    protected abstract fun queueImpl(): CompletableFuture<out HttpResponse<*>>
-
-    /**
-     * Has the same intention as [queue], but instead takes a callback to execute upon the async request completing.
-     */
-    protected abstract fun queueImpl(callback: (T) -> Unit): CompletableFuture<out HttpResponse<*>>
-
-    /**
-     * Intended to fully block until the model is returned.
-     */
+    protected abstract fun queueImpl(): RestAction<T>
+    protected abstract fun queueImpl(callback: (T) -> Unit): RestAction<T>
     protected abstract fun completeImpl(): T?
 
     fun <O> flatMap(callback: (T?) -> RestAction<O>): FlatMapRestAction<T, O> = FlatMapRestAction(callback, this)

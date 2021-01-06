@@ -74,8 +74,8 @@ open class RestActionImpl<T>(
         }
     }
 
-    override fun queueImpl(): CompletableFuture<out HttpResponse<*>> =
-        client.sendAsync(request, HttpResponse.BodyHandlers.discarding()).whenComplete { response, throwable ->
+    override fun queueImpl(): RestActionImpl<T> {
+        future = client.sendAsync(request, HttpResponse.BodyHandlers.discarding()).whenComplete { response, throwable ->
             throwable?.let { e ->
                 exceptionCallback?.invoke(response, e)
                 return@whenComplete
@@ -88,8 +88,11 @@ open class RestActionImpl<T>(
             }
         }
 
-    override fun queueImpl(callback: (T) -> Unit): CompletableFuture<out HttpResponse<*>> =
-        client.sendAsync(request, bodyHandlerType).whenComplete { response, throwable ->
+        return this
+    }
+
+    override fun queueImpl(callback: (T) -> Unit): RestActionImpl<T> {
+        future = client.sendAsync(request, bodyHandlerType).whenComplete { response, throwable ->
             try {
 
                 throwable?.let { e ->
@@ -128,8 +131,10 @@ open class RestActionImpl<T>(
             }
         }
 
-    override fun completeImpl(): T? {
+        return this
+    }
 
+    override fun completeImpl(): T? {
         val response = try {
             client.send(request, bodyHandlerType)
         } catch (e: Exception) {
