@@ -57,3 +57,12 @@ fun <T : Comparable<T>> T?.clampOrNull(min: T, max: T): T? = when {
     this > max -> max
     else -> this
 }
+
+/**
+ * @author Boston Vanseghi
+ * @since 2.7.0
+ */
+fun <T : Comparable<T>> isBetween(value: T, min: T, max: T, inclusive: Boolean = false): Boolean = when {
+    inclusive -> value in min..max
+    else -> value > min && value < max
+}
