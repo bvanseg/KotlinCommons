@@ -25,7 +25,6 @@ package bvanseg.kotlincommons.collection
 
 import java.util.*
 
-
 fun <T> cartesianProduct(lists: List<List<T>>): List<List<T>> {
     val resultLists = ArrayList<List<T>>()
     if (lists.isEmpty()) {
@@ -44,4 +43,15 @@ fun <T> cartesianProduct(lists: List<List<T>>): List<List<T>> {
         }
     }
     return resultLists
+}
+
+fun <T> linkedListOf(): LinkedList<T> = LinkedList()
+
+inline fun <reified T> List<T>.toLinkedList(): LinkedList<T> {
+    val llist = LinkedList<T>()
+    for(e in this) {
+        llist.add(e)
+    }
+
+    return llist
 }
