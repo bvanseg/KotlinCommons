@@ -23,8 +23,8 @@
  */
 package bvanseg.kotlincommons.command.event
 
-import bvanseg.kotlincommons.command.CommandManager
 import bvanseg.kotlincommons.command.BaseCommand
+import bvanseg.kotlincommons.command.CommandManager
 import bvanseg.kotlincommons.command.InternalCommand
 import bvanseg.kotlincommons.command.context.Context
 import bvanseg.kotlincommons.command.gear.Gear

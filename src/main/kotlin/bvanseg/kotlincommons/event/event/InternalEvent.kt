@@ -61,5 +61,6 @@ class InternalEvent(
         return function.callBy(map)
     }
 
-    override fun toString(): String = ToStringBuilder.builder(this::class).append("functionName", function.name).toString()
+    override fun toString(): String =
+        ToStringBuilder.builder(this::class).append("functionName", function.name).toString()
 }
