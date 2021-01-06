@@ -30,8 +30,8 @@ import kotlin.reflect.full.isSubclassOf
 /**
  * Used to store commands of the same name, but with different parameter counts/types.
  *
- * Given user input, Armada will automatically sift through recorded commands of the module and see which one best
- * fits the command structure given by the user.
+ * Given user input, a command module will automatically sift through recorded command structures and see which one best
+ * fits the user's input.
  *
  * @author Boston Vanseghi
  * @since 2.1.0

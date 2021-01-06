@@ -35,7 +35,7 @@ import bvanseg.kotlincommons.command.context.EmptyContext
 import bvanseg.kotlincommons.command.event.CommandAddEvent
 import bvanseg.kotlincommons.command.event.CommandExecuteEvent
 import bvanseg.kotlincommons.command.event.GearAddEvent
-import bvanseg.kotlincommons.command.event.Init
+import bvanseg.kotlincommons.command.event.CommandManagerInitializationEvent
 import bvanseg.kotlincommons.command.event.TransformerAddEvent
 import bvanseg.kotlincommons.command.exception.DuplicateTransformerException
 import bvanseg.kotlincommons.command.gear.Gear
@@ -96,11 +96,11 @@ class CommandManager<T : Any>(val prefix: String = "!") {
     // Used internally for removing whitespace on commands.
     private val whitespaceRegex = Regex("\\s+")
 
-    // The event bus used for handling Armada's events.
+    // The event bus used for handling the command manager's events.
     val eventBus = EventBus()
 
     init {
-        val e = Init()
+        val e = CommandManagerInitializationEvent()
         eventBus.fire(e)
         if (!e.isCancelled)
             addTransformers(

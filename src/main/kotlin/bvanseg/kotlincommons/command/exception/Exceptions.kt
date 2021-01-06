@@ -26,12 +26,12 @@ package bvanseg.kotlincommons.command.exception
 import bvanseg.kotlincommons.command.context.Context
 
 /**
- * The most basic [Exception] that Armada will throw.
+ * The most basic [Exception] that command-related code will throw.
  *
  * @author Boston Vanseghi
  * @since 2.2.4
  */
-open class ArmadaException(override val message: String) : Exception(message)
+open class CommandException(override val message: String) : Exception(message)
 
 /**
  * Thrown when a generic exception occurs regarding parameters.
@@ -39,7 +39,7 @@ open class ArmadaException(override val message: String) : Exception(message)
  * @author Boston Vanseghi
  * @since 2.2.4
  */
-open class ParameterException(override val message: String) : ArmadaException(message)
+open class ParameterException(override val message: String) : CommandException(message)
 
 /**
  * Thrown when a generic exception occurs regarding transformers.
@@ -47,7 +47,7 @@ open class ParameterException(override val message: String) : ArmadaException(me
  * @author Boston Vanseghi
  * @since 2.2.4
  */
-open class TransformerException(override val message: String) : ArmadaException(message)
+open class TransformerException(override val message: String) : CommandException(message)
 
 /**
  * Thrown when a parameter is missing during command execution.
@@ -99,9 +99,9 @@ class TransformerParseException(val ctx: Context, override val message: String) 
 class DuplicateTransformerException(override val message: String) : TransformerException(message)
 
 /**
- * Thrown when an unknown [ArmadaException] occurs.
+ * Thrown when an unknown [CommandException] occurs.
  *
  * @author Boston Vanseghi
  * @since 2.2.4
  */
-class UnknownCommandException(override val message: String) : ArmadaException(message)
+class UnknownCommandException(override val message: String) : CommandException(message)

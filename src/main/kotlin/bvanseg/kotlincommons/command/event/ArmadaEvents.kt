@@ -30,9 +30,9 @@ import bvanseg.kotlincommons.command.context.Context
 import bvanseg.kotlincommons.command.gear.Gear
 import bvanseg.kotlincommons.command.transformer.Transformer
 
-class Init : ArmadaEvent()
+class CommandManagerInitializationEvent : BaseCommandEvent()
 
-open class CommandEvent(val manager: CommandManager<*>) : ArmadaEvent()
+open class CommandEvent(val manager: CommandManager<*>) : BaseCommandEvent()
 open class CommandExecuteEvent(manager: CommandManager<*>, val command: InternalCommand, val context: Context) :
     CommandEvent(manager) {
     class Pre(manager: CommandManager<*>, command: InternalCommand, context: Context) :
@@ -47,13 +47,13 @@ open class CommandAddEvent(val command: BaseCommand, manager: CommandManager<*>)
     class Post(command: BaseCommand, manager: CommandManager<*>) : CommandAddEvent(command, manager)
 }
 
-open class GearEvent(val gear: Gear, val manager: CommandManager<*>) : ArmadaEvent()
+open class GearEvent(val gear: Gear, val manager: CommandManager<*>) : BaseCommandEvent()
 open class GearAddEvent(gear: Gear, manager: CommandManager<*>) : GearEvent(gear, manager) {
     class Pre(gear: Gear, manager: CommandManager<*>) : GearAddEvent(gear, manager)
     class Post(gear: Gear, manager: CommandManager<*>) : GearAddEvent(gear, manager)
 }
 
-open class TransformerEvent(val transformer: Transformer<*>, val manager: CommandManager<*>) : ArmadaEvent()
+open class TransformerEvent(val transformer: Transformer<*>, val manager: CommandManager<*>) : BaseCommandEvent()
 open class TransformerAddEvent(transformer: Transformer<*>, manager: CommandManager<*>) :
     TransformerEvent(transformer, manager) {
     class Pre(transformer: Transformer<*>, manager: CommandManager<*>) : TransformerAddEvent(transformer, manager)

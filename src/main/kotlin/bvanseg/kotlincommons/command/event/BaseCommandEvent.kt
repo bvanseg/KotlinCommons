@@ -29,6 +29,6 @@ package bvanseg.kotlincommons.command.event
  * @author Boston Vanseghi
  * @since 2.1.0
  */
-open class ArmadaEvent {
+open class BaseCommandEvent {
     var isCancelled = false
 }
