@@ -38,5 +38,5 @@ fun KType.getKClass(): KClass<*> = this.classifier!! as KClass<*>
  * @since 2.0.0
  */
 fun <T : Any> KClass<T>.getResource(name: String): URL =
-	this.java.classLoader.getResource(name)
-		?: throw Exception("Resource '%s' not found".format(name))
+    this.java.classLoader.getResource(name)
+        ?: throw Exception("Resource '%s' not found".format(name))

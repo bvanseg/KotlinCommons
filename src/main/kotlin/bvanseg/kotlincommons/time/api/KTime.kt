@@ -6,7 +6,7 @@ package bvanseg.kotlincommons.time.api
  * @author Boston Vanseghi
  * @since 2.7.0
  */
-data class KTime(var value: Double, override var unit: KTimeUnit): KTimeBase(unit) {
+data class KTime(var value: Double, override var unit: KTimeUnit) : KTimeBase(unit) {
 
     init {
         when {

@@ -78,12 +78,12 @@ class CommandManager<T : Any>(val prefix: String = "!") {
         private val logger = getLogger()
 
         val ranges = listOf(
-                ByteRange::class,
-                ShortRange::class,
-                IntRange::class,
-                FloatRange::class,
-                DoubleRange::class,
-                LongRange::class
+            ByteRange::class,
+            ShortRange::class,
+            IntRange::class,
+            FloatRange::class,
+            DoubleRange::class,
+            LongRange::class
         )
     }
 
@@ -91,11 +91,14 @@ class CommandManager<T : Any>(val prefix: String = "!") {
     val commandModules = hashMapOf<String, CommandModule>()
     val gears = arrayListOf<Gear>()
     val transformers = hashMapOf<KClass<*>, Transformer<*>>()
+
     // Stores alternative prefixes to a key of the developer's desired type.
     val prefixes = hashMapOf<T, String>()
     val aliasMap = hashMapOf<String, String>()
+
     // Used internally for removing whitespace on commands.
     private val whitespaceRegex = Regex("\\s+")
+
     // The event bus used for handling Armada's events.
     val eventBus = EventBus()
 
@@ -186,7 +189,7 @@ class CommandManager<T : Any>(val prefix: String = "!") {
      */
     fun getCommandModule(rawCommand: String, key: T? = null): CommandModule? {
         var command =
-            if(key == null || prefixes[key] == null)
+            if (key == null || prefixes[key] == null)
                 stripPrefix(rawCommand).substringBefore(' ').trim()
             else
                 stripPrefix(rawCommand, prefixes[key]!!).substringBefore(' ').trim()
@@ -209,13 +212,13 @@ class CommandManager<T : Any>(val prefix: String = "!") {
         val pre = CommandAddEvent.Pre(command, this)
         val post = CommandAddEvent.Post(command, this)
         eventBus.fire(pre)
-        if(pre.isCancelled) return
+        if (pre.isCancelled) return
         command::class.memberFunctions.filter { it.findAnnotation<Invoke>() != null }.forEach {
             var methodName = it.name
-            if(capsInsensitive)
+            if (capsInsensitive)
                 methodName = methodName.toLowerCase()
 
-            if(commandModules[methodName] == null)
+            if (commandModules[methodName] == null)
                 commandModules[methodName] = CommandModule(methodName, this)
 
             val module = commandModules[methodName]!!
@@ -223,8 +226,8 @@ class CommandManager<T : Any>(val prefix: String = "!") {
             @Suppress("UNCHECKED_CAST")
             val com = InternalCommand(this as CommandManager<Any>, module, it, gear, command)
 
-            for(annotation in com.function.annotations)
-                if(annotation.annotationClass != Command::class)
+            for (annotation in com.function.annotations)
+                if (annotation.annotationClass != Command::class)
                     com.data[annotation.annotationClass] = annotation
 
             module.commands.add(com)
@@ -250,7 +253,7 @@ class CommandManager<T : Any>(val prefix: String = "!") {
         val pre = GearAddEvent.Pre(gear, this)
         val post = GearAddEvent.Post(gear, this)
         eventBus.fire(pre)
-        if(pre.isCancelled) return
+        if (pre.isCancelled) return
         logger.debug("Registering gear ${gear::class}...")
         gear.commandManager = this
         gears.add(gear)
@@ -259,7 +262,7 @@ class CommandManager<T : Any>(val prefix: String = "!") {
             if (capsInsensitive)
                 methodName = methodName.toLowerCase()
 
-            if(commandModules[methodName] == null)
+            if (commandModules[methodName] == null)
                 commandModules[methodName] = CommandModule(methodName, this)
 
             val module = commandModules[methodName]!!
@@ -271,7 +274,7 @@ class CommandManager<T : Any>(val prefix: String = "!") {
                 if (annotation.annotationClass != Command::class)
                     command.data[annotation.annotationClass] = annotation
 
-            for(annotation in gear::class.annotations)
+            for (annotation in gear::class.annotations)
                 command.data[annotation.annotationClass] = annotation
 
             module.commands.add(command)
@@ -290,9 +293,9 @@ class CommandManager<T : Any>(val prefix: String = "!") {
         val pre = TransformerAddEvent.Pre(transformer, this)
         val post = TransformerAddEvent.Post(transformer, this)
         eventBus.fire(pre)
-        if(pre.isCancelled) return
+        if (pre.isCancelled) return
 
-        if(transformers[transformer.type] != null)
+        if (transformers[transformer.type] != null)
             throw DuplicateTransformerException("Transformer of type ${transformer.type.qualifiedName} is already registered!")
 
         transformers[transformer.type] = transformer

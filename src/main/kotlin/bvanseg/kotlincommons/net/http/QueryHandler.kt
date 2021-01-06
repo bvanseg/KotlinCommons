@@ -30,7 +30,7 @@ package bvanseg.kotlincommons.net.http
 object QueryHandler {
 
     fun build(vararg pairs: Pair<String, Any?>) =
-            "?" + pairs.filter { it.second != null }.joinToString("&") { pair -> "${pair.first}=${pair.second}" }
+        "?" + pairs.filter { it.second != null }.joinToString("&") { pair -> "${pair.first}=${pair.second}" }
 
     fun derive(query: String): List<Pair<String, String>> = query.replace("?", "").split('&').run {
         val pairs = mutableListOf<Pair<String, String>>()

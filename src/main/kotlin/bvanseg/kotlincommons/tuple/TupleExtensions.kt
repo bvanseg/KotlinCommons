@@ -40,7 +40,6 @@ fun <T : Comparable<T>> Pair<T, T>.between(value: T): Boolean = value > first &&
 fun <T : Comparable<T>> Pair<T, T>.contains(value: T): Boolean = value in first..second
 
 
-
 /**
  * Converts this quad into a list.
  */

@@ -55,32 +55,32 @@ fun LocalDateTime.toFileSafeString(): String = this.format(fileSafeFormat)
  * @param millis Whether milliseconds should be included in the returned String
  */
 fun Duration.format(millis: Boolean = false, shorthand: Boolean = false): String {
-	val milliseconds = if (millis) this.toMillis() % 1000 else 0
-	val seconds = this.seconds % 60
-	val minutes = (this.seconds % 3600) / 60
-	val hours = this.seconds / 3600
+    val milliseconds = if (millis) this.toMillis() % 1000 else 0
+    val seconds = this.seconds % 60
+    val minutes = (this.seconds % 3600) / 60
+    val hours = this.seconds / 3600
 
-	val list = ArrayList<Pair<Long, String>>()
-	if (hours > 0) list.add(hours to if (shorthand) "h" else "hour")
-	if (minutes > 0) list.add(minutes to if (shorthand) "m" else "minute")
-	if (seconds > 0) list.add(seconds to if (shorthand) "s" else "second")
-	if (milliseconds > 0) list.add(milliseconds to if (shorthand) "ms" else "millisecond")
+    val list = ArrayList<Pair<Long, String>>()
+    if (hours > 0) list.add(hours to if (shorthand) "h" else "hour")
+    if (minutes > 0) list.add(minutes to if (shorthand) "m" else "minute")
+    if (seconds > 0) list.add(seconds to if (shorthand) "s" else "second")
+    if (milliseconds > 0) list.add(milliseconds to if (shorthand) "ms" else "millisecond")
 
-	val size = list.size
-	if (size == 0) return if (shorthand) "0 ${if (millis) "m" else ""}s" else "0 ${if (millis) "milli" else ""}seconds"
-	if (size == 1) return timePairToString(list[0], shorthand)
+    val size = list.size
+    if (size == 0) return if (shorthand) "0 ${if (millis) "m" else ""}s" else "0 ${if (millis) "milli" else ""}seconds"
+    if (size == 1) return timePairToString(list[0], shorthand)
 
-	val sb = StringBuilder()
-	list.forEachIndexed { index, timePair ->
-		sb.append(timePairToString(timePair, shorthand))
-		when (size - index) {
-			1 -> Unit
-			2 -> sb.append(if (shorthand) ", " else " and ")
-			else -> sb.append(", ")
-		}
-	}
-	return sb.toString()
+    val sb = StringBuilder()
+    list.forEachIndexed { index, timePair ->
+        sb.append(timePairToString(timePair, shorthand))
+        when (size - index) {
+            1 -> Unit
+            2 -> sb.append(if (shorthand) ", " else " and ")
+            else -> sb.append(", ")
+        }
+    }
+    return sb.toString()
 }
 
 private fun timePairToString(pair: Pair<Long, String>, shorthand: Boolean): String =
-	"${pair.first}${if (shorthand) "" else " "}${pair.second}${if (pair.first != 1L && !shorthand) "s" else ""}"
+    "${pair.first}${if (shorthand) "" else " "}${pair.second}${if (pair.first != 1L && !shorthand) "s" else ""}"

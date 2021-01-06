@@ -35,7 +35,7 @@ import kotlin.math.round
  * @author Boston Vanseghi
  * @since 2.0.2
  */
-class Color: Serializable {
+class Color : Serializable {
 
     lateinit var rgb: Triple<Int, Int, Int>
     lateinit var rgba: Quad<Int, Int, Int, Int>
@@ -47,12 +47,12 @@ class Color: Serializable {
             val b = blue / 255f
 
             return when {
-                r > g && g >= b -> round(((g-b)/(r-b)) * 60).toInt()
-                g > r && r >= b -> round((2.0 - ((r-b)/(g-b))) * 60).toInt()
-                g >= b && b > r -> round((2.0 + ((b-r)/(g-r))) * 60).toInt()
-                b > g && g > r -> round((4.0 - ((g-r)/(b-r))) * 60).toInt()
-                b > r && r >= g -> round((4.0 + ((r-g)/(b-g))) * 60).toInt()
-                r >= b && b > g -> round((6.0 - ((b-g)/(r-g))) * 60).toInt()
+                r > g && g >= b -> round(((g - b) / (r - b)) * 60).toInt()
+                g > r && r >= b -> round((2.0 - ((r - b) / (g - b))) * 60).toInt()
+                g >= b && b > r -> round((2.0 + ((b - r) / (g - r))) * 60).toInt()
+                b > g && g > r -> round((4.0 - ((g - r) / (b - r))) * 60).toInt()
+                b > r && r >= g -> round((4.0 + ((r - g) / (b - g))) * 60).toInt()
+                r >= b && b > g -> round((6.0 - ((b - g) / (r - g))) * 60).toInt()
                 else -> -1
             }
         }
@@ -80,7 +80,7 @@ class Color: Serializable {
             val min = minOf(r, g, b)
 
             return when {
-                luminance / 100f < 1 -> round(((max-min)/(1 - (2 * (luminance/100f) - 1))) * 100).toInt()
+                luminance / 100f < 1 -> round(((max - min) / (1 - (2 * (luminance / 100f) - 1))) * 100).toInt()
                 else -> 0
             }
         }
@@ -126,11 +126,23 @@ class Color: Serializable {
     }
 
     constructor(red: Int, green: Int, blue: Int, alpha: Int = 0xFF) {
-        this.color = 0 or (clamp(red, 0, 255) shl 16) or (clamp(green, 0, 255) shl 8) or clamp(blue, 0, 255) or (clamp(alpha, 0, 255) shl 24)
+        this.color = 0 or (clamp(red, 0, 255) shl 16) or (clamp(green, 0, 255) shl 8) or clamp(blue, 0, 255) or (clamp(
+            alpha,
+            0,
+            255
+        ) shl 24)
     }
 
     constructor(red: Float, green: Float, blue: Float, alpha: Float = 1.0f) {
-        this.color = 0 or ((255 * clamp(red, 0.0f, 1.0f)).toInt() shl 16) or ((255 * clamp(green, 0.0f, 1.0f)).toInt() shl 8) or (255 * clamp(blue, 0.0f, 1.0f)).toInt() or ((255 * clamp(alpha, 0.0f, 1.0f)).toInt() shl 24)
+        this.color = 0 or ((255 * clamp(red, 0.0f, 1.0f)).toInt() shl 16) or ((255 * clamp(
+            green,
+            0.0f,
+            1.0f
+        )).toInt() shl 8) or (255 * clamp(blue, 0.0f, 1.0f)).toInt() or ((255 * clamp(
+            alpha,
+            0.0f,
+            1.0f
+        )).toInt() shl 24)
     }
 
     private fun setColor(red: Int = this.red, blue: Int = this.blue, green: Int = this.green, alpha: Int = this.alpha) {

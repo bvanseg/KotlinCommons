@@ -32,8 +32,10 @@ package bvanseg.kotlincommons.throwable
 class ExceptionAnalysis(val exception: Throwable, val rootPackage: String) {
     /** The exception message. */
     val message = exception.toString()
+
     /** A list of each exception that causes the [exception] */
     val cause: List<String>
+
     /** The root exception that causes the [exception] */
     val rootCause: Throwable
 

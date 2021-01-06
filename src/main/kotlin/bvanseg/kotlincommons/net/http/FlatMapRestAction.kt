@@ -29,7 +29,8 @@ package bvanseg.kotlincommons.net.http
  * @author Boston Vanseghi
  * @since 2.3.0
  */
-class FlatMapRestAction<T, O>(val callback: (T?) -> RestAction<O>, private val parent: RestAction<T>) : RestAction<O>() {
+class FlatMapRestAction<T, O>(val callback: (T?) -> RestAction<O>, private val parent: RestAction<T>) :
+    RestAction<O>() {
 
     override fun queueImpl() {
         parent.queue {

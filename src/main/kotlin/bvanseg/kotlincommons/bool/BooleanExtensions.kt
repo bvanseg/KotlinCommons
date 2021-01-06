@@ -49,4 +49,4 @@ inline fun Boolean.ifFalse(block: () -> Unit): Boolean {
     return this
 }
 
-fun Boolean.toInt(): Int = if(this) 1 else 0
+fun Boolean.toInt(): Int = if (this) 1 else 0

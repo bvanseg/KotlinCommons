@@ -40,9 +40,11 @@ class TestKCHttpRequest {
                     addHeader("foo", "bar")
                 }
 
-                parameters(mapOf(
-                    "q" to "chocolate"
-                ))
+                parameters(
+                    mapOf(
+                        "q" to "chocolate"
+                    )
+                )
             }
         }
 

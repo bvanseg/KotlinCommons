@@ -38,8 +38,8 @@ class ToStringBuilder private constructor() {
     fun append(string: String): ToStringBuilder = this.apply { data.append(string) }
 
     @Suppress("IMPLICIT_CAST_TO_ANY")
-    fun <T: Any> append(field: String, value: T): ToStringBuilder = this.apply {
-        val con = when(value::class) {
+    fun <T : Any> append(field: String, value: T): ToStringBuilder = this.apply {
+        val con = when (value::class) {
             String::class -> "\"${value as String}\""
             Map::class -> (value as Map<*, *>).entries.joinToString(", ")
             else -> {
@@ -51,7 +51,7 @@ class ToStringBuilder private constructor() {
             }
         }
 
-        if(elements == 0)
+        if (elements == 0)
             data.append("$field=$con")
         else
             data.append(", $field=$con")

@@ -40,31 +40,31 @@ package bvanseg.kotlincommons.fp.monad
  * @author Alex Couch
  * @since 2.4.0
  */
-sealed class Option<T>{
-    data class Some<T>(val t: T): Option<T>()
-    class None<T>: Option<T>(){
+sealed class Option<T> {
+    data class Some<T>(val t: T) : Option<T>()
+    class None<T> : Option<T>() {
         companion object
     }
 
     val isSome get() = this is Some<T>
     val isNone get() = this is None
-    val unwrap get() = if(this is Some<T>) t else throw IllegalStateException("Attempted to unwrap Option but was None")
+    val unwrap get() = if (this is Some<T>) t else throw IllegalStateException("Attempted to unwrap Option but was None")
 
-    fun unwrapOrElse(orElse: ()->T): T =
-        if(this is Some<T>) t else orElse()
+    fun unwrapOrElse(orElse: () -> T): T =
+        if (this is Some<T>) t else orElse()
 
-    fun <S> map(callback: (T)->S): Option<S> =
-        if(this is Some<T>){
+    fun <S> map(callback: (T) -> S): Option<S> =
+        if (this is Some<T>) {
             callback(t).some()
-        }else{
+        } else {
             none()
         }
 
     @Suppress("UNCHECKED_CAST")
     internal fun <S> fix(): Option<S> = this as Option<S>
 
-    fun <S> flatMap(callback: (T)->Option<S>): Option<S> =
-        when(this){
+    fun <S> flatMap(callback: (T) -> Option<S>): Option<S> =
+        when (this) {
             is Some<T> -> {
                 callback(t)
             }

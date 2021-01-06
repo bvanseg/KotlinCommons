@@ -56,7 +56,7 @@ enum class RoundingMode {
  * @author Boston Vanseghi
  * @since 2.7.0
  */
-fun roundToNearest(value: Double, nearest: Double, mode: RoundingMode = RoundingMode.NEAREST) = when(mode) {
+fun roundToNearest(value: Double, nearest: Double, mode: RoundingMode = RoundingMode.NEAREST) = when (mode) {
     RoundingMode.UP -> nearest * (ceil(abs(value / nearest)))
     RoundingMode.NEAREST -> {
         val v = abs(value / nearest)
@@ -74,4 +74,5 @@ fun roundToNearest(value: Double, nearest: Double, mode: RoundingMode = Rounding
     RoundingMode.DOWN -> nearest * (floor(abs(value / nearest)))
 }
 
-fun Number.roundToNearest(nearest: Double, mode: RoundingMode = RoundingMode.NEAREST) = roundToNearest(this.toDouble(), nearest, mode)
+fun Number.roundToNearest(nearest: Double, mode: RoundingMode = RoundingMode.NEAREST) =
+    roundToNearest(this.toDouble(), nearest, mode)

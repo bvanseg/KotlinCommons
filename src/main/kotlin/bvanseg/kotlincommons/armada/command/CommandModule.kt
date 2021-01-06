@@ -50,9 +50,9 @@ class CommandModule(val tag: String, val manager: CommandManager<*>) {
         commands.forEach {
             val firstParam = it.function.parameters.firstOrNull()
             val hasContext = firstParam?.type?.getKClass()?.isSubclassOf(Context::class) ?: false
-            val addon = if(hasContext) 1 else 0
+            val addon = if (hasContext) 1 else 0
             val score2 = it.softInvoke(args, context) - addon
-            if(score2 > dist) {
+            if (score2 > dist) {
                 dist = score2
                 candidateCommand = it
             }

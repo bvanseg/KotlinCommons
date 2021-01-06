@@ -43,7 +43,8 @@ infix fun KTime.into(other: KTimeBase): KTime {
     return KTime(newValue, other.unit)
 }
 
-fun every(frequency: KTime, counterDrift: Boolean = false, cb: (KTimePerformer) -> Unit): KTimePerformer = KTimePerformer(frequency, cb, counterDrift)
+fun every(frequency: KTime, counterDrift: Boolean = false, cb: (KTimePerformer) -> Unit): KTimePerformer =
+    KTimePerformer(frequency, cb, counterDrift)
 
 operator fun KTime.compareTo(other: Number): Int {
     val otherValue = other.toDouble()
@@ -83,9 +84,10 @@ operator fun KTime.inc(): KTime = this.apply { this.value += 1 }
 operator fun KTime.plus(other: Number): KTime = this.apply { this.value += other.toDouble() }
 operator fun KTime.minus(other: Number): KTime = this.apply { this.value -= other.toDouble() }
 
-operator fun KTime.plusAssign(other: Number)  {
+operator fun KTime.plusAssign(other: Number) {
     this.apply { this.value += other.toDouble() }
 }
+
 operator fun KTime.minusAssign(other: Number) {
     this.apply { this.value -= other.toDouble() }
 }

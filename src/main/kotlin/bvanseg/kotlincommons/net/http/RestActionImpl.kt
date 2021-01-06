@@ -46,18 +46,23 @@ import java.util.*
  * @author Boston Vanseghi
  * @since 2.3.0
  */
-open class RestActionImpl<T>(private val request: HttpRequest, private val type: Class<T>, private val typeReference: TypeReference<T>, private val client: HttpClient = KCHttp.DEFAULT_HTTP_CLIENT): RestAction<T>() {
+open class RestActionImpl<T>(
+    private val request: HttpRequest,
+    private val type: Class<T>,
+    private val typeReference: TypeReference<T>,
+    private val client: HttpClient = KCHttp.DEFAULT_HTTP_CLIENT
+) : RestAction<T>() {
 
     companion object {
 
         val logger = getLogger()
 
-        inline operator fun <reified T : Any>invoke(request: HttpRequest): RestActionImpl<T> {
+        inline operator fun <reified T : Any> invoke(request: HttpRequest): RestActionImpl<T> {
             return RestActionImpl(request, T::class.java, jacksonTypeRef())
         }
     }
 
-    private val bodyHandlerType = when(type) {
+    private val bodyHandlerType = when (type) {
         ByteArray::class.java -> HttpResponse.BodyHandlers.ofByteArray()
         else -> HttpResponse.BodyHandlers.ofString()
     }
@@ -75,7 +80,7 @@ open class RestActionImpl<T>(private val request: HttpRequest, private val type:
                 return@whenComplete
             }
 
-            if(response.statusCode() in 400..599) {
+            if (response.statusCode() in 400..599) {
                 errorCallback?.invoke(response)
             } else {
                 successCallback?.invoke(response)
@@ -93,18 +98,18 @@ open class RestActionImpl<T>(private val request: HttpRequest, private val type:
                 }
 
                 // Invoked no matter what.
-                if(response.statusCode() in 400..599) {
+                if (response.statusCode() in 400..599) {
                     errorCallback?.invoke(response)
                 } else {
                     successCallback?.invoke(response)
                 }
 
                 // Fine to invoke whether or not the body is empty.
-                if(type == HttpResponse::class.java) {
+                if (type == HttpResponse::class.java) {
                     // If the type needed is an HttpResponse, the response itself can be used in the queue callback.
                     callback(response as T)
                     return@whenComplete
-                } else if(type == String::class.java || type == ByteArray::class.java) {
+                } else if (type == String::class.java || type == ByteArray::class.java) {
                     // If the type needed is a String, the body itself can be returned as a String.
                     callback(response.body() as T)
                     return@whenComplete
@@ -112,9 +117,9 @@ open class RestActionImpl<T>(private val request: HttpRequest, private val type:
 
                 val strBody = response.body() as String
 
-                if(strBody.isNotEmpty()) {
+                if (strBody.isNotEmpty()) {
                     callback(KCHttp.jsonMapper.readValue(strBody, typeReference))
-                } else if(type == Optional::class.java) {
+                } else if (type == Optional::class.java) {
                     // If the type needed is a String, the body itself can be returned as a String.
                     callback(Optional.empty<Any>() as T)
                 }
@@ -134,7 +139,7 @@ open class RestActionImpl<T>(private val request: HttpRequest, private val type:
         }
 
         // Invoked no matter what.
-        if(response.statusCode() in 400..599) {
+        if (response.statusCode() in 400..599) {
             errorCallback?.invoke(response)
         } else {
             successCallback?.invoke(response)
@@ -142,19 +147,19 @@ open class RestActionImpl<T>(private val request: HttpRequest, private val type:
 
         try {
             // Fine to invoke whether or not the body is empty.
-            if(type == HttpResponse::class.java) {
+            if (type == HttpResponse::class.java) {
                 // If the type needed is an HttpResponse, the response itself can be used in the queue callback.
                 return response as T
-            } else if(type == String::class.java || type == ByteArray::class.java) {
+            } else if (type == String::class.java || type == ByteArray::class.java) {
                 // If the type needed is a String, the body itself can be returned as a String.
                 return response.body() as T
             }
 
             val strBody = response.body() as String
 
-            if(strBody.isNotEmpty()) {
+            if (strBody.isNotEmpty()) {
                 return KCHttp.jsonMapper.readValue(strBody, typeReference)
-            } else if(type == Optional::class.java) {
+            } else if (type == Optional::class.java) {
                 // If the type needed is a String, the body itself can be returned as a String.
                 return Optional.empty<Any>() as T
             }

@@ -49,5 +49,6 @@ class Argument(private val raw: String) {
      * Transforms raw input into any registered {@link Transformer} type from within the {@link Command} function. Will
      * return null if the transformation fails.
      */
-    fun <T: Any> transformTo(commandManager: CommandManager<*>, clazz: KClass<T>): Any? = commandManager.transformers[clazz]?.parse(raw)
+    fun <T : Any> transformTo(commandManager: CommandManager<*>, clazz: KClass<T>): Any? =
+        commandManager.transformers[clazz]?.parse(raw)
 }

@@ -182,7 +182,10 @@ class TestTimeConversions {
 
     @Test
     fun testMillenniums() {
-        assertEquals((1 / (1_000_000.0 * 1_000 * 60 * 60 * 24 * 365 * 1000)).millenniums, 1.nanoseconds into millenniums)
+        assertEquals(
+            (1 / (1_000_000.0 * 1_000 * 60 * 60 * 24 * 365 * 1000)).millenniums,
+            1.nanoseconds into millenniums
+        )
         assertEquals((1 / (1_000_000.0 * 60 * 60 * 24 * 365 * 1000)).millenniums, 1.microseconds into millenniums)
         assertEquals((1 / (1000.0 * 60 * 60 * 24 * 365 * 1000)).millenniums, 1.milliseconds into millenniums)
         assertEquals((1 / (60.0 * 60 * 24 * 365 * 1000)).millenniums, 1.seconds into millenniums)

@@ -40,13 +40,13 @@ class HashCodeBuilder(clazz: Any) {
     private val mult = 37
 
     fun append(value: Any?): HashCodeBuilder {
-        if(value == null)
+        if (value == null)
             total *= mult
         else {
-            if(value.javaClass.isArray) {
+            if (value.javaClass.isArray) {
                 @Suppress("UNCHECKED_CAST")
                 append(value as Array<Any?>)
-            }else
+            } else
                 total = total * mult + value.hashCode()
         }
         return this

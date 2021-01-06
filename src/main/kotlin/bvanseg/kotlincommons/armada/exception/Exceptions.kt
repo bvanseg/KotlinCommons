@@ -31,7 +31,7 @@ import bvanseg.kotlincommons.armada.context.Context
  * @author Boston Vanseghi
  * @since 2.2.4
  */
-open class ArmadaException(override val message: String): Exception(message)
+open class ArmadaException(override val message: String) : Exception(message)
 
 /**
  * Thrown when a generic exception occurs regarding parameters.
@@ -39,7 +39,7 @@ open class ArmadaException(override val message: String): Exception(message)
  * @author Boston Vanseghi
  * @since 2.2.4
  */
-open class ParameterException(override val message: String): ArmadaException(message)
+open class ParameterException(override val message: String) : ArmadaException(message)
 
 /**
  * Thrown when a generic exception occurs regarding transformers.
@@ -47,7 +47,7 @@ open class ParameterException(override val message: String): ArmadaException(mes
  * @author Boston Vanseghi
  * @since 2.2.4
  */
-open class TransformerException(override val message: String): ArmadaException(message)
+open class TransformerException(override val message: String) : ArmadaException(message)
 
 /**
  * Thrown when a parameter is missing during command execution.
@@ -55,7 +55,8 @@ open class TransformerException(override val message: String): ArmadaException(m
  * @author Boston Vanseghi
  * @since 2.2.4
  */
-class MissingParameterException(val parameters: List<String>, override val message: String): ParameterException(message)
+class MissingParameterException(val parameters: List<String>, override val message: String) :
+    ParameterException(message)
 
 /**
  * Thrown when a given parameter is invalid (such as a [String] passed in for an [Int]).
@@ -63,7 +64,7 @@ class MissingParameterException(val parameters: List<String>, override val messa
  * @author Boston Vanseghi
  * @since 2.2.4
  */
-class InvalidParameterException(override val message: String): ParameterException(message)
+class InvalidParameterException(override val message: String) : ParameterException(message)
 
 /**
  * Thrown when a given argument can't be matched up to any parameter.
@@ -71,7 +72,7 @@ class InvalidParameterException(override val message: String): ParameterExceptio
  * @author Boston Vanseghi
  * @since 2.2.4
  */
-class UnknownParameterException(val ctx: Context, override val message: String): ParameterException(message)
+class UnknownParameterException(val ctx: Context, override val message: String) : ParameterException(message)
 
 /**
  * Thrown when a [bvanseg.kotlincommons.armada.transformer.Transformer] can't be found for parsing a command argument.
@@ -79,7 +80,7 @@ class UnknownParameterException(val ctx: Context, override val message: String):
  * @author Boston Vanseghi
  * @since 2.2.4
  */
-class MissingTransformerException(val ctx: Context, override val message: String): TransformerException(message)
+class MissingTransformerException(val ctx: Context, override val message: String) : TransformerException(message)
 
 /**
  * Thrown when a [bvanseg.kotlincommons.armada.transformer.Transformer] encounters an error during parsing.
@@ -87,7 +88,7 @@ class MissingTransformerException(val ctx: Context, override val message: String
  * @author Boston Vanseghi
  * @since 2.2.4
  */
-class TransformerParseException(val ctx: Context, override val message: String): TransformerException(message)
+class TransformerParseException(val ctx: Context, override val message: String) : TransformerException(message)
 
 /**
  * Thrown when a [bvanseg.kotlincommons.armada.transformer.Transformer] with the same type is registered a second time.
@@ -95,7 +96,7 @@ class TransformerParseException(val ctx: Context, override val message: String):
  * @author Boston Vanseghi
  * @since 2.2.4
  */
-class DuplicateTransformerException(override val message: String): TransformerException(message)
+class DuplicateTransformerException(override val message: String) : TransformerException(message)
 
 /**
  * Thrown when an unknown [ArmadaException] occurs.
@@ -103,4 +104,4 @@ class DuplicateTransformerException(override val message: String): TransformerEx
  * @author Boston Vanseghi
  * @since 2.2.4
  */
-class UnknownCommandException(override val message: String): ArmadaException(message)
+class UnknownCommandException(override val message: String) : ArmadaException(message)

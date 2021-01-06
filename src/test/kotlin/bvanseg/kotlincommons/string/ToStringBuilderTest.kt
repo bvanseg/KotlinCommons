@@ -46,6 +46,9 @@ internal class ToStringBuilderTest {
         val data = person.toString()
 
         // Then
-        assertEquals("Person(name=\"Bob\", age=22, gender=MALE, account=Account(balance=0.0, foo=[Bar, FooBar, MoreFooBar], bar={boo=1, ooga=2}))", data)
+        assertEquals(
+            "Person(name=\"Bob\", age=22, gender=MALE, account=Account(balance=0.0, foo=[Bar, FooBar, MoreFooBar], bar={boo=1, ooga=2}))",
+            data
+        )
     }
 }

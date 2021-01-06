@@ -29,7 +29,7 @@ import kotlin.math.abs
  * @author Boston Vanseghi
  * @since 2.7.0
  */
-fun <T: Number> percentDifference(firstValue: T, secondValue: T): Double {
+fun <T : Number> percentDifference(firstValue: T, secondValue: T): Double {
     val fv = firstValue.toDouble()
     val sv = secondValue.toDouble()
 

@@ -5,9 +5,9 @@ import bvanseg.kotlincommons.fp.monad.none
 import bvanseg.kotlincommons.fp.monad.some
 import org.junit.jupiter.api.Test
 
-class OptionTest{
+class OptionTest {
     @Test
-    fun optionNoneTest(){
+    fun optionNoneTest() {
         //Given
         val noInt = none<Int>()
         //When
@@ -16,7 +16,7 @@ class OptionTest{
     }
 
     @Test
-    fun optionSomeTest(){
+    fun optionSomeTest() {
         //Given
         val noInt = 5.some()
         //When
@@ -25,7 +25,7 @@ class OptionTest{
     }
 
     @Test
-    fun optionMapTest(){
+    fun optionMapTest() {
         //Given
         val noInt = none<Int>()
         val five = 5.some()
@@ -38,7 +38,7 @@ class OptionTest{
     }
 
     @Test
-    fun optionFlatMapTest(){
+    fun optionFlatMapTest() {
         //Given
         val noInt = none<Int>()
         val five = 5.some()
@@ -48,13 +48,13 @@ class OptionTest{
         //Then
         assert(flatNone.isNone)
         assert(flatFive.isSome)
-        if(flatFive is Option.Some){
+        if (flatFive is Option.Some) {
             assert(flatFive.t == 10)
         }
     }
 
     @Test
-    fun optionUnwrapTest(){
+    fun optionUnwrapTest() {
         //Given
         val five = 5.some()
         //When
@@ -63,7 +63,7 @@ class OptionTest{
     }
 
     @Test
-    fun optionUnwrapOrElseTest(){
+    fun optionUnwrapOrElseTest() {
         //Given
         val noInt = none<Int>()
         //When

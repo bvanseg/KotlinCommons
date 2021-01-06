@@ -40,16 +40,17 @@ import kotlin.reflect.KParameter
 import kotlin.reflect.full.findAnnotation
 
 /**
-* Built-in transformers provided for developers. Serve as both examples and utilities.
-*
-* @author bright_spark
-* @since 2.1.0
-*/
+ * Built-in transformers provided for developers. Serve as both examples and utilities.
+ *
+ * @author bright_spark
+ * @since 2.1.0
+ */
 object IntTransformer : Transformer<Int>(Int::class) {
     override fun parse(parameter: KParameter, input: String, ctx: Context?): Int? {
         val value = input.remove(",", "_").toIntOrNull()
         return parameter.findAnnotation<IntRange>()?.let { clampOrNull(value, it.min, it.max) } ?: value
     }
+
     override fun parse(input: String, ctx: Context?): Int? = input.remove(",", "_").toIntOrNull()
 }
 
@@ -58,6 +59,7 @@ object DoubleTransformer : Transformer<Double>(Double::class) {
         val value = input.remove(",", "_").toDoubleOrNull()
         return parameter.findAnnotation<DoubleRange>()?.let { clampOrNull(value, it.min, it.max) } ?: value
     }
+
     override fun parse(input: String, ctx: Context?): Double? = input.remove(",", "_").toDoubleOrNull()
 }
 
@@ -66,6 +68,7 @@ object FloatTransformer : Transformer<Float>(Float::class) {
         val value = input.remove(",", "_").toFloatOrNull()
         return parameter.findAnnotation<FloatRange>()?.let { clampOrNull(value, it.min, it.max) } ?: value
     }
+
     override fun parse(input: String, ctx: Context?): Float? = input.remove(",", "_").toFloatOrNull()
 }
 
@@ -74,6 +77,7 @@ object LongTransformer : Transformer<Long>(Long::class) {
         val value = input.remove(",", "_").toLongOrNull()
         return parameter.findAnnotation<LongRange>()?.let { clampOrNull(value, it.min, it.max) } ?: value
     }
+
     override fun parse(input: String, ctx: Context?): Long? = input.remove(",", "_").toLongOrNull()
 }
 
@@ -82,6 +86,7 @@ object ShortTransformer : Transformer<Short>(Short::class) {
         val value = input.remove(",", "_").toShortOrNull()
         return parameter.findAnnotation<ShortRange>()?.let { clampOrNull(value, it.min, it.max) } ?: value
     }
+
     override fun parse(input: String, ctx: Context?): Short? = input.remove(",", "_").toShortOrNull()
 }
 
@@ -90,6 +95,7 @@ object ByteTransformer : Transformer<Byte>(Byte::class) {
         val value = input.remove(",", "_").toByteOrNull()
         return parameter.findAnnotation<ByteRange>()?.let { clampOrNull(value, it.min, it.max) } ?: value
     }
+
     override fun parse(input: String, ctx: Context?): Byte? = input.remove(",", "_").toByteOrNull()
 }
 

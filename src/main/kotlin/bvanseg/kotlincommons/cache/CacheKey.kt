@@ -30,7 +30,7 @@ package bvanseg.kotlincommons.cache
 class CacheKey<T>(val value: T, var timeToLiveMS: Long) {
 
     override fun equals(other: Any?): Boolean {
-        if(other is CacheKey<*>) {
+        if (other is CacheKey<*>) {
             return value != null && value == other.value
         }
 

@@ -80,27 +80,32 @@ open class CRUDOperation {
         map.forEach { (key, value) -> parameters.addParameter(key, value) }
     }
 
-    @Deprecated("CRUD operations can not be nested!", level = DeprecationLevel.ERROR,
+    @Deprecated(
+        "CRUD operations can not be nested!", level = DeprecationLevel.ERROR,
         replaceWith = ReplaceWith("error(\"...\")")
     )
     fun get(op: GET.() -> Unit): GET = error("...")
 
-    @Deprecated("CRUD operations can not be nested!", level = DeprecationLevel.ERROR,
+    @Deprecated(
+        "CRUD operations can not be nested!", level = DeprecationLevel.ERROR,
         replaceWith = ReplaceWith("error(\"...\")")
     )
     fun delete(op: DELETE.() -> Unit): DELETE = error("...")
 
-    @Deprecated("CRUD operations can not be nested!", level = DeprecationLevel.ERROR,
+    @Deprecated(
+        "CRUD operations can not be nested!", level = DeprecationLevel.ERROR,
         replaceWith = ReplaceWith("error(\"...\")")
     )
     fun post(op: POST.() -> Unit): POST = error("...")
 
-    @Deprecated("CRUD operations can not be nested!", level = DeprecationLevel.ERROR,
+    @Deprecated(
+        "CRUD operations can not be nested!", level = DeprecationLevel.ERROR,
         replaceWith = ReplaceWith("error(\"...\")")
     )
     fun put(op: PUT.() -> Unit): PUT = error("...")
 
-    @Deprecated("CRUD operations can not be nested!", level = DeprecationLevel.ERROR,
+    @Deprecated(
+        "CRUD operations can not be nested!", level = DeprecationLevel.ERROR,
         replaceWith = ReplaceWith("error(\"...\")")
     )
     fun patch(op: PATCH.() -> Unit): PATCH = error("...")
@@ -111,13 +116,13 @@ open class CRUDOperation {
  * @author Boston Vanseghi
  * @since 2.3.0
  */
-class GET: CRUDOperation()
+class GET : CRUDOperation()
 
 /**
  * @author Boston Vanseghi
  * @since 2.3.0
  */
-class DELETE: CRUDOperation()
+class DELETE : CRUDOperation()
 
 /**
  * @author Boston Vanseghi
@@ -125,22 +130,22 @@ class DELETE: CRUDOperation()
  */
 open class UpdateOperation(
     var publisher: HttpRequest.BodyPublisher = HttpRequest.BodyPublishers.noBody()
-): CRUDOperation()
+) : CRUDOperation()
 
 /**
  * @author Boston Vanseghi
  * @since 2.3.0
  */
-class POST: UpdateOperation()
+class POST : UpdateOperation()
 
 /**
  * @author Boston Vanseghi
  * @since 2.3.0
  */
-class PUT: UpdateOperation()
+class PUT : UpdateOperation()
 
 /**
  * @author Boston Vanseghi
  * @since 2.3.0
  */
-class PATCH: UpdateOperation()
+class PATCH : UpdateOperation()

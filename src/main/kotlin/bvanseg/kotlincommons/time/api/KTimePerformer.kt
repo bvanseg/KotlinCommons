@@ -117,8 +117,8 @@ class KTimePerformer(val frequency: KTime, val action: (KTimePerformer) -> Unit,
             kotlinx.coroutines.delay(initDelay)
         }
 
-        while(true) {
-            if(shouldStop) {
+        while (true) {
+            if (shouldStop) {
                 break
             }
 
@@ -157,7 +157,7 @@ class KTimePerformer(val frequency: KTime, val action: (KTimePerformer) -> Unit,
      * By default, performers execute blocking.
      */
     fun execute(async: Boolean = false) {
-        if(async) {
+        if (async) {
             GlobalScope.launch {
                 executor(this)
             }

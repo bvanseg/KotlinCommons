@@ -47,7 +47,8 @@ fun <T> Array<Array<T>>.random(rnd: Random = Random()): T = get(rnd.nextInt(size
  * @author Boston Vanseghi
  * @since 2.0.2
  */
-fun <T> Array<Array<Array<T>>>.random(rnd: Random = Random()): T = get(rnd.nextInt(size))[rnd.nextInt(size)][rnd.nextInt(size)]
+fun <T> Array<Array<Array<T>>>.random(rnd: Random = Random()): T =
+    get(rnd.nextInt(size))[rnd.nextInt(size)][rnd.nextInt(size)]
 
 /**
  * Checks the [Array] to see if any of the elements are null.
@@ -71,4 +72,5 @@ inline fun <reified T> Array<Array<T>>.anyNull(): Boolean = any { e1 -> e1.any {
  * @author Boston Vanseghi
  * @since 2.0.2
  */
-inline fun <reified T> Array<Array<Array<T>>>.anyNull(): Boolean = any { e1 -> e1.any { e2 -> e2.any { e3 -> e3 == null } } }
+inline fun <reified T> Array<Array<Array<T>>>.anyNull(): Boolean =
+    any { e1 -> e1.any { e2 -> e2.any { e3 -> e3 == null } } }

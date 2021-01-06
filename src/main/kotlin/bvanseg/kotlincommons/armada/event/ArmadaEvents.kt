@@ -37,6 +37,7 @@ open class CommandExecuteEvent(manager: CommandManager<*>, val command: Internal
     CommandEvent(manager) {
     class Pre(manager: CommandManager<*>, command: InternalCommand, context: Context) :
         CommandExecuteEvent(manager, command, context)
+
     class Post(manager: CommandManager<*>, command: InternalCommand, context: Context, val result: Any?) :
         CommandExecuteEvent(manager, command, context)
 }

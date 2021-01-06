@@ -58,7 +58,7 @@ fun Number.isOdd(): Boolean = !isEven()
 fun Number.numDigits(): Int = (log10(this.toDouble()) + 1).toInt()
 
 fun Int.getDigits(): IntArray {
-    if(this == 0) return intArrayOf()
+    if (this == 0) return intArrayOf()
 
     var number = this
 

@@ -58,7 +58,7 @@ fun <T> linkedListOf(): LinkedList<T> = LinkedList()
  */
 inline fun <reified T> List<T>.toLinkedList(): LinkedList<T> {
     val llist = LinkedList<T>()
-    for(e in this) {
+    for (e in this) {
         llist.add(e)
     }
 

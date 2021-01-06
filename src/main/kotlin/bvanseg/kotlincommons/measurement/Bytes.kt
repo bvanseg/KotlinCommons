@@ -29,11 +29,11 @@ package bvanseg.kotlincommons.measurement
  * @since 2.5.0
  */
 sealed class ByteData(open var value: Long, val type: ByteUnit) {
-    data class Byte(override var value: Long): ByteData(value, ByteUnit.B)
-    data class KiloByte(override var value: Long): ByteData(value, ByteUnit.KB)
-    data class MegaByte(override var value: Long): ByteData(value, ByteUnit.MB)
-    data class GigaByte(override var value: Long): ByteData(value, ByteUnit.GB)
-    data class TeraByte(override var value: Long): ByteData(value, ByteUnit.TB)
+    data class Byte(override var value: Long) : ByteData(value, ByteUnit.B)
+    data class KiloByte(override var value: Long) : ByteData(value, ByteUnit.KB)
+    data class MegaByte(override var value: Long) : ByteData(value, ByteUnit.MB)
+    data class GigaByte(override var value: Long) : ByteData(value, ByteUnit.GB)
+    data class TeraByte(override var value: Long) : ByteData(value, ByteUnit.TB)
 
     companion object {
         fun createFromType(type: ByteUnit, value: Long) = when (type) {

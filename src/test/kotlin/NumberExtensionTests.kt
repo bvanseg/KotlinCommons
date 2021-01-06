@@ -1,7 +1,7 @@
 import bvanseg.kotlincommons.comparable.clamp
 import org.junit.jupiter.api.Test
 
-class NumberExtensionTests{
+class NumberExtensionTests {
 
     @Test
     fun intClamp() {

@@ -47,7 +47,7 @@ class Cache<K, V>(private val defaultTimeToLiveMS: Long) {
         val currentTimeMS = System.currentTimeMillis()
 
         return@compute entry?.run {
-            if(currentTimeMS >= expiration) {
+            if (currentTimeMS >= expiration) {
                 map.remove(k)
                 null
             } else {
@@ -67,13 +67,14 @@ class Cache<K, V>(private val defaultTimeToLiveMS: Long) {
     fun clear() = map.clear()
     fun remove(key: K) = map.remove(key)
 
-    fun computeIfAbsent(key: K, timeToLiveMS: Long = defaultTimeToLiveMS, callback: (K) -> V): V = map.compute(key) { k, entry ->
-        val currentTimeMS = System.currentTimeMillis()
-        if(entry != null && currentTimeMS < entry.expiration)
-            entry
-        else
-            CacheEntry(callback(k), currentTimeMS + timeToLiveMS)
-    }!!.value
+    fun computeIfAbsent(key: K, timeToLiveMS: Long = defaultTimeToLiveMS, callback: (K) -> V): V =
+        map.compute(key) { k, entry ->
+            val currentTimeMS = System.currentTimeMillis()
+            if (entry != null && currentTimeMS < entry.expiration)
+                entry
+            else
+                CacheEntry(callback(k), currentTimeMS + timeToLiveMS)
+        }!!.value
 
     override fun toString(): String = map.toString()
 }

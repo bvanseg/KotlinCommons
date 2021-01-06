@@ -31,14 +31,14 @@ import java.util.Optional
  * Allows any class to get a logger of itself.
  */
 fun Any.getLogger(): Logger {
-	val klass = this::class
-	val clazz = klass.java
+    val klass = this::class
+    val clazz = klass.java
 
-	return if (klass.isCompanion) {
-		LoggerFactory.getLogger(clazz.declaringClass)
-	} else {
-		LoggerFactory.getLogger(clazz)
-	}
+    return if (klass.isCompanion) {
+        LoggerFactory.getLogger(clazz.declaringClass)
+    } else {
+        LoggerFactory.getLogger(clazz)
+    }
 }
 
 /**
@@ -57,5 +57,5 @@ fun <T> T.toOptional(): Optional<T> = Optional.of(this)
  * @since 2.4.0
  */
 fun Any.packagePath(depth: Int = 0): String = this::class.qualifiedName!!.substringBeforeLast('.').let { path ->
-	if (depth <= 0) path else path.split('.').take(depth).joinToString(".")
+    if (depth <= 0) path else path.split('.').take(depth).joinToString(".")
 }

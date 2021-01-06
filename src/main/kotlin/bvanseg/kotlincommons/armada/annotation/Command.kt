@@ -32,31 +32,31 @@ package bvanseg.kotlincommons.armada.annotation
  */
 @Target(AnnotationTarget.FUNCTION)
 annotation class Command(
-	/**
-	 * A description of what the command does.
-	 */
-	val description: String = "",
-	/**
-	 * Whether command arguments should instead not be parsed into declared types, and instead just be passed directly
-	 * as an [Array] of [String]s.
-	 */
-	val rawArgs: Boolean = false,
-	/**
-	 * An [Array] of other names that can be used to execute this command.
-	 */
-	val aliases: Array<String> = [],
-	/**
-	 * An [Array] of [String]s showing how to use this command.
-	 * Any cases of the text "<PREFIX>" will be replaced with the appropriate command prefix.
-	 * Any cases of the text "<NAME>" will be replaced with the command name.
-	 *
-	 * If no value is provided here, then a default usage will be generated.
-	 */
-	val usage: Array<String> = [],
-	/**
-	 * An [Array] of [String]s showing real examples of this command.
-	 * Any cases of the text "<PREFIX>" will be replaced with the appropriate command prefix.
-	 * Any cases of the text "<NAME>" will be replaced with the command name.
-	 */
-	val examples: Array<String> = []
+    /**
+     * A description of what the command does.
+     */
+    val description: String = "",
+    /**
+     * Whether command arguments should instead not be parsed into declared types, and instead just be passed directly
+     * as an [Array] of [String]s.
+     */
+    val rawArgs: Boolean = false,
+    /**
+     * An [Array] of other names that can be used to execute this command.
+     */
+    val aliases: Array<String> = [],
+    /**
+     * An [Array] of [String]s showing how to use this command.
+     * Any cases of the text "<PREFIX>" will be replaced with the appropriate command prefix.
+     * Any cases of the text "<NAME>" will be replaced with the command name.
+     *
+     * If no value is provided here, then a default usage will be generated.
+     */
+    val usage: Array<String> = [],
+    /**
+     * An [Array] of [String]s showing real examples of this command.
+     * Any cases of the text "<PREFIX>" will be replaced with the appropriate command prefix.
+     * Any cases of the text "<NAME>" will be replaced with the command name.
+     */
+    val examples: Array<String> = []
 )

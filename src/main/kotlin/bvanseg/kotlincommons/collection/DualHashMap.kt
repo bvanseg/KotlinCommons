@@ -31,14 +31,14 @@ import java.util.HashMap
  * @author Boston Vanseghi
  * @since 2.1.2
  */
-class DualHashMap<K, V>: MutableMap<K, V> {
+class DualHashMap<K, V> : MutableMap<K, V> {
 
     private val forward: HashMap<K, V>
     private val backward: HashMap<V, K>
 
-    constructor(): this(hashMapOf<K, V>(), hashMapOf<V, K>())
+    constructor() : this(hashMapOf<K, V>(), hashMapOf<V, K>())
 
-    constructor(forward: HashMap<K, V>): this(forward, hashMapOf()) {
+    constructor(forward: HashMap<K, V>) : this(forward, hashMapOf()) {
         backward.entries.forEach { backward[it.key] = it.value }
     }
 

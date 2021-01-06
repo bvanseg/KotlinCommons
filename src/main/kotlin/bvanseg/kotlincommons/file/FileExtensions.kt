@@ -39,13 +39,14 @@ import java.nio.file.Files
 fun File.rename(name: String): File {
     val newFile = File(this.parent + "/$name." + this.extension)
 
-    if(newFile.exists())
+    if (newFile.exists())
         throw IOException("File already exists!")
 
     this.renameTo(newFile)
 
     return newFile
 }
+
 /**
  * Copies the current [File] to a new [File] with the given [destination].
  *

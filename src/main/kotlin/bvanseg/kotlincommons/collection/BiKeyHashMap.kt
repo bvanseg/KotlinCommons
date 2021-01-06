@@ -29,7 +29,7 @@ package bvanseg.kotlincommons.collection
  * @author Boston Vanseghi
  * @since 2.1.6
  */
-class BiKeyHashMap<K1, K2, V>: Iterable<Map.Entry<K1, V>> {
+class BiKeyHashMap<K1, K2, V> : Iterable<Map.Entry<K1, V>> {
 
     private val backingMap1 = DualHashMap<K1, V>()
     private val backingMap2 = DualHashMap<K2, V>()

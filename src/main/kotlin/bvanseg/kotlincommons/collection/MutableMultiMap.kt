@@ -32,7 +32,7 @@ import java.util.HashMap
  * @author Boston Vanseghi
  * @since 2.1.1
  */
-class MutableMultiMap<K, V>: MultiMap<K, V>() {
+class MutableMultiMap<K, V> : MultiMap<K, V>() {
 
     override val backingMap: HashMap<K, MutableCollection<V>> = HashMap()
 
@@ -70,7 +70,8 @@ class MutableMultiMap<K, V>: MultiMap<K, V>() {
 
     fun clear() = backingMap.clear()
 
-    fun remove(key: K, value: V): Boolean = if (backingMap[key] != null) backingMap[key]?.remove(value) ?: false else false
+    fun remove(key: K, value: V): Boolean =
+        if (backingMap[key] != null) backingMap[key]?.remove(value) ?: false else false
 
     fun replace(key: K, oldValue: V, newValue: V): Boolean {
         if (backingMap[key] != null) {

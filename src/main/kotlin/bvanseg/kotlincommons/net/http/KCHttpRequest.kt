@@ -36,12 +36,12 @@ class KCHttpRequest {
 
     var targetBuilder = StringBuilder()
 
-    private fun <T: CRUDOperation> crud(op: CRUDOperation): T {
+    private fun <T : CRUDOperation> crud(op: CRUDOperation): T {
 
         requestBuilder.apply {
             targetBuilder.append(op.target)
 
-            if(op.parameters.get().isNotEmpty())
+            if (op.parameters.get().isNotEmpty())
                 targetBuilder.append("?")
 
             targetBuilder.append(op.parameters.get().entries.joinToString("&") { (key, value) -> "${key}=${value}" })
@@ -49,7 +49,7 @@ class KCHttpRequest {
             requestBuilder.uri(URI.create(targetBuilder.toString())).timeout(op.timeout).version(op.version)
         }
 
-        for(header in op.headers.get()) {
+        for (header in op.headers.get()) {
             requestBuilder.apply { requestBuilder.setHeader(header.key, header.value) }
         }
 
@@ -101,7 +101,8 @@ class KCHttpRequest {
         return crud(op)
     }
 
-    @Deprecated("HTTP Requests can not be nested!", level = DeprecationLevel.ERROR,
+    @Deprecated(
+        "HTTP Requests can not be nested!", level = DeprecationLevel.ERROR,
         replaceWith = ReplaceWith("error(\"...\")")
     )
     fun httpRequest(op: KCHttpRequest.() -> Unit): KCHttpRequest = error("...")

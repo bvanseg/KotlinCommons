@@ -45,7 +45,7 @@ enum class KTimeUnit(val max: Long = 1) {
             value < 0 -> throw IllegalArgumentException("Time value can not be negative: $value.")
         }
 
-        return when(this) {
+        return when (this) {
             NANOSECOND -> NanosecondTransformer.transform(value, unit)
             MICROSECOND -> MicrosecondTransformer.transform(value, unit)
             MILLISECOND -> MillisecondTransformer.transform(value, unit)

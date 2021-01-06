@@ -27,11 +27,12 @@ package bvanseg.kotlincommons.math
  * @author Boston Vanseghi
  * @since 2.7.0
  */
-fun <T: Number> T.normalize(min: T, max: T): Double = (this.toDouble() - min.toDouble()) / (max.toDouble() - min.toDouble())
+fun <T : Number> T.normalize(min: T, max: T): Double =
+    (this.toDouble() - min.toDouble()) / (max.toDouble() - min.toDouble())
 
 /**
  * @author Boston Vanseghi
  * @since 2.7.0
  */
 @JvmName("normalizeValue")
-fun <T: Number> normalize(value: T, min: T, max: T): Double = value.normalize(min, max)
+fun <T : Number> normalize(value: T, min: T, max: T): Double = value.normalize(min, max)

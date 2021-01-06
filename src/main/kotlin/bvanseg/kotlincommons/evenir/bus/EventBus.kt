@@ -71,7 +71,8 @@ class EventBus {
                         logger.debug("Successfully added event $event with parameter type $clazz for listener $listener")
                 } ?: logger.warn("Failed to add event $event for listener $listener!")
 
-            } ?: throw RuntimeException("Failed to add event listener. Subscribed event function must have a single parameter!")
+            }
+                ?: throw RuntimeException("Failed to add event listener. Subscribed event function must have a single parameter!")
 
             if (listenerEvents[listener::class.java] == null) {
                 listenerEvents[listener::class.java] = mutableListOf()
@@ -94,8 +95,7 @@ class EventBus {
             }
 
             // Walk up the superclasses and fire those, as well.
-            for(c in e::class.superclasses)
-            {
+            for (c in e::class.superclasses) {
                 events[c.java]?.let {
                     it.forEach {
                         it.invoke(e)
@@ -117,7 +117,7 @@ class EventBus {
                 }
 
                 // Walk up the superclasses and fire those, as well.
-                for(c in event::class.superclasses) {
+                for (c in event::class.superclasses) {
                     if (clazz == c.java) {
                         it.invoke(event)
                     }
