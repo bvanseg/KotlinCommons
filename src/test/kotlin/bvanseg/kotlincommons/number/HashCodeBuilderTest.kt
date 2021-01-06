@@ -8,7 +8,7 @@ class HashCodeBuilderTest {
         val balance = 0.0
         val foo = arrayOf("Bar", "FooBar", "MoreFooBar")
 
-        override fun toString() = ToStringBuilder.builder(this)
+        override fun toString() = ToStringBuilder.builder(this::class)
             .append("balance", balance)
             .append("foo", foo)
             .toString()
@@ -30,7 +30,7 @@ class HashCodeBuilderTest {
         var age = 22
         val gender = Gender.MALE
         val acct: Account = Account()
-        override fun toString(): String = ToStringBuilder.builder(this)
+        override fun toString(): String = ToStringBuilder.builder(this::class)
             .append("name", name)
             .append("age", age)
             .append("gender", gender)

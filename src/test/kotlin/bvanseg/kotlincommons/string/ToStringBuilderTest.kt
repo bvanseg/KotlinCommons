@@ -12,7 +12,7 @@ internal class ToStringBuilderTest {
         val foo = arrayOf("Bar", "FooBar", "MoreFooBar")
         val bar = mapOf("boo" to 1, "ooga" to 2)
 
-        override fun toString() = ToStringBuilder.builder(this)
+        override fun toString() = ToStringBuilder.builder(this::class)
             .append("balance", balance)
             .append("foo", foo)
             .append("bar", bar)
@@ -30,7 +30,7 @@ internal class ToStringBuilderTest {
         val age = 22
         val gender = Gender.MALE
         val acct: Account = Account()
-        override fun toString(): String = ToStringBuilder.builder(this)
+        override fun toString(): String = ToStringBuilder.builder(this::class)
             .append("name", name)
             .append("age", age)
             .append("gender", gender)

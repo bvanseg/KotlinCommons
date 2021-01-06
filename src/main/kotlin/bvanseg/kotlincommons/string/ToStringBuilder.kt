@@ -23,6 +23,8 @@
  */
 package bvanseg.kotlincommons.string
 
+import kotlin.reflect.KClass
+
 /**
  * A class that builds [Any] object into a [String] through appending members. Should be used in toString building.
  *
@@ -63,8 +65,8 @@ class ToStringBuilder private constructor() {
 
     companion object {
         @JvmStatic
-        fun builder(clazz: Any): ToStringBuilder = ToStringBuilder().apply {
-            this.append("${clazz::class.simpleName}(")
+        fun builder(clazz: KClass<*>): ToStringBuilder = ToStringBuilder().apply {
+            this.append("${clazz.simpleName}(")
         }
     }
 }
