@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package bvanseg.kotlincommons.armada.context
+package bvanseg.kotlincommons.command.context
 
 /**
  * An empty context. Used in place of where a context should be if a command is executed without one.

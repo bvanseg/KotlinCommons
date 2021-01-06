@@ -21,34 +21,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package bvanseg.kotlincommons.armada.util
-
-import bvanseg.kotlincommons.armada.CommandManager
-import kotlin.reflect.KClass
+package bvanseg.kotlincommons.command.event
 
 /**
- * Represents a "wildcard" argument, where the type can be anything. Getter methods will return null if the input can't
- * be properly converted.
+ * Used to handle events in the {@link CommandManager}.
  *
  * @author Boston Vanseghi
  * @since 2.1.0
  */
-class Argument(private val raw: String) {
-
-    fun getRaw(): String = raw
-
-    fun getAsByte(): Byte? = raw.toByteOrNull()
-    fun getAsShort(): Short? = raw.toShortOrNull()
-    fun getAsInt(): Int? = raw.toIntOrNull()
-    fun getAsLong(): Long? = raw.toLongOrNull()
-
-    fun getAsFloat(): Float? = raw.toFloatOrNull()
-    fun getAsDouble(): Double? = raw.toDoubleOrNull()
-
-    /**
-     * Transforms raw input into any registered {@link Transformer} type from within the {@link Command} function. Will
-     * return null if the transformation fails.
-     */
-    fun <T : Any> transformTo(commandManager: CommandManager<*>, clazz: KClass<T>): Any? =
-        commandManager.transformers[clazz]?.parse(raw)
+open class ArmadaEvent {
+    var isCancelled = false
 }

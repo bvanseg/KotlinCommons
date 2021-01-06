@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package bvanseg.kotlincommons.armada.annotation
+package bvanseg.kotlincommons.command.annotation
 
 /**
  * Designates which function inside of a class command should be invoked.

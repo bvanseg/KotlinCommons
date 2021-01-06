@@ -21,15 +21,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package bvanseg.kotlincommons.armada.command
+package bvanseg.kotlincommons.command
 
-import bvanseg.kotlincommons.armada.CommandManager
-import bvanseg.kotlincommons.armada.annotation.Command
-import bvanseg.kotlincommons.armada.context.Context
-import bvanseg.kotlincommons.armada.exception.*
-import bvanseg.kotlincommons.armada.gear.Gear
-import bvanseg.kotlincommons.armada.transformer.Transformer
-import bvanseg.kotlincommons.armada.util.Union
+import bvanseg.kotlincommons.command.annotation.Command
+import bvanseg.kotlincommons.command.context.Context
+import bvanseg.kotlincommons.command.exception.*
+import bvanseg.kotlincommons.command.gear.Gear
+import bvanseg.kotlincommons.command.transformer.Transformer
+import bvanseg.kotlincommons.command.util.Union
 import bvanseg.kotlincommons.kclass.getKClass
 import bvanseg.kotlincommons.string.joinStrings
 import kotlin.reflect.KClass

@@ -21,10 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package bvanseg.kotlincommons.armada.annotation
+package bvanseg.kotlincommons.command.annotation
 
 /**
- * The basis for all commands. Any functions within a [bvanseg.kotlincommons.armada.gear.Gear] annotated with this
+ * The basis for all commands. Any functions within a [bvanseg.kotlincommons.command.gear.Gear] annotated with this
  * annotation will be designated as a command.
  *
  * @author Boston Vanseghi

@@ -21,10 +21,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package bvanseg.kotlincommons.armada.command
+package bvanseg.kotlincommons.command
 
-import bvanseg.kotlincommons.armada.CommandManager
-import bvanseg.kotlincommons.armada.context.Context
+import bvanseg.kotlincommons.command.context.Context
 import bvanseg.kotlincommons.kclass.getKClass
 import kotlin.reflect.full.isSubclassOf
 

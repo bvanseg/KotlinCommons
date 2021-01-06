@@ -21,23 +21,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package bvanseg.kotlincommons.armada.gear
+package bvanseg.kotlincommons.command
 
-import bvanseg.kotlincommons.armada.CommandManager
-import bvanseg.kotlincommons.armada.command.InternalCommand
-
-/**
- * Represents a container for a set of commands. Command functions should always go into these.
- *
- * @author Boston Vanseghi
- * @since 2.1.0
- */
-abstract class Gear(gearName: String? = null) {
-
-    var name: String = gearName ?: this.javaClass.simpleName.toLowerCase().replace("gear", "")
-
-    val commands = ArrayList<InternalCommand>()
-    lateinit var commandManager: CommandManager<*>
-
-    var isEnabled = true
+abstract class BaseCommand {
+    var gear: String = ""
+    var description: String = ""
+    var rawArgs: Boolean = false
+    var aliases: List<String> = mutableListOf()
+    var usage: List<String> = mutableListOf()
+    var examples: List<String> = mutableListOf()
 }

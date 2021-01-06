@@ -1,14 +1,12 @@
-package bvanseg.kotlincommons.armada
+package bvanseg.kotlincommons.command
 
 import bvanseg.kotlincommons.any.getLogger
-import bvanseg.kotlincommons.armada.annotation.Command
-import bvanseg.kotlincommons.armada.annotation.IntRange
-import bvanseg.kotlincommons.armada.command.CommandModule
-import bvanseg.kotlincommons.armada.command.InternalCommand
-import bvanseg.kotlincommons.armada.context.EmptyContext
-import bvanseg.kotlincommons.armada.gear.Gear
-import bvanseg.kotlincommons.armada.util.Argument
-import bvanseg.kotlincommons.armada.util.Union
+import bvanseg.kotlincommons.command.annotation.Command
+import bvanseg.kotlincommons.command.annotation.IntRange
+import bvanseg.kotlincommons.command.context.EmptyContext
+import bvanseg.kotlincommons.command.gear.Gear
+import bvanseg.kotlincommons.command.util.Argument
+import bvanseg.kotlincommons.command.util.Union
 import bvanseg.kotlincommons.logging.debug
 import com.nhaarman.mockitokotlin2.anyOrNull
 import com.nhaarman.mockitokotlin2.argumentCaptor

@@ -1,4 +1,4 @@
-package bvanseg.kotlincommons.armada
+package bvanseg.kotlincommons.command
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach

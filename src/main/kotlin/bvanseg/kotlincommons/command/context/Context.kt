@@ -21,21 +21,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package bvanseg.kotlincommons.armada.transformer
-
-import bvanseg.kotlincommons.armada.context.Context
-import kotlin.reflect.KClass
+package bvanseg.kotlincommons.command.context
 
 /**
- * A base enum transformer implementation that should be extended for specific enums
- * @see TimeUnitTransformer
+ * Used as a container for additional data within a function marked with {@link Command}. This should be used when
+ * there is a need to pass in more info than just the parameters of a command.
  *
- * @author bright_spark
+ * @author Boston Vanseghi
  * @since 2.1.0
  */
-open class EnumTransformer<T : Enum<*>>(type: KClass<T>) : Transformer<T>(type) {
-    private val values = type.java.enumConstants
-
-    override fun parse(input: String, ctx: Context?): T? =
-        input.trim().toUpperCase().let { time -> values.find { it.name == time } }
-}
+interface Context

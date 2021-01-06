@@ -21,14 +21,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package bvanseg.kotlincommons.armada.event
+package bvanseg.kotlincommons.command.event
 
-import bvanseg.kotlincommons.armada.CommandManager
-import bvanseg.kotlincommons.armada.command.BaseCommand
-import bvanseg.kotlincommons.armada.command.InternalCommand
-import bvanseg.kotlincommons.armada.context.Context
-import bvanseg.kotlincommons.armada.gear.Gear
-import bvanseg.kotlincommons.armada.transformer.Transformer
+import bvanseg.kotlincommons.command.CommandManager
+import bvanseg.kotlincommons.command.BaseCommand
+import bvanseg.kotlincommons.command.InternalCommand
+import bvanseg.kotlincommons.command.context.Context
+import bvanseg.kotlincommons.command.gear.Gear
+import bvanseg.kotlincommons.command.transformer.Transformer
 
 class Init : ArmadaEvent()
 

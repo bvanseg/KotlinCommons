@@ -21,24 +21,38 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package bvanseg.kotlincommons.armada.annotation
+package bvanseg.kotlincommons.command.transformer
 
-// Built-in annotations for usage on numeric parameters. Bound the number between a min and max prior to function invocation.
+import bvanseg.kotlincommons.command.context.Context
+import bvanseg.kotlincommons.command.context.EmptyContext
+import kotlin.reflect.KClass
+import kotlin.reflect.KParameter
 
-@Target(AnnotationTarget.VALUE_PARAMETER)
-annotation class ByteRange(val min: Byte, val max: Byte)
+/**
+ * Turns raw string input into an object of the desired type.
+ *
+ * @author Boston Vanseghi
+ * @since 2.1.0
+ */
+abstract class Transformer<T : Any> {
+    val type: KClass<T>
 
-@Target(AnnotationTarget.VALUE_PARAMETER)
-annotation class ShortRange(val min: Short, val max: Short)
+    constructor(type: KClass<T>) {
+        this.type = type
+    }
 
-@Target(AnnotationTarget.VALUE_PARAMETER)
-annotation class IntRange(val min: Int, val max: Int)
+    constructor(type: Class<T>) : this(type.kotlin)
 
-@Target(AnnotationTarget.VALUE_PARAMETER)
-annotation class FloatRange(val min: Float, val max: Float)
+    /**
+     * Tries to parse the [input] to the type [T]
+     * Returns null if unsuccessful
+     */
+    abstract fun parse(input: String, ctx: Context? = EmptyContext): T?
 
-@Target(AnnotationTarget.VALUE_PARAMETER)
-annotation class DoubleRange(val min: Double, val max: Double)
+    open fun parse(parameter: KParameter, input: String, ctx: Context? = EmptyContext): T? = parse(input, ctx)
 
-@Target(AnnotationTarget.VALUE_PARAMETER)
-annotation class LongRange(val min: Long, val max: Long)
+    /**
+     * Suggests possible values that contain the given [input] argument
+     */
+    open fun suggest(input: String, ctx: Context? = EmptyContext): List<String> = emptyList()
+}

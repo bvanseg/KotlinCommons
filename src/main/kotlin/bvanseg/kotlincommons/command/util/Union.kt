@@ -21,10 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package bvanseg.kotlincommons.armada.util
+package bvanseg.kotlincommons.command.util
 
-import bvanseg.kotlincommons.armada.CommandManager
-import bvanseg.kotlincommons.armada.context.Context
+import bvanseg.kotlincommons.command.CommandManager
+import bvanseg.kotlincommons.command.context.Context
 import java.util.Objects
 import kotlin.reflect.KClass
 

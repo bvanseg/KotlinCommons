@@ -21,16 +21,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package bvanseg.kotlincommons.armada.transformer
+package bvanseg.kotlincommons.command.transformer
 
-import bvanseg.kotlincommons.armada.annotation.ByteRange
-import bvanseg.kotlincommons.armada.annotation.DoubleRange
-import bvanseg.kotlincommons.armada.annotation.FloatRange
-import bvanseg.kotlincommons.armada.annotation.IntRange
-import bvanseg.kotlincommons.armada.annotation.LongRange
-import bvanseg.kotlincommons.armada.annotation.ShortRange
-import bvanseg.kotlincommons.armada.context.Context
-import bvanseg.kotlincommons.armada.util.Argument
+import bvanseg.kotlincommons.command.annotation.ByteRange
+import bvanseg.kotlincommons.command.annotation.DoubleRange
+import bvanseg.kotlincommons.command.annotation.FloatRange
+import bvanseg.kotlincommons.command.annotation.IntRange
+import bvanseg.kotlincommons.command.annotation.LongRange
+import bvanseg.kotlincommons.command.annotation.ShortRange
+import bvanseg.kotlincommons.command.context.Context
+import bvanseg.kotlincommons.command.util.Argument
 import bvanseg.kotlincommons.comparable.clampOrNull
 import bvanseg.kotlincommons.string.remove
 import java.math.BigDecimal

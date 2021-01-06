@@ -21,9 +21,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package bvanseg.kotlincommons.armada.exception
+package bvanseg.kotlincommons.command.exception
 
-import bvanseg.kotlincommons.armada.context.Context
+import bvanseg.kotlincommons.command.context.Context
 
 /**
  * The most basic [Exception] that Armada will throw.
@@ -75,7 +75,7 @@ class InvalidParameterException(override val message: String) : ParameterExcepti
 class UnknownParameterException(val ctx: Context, override val message: String) : ParameterException(message)
 
 /**
- * Thrown when a [bvanseg.kotlincommons.armada.transformer.Transformer] can't be found for parsing a command argument.
+ * Thrown when a [bvanseg.kotlincommons.command.transformer.Transformer] can't be found for parsing a command argument.
  *
  * @author Boston Vanseghi
  * @since 2.2.4
@@ -83,7 +83,7 @@ class UnknownParameterException(val ctx: Context, override val message: String) 
 class MissingTransformerException(val ctx: Context, override val message: String) : TransformerException(message)
 
 /**
- * Thrown when a [bvanseg.kotlincommons.armada.transformer.Transformer] encounters an error during parsing.
+ * Thrown when a [bvanseg.kotlincommons.command.transformer.Transformer] encounters an error during parsing.
  *
  * @author Boston Vanseghi
  * @since 2.2.4
@@ -91,7 +91,7 @@ class MissingTransformerException(val ctx: Context, override val message: String
 class TransformerParseException(val ctx: Context, override val message: String) : TransformerException(message)
 
 /**
- * Thrown when a [bvanseg.kotlincommons.armada.transformer.Transformer] with the same type is registered a second time.
+ * Thrown when a [bvanseg.kotlincommons.command.transformer.Transformer] with the same type is registered a second time.
  *
  * @author Boston Vanseghi
  * @since 2.2.4
