@@ -54,8 +54,15 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <kotlin.version>1.3.72</kotlin.version>
+        <kotlinx.version>1.3.8</kotlinx.version>
         <slf4j.version>2.0.0-alpha1</slf4j.version>
         <junit.version>5.0.0</junit.version>
+        <junit.jupiter.version>5.1.0</junit.jupiter.version>
+        <junit.jupiter.params.version>5.5.2</junit.jupiter.params.version>
+        <mockito.version>3.3.3</mockito.version>
+        <mockito.kotlin.version>2.2.0</mockito.kotlin.version>
+        <logback.version>1.3.0-alpha5</logback.version>
+        <fasterxml.version>2.11.0</fasterxml.version>
         <kotlin.code.style>official</kotlin.code.style>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
@@ -75,36 +82,36 @@
         <dependency>
             <groupId>org.jetbrains.kotlinx</groupId>
             <artifactId>kotlinx-coroutines-core</artifactId>
-            <version>1.3.8</version>
+            <version>${kotlinx.version}</version>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.1.0</version>
+            <version>${junit.jupiter.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-params</artifactId>
-            <version>5.5.2</version>
+            <version>${junit.jupiter.params.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>3.3.3</version>
+            <version>${mockito.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.nhaarman.mockitokotlin2</groupId>
             <artifactId>mockito-kotlin</artifactId>
-            <version>2.2.0</version>
+            <version>${mockito.kotlin.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.3.0-alpha5</version>
+            <version>${logback.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -115,13 +122,13 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.11.0</version>
+            <version>${fasterxml.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.module</groupId>
             <artifactId>jackson-module-kotlin</artifactId>
-            <version>2.11.0</version>
+            <version>${fasterxml.version}</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
