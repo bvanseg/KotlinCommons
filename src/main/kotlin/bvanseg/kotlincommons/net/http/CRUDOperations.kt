@@ -50,11 +50,11 @@ class Parameters {
     private val map: HashMap<String, String> = hashMapOf()
 
     fun addParameter(key: String, value: Any) {
-        map[key] = value.toString()
+        map[key] = value.toString().replace(" ", "%20")
     }
 
     infix fun String.to(value: Any) {
-        map[this] = value.toString()
+        map[this] = value.toString().replace(" ", "%20")
     }
 
     fun get(): Map<String, String> = map
