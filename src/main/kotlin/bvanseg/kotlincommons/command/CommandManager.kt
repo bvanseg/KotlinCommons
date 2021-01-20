@@ -91,7 +91,6 @@ class CommandManager<T : Any>(val prefix: String = "!") {
 
     // Stores alternative prefixes to a key of the developer's desired type.
     val prefixes = hashMapOf<T, String>()
-    val aliasMap = hashMapOf<String, String>()
 
     // Used internally for removing whitespace on commands.
     private val whitespaceRegex = Regex("\\s+")
@@ -161,7 +160,9 @@ class CommandManager<T : Any>(val prefix: String = "!") {
         var commandName = commandNameAndArgs.first
         logger.debug("Receiving command: $commandName with prefix $commandPrefix")
 
-        commandName = (aliasMap[commandName] ?: commandName).let { if (capsInsensitive) it.toLowerCase() else it }
+        if (capsInsensitive) {
+            commandName = commandName.toLowerCase()
+        }
 
         commandModules[commandName]?.let {
             val args = commandNameAndArgs.second

@@ -91,7 +91,7 @@ open class InternalCommand(
         fun registerAliases(aliases: Array<String>) = aliases.forEach { alias ->
             if (alias.isNotBlank()) {
                 val lowerAlias = if (commandManager.capsInsensitive) alias.toLowerCase() else alias
-                commandManager.aliasMap[lowerAlias] = function.name
+                commandManager.commandModules[lowerAlias] = commandModule
             }
         }
 
