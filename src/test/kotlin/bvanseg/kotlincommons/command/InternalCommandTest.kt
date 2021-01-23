@@ -225,7 +225,7 @@ class InternalCommandTest {
 
     private fun spyCommand(function: KFunction<*>): InternalCommand = Mockito.spy(createCommand(function))
 
-    class TestGear : Gear() {
+    class TestGear : Gear("Test") {
         @Command("Description")
         fun testCommand(text: String, num: Int) = Unit
 
