@@ -158,7 +158,7 @@ class CommandManager<T : Any>(val prefix: String = "!") {
 
         val commandNameAndArgs = splitCommand(stripPrefix(rawCommand, commandPrefix))
         var commandName = commandNameAndArgs.first
-        logger.debug("Receiving command: $commandName with prefix $commandPrefix")
+        logger.debug("Receiving command: {} with prefix {}", commandName, commandPrefix)
 
         if (capsInsensitive) {
             commandName = commandName.toLowerCase()
@@ -166,7 +166,7 @@ class CommandManager<T : Any>(val prefix: String = "!") {
 
         commandModules[commandName]?.let {
             val args = commandNameAndArgs.second
-            logger.debug("Executing command ($commandName) from CommandModule (${it.tag})")
+            logger.debug("Executing command ({}) from CommandModule ({})", commandName, it.tag)
             val command = it.findCandidateCommand(args, context)
             command?.let { cmd ->
                 val pre = CommandExecuteEvent.Pre(this, cmd, context)
@@ -178,7 +178,7 @@ class CommandManager<T : Any>(val prefix: String = "!") {
                 return result
             }
         }
-        logger.debug("Command $commandName does not exist!")
+        logger.debug("Command {} does not exist!", commandName)
         return null
     }
 
@@ -231,7 +231,7 @@ class CommandManager<T : Any>(val prefix: String = "!") {
             module.commands.add(com)
             gear.commands.add(com)
             eventBus.fire(post)
-            logger.debug("Registered base command (${com.name}) for gear (${gear::class})")
+            logger.debug("Registered base command ({}) for gear ({})", com.name, gear::class)
         }
     }
 
@@ -252,7 +252,7 @@ class CommandManager<T : Any>(val prefix: String = "!") {
         val post = GearAddEvent.Post(gear, this)
         eventBus.fire(pre)
         if (pre.isCancelled) return
-        logger.debug("Registering gear ${gear::class}...")
+        logger.debug("Registering gear {}...", gear::class)
         gear.commandManager = this
         gears.add(gear)
         gear::class.memberFunctions.filter { it.findAnnotation<Command>() != null }.forEach { method ->
@@ -277,11 +277,11 @@ class CommandManager<T : Any>(val prefix: String = "!") {
 
             module.commands.add(command)
             gear.commands.add(command)
-            logger.debug("Registered command (${command.name}) for gear (${gear::class})")
+            logger.debug("Registered command ({}) for gear ({})", command.name, gear::class)
         }
 
         eventBus.fire(post)
-        logger.debug("Successfully registered gear (${gear::class})")
+        logger.debug("Successfully registered gear ({})", gear::class)
     }
 
     /**
@@ -298,7 +298,7 @@ class CommandManager<T : Any>(val prefix: String = "!") {
 
         transformers[transformer.type] = transformer
         eventBus.fire(post)
-        logger.debug("Registered transformer with type (${transformer.type})")
+        logger.debug("Registered transformer with type ({})", transformer.type)
     }
 
     /**

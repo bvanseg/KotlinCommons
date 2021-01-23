@@ -68,8 +68,8 @@ class EventBus {
 
                 events[clazz]?.let {
                     if (it.add(event))
-                        logger.debug("Successfully added event $event with parameter type $clazz for listener $listener")
-                } ?: logger.warn("Failed to add event $event for listener $listener!")
+                        logger.debug("Successfully added event {} with parameter type {} for listener {}", event, clazz, listener)
+                } ?: logger.warn("Failed to add event {} for listener {}!", event, listener)
 
             }
                 ?: throw RuntimeException("Failed to add event listener. Subscribed event function must have a single parameter!")
@@ -82,7 +82,7 @@ class EventBus {
         }
 
         listeners.add(listener)
-        logger.debug("Successfully added listener $listener")
+        logger.debug("Successfully added listener {}", listener)
     }
 
     fun removeListener(listener: Any) = listeners.remove(listener)
@@ -90,7 +90,7 @@ class EventBus {
     fun fire(e: Any) {
         events[e::class.java]?.let { list ->
             list.forEach {
-                logger.debug("Firing event $it with object $e")
+                logger.debug("Firing event {} with object {}", it, e)
                 it.invoke(e)
             }
 

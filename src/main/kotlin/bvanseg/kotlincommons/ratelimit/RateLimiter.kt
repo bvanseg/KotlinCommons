@@ -54,7 +54,7 @@ class RateLimiter<T>(
                     val pair = tokenBucket.tryConsume(it.first, it.second)
 
                     if (pair.first) {
-                        logger.trace("Executed queued submission: TokenBucket (${tokenBucket.currentTokenCount}/${tokenBucket.tokenLimit}).")
+                        logger.trace("Executed queued submission: TokenBucket ({}/{}).", tokenBucket.currentTokenCount, tokenBucket.tokenLimit)
                     } else {
                         q.addFirst(it.first to it.second)
                     }
@@ -110,7 +110,7 @@ class RateLimiter<T>(
             if (pair.first) {
                 logger.trace(
                     "Finished executing submission: TokenBucket " +
-                            "(${tokenBucket.currentTokenCount}/${tokenBucket.tokenLimit})."
+                            "({}/{}).", tokenBucket.currentTokenCount, tokenBucket.tokenLimit
                 )
                 return pair.second!!
             }
@@ -128,7 +128,7 @@ class RateLimiter<T>(
             if (pair.first) {
                 logger.trace(
                     "Finished executing submission: TokenBucket " +
-                            "(${tokenBucket.currentTokenCount}/${tokenBucket.tokenLimit})."
+                            "({}/{}).", tokenBucket.currentTokenCount, tokenBucket.tokenLimit
                 )
                 break
             }

@@ -60,9 +60,9 @@ data class TokenBucket(
         if (currentTokenCount < tokenLimit) {
             try {
                 lock.lock()
-                logger.debug("Refreshing tokens: TokenBucket ($currentTokenCount/$tokenLimit).")
+                logger.debug("Refreshing tokens: TokenBucket ({}/{}).", currentTokenCount, tokenLimit)
                 refreshStrategy(this)
-                logger.debug("Finished refreshing tokens: TokenBucket ($currentTokenCount/$tokenLimit).")
+                logger.debug("Finished refreshing tokens: TokenBucket ({}/{}).", currentTokenCount, tokenLimit)
                 lastUpdate = System.currentTimeMillis()
             } finally {
                 lock.unlock()
