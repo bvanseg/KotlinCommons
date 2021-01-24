@@ -24,6 +24,8 @@
 package bvanseg.kotlincommons.graphic
 
 import bvanseg.kotlincommons.comparable.clamp
+import bvanseg.kotlincommons.tuple.MutableQuad
+import bvanseg.kotlincommons.tuple.MutableTriple
 import bvanseg.kotlincommons.tuple.Quad
 import java.io.Serializable
 import kotlin.math.ceil
@@ -37,8 +39,10 @@ import kotlin.math.round
  */
 class Color : Serializable {
 
-    lateinit var rgb: Triple<Int, Int, Int>
-    lateinit var rgba: Quad<Int, Int, Int, Int>
+    private var hasSetColor = false
+
+    lateinit var rgb: MutableTriple<Int, Int, Int>
+    lateinit var rgba: MutableQuad<Int, Int, Int, Int>
 
     val hue: Int
         get() {
@@ -85,16 +89,28 @@ class Color : Serializable {
             }
         }
 
-    lateinit var hsl: Triple<Int, Int, Int>
-    lateinit var hsla: Quad<Int, Int, Int, Int>
+    lateinit var hsl: MutableTriple<Int, Int, Int>
+    lateinit var hsla: MutableQuad<Int, Int, Int, Int>
 
     var color: Int = 0
         set(value) {
             field = value
-            rgb = Triple(red, green, blue)
-            rgba = Quad(red, green, blue, alpha)
-            hsl = Triple(hue, saturation, luminance)
-            hsla = Quad(hue, saturation, luminance, alpha)
+
+            if (!hasSetColor) {
+                rgb = MutableTriple(red, green, blue)
+                rgba = MutableQuad(red, green, blue, alpha)
+                hsl = MutableTriple(hue, saturation, luminance)
+                hsla = MutableQuad(hue, saturation, luminance, alpha)
+            } else {
+                rgb.setAll(red, green, blue)
+                rgba.setAll(red, green, blue, alpha)
+                hsl.setAll(hue, saturation, luminance)
+                hsla.setAll(hue, saturation, luminance, alpha)
+            }
+
+            if(!hasSetColor) {
+                hasSetColor = true
+            }
         }
 
     var alpha: Int
