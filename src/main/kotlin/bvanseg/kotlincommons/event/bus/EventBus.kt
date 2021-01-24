@@ -68,7 +68,12 @@ class EventBus {
 
                 events[clazz]?.let {
                     if (it.add(event))
-                        logger.debug("Successfully added event {} with parameter type {} for listener {}", event, clazz, listener)
+                        logger.debug(
+                            "Successfully added event {} with parameter type {} for listener {}",
+                            event,
+                            clazz,
+                            listener
+                        )
                 } ?: logger.warn("Failed to add event {} for listener {}!", event, listener)
 
             }

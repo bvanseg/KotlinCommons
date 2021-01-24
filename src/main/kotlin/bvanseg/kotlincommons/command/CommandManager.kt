@@ -34,8 +34,8 @@ import bvanseg.kotlincommons.command.context.Context
 import bvanseg.kotlincommons.command.context.EmptyContext
 import bvanseg.kotlincommons.command.event.CommandAddEvent
 import bvanseg.kotlincommons.command.event.CommandExecuteEvent
-import bvanseg.kotlincommons.command.event.GearAddEvent
 import bvanseg.kotlincommons.command.event.CommandManagerInitializationEvent
+import bvanseg.kotlincommons.command.event.GearAddEvent
 import bvanseg.kotlincommons.command.event.TransformerAddEvent
 import bvanseg.kotlincommons.command.event.ValidatorAddEvent
 import bvanseg.kotlincommons.command.exception.DuplicateTransformerException

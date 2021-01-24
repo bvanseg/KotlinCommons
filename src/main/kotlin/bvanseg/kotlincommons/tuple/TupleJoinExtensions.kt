@@ -14,7 +14,8 @@ infix fun <A, B, C> Pair<A, B>.to(that: C): Triple<A, B, C> = Triple(this.first,
  * @author Boston Vanseghi
  * @since 2.7.0
  */
-infix fun <A, B, C, D> Pair<A, B>.to(that: Pair<C, D>): Quad<A, B, C, D> = Quad(this.first, this.second, that.first, that.second)
+infix fun <A, B, C, D> Pair<A, B>.to(that: Pair<C, D>): Quad<A, B, C, D> =
+    Quad(this.first, this.second, that.first, that.second)
 
 /**
  * Allows the concatenation of a [Triple] to an object to produce a [Quad].

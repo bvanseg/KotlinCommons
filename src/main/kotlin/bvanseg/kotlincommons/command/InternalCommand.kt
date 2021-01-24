@@ -277,7 +277,7 @@ open class InternalCommand(
         }
 
         // Parameter validation step
-        for((parameterName, parameterAnnotations) in pAnnotations) {
+        for ((parameterName, parameterAnnotations) in pAnnotations) {
 
             val parameterValue = pArgs[parameterName] ?: continue
 
@@ -294,7 +294,7 @@ open class InternalCommand(
                     val result = (validator as Validator<Annotation, Any>).validate(annotation, parameterValue)
 
                     // If the validator fails, return and avoid invoking the command function.
-                    if(!result) {
+                    if (!result) {
                         return validator.createError(annotation, parameterValue)
                     }
                 }

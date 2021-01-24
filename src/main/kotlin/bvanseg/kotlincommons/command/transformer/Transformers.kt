@@ -33,9 +33,7 @@ import bvanseg.kotlincommons.command.context.Context
 import bvanseg.kotlincommons.command.util.Argument
 import bvanseg.kotlincommons.comparable.clampOrNull
 import bvanseg.kotlincommons.string.remove
-import bvanseg.kotlincommons.string.toURI
 import bvanseg.kotlincommons.string.toURIOrNull
-import bvanseg.kotlincommons.string.toURL
 import bvanseg.kotlincommons.string.toURLOrNull
 import java.math.BigDecimal
 import java.math.BigInteger

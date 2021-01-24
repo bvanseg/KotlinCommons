@@ -26,7 +26,6 @@ package bvanseg.kotlincommons.graphic
 import bvanseg.kotlincommons.comparable.clamp
 import bvanseg.kotlincommons.tuple.MutableQuad
 import bvanseg.kotlincommons.tuple.MutableTriple
-import bvanseg.kotlincommons.tuple.Quad
 import java.io.Serializable
 import kotlin.math.ceil
 import kotlin.math.round
@@ -108,7 +107,7 @@ class Color : Serializable {
                 hsla.setAll(hue, saturation, luminance, alpha)
             }
 
-            if(!hasSetColor) {
+            if (!hasSetColor) {
                 hasSetColor = true
             }
         }

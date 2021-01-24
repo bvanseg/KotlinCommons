@@ -63,8 +63,15 @@ open class TransformerAddEvent(transformer: Transformer<*>, manager: CommandMana
 }
 
 open class ValidatorEvent(val validators: List<Validator<*, *>>, val manager: CommandManager<*>) : BaseCommandEvent()
-open class ValidatorAddEvent(val annotationClass: KClass<out Annotation>, validators: List<Validator<*, *>>, manager: CommandManager<*>) :
+open class ValidatorAddEvent(
+    val annotationClass: KClass<out Annotation>,
+    validators: List<Validator<*, *>>,
+    manager: CommandManager<*>
+) :
     ValidatorEvent(validators, manager) {
-    class Pre(annotationClass: KClass<out Annotation>, validators: List<Validator<*, *>>, manager: CommandManager<*>) : ValidatorAddEvent(annotationClass, validators, manager)
-    class Post(annotationClass: KClass<out Annotation>, validators: List<Validator<*, *>>, manager: CommandManager<*>) : ValidatorAddEvent(annotationClass, validators, manager)
+    class Pre(annotationClass: KClass<out Annotation>, validators: List<Validator<*, *>>, manager: CommandManager<*>) :
+        ValidatorAddEvent(annotationClass, validators, manager)
+
+    class Post(annotationClass: KClass<out Annotation>, validators: List<Validator<*, *>>, manager: CommandManager<*>) :
+        ValidatorAddEvent(annotationClass, validators, manager)
 }

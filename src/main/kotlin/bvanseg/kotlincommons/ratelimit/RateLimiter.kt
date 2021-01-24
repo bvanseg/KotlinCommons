@@ -54,7 +54,11 @@ class RateLimiter<T>(
                     val pair = tokenBucket.tryConsume(it.first, it.second)
 
                     if (pair.first) {
-                        logger.trace("Executed queued submission: TokenBucket ({}/{}).", tokenBucket.currentTokenCount, tokenBucket.tokenLimit)
+                        logger.trace(
+                            "Executed queued submission: TokenBucket ({}/{}).",
+                            tokenBucket.currentTokenCount,
+                            tokenBucket.tokenLimit
+                        )
                     } else {
                         q.addFirst(it.first to it.second)
                     }

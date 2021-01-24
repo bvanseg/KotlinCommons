@@ -73,7 +73,11 @@ fun String.toURL(): URL = URL(this)
  * @author Boston Vanseghi
  * @since 2.7.0
  */
-fun String.toURIOrNull(): URI? = try { URI.create(this) } catch(e: Exception) { null }
+fun String.toURIOrNull(): URI? = try {
+    URI.create(this)
+} catch (e: Exception) {
+    null
+}
 
 /**
  * Attempts to create a [URL] from a [String]. If a [URL] can't be created from the given [String], returns null.
@@ -83,7 +87,11 @@ fun String.toURIOrNull(): URI? = try { URI.create(this) } catch(e: Exception) { 
  * @author Boston Vanseghi
  * @since 2.7.0
  */
-fun String.toURLOrNull(): URL? = try { URL(this) } catch (e: Exception) { null }
+fun String.toURLOrNull(): URL? = try {
+    URL(this)
+} catch (e: Exception) {
+    null
+}
 
 /**
  * Encodes a String to [Base64].
