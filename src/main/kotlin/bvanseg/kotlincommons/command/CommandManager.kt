@@ -153,8 +153,7 @@ class CommandManager<T : Any>(val prefix: String = "!") {
      */
     fun execute(rawCommand: String, context: Context = EmptyContext, key: T? = null): Any? {
         val commandPrefix = getPrefix(key)
-        if (!rawCommand.startsWith(commandPrefix))
-            return null
+        if (!rawCommand.startsWith(commandPrefix)) return null
 
         val commandNameAndArgs = splitCommand(stripPrefix(rawCommand, commandPrefix))
         var commandName = commandNameAndArgs.first
@@ -171,8 +170,9 @@ class CommandManager<T : Any>(val prefix: String = "!") {
             command?.let { cmd ->
                 val pre = CommandExecuteEvent.Pre(this, cmd, context)
                 eventBus.fire(pre)
-                if (pre.isCancelled)
-                    return null
+
+                if (pre.isCancelled) return null
+
                 val result = cmd.invoke(args, context)
                 eventBus.fire(CommandExecuteEvent.Post(this, cmd, context, result))
                 return result
@@ -187,13 +187,16 @@ class CommandManager<T : Any>(val prefix: String = "!") {
      */
     fun getCommandModule(rawCommand: String, key: T? = null): CommandModule? {
         var command =
-            if (key == null || prefixes[key] == null)
+            if (key == null || prefixes[key] == null) {
                 stripPrefix(rawCommand).substringBefore(' ').trim()
-            else
+            } else {
                 stripPrefix(rawCommand, prefixes[key]!!).substringBefore(' ').trim()
+            }
 
-        if (capsInsensitive)
+        if (capsInsensitive) {
             command = command.toLowerCase()
+        }
+
         return commandModules[command]
     }
 
@@ -211,22 +214,27 @@ class CommandManager<T : Any>(val prefix: String = "!") {
         val post = CommandAddEvent.Post(command, this)
         eventBus.fire(pre)
         if (pre.isCancelled) return
-        command::class.memberFunctions.filter { it.findAnnotation<Invoke>() != null }.forEach {
-            var methodName = it.name
-            if (capsInsensitive)
-                methodName = methodName.toLowerCase()
+        command::class.memberFunctions.filter { it.findAnnotation<Invoke>() != null }.forEach { function ->
+            var functionName = function.name
 
-            if (commandModules[methodName] == null)
-                commandModules[methodName] = CommandModule(methodName, this)
+            if (capsInsensitive) {
+                functionName = functionName.toLowerCase()
+            }
 
-            val module = commandModules[methodName]!!
+            if (commandModules[functionName] == null) {
+                commandModules[functionName] = CommandModule(functionName, this)
+            }
+
+            val module = commandModules[functionName]!!
 
             @Suppress("UNCHECKED_CAST")
-            val com = InternalCommand(this as CommandManager<Any>, module, it, gear, command)
+            val com = InternalCommand(this as CommandManager<Any>, module, function, gear, command)
 
-            for (annotation in com.function.annotations)
-                if (annotation.annotationClass != Command::class)
+            for (annotation in com.function.annotations) {
+                if (annotation.annotationClass != Command::class) {
                     com.data[annotation.annotationClass] = annotation
+                }
+            }
 
             module.commands.add(com)
             gear.commands.add(com)
@@ -255,25 +263,31 @@ class CommandManager<T : Any>(val prefix: String = "!") {
         logger.debug("Registering gear {}...", gear::class)
         gear.commandManager = this
         gears.add(gear)
-        gear::class.memberFunctions.filter { it.findAnnotation<Command>() != null }.forEach { method ->
-            var methodName = method.name
-            if (capsInsensitive)
-                methodName = methodName.toLowerCase()
+        gear::class.memberFunctions.filter { it.findAnnotation<Command>() != null }.forEach { function ->
+            var functionName = function.name
 
-            if (commandModules[methodName] == null)
-                commandModules[methodName] = CommandModule(methodName, this)
+            if (capsInsensitive) {
+                functionName = functionName.toLowerCase()
+            }
 
-            val module = commandModules[methodName]!!
+            if (commandModules[functionName] == null) {
+                commandModules[functionName] = CommandModule(functionName, this)
+            }
+
+            val module = commandModules[functionName]!!
 
             @Suppress("UNCHECKED_CAST")
-            val command = InternalCommand(this as CommandManager<Any>, module, method, gear)
+            val command = InternalCommand(this as CommandManager<Any>, module, function, gear)
 
-            for (annotation in command.function.annotations)
-                if (annotation.annotationClass != Command::class)
+            for (annotation in command.function.annotations) {
+                if (annotation.annotationClass != Command::class) {
                     command.data[annotation.annotationClass] = annotation
+                }
+            }
 
-            for (annotation in gear::class.annotations)
+            for (annotation in gear::class.annotations) {
                 command.data[annotation.annotationClass] = annotation
+            }
 
             module.commands.add(command)
             gear.commands.add(command)
@@ -293,8 +307,9 @@ class CommandManager<T : Any>(val prefix: String = "!") {
         eventBus.fire(pre)
         if (pre.isCancelled) return
 
-        if (transformers[transformer.type] != null)
+        if (transformers[transformer.type] != null) {
             throw DuplicateTransformerException("Transformer of type ${transformer.type.qualifiedName} is already registered!")
+        }
 
         transformers[transformer.type] = transformer
         eventBus.fire(post)
