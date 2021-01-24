@@ -33,8 +33,12 @@ import bvanseg.kotlincommons.command.context.Context
 import bvanseg.kotlincommons.command.util.Argument
 import bvanseg.kotlincommons.comparable.clampOrNull
 import bvanseg.kotlincommons.string.remove
+import bvanseg.kotlincommons.string.toURI
+import bvanseg.kotlincommons.string.toURL
 import java.math.BigDecimal
 import java.math.BigInteger
+import java.net.URI
+import java.net.URL
 import java.util.concurrent.TimeUnit
 import kotlin.reflect.KParameter
 import kotlin.reflect.full.findAnnotation
@@ -180,4 +184,12 @@ object ULongRangeTransformer : Transformer<ULongRange>(ULongRange::class) {
 
         return null
     }
+}
+
+object URITransformer : Transformer<URI>(URI::class) {
+    override fun parse(input: String, ctx: Context?): URI? = try { input.toURI() } catch(e: Exception) { null }
+}
+
+object URLTransformer : Transformer<URL>(URL::class) {
+    override fun parse(input: String, ctx: Context?): URL? = try { input.toURL() } catch(e: Exception) { null }
 }

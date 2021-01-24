@@ -57,6 +57,8 @@ import bvanseg.kotlincommons.command.transformer.TimeUnitTransformer
 import bvanseg.kotlincommons.command.transformer.Transformer
 import bvanseg.kotlincommons.command.transformer.UIntRangeTransformer
 import bvanseg.kotlincommons.command.transformer.ULongRangeTransformer
+import bvanseg.kotlincommons.command.transformer.URITransformer
+import bvanseg.kotlincommons.command.transformer.URLTransformer
 import bvanseg.kotlincommons.event.bus.EventBus
 import kotlin.collections.set
 import kotlin.ranges.IntRange
@@ -123,7 +125,9 @@ class CommandManager<T : Any>(val prefix: String = "!") {
                 IntRangeTransformer,
                 LongRangeTransformer,
                 UIntRangeTransformer,
-                ULongRangeTransformer
+                ULongRangeTransformer,
+                URITransformer,
+                URLTransformer
             )
         }
     }
