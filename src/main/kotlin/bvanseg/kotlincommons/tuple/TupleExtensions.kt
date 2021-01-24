@@ -41,14 +41,38 @@ fun <T : Comparable<T>> Pair<T, T>.contains(value: T): Boolean = value in first.
 
 
 /**
+ * Converts this triple into a list.
+ *
+ * @author Boston Vanseghi
+ * @since 2.7.0
+ */
+fun <T> Triple<T, T, T>.toList(): List<T> = listOf(first, second, third)
+
+/**
  * Converts this quad into a list.
  */
 fun <T> Quad<T, T, T, T>.toList(): List<T> = listOf(first, second, third, fourth)
 
 /**
+ * Converts this triple into a list.
+ *
+ * @author Boston Vanseghi
+ * @since 2.7.0
+ */
+fun <T> MutableTriple<T, T, T>.toList(): List<T> = listOf(first, second, third)
+
+/**
+ * Converts this quad into a list.
+ *
+ * @author Boston Vanseghi
+ * @since 2.7.0
+ */
+fun <T> MutableQuad<T, T, T, T>.toList(): List<T> = listOf(first, second, third, fourth)
+
+/**
  * Creates a tuple of type [MutablePair] from this and [that].
  *
  * @author bright_spark
- * @since 2.2,5
+ * @since 2.2.5
  */
 infix fun <A, B> A.toMut(that: B): MutablePair<A, B> = MutablePair(this, that)
