@@ -26,6 +26,7 @@ package bvanseg.kotlincommons.command.util
 import bvanseg.kotlincommons.command.CommandManager
 import bvanseg.kotlincommons.command.context.Context
 import java.util.Objects
+import java.util.Optional
 import kotlin.reflect.KClass
 
 /**

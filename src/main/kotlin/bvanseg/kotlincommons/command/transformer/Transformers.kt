@@ -23,15 +23,8 @@
  */
 package bvanseg.kotlincommons.command.transformer
 
-import bvanseg.kotlincommons.command.validator.impl.ClampByte
-import bvanseg.kotlincommons.command.validator.impl.ClampDouble
-import bvanseg.kotlincommons.command.validator.impl.ClampFloat
-import bvanseg.kotlincommons.command.validator.impl.ClampInt
-import bvanseg.kotlincommons.command.validator.impl.ClampLong
-import bvanseg.kotlincommons.command.validator.impl.ClampShort
 import bvanseg.kotlincommons.command.context.Context
 import bvanseg.kotlincommons.command.util.Argument
-import bvanseg.kotlincommons.comparable.clampOrNull
 import bvanseg.kotlincommons.string.remove
 import bvanseg.kotlincommons.string.toURIOrNull
 import bvanseg.kotlincommons.string.toURLOrNull
@@ -40,8 +33,6 @@ import java.math.BigInteger
 import java.net.URI
 import java.net.URL
 import java.util.concurrent.TimeUnit
-import kotlin.reflect.KParameter
-import kotlin.reflect.full.findAnnotation
 
 
 private const val kotlinRangeDelimiter = ".."

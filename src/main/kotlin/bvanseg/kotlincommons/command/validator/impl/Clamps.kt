@@ -32,53 +32,71 @@ import bvanseg.kotlincommons.comparable.clamp
 @Target(AnnotationTarget.VALUE_PARAMETER)
 annotation class ClampByte(val min: Byte, val max: Byte)
 
-object ClampByteValidator: Validator<ClampByte, Byte> {
+object ClampByteValidator : Validator<ClampByte, Byte> {
     override fun mutate(annotation: ClampByte, value: Byte): Byte = clamp(value, annotation.min, annotation.max)
-    override fun validate(annotation: ClampByte, value: Byte): Boolean = value >= annotation.min && value <= annotation.max
-    override fun createError(annotation: ClampByte, value: Byte): ValidationError = ValidationError("Value $value does not fall within the range of ${annotation.min} to ${annotation.max}.")
+    override fun validate(annotation: ClampByte, value: Byte): Boolean =
+        value >= annotation.min && value <= annotation.max
+
+    override fun createError(annotation: ClampByte, value: Byte): ValidationError =
+        ValidationError("Value $value does not fall within the range of ${annotation.min} to ${annotation.max}.")
 }
 
 @Target(AnnotationTarget.VALUE_PARAMETER)
 annotation class ClampShort(val min: Short, val max: Short)
 
-object ClampShortValidator: Validator<ClampShort, Short> {
+object ClampShortValidator : Validator<ClampShort, Short> {
     override fun mutate(annotation: ClampShort, value: Short): Short = clamp(value, annotation.min, annotation.max)
-    override fun validate(annotation: ClampShort, value: Short): Boolean = value >= annotation.min && value <= annotation.max
-    override fun createError(annotation: ClampShort, value: Short): ValidationError = ValidationError("Value $value does not fall within the range of ${annotation.min} to ${annotation.max}.")
+    override fun validate(annotation: ClampShort, value: Short): Boolean =
+        value >= annotation.min && value <= annotation.max
+
+    override fun createError(annotation: ClampShort, value: Short): ValidationError =
+        ValidationError("Value $value does not fall within the range of ${annotation.min} to ${annotation.max}.")
 }
 
 @Target(AnnotationTarget.VALUE_PARAMETER)
 annotation class ClampInt(val min: Int, val max: Int)
 
-object ClampIntValidator: Validator<ClampInt, Int> {
+object ClampIntValidator : Validator<ClampInt, Int> {
     override fun mutate(annotation: ClampInt, value: Int): Int = clamp(value, annotation.min, annotation.max)
-    override fun validate(annotation: ClampInt, value: Int): Boolean = value >= annotation.min && value <= annotation.max
-    override fun createError(annotation: ClampInt, value: Int): ValidationError = ValidationError("Value $value does not fall within the range of ${annotation.min} to ${annotation.max}.")
+    override fun validate(annotation: ClampInt, value: Int): Boolean =
+        value >= annotation.min && value <= annotation.max
+
+    override fun createError(annotation: ClampInt, value: Int): ValidationError =
+        ValidationError("Value $value does not fall within the range of ${annotation.min} to ${annotation.max}.")
 }
 
 @Target(AnnotationTarget.VALUE_PARAMETER)
 annotation class ClampLong(val min: Long, val max: Long)
 
-object ClampLongValidator: Validator<ClampLong, Long> {
+object ClampLongValidator : Validator<ClampLong, Long> {
     override fun mutate(annotation: ClampLong, value: Long): Long = clamp(value, annotation.min, annotation.max)
-    override fun validate(annotation: ClampLong, value: Long): Boolean = value >= annotation.min && value <= annotation.max
-    override fun createError(annotation: ClampLong, value: Long): ValidationError = ValidationError("Value $value does not fall within the range of ${annotation.min} to ${annotation.max}.")
+    override fun validate(annotation: ClampLong, value: Long): Boolean =
+        value >= annotation.min && value <= annotation.max
+
+    override fun createError(annotation: ClampLong, value: Long): ValidationError =
+        ValidationError("Value $value does not fall within the range of ${annotation.min} to ${annotation.max}.")
 }
 
 @Target(AnnotationTarget.VALUE_PARAMETER)
 annotation class ClampFloat(val min: Float, val max: Float)
 
-object ClampFloatValidator: Validator<ClampFloat, Float> {
+object ClampFloatValidator : Validator<ClampFloat, Float> {
     override fun mutate(annotation: ClampFloat, value: Float): Float = clamp(value, annotation.min, annotation.max)
-    override fun validate(annotation: ClampFloat, value: Float): Boolean = value >= annotation.min && value <= annotation.max
-    override fun createError(annotation: ClampFloat, value: Float): ValidationError = ValidationError("Value $value does not fall within the range of ${annotation.min} to ${annotation.max}.")
+    override fun validate(annotation: ClampFloat, value: Float): Boolean =
+        value >= annotation.min && value <= annotation.max
+
+    override fun createError(annotation: ClampFloat, value: Float): ValidationError =
+        ValidationError("Value $value does not fall within the range of ${annotation.min} to ${annotation.max}.")
 }
 
 @Target(AnnotationTarget.VALUE_PARAMETER)
 annotation class ClampDouble(val min: Double, val max: Double)
 
-object ClampDoubleValidator: Validator<ClampDouble, Double> {
+object ClampDoubleValidator : Validator<ClampDouble, Double> {
     override fun mutate(annotation: ClampDouble, value: Double): Double = clamp(value, annotation.min, annotation.max)
-    override fun validate(annotation: ClampDouble, value: Double): Boolean = value >= annotation.min && value <= annotation.max
-    override fun createError(annotation: ClampDouble, value: Double): ValidationError = ValidationError("Value $value does not fall within the range of ${annotation.min} to ${annotation.max}.")
+    override fun validate(annotation: ClampDouble, value: Double): Boolean =
+        value >= annotation.min && value <= annotation.max
+
+    override fun createError(annotation: ClampDouble, value: Double): ValidationError =
+        ValidationError("Value $value does not fall within the range of ${annotation.min} to ${annotation.max}.")
 }

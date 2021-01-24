@@ -3,13 +3,11 @@ package bvanseg.kotlincommons.command
 import bvanseg.kotlincommons.alias.StringArray
 import bvanseg.kotlincommons.any.getLogger
 import bvanseg.kotlincommons.command.annotation.Command
-import bvanseg.kotlincommons.command.validator.impl.ClampInt
 import bvanseg.kotlincommons.command.context.EmptyContext
 import bvanseg.kotlincommons.command.gear.Gear
 import bvanseg.kotlincommons.command.util.Argument
 import bvanseg.kotlincommons.command.util.Union
-import bvanseg.kotlincommons.command.validator.IntEquals
-import bvanseg.kotlincommons.command.validator.IntEqualsValidator
+import bvanseg.kotlincommons.command.validator.impl.ClampInt
 import bvanseg.kotlincommons.logging.debug
 import com.nhaarman.mockitokotlin2.anyOrNull
 import com.nhaarman.mockitokotlin2.argumentCaptor
@@ -25,7 +23,6 @@ import org.junit.jupiter.params.provider.Arguments.arguments
 import org.mockito.Mockito
 import java.math.BigDecimal
 import java.math.BigInteger
-import java.util.*
 import java.util.stream.Stream
 import kotlin.reflect.KFunction
 
