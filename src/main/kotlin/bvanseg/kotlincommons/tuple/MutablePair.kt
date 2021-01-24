@@ -31,4 +31,9 @@ package bvanseg.kotlincommons.tuple
  */
 data class MutablePair<A, B>(var first: A, var second: B) {
     override fun toString(): String = "($first, $second)"
+
+    fun setAll(first: A, second: B) {
+        this.first = first
+        this.second = second
+    }
 }
