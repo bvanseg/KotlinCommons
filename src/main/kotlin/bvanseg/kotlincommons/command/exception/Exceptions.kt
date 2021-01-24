@@ -50,6 +50,14 @@ open class ParameterException(override val message: String) : CommandException(m
 open class TransformerException(override val message: String) : CommandException(message)
 
 /**
+ * Thrown when a generic exception occurs regarding validators.
+ *
+ * @author Boston Vanseghi
+ * @since 2.7.0
+ */
+open class ValidatorException(override val message: String) : CommandException(message)
+
+/**
  * Thrown when a parameter is missing during command execution.
  *
  * @author Boston Vanseghi
@@ -97,6 +105,14 @@ class TransformerParseException(val ctx: Context, override val message: String) 
  * @since 2.2.4
  */
 class DuplicateTransformerException(override val message: String) : TransformerException(message)
+
+/**
+ * Thrown when a [bvanseg.kotlincommons.command.validation.Validator] with the same type is registered a second time.
+ *
+ * @author Boston Vanseghi
+ * @since 2.7.0
+ */
+class DuplicateValidatorException(override val message: String) : ValidatorException(message)
 
 /**
  * Thrown when an unknown [CommandException] occurs.

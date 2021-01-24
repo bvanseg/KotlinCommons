@@ -46,7 +46,7 @@ class Argument(private val raw: String) {
     fun getAsDouble(): Double? = raw.toDoubleOrNull()
 
     /**
-     * Transforms raw input into any registered {@link Transformer} type from within the {@link Command} function. Will
+     * Transforms raw input into any registered [Transformer] type from within the {@link Command} function. Will
      * return null if the transformation fails.
      */
     fun <T : Any> transformTo(commandManager: CommandManager<*>, clazz: KClass<T>): Any? =

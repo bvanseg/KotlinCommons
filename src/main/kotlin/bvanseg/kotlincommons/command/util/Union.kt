@@ -29,7 +29,7 @@ import java.util.Objects
 import kotlin.reflect.KClass
 
 /**
- * Same functionality as an {@link Optional}, but can support two generic types, and not just one.
+ * Same functionality as an [Optional], but can support two generic types, and not just one.
  *
  * @author Boston Vanseghi
  * @since 2.1.0

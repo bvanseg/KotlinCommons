@@ -24,7 +24,7 @@
 package bvanseg.kotlincommons.command.event
 
 /**
- * Used to handle events in the {@link CommandManager}.
+ * Used to handle events in the [CommandManager].
  *
  * @author Boston Vanseghi
  * @since 2.1.0

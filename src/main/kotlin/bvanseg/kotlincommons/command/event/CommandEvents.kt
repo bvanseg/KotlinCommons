@@ -29,6 +29,8 @@ import bvanseg.kotlincommons.command.InternalCommand
 import bvanseg.kotlincommons.command.context.Context
 import bvanseg.kotlincommons.command.gear.Gear
 import bvanseg.kotlincommons.command.transformer.Transformer
+import bvanseg.kotlincommons.command.validation.Validator
+import kotlin.reflect.KClass
 
 class CommandManagerInitializationEvent : BaseCommandEvent()
 
@@ -58,4 +60,11 @@ open class TransformerAddEvent(transformer: Transformer<*>, manager: CommandMana
     TransformerEvent(transformer, manager) {
     class Pre(transformer: Transformer<*>, manager: CommandManager<*>) : TransformerAddEvent(transformer, manager)
     class Post(transformer: Transformer<*>, manager: CommandManager<*>) : TransformerAddEvent(transformer, manager)
+}
+
+open class ValidatorEvent(val validators: List<Validator<*, *>>, val manager: CommandManager<*>) : BaseCommandEvent()
+open class ValidatorAddEvent(val annotationClass: KClass<out Annotation>, validators: List<Validator<*, *>>, manager: CommandManager<*>) :
+    ValidatorEvent(validators, manager) {
+    class Pre(annotationClass: KClass<out Annotation>, validators: List<Validator<*, *>>, manager: CommandManager<*>) : ValidatorAddEvent(annotationClass, validators, manager)
+    class Post(annotationClass: KClass<out Annotation>, validators: List<Validator<*, *>>, manager: CommandManager<*>) : ValidatorAddEvent(annotationClass, validators, manager)
 }

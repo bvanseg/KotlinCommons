@@ -24,7 +24,7 @@
 package bvanseg.kotlincommons.command.context
 
 /**
- * Used as a container for additional data within a function marked with {@link Command}. This should be used when
+ * Used as a container for additional data within a function marked with [Command]. This should be used when
  * there is a need to pass in more info than just the parameters of a command.
  *
  * @author Boston Vanseghi

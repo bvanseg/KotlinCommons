@@ -37,7 +37,9 @@ import bvanseg.kotlincommons.command.event.CommandExecuteEvent
 import bvanseg.kotlincommons.command.event.GearAddEvent
 import bvanseg.kotlincommons.command.event.CommandManagerInitializationEvent
 import bvanseg.kotlincommons.command.event.TransformerAddEvent
+import bvanseg.kotlincommons.command.event.ValidatorAddEvent
 import bvanseg.kotlincommons.command.exception.DuplicateTransformerException
+import bvanseg.kotlincommons.command.exception.DuplicateValidatorException
 import bvanseg.kotlincommons.command.gear.Gear
 import bvanseg.kotlincommons.command.transformer.ArgumentTransformer
 import bvanseg.kotlincommons.command.transformer.BigDecimalTransformer
@@ -59,6 +61,7 @@ import bvanseg.kotlincommons.command.transformer.UIntRangeTransformer
 import bvanseg.kotlincommons.command.transformer.ULongRangeTransformer
 import bvanseg.kotlincommons.command.transformer.URITransformer
 import bvanseg.kotlincommons.command.transformer.URLTransformer
+import bvanseg.kotlincommons.command.validation.Validator
 import bvanseg.kotlincommons.event.bus.EventBus
 import kotlin.collections.set
 import kotlin.ranges.IntRange
@@ -78,7 +81,7 @@ import kotlin.reflect.full.memberFunctions
 class CommandManager<T : Any>(val prefix: String = "!") {
 
     companion object {
-        private val logger = getLogger()
+        val logger = getLogger()
 
         val ranges = listOf(
             ByteRange::class,
@@ -94,6 +97,7 @@ class CommandManager<T : Any>(val prefix: String = "!") {
     val commandModules = hashMapOf<String, CommandModule>()
     val gears = arrayListOf<Gear>()
     val transformers = hashMapOf<KClass<*>, Transformer<*>>()
+    val validators = hashMapOf<KClass<out Annotation>, List<Validator<*, *>>>()
 
     // Stores alternative prefixes to a key of the developer's desired type.
     val prefixes = hashMapOf<T, String>()
@@ -161,7 +165,7 @@ class CommandManager<T : Any>(val prefix: String = "!") {
         stripPrefix(command, key).trim().split(whitespaceRegex, 2)[0]
 
     /**
-     * Executes raw command input, turning it into an @link{InternalCommand}. If the command function returns any value, this function will
+     * Executes raw command input, turning it into an [InternalCommand]. If the command function returns any value, this function will
      * also return the value from the function invocation.
      */
     fun execute(rawCommand: String, context: Context = EmptyContext, key: T? = null): Any? {
@@ -196,7 +200,7 @@ class CommandManager<T : Any>(val prefix: String = "!") {
     }
 
     /**
-     * Fetches a {@link CommandModule} from raw command input. Returns null if no such module is found.
+     * Fetches a [CommandModule] from raw command input. Returns null if no such module is found.
      */
     fun getCommandModule(rawCommand: String, key: T? = null): CommandModule? {
         var command =
@@ -214,12 +218,12 @@ class CommandManager<T : Any>(val prefix: String = "!") {
     }
 
     /**
-     * Fetches a {@link Gear} by its name. Returns null if no such gear is found.
+     * Fetches a [Gear] by its name. Returns null if no such gear is found.
      */
     fun getGear(gearName: String): Gear? = gears.find { it.name.equals(gearName, true) }
 
     /**
-     * Registers a {@link Gear} instance's class to the command manager.
+     * Registers a [Gear] instance's class to the command manager.
      */
     fun addCommand(command: BaseCommand) {
         val gear = this.getGear(command.gear) ?: return
@@ -257,7 +261,7 @@ class CommandManager<T : Any>(val prefix: String = "!") {
     }
 
     /**
-     * Registers a {@link Gear} to the command manager by its class.
+     * Registers a [Gear] to the command manager by its class.
      */
     fun addGear(type: KClass<out Gear>) =
         addGear(
@@ -266,7 +270,7 @@ class CommandManager<T : Any>(val prefix: String = "!") {
         )
 
     /**
-     * Registers a {@link Gear} instance's class to the command manager.
+     * Registers a [Gear] instance's class to the command manager.
      */
     fun addGear(gear: Gear) {
         val pre = GearAddEvent.Pre(gear, this)
@@ -312,7 +316,7 @@ class CommandManager<T : Any>(val prefix: String = "!") {
     }
 
     /**
-     * Registers a {@link Transformer} to the command manager.
+     * Registers a [Transformer] to the command manager.
      */
     fun <T : Any> addTransformer(transformer: Transformer<T>) {
         val pre = TransformerAddEvent.Pre(transformer, this)
@@ -330,8 +334,29 @@ class CommandManager<T : Any>(val prefix: String = "!") {
     }
 
     /**
-     * Registers a variable number of {@link Transformer}s to the command manager.
+     * Registers a variable number of [Transformer]s to the command manager.
      */
     @Suppress("MemberVisibilityCanBePrivate")
     fun addTransformers(vararg transformers: Transformer<*>) = transformers.forEach { addTransformer(it) }
+
+
+    /**
+     * Registers a [Validator] to the command manager.
+     */
+    fun addValidators(annotationClass: KClass<out Annotation>, vararg validatorsToAdd: Validator<*, *>) {
+        val validatorsList = validatorsToAdd.toList()
+        val pre = ValidatorAddEvent.Pre(annotationClass, validatorsList, this)
+        val post = ValidatorAddEvent.Post(annotationClass, validatorsList, this)
+        eventBus.fire(pre)
+
+        if (pre.isCancelled) return
+
+        if (validators[annotationClass] != null) {
+            throw DuplicateValidatorException("Validator of type $annotationClass is already registered!")
+        }
+
+        validators[annotationClass] = validatorsList
+        eventBus.fire(post)
+        logger.debug("Registered validator with type ({})", annotationClass)
+    }
 }
