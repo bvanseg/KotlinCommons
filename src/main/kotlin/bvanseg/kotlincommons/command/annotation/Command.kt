@@ -23,6 +23,8 @@
  */
 package bvanseg.kotlincommons.command.annotation
 
+import bvanseg.kotlincommons.alias.StringArray
+
 /**
  * The basis for all commands. Any functions within a [bvanseg.kotlincommons.command.gear.Gear] annotated with this
  * annotation will be designated as a command.
@@ -44,7 +46,7 @@ annotation class Command(
     /**
      * An [Array] of other names that can be used to execute this command.
      */
-    val aliases: Array<String> = [],
+    val aliases: StringArray = [],
     /**
      * An [Array] of [String]s showing how to use this command.
      * Any cases of the text "<PREFIX>" will be replaced with the appropriate command prefix.
@@ -52,11 +54,11 @@ annotation class Command(
      *
      * If no value is provided here, then a default usage will be generated.
      */
-    val usage: Array<String> = [],
+    val usage: StringArray = [],
     /**
      * An [Array] of [String]s showing real examples of this command.
      * Any cases of the text "<PREFIX>" will be replaced with the appropriate command prefix.
      * Any cases of the text "<NAME>" will be replaced with the command name.
      */
-    val examples: Array<String> = []
+    val examples: StringArray = []
 )

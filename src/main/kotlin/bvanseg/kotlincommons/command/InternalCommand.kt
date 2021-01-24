@@ -23,6 +23,7 @@
  */
 package bvanseg.kotlincommons.command
 
+import bvanseg.kotlincommons.alias.StringArray
 import bvanseg.kotlincommons.command.annotation.Command
 import bvanseg.kotlincommons.command.context.Context
 import bvanseg.kotlincommons.command.exception.*
@@ -66,7 +67,7 @@ open class InternalCommand(
     init {
         val annotation = function.findAnnotation<Command>()
 
-        fun createUsage(usageIn: Array<String>): (Any?) -> String {
+        fun createUsage(usageIn: StringArray): (Any?) -> String {
             val string = if (usageIn.isNotEmpty())
                 usageIn.joinToString("\n") { it.replace("<NAME>", function.name) }
             else {
@@ -83,12 +84,12 @@ open class InternalCommand(
             return { string.replace("<PREFIX>", commandManager.getPrefix(it)) }
         }
 
-        fun createExamples(examplesIn: Array<String>): (Any?) -> String {
+        fun createExamples(examplesIn: StringArray): (Any?) -> String {
             val string = examplesIn.joinToString("\n") { it.replace("<NAME>", function.name) }
             return { string.replace("<PREFIX>", commandManager.getPrefix(it)) }
         }
 
-        fun registerAliases(aliases: Array<String>) = aliases.forEach { alias ->
+        fun registerAliases(aliases: StringArray) = aliases.forEach { alias ->
             if (alias.isNotBlank()) {
                 val lowerAlias = if (commandManager.capsInsensitive) alias.toLowerCase() else alias
                 commandManager.commandModules[lowerAlias] = commandModule
@@ -109,7 +110,7 @@ open class InternalCommand(
                 throw InvalidParameterException("Command $function has invalid number of parameters for rawArgs")
             val argParamIndex = if (hasContext) paramStart + 1 else paramStart
             when (params[argParamIndex].type.getKClass()) {
-                String::class, Array<String>::class -> Unit // No action necessary
+                String::class, StringArray::class -> Unit // No action necessary
                 List::class -> {
                     params[argParamIndex].type.arguments[0].type?.let {
                         if (it.getKClass() != String::class)
@@ -156,7 +157,7 @@ open class InternalCommand(
         val isLastParamOverflow = lastParam?.type?.let { type ->
             type.getKClass().let { kClass ->
                 kClass.isSubclassOf(String::class)
-                        || kClass.isSubclassOf(Array<String>::class)
+                        || kClass.isSubclassOf(StringArray::class)
                         || (kClass.isSubclassOf(List::class) && type.arguments[0].type!!.getKClass()
                     .isSubclassOf(String::class))
             }
@@ -179,7 +180,7 @@ open class InternalCommand(
                 val argParamName = argParam.name!!
                 pArgs[argParamName] = when (argParam.type.getKClass()) {
                     String::class -> args
-                    Array<String>::class -> argsList.toTypedArray()
+                    StringArray::class -> argsList.toTypedArray()
                     List::class -> argsList
                     else -> throw InvalidParameterException("Command $function has invalid parameter: $argParam")
                 }
@@ -204,7 +205,7 @@ open class InternalCommand(
                         @Suppress("IMPLICIT_CAST_TO_ANY")
                         val value = when (paramType) {
                             String::class -> subList.joinToString(" ")
-                            Array<String>::class -> subList.toTypedArray()
+                            StringArray::class -> subList.toTypedArray()
                             List::class -> subList.toList()
                             else -> null
                         }

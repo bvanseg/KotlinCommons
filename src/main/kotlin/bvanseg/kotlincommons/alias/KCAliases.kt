@@ -21,5 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package bvanseg.kotlincommons.string
+package bvanseg.kotlincommons.alias
 
+typealias StringArray = Array<String>

@@ -1,5 +1,6 @@
 package bvanseg.kotlincommons.command
 
+import bvanseg.kotlincommons.alias.StringArray
 import bvanseg.kotlincommons.any.getLogger
 import bvanseg.kotlincommons.command.annotation.Command
 import bvanseg.kotlincommons.command.annotation.IntRange
@@ -284,7 +285,7 @@ class InternalCommandTest {
         fun overflowString(overflow: String) = Unit
 
         @Command
-        fun overflowArray(overflow: Array<String>) = Unit
+        fun overflowArray(overflow: StringArray) = Unit
 
         @Command
         fun overflowList(overflow: List<String>) = Unit
