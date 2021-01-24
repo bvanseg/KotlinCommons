@@ -29,7 +29,7 @@ import bvanseg.kotlincommons.command.InternalCommand
 import bvanseg.kotlincommons.command.context.Context
 import bvanseg.kotlincommons.command.gear.Gear
 import bvanseg.kotlincommons.command.transformer.Transformer
-import bvanseg.kotlincommons.command.validation.Validator
+import bvanseg.kotlincommons.command.validator.Validator
 import kotlin.reflect.KClass
 
 class CommandManagerInitializationEvent : BaseCommandEvent()

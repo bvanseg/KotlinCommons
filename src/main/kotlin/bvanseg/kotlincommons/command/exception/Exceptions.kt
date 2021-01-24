@@ -107,7 +107,7 @@ class TransformerParseException(val ctx: Context, override val message: String) 
 class DuplicateTransformerException(override val message: String) : TransformerException(message)
 
 /**
- * Thrown when a [bvanseg.kotlincommons.command.validation.Validator] with the same type is registered a second time.
+ * Thrown when a [bvanseg.kotlincommons.command.validator.Validator] with the same type is registered a second time.
  *
  * @author Boston Vanseghi
  * @since 2.7.0

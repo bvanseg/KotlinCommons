@@ -24,12 +24,8 @@
 package bvanseg.kotlincommons.command
 
 import bvanseg.kotlincommons.any.getLogger
-import bvanseg.kotlincommons.command.annotation.ByteRange
 import bvanseg.kotlincommons.command.annotation.Command
-import bvanseg.kotlincommons.command.annotation.DoubleRange
-import bvanseg.kotlincommons.command.annotation.FloatRange
 import bvanseg.kotlincommons.command.annotation.Invoke
-import bvanseg.kotlincommons.command.annotation.ShortRange
 import bvanseg.kotlincommons.command.context.Context
 import bvanseg.kotlincommons.command.context.EmptyContext
 import bvanseg.kotlincommons.command.event.CommandAddEvent
@@ -61,7 +57,8 @@ import bvanseg.kotlincommons.command.transformer.UIntRangeTransformer
 import bvanseg.kotlincommons.command.transformer.ULongRangeTransformer
 import bvanseg.kotlincommons.command.transformer.URITransformer
 import bvanseg.kotlincommons.command.transformer.URLTransformer
-import bvanseg.kotlincommons.command.validation.Validator
+import bvanseg.kotlincommons.command.validator.Validator
+import bvanseg.kotlincommons.command.validator.impl.*
 import bvanseg.kotlincommons.event.bus.EventBus
 import kotlin.collections.set
 import kotlin.ranges.IntRange
@@ -82,15 +79,6 @@ class CommandManager<T : Any>(val prefix: String = "!") {
 
     companion object {
         val logger = getLogger()
-
-        val ranges = listOf(
-            ByteRange::class,
-            ShortRange::class,
-            IntRange::class,
-            FloatRange::class,
-            DoubleRange::class,
-            LongRange::class
-        )
     }
 
     var capsInsensitive = true
@@ -133,6 +121,13 @@ class CommandManager<T : Any>(val prefix: String = "!") {
                 URITransformer,
                 URLTransformer
             )
+
+            addValidators(ClampByte::class, ClampByteValidator)
+            addValidators(ClampShort::class, ClampShortValidator)
+            addValidators(ClampInt::class, ClampIntValidator)
+            addValidators(ClampLong::class, ClampLongValidator)
+            addValidators(ClampFloat::class, ClampFloatValidator)
+            addValidators(ClampDouble::class, ClampDoubleValidator)
         }
     }
 

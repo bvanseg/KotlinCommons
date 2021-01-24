@@ -30,7 +30,7 @@ import bvanseg.kotlincommons.command.exception.*
 import bvanseg.kotlincommons.command.gear.Gear
 import bvanseg.kotlincommons.command.transformer.Transformer
 import bvanseg.kotlincommons.command.util.Union
-import bvanseg.kotlincommons.command.validation.Validator
+import bvanseg.kotlincommons.command.validator.Validator
 import bvanseg.kotlincommons.kclass.getKClass
 import bvanseg.kotlincommons.string.joinStrings
 import kotlin.reflect.KClass
@@ -291,11 +291,15 @@ open class InternalCommand(
                 }
 
                 validatorsList.forEach { validator ->
-                    val result = (validator as Validator<Annotation, Any>).validate(annotation, parameterValue)
+                    val mutatedValue = (validator as Validator<Annotation, Any>).mutate(annotation, parameterValue)
+
+                    pArgs[parameterName] = mutatedValue
+
+                    val result = validator.validate(annotation, mutatedValue)
 
                     // If the validator fails, return and avoid invoking the command function.
                     if (!result) {
-                        return validator.createError(annotation, parameterValue)
+                        return validator.createError(annotation, mutatedValue)
                     }
                 }
             }

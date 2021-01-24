@@ -23,12 +23,12 @@
  */
 package bvanseg.kotlincommons.command.transformer
 
-import bvanseg.kotlincommons.command.annotation.ByteRange
-import bvanseg.kotlincommons.command.annotation.DoubleRange
-import bvanseg.kotlincommons.command.annotation.FloatRange
-import bvanseg.kotlincommons.command.annotation.IntRange
-import bvanseg.kotlincommons.command.annotation.LongRange
-import bvanseg.kotlincommons.command.annotation.ShortRange
+import bvanseg.kotlincommons.command.validator.impl.ClampByte
+import bvanseg.kotlincommons.command.validator.impl.ClampDouble
+import bvanseg.kotlincommons.command.validator.impl.ClampFloat
+import bvanseg.kotlincommons.command.validator.impl.ClampInt
+import bvanseg.kotlincommons.command.validator.impl.ClampLong
+import bvanseg.kotlincommons.command.validator.impl.ClampShort
 import bvanseg.kotlincommons.command.context.Context
 import bvanseg.kotlincommons.command.util.Argument
 import bvanseg.kotlincommons.comparable.clampOrNull
@@ -52,58 +52,29 @@ private const val kotlinRangeDelimiter = ".."
  * @author bright_spark
  * @since 2.1.0
  */
-object IntTransformer : Transformer<Int>(Int::class) {
-    override fun parse(parameter: KParameter, input: String, ctx: Context?): Int? {
-        val value = input.remove(",", "_").toIntOrNull()
-        return parameter.findAnnotation<IntRange>()?.let { clampOrNull(value, it.min, it.max) } ?: value
-    }
 
-    override fun parse(input: String, ctx: Context?): Int? = input.remove(",", "_").toIntOrNull()
-}
-
-object DoubleTransformer : Transformer<Double>(Double::class) {
-    override fun parse(parameter: KParameter, input: String, ctx: Context?): Double? {
-        val value = input.remove(",", "_").toDoubleOrNull()
-        return parameter.findAnnotation<DoubleRange>()?.let { clampOrNull(value, it.min, it.max) } ?: value
-    }
-
-    override fun parse(input: String, ctx: Context?): Double? = input.remove(",", "_").toDoubleOrNull()
-}
-
-object FloatTransformer : Transformer<Float>(Float::class) {
-    override fun parse(parameter: KParameter, input: String, ctx: Context?): Float? {
-        val value = input.remove(",", "_").toFloatOrNull()
-        return parameter.findAnnotation<FloatRange>()?.let { clampOrNull(value, it.min, it.max) } ?: value
-    }
-
-    override fun parse(input: String, ctx: Context?): Float? = input.remove(",", "_").toFloatOrNull()
-}
-
-object LongTransformer : Transformer<Long>(Long::class) {
-    override fun parse(parameter: KParameter, input: String, ctx: Context?): Long? {
-        val value = input.remove(",", "_").toLongOrNull()
-        return parameter.findAnnotation<LongRange>()?.let { clampOrNull(value, it.min, it.max) } ?: value
-    }
-
-    override fun parse(input: String, ctx: Context?): Long? = input.remove(",", "_").toLongOrNull()
+object ByteTransformer : Transformer<Byte>(Byte::class) {
+    override fun parse(input: String, ctx: Context?): Byte? = input.remove(",", "_").toByteOrNull()
 }
 
 object ShortTransformer : Transformer<Short>(Short::class) {
-    override fun parse(parameter: KParameter, input: String, ctx: Context?): Short? {
-        val value = input.remove(",", "_").toShortOrNull()
-        return parameter.findAnnotation<ShortRange>()?.let { clampOrNull(value, it.min, it.max) } ?: value
-    }
-
     override fun parse(input: String, ctx: Context?): Short? = input.remove(",", "_").toShortOrNull()
 }
 
-object ByteTransformer : Transformer<Byte>(Byte::class) {
-    override fun parse(parameter: KParameter, input: String, ctx: Context?): Byte? {
-        val value = input.remove(",", "_").toByteOrNull()
-        return parameter.findAnnotation<ByteRange>()?.let { clampOrNull(value, it.min, it.max) } ?: value
-    }
+object IntTransformer : Transformer<Int>(Int::class) {
+    override fun parse(input: String, ctx: Context?): Int? = input.remove(",", "_").toIntOrNull()
+}
 
-    override fun parse(input: String, ctx: Context?): Byte? = input.remove(",", "_").toByteOrNull()
+object LongTransformer : Transformer<Long>(Long::class) {
+    override fun parse(input: String, ctx: Context?): Long? = input.remove(",", "_").toLongOrNull()
+}
+
+object FloatTransformer : Transformer<Float>(Float::class) {
+    override fun parse(input: String, ctx: Context?): Float? = input.remove(",", "_").toFloatOrNull()
+}
+
+object DoubleTransformer : Transformer<Double>(Double::class) {
+    override fun parse(input: String, ctx: Context?): Double? = input.remove(",", "_").toDoubleOrNull()
 }
 
 object CharTransformer : Transformer<Char>(Char::class) {
@@ -111,15 +82,15 @@ object CharTransformer : Transformer<Char>(Char::class) {
 }
 
 object BooleanTransformer : Transformer<Boolean>(Boolean::class) {
-    override fun parse(input: String, ctx: Context?): Boolean? = input.toBoolean()
+    override fun parse(input: String, ctx: Context?): Boolean = input.toBoolean()
 }
 
 object StringTransformer : Transformer<String>(String::class) {
-    override fun parse(input: String, ctx: Context?): String? = input
+    override fun parse(input: String, ctx: Context?): String = input
 }
 
 object ArgumentTransformer : Transformer<Argument>(Argument::class) {
-    override fun parse(input: String, ctx: Context?): Argument? = Argument(input)
+    override fun parse(input: String, ctx: Context?): Argument = Argument(input)
 }
 
 object BigIntegerTransformer : Transformer<BigInteger>(BigInteger::class) {
@@ -132,13 +103,13 @@ object BigDecimalTransformer : Transformer<BigDecimal>(BigDecimal::class) {
 
 object TimeUnitTransformer : EnumTransformer<TimeUnit>(TimeUnit::class)
 
-object IntRangeTransformer : Transformer<kotlin.ranges.IntRange>(kotlin.ranges.IntRange::class) {
-    override fun parse(input: String, ctx: Context?): kotlin.ranges.IntRange? {
+object IntRangeTransformer : Transformer<IntRange>(IntRange::class) {
+    override fun parse(input: String, ctx: Context?): IntRange? {
         val split = input.split(kotlinRangeDelimiter)
         val range = split[0].toIntOrNull() to split[1].toIntOrNull()
 
         if (range.first != null && range.second != null) {
-            return kotlin.ranges.IntRange(range.first!!, range.second!!)
+            return IntRange(range.first!!, range.second!!)
         }
 
         return null
@@ -159,13 +130,13 @@ object UIntRangeTransformer : Transformer<UIntRange>(UIntRange::class) {
     }
 }
 
-object LongRangeTransformer : Transformer<kotlin.ranges.LongRange>(kotlin.ranges.LongRange::class) {
-    override fun parse(input: String, ctx: Context?): kotlin.ranges.LongRange? {
+object LongRangeTransformer : Transformer<LongRange>(LongRange::class) {
+    override fun parse(input: String, ctx: Context?): LongRange? {
         val split = input.split(kotlinRangeDelimiter)
         val range = split[0].toLongOrNull() to split[1].toLongOrNull()
 
         if (range.first != null && range.second != null) {
-            return kotlin.ranges.LongRange(range.first!!, range.second!!)
+            return LongRange(range.first!!, range.second!!)
         }
 
         return null

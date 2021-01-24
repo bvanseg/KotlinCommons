@@ -1,4 +1,4 @@
-package bvanseg.kotlincommons.command.validation
+package bvanseg.kotlincommons.command.validator
 
 /**
  * @author Boston Vanseghi
