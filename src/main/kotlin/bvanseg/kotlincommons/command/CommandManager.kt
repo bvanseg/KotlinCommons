@@ -47,12 +47,16 @@ import bvanseg.kotlincommons.command.transformer.ByteTransformer
 import bvanseg.kotlincommons.command.transformer.CharTransformer
 import bvanseg.kotlincommons.command.transformer.DoubleTransformer
 import bvanseg.kotlincommons.command.transformer.FloatTransformer
+import bvanseg.kotlincommons.command.transformer.IntRangeTransformer
 import bvanseg.kotlincommons.command.transformer.IntTransformer
+import bvanseg.kotlincommons.command.transformer.LongRangeTransformer
 import bvanseg.kotlincommons.command.transformer.LongTransformer
 import bvanseg.kotlincommons.command.transformer.ShortTransformer
 import bvanseg.kotlincommons.command.transformer.StringTransformer
 import bvanseg.kotlincommons.command.transformer.TimeUnitTransformer
 import bvanseg.kotlincommons.command.transformer.Transformer
+import bvanseg.kotlincommons.command.transformer.UIntRangeTransformer
+import bvanseg.kotlincommons.command.transformer.ULongRangeTransformer
 import bvanseg.kotlincommons.event.bus.EventBus
 import kotlin.collections.set
 import kotlin.ranges.IntRange
@@ -101,7 +105,7 @@ class CommandManager<T : Any>(val prefix: String = "!") {
     init {
         val e = CommandManagerInitializationEvent()
         eventBus.fire(e)
-        if (!e.isCancelled)
+        if (!e.isCancelled) {
             addTransformers(
                 IntTransformer,
                 DoubleTransformer,
@@ -115,8 +119,13 @@ class CommandManager<T : Any>(val prefix: String = "!") {
                 ArgumentTransformer,
                 BigIntegerTransformer,
                 BigDecimalTransformer,
-                TimeUnitTransformer
+                TimeUnitTransformer,
+                IntRangeTransformer,
+                LongRangeTransformer,
+                UIntRangeTransformer,
+                ULongRangeTransformer
             )
+        }
     }
 
     /**

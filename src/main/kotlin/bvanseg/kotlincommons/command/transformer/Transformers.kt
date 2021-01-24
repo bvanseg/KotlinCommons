@@ -39,6 +39,9 @@ import java.util.concurrent.TimeUnit
 import kotlin.reflect.KParameter
 import kotlin.reflect.full.findAnnotation
 
+
+private const val kotlinRangeDelimiter = ".."
+
 /**
  * Built-in transformers provided for developers. Serve as both examples and utilities.
  *
@@ -124,3 +127,57 @@ object BigDecimalTransformer : Transformer<BigDecimal>(BigDecimal::class) {
 }
 
 object TimeUnitTransformer : EnumTransformer<TimeUnit>(TimeUnit::class)
+
+object IntRangeTransformer : Transformer<kotlin.ranges.IntRange>(kotlin.ranges.IntRange::class) {
+    override fun parse(input: String, ctx: Context?): kotlin.ranges.IntRange? {
+        val split = input.split(kotlinRangeDelimiter)
+        val range = split[0].toIntOrNull() to split[1].toIntOrNull()
+
+        if (range.first != null && range.second != null) {
+            return kotlin.ranges.IntRange(range.first!!, range.second!!)
+        }
+
+        return null
+    }
+}
+
+@ExperimentalUnsignedTypes
+object UIntRangeTransformer : Transformer<UIntRange>(UIntRange::class) {
+    override fun parse(input: String, ctx: Context?): UIntRange? {
+        val split = input.split(kotlinRangeDelimiter)
+        val range = split[0].toUIntOrNull() to split[1].toUIntOrNull()
+
+        if (range.first != null && range.second != null) {
+            return UIntRange(range.first!!, range.second!!)
+        }
+
+        return null
+    }
+}
+
+object LongRangeTransformer : Transformer<kotlin.ranges.LongRange>(kotlin.ranges.LongRange::class) {
+    override fun parse(input: String, ctx: Context?): kotlin.ranges.LongRange? {
+        val split = input.split(kotlinRangeDelimiter)
+        val range = split[0].toLongOrNull() to split[1].toLongOrNull()
+
+        if (range.first != null && range.second != null) {
+            return kotlin.ranges.LongRange(range.first!!, range.second!!)
+        }
+
+        return null
+    }
+}
+
+@ExperimentalUnsignedTypes
+object ULongRangeTransformer : Transformer<ULongRange>(ULongRange::class) {
+    override fun parse(input: String, ctx: Context?): ULongRange? {
+        val split = input.split(kotlinRangeDelimiter)
+        val range = split[0].toULongOrNull() to split[1].toULongOrNull()
+
+        if (range.first != null && range.second != null) {
+            return ULongRange(range.first!!, range.second!!)
+        }
+
+        return null
+    }
+}
