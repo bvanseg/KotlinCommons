@@ -94,6 +94,14 @@ fun String.toURLOrNull(): URL? = try { URL(this) } catch (e: Exception) { null }
 fun String.toBase64(): String = Base64.getEncoder().encodeToString(this.toByteArray(Charsets.US_ASCII))
 
 /**
+ * Decodes a plain [ByteArray] from a [Base64]-encoded [String].
+ *
+ * @author Boston Vanseghi
+ * @since 2.7.0
+ */
+fun String.fromBase64(): ByteArray = Base64.getDecoder().decode(this)
+
+/**
  * Returns a truncated string containing the first [n] characters from this string, or the entire string if this string
  * is shorter.
  *
