@@ -66,6 +66,26 @@ fun String.toURI(): URI = URI.create(this)
 fun String.toURL(): URL = URL(this)
 
 /**
+ * Attempts to create a [URI] from a [String]. If a [URI] can't be created from the given [String], returns null.
+ *
+ * @return a [URI] or null if the [String] is not a valid [URI].
+ *
+ * @author Boston Vanseghi
+ * @since 2.7.0
+ */
+fun String.toURIOrNull(): URI? = try { URI.create(this) } catch(e: Exception) { null }
+
+/**
+ * Attempts to create a [URL] from a [String]. If a [URL] can't be created from the given [String], returns null.
+ *
+ * @return a [URL] or null if the [String] is not a valid [URL].
+ *
+ * @author Boston Vanseghi
+ * @since 2.7.0
+ */
+fun String.toURLOrNull(): URL? = try { URL(this) } catch (e: Exception) { null }
+
+/**
  * Encodes a String to [Base64].
  *
  * @author Boston Vanseghi

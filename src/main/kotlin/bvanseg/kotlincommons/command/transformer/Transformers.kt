@@ -34,7 +34,9 @@ import bvanseg.kotlincommons.command.util.Argument
 import bvanseg.kotlincommons.comparable.clampOrNull
 import bvanseg.kotlincommons.string.remove
 import bvanseg.kotlincommons.string.toURI
+import bvanseg.kotlincommons.string.toURIOrNull
 import bvanseg.kotlincommons.string.toURL
+import bvanseg.kotlincommons.string.toURLOrNull
 import java.math.BigDecimal
 import java.math.BigInteger
 import java.net.URI
@@ -187,9 +189,9 @@ object ULongRangeTransformer : Transformer<ULongRange>(ULongRange::class) {
 }
 
 object URITransformer : Transformer<URI>(URI::class) {
-    override fun parse(input: String, ctx: Context?): URI? = try { input.toURI() } catch(e: Exception) { null }
+    override fun parse(input: String, ctx: Context?): URI? = input.toURIOrNull()
 }
 
 object URLTransformer : Transformer<URL>(URL::class) {
-    override fun parse(input: String, ctx: Context?): URL? = try { input.toURL() } catch(e: Exception) { null }
+    override fun parse(input: String, ctx: Context?): URL? = input.toURLOrNull()
 }
