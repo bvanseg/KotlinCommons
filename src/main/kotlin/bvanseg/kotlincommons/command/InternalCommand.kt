@@ -109,8 +109,7 @@ open class InternalCommand(
                 throw InvalidParameterException("Command $function has invalid number of parameters for rawArgs")
             val argParamIndex = if (hasContext) paramStart + 1 else paramStart
             when (params[argParamIndex].type.getKClass()) {
-                String::class, Array<String>::class -> {
-                }
+                String::class, Array<String>::class -> Unit // No action necessary
                 List::class -> {
                     params[argParamIndex].type.arguments[0].type?.let {
                         if (it.getKClass() != String::class)
