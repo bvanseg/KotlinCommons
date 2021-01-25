@@ -65,14 +65,22 @@ class RateLimiter<T>(
                 } ?: break
             }
         }, tokenBucket.refillTime, tokenBucket.refillTime, TimeUnit.MILLISECONDS)
-    }
+    },
+    private val shutdownStrategy: () -> Unit = { service.shutdown() }
 ) {
 
     companion object {
         val logger = getLogger()
     }
 
+    /**
+     * The number of blocking requests that have yet to be satisfied.
+     */
     private val blockingCount = AtomicLong(0)
+
+    /**
+     * The number of queued up submissions awaiting execution by the [RateLimiter].
+     */
     private val queue = ConcurrentLinkedDeque<Pair<Long, () -> Unit>>()
 
     init {
@@ -80,11 +88,10 @@ class RateLimiter<T>(
     }
 
     /**
-     * Submits a unit to the rate limiter, along with a success callback to run it with as it passes
-     * the rate limit.
+     * Submits an asynchronous task to the [RateLimiter] to be executed once a token is readily available.
      *
-     * @param unit - The unit to be submitted.
-     * @param ratelimitCallback - The callback to run on [unit] once it has a token.
+     * @param consume The number of tokens the action consumes. Defaults to 1 token.
+     * @param ratelimitCallback - The callback to execute once a token is available.
      */
     fun submit(consume: Long = 1, ratelimitCallback: () -> Unit) {
         logger.trace("Received asynchronous submission.")
@@ -102,10 +109,17 @@ class RateLimiter<T>(
         }
     }
 
+    /**
+     * Submits a blocking task to the [RateLimiter] to be executed once a token is readily available.
+     *
+     * @param consume The amount of tokens to consume for the given task. Defaults to 1.
+     * @param callback The callback to execute once a token is readily available.
+     */
     fun <R> submitBlocking(consume: Long = 1, callback: () -> R): R {
 
         logger.trace("Executing blocking submission...")
 
+        // TODO: This while loop will eat up CPU cycles as it awaits a token. A better solution would be to use Kotlin [Channel]s.
         while (true) {
             blockingCount.incrementAndGet()
             val pair = tokenBucket.tryConsume(consume, callback)
@@ -121,9 +135,15 @@ class RateLimiter<T>(
         }
     }
 
+    /**
+     * Blocks the current thread until tokens of the specified amount are consumed.
+     *
+     * @param consume The amount of tokens to consume for the given task. Defaults to 1.
+     */
     fun submitBlocking(consume: Long = 1) {
 
         logger.trace("Entering blocking submission...")
+        // TODO: This while loop will eat up CPU cycles as it awaits a token. A better solution would be to use Kotlin [Channel]s.
         while (true) {
             blockingCount.incrementAndGet()
             val pair = tokenBucket.tryConsume(consume) {}
@@ -139,8 +159,11 @@ class RateLimiter<T>(
         }
     }
 
+    /**
+     * Shuts down the [RateLimiter]'s internal scheduler.
+     */
     fun shutdown() {
         logger.trace("Shutting down RateLimiter...")
-        service.shutdown()
+        shutdownStrategy()
     }
 }
