@@ -25,6 +25,7 @@ package bvanseg.kotlincommons
 
 import bvanseg.kotlincommons.any.getLogger
 import bvanseg.kotlincommons.project.Version
+import java.util.Random
 
 /**
  * An object representing KotlinCommons, storing miscellaneous data about the overall project.
@@ -39,5 +40,13 @@ object KotlinCommons {
      */
     val VERSION = Version(2, 7, 0, "beta1")
 
+    /**
+     * A default logger provided by KotlinCommons.
+     */
     val KC_LOGGER = getLogger()
+
+    /**
+     * A default random instance provided by KotlinCommons for internal or external use.
+     */
+    val KC_RANDOM = Random()
 }

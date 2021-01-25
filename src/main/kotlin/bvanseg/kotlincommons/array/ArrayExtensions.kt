@@ -23,6 +23,7 @@
  */
 package bvanseg.kotlincommons.array
 
+import bvanseg.kotlincommons.KotlinCommons
 import java.util.Random
 
 // TODO: Instead of instantiating a Random every time, use a default random from the KotlinCommons object.
@@ -34,7 +35,7 @@ import java.util.Random
  * @author Boston Vanseghi
  * @since 2.0.2
  */
-fun <T> Array<T>.random(random: Random = Random()): T = get(random.nextInt(size))
+fun <T> Array<T>.random(random: Random = KotlinCommons.KC_RANDOM): T = get(random.nextInt(size))
 
 /**
  * Gets a random element from the 2D [Array].
@@ -44,7 +45,7 @@ fun <T> Array<T>.random(random: Random = Random()): T = get(random.nextInt(size)
  * @author Boston Vanseghi
  * @since 2.0.2
  */
-fun <T> Array<Array<T>>.random(random: Random = Random()): T = get(random.nextInt(size))[random.nextInt(size)]
+fun <T> Array<Array<T>>.random(random: Random = KotlinCommons.KC_RANDOM): T = get(random.nextInt(size))[random.nextInt(size)]
 
 /**
  * Gets a random element from the 3D [Array].
@@ -54,7 +55,7 @@ fun <T> Array<Array<T>>.random(random: Random = Random()): T = get(random.nextIn
  * @author Boston Vanseghi
  * @since 2.0.2
  */
-fun <T> Array<Array<Array<T>>>.random(random: Random = Random()): T =
+fun <T> Array<Array<Array<T>>>.random(random: Random = KotlinCommons.KC_RANDOM): T =
     get(random.nextInt(size))[random.nextInt(size)][random.nextInt(size)]
 
 /**
