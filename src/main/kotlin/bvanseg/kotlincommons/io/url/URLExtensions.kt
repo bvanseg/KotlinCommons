@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package bvanseg.kotlincommons.url
+package bvanseg.kotlincommons.io.url
 
 import bvanseg.kotlincommons.string.remove
 import java.net.URL
