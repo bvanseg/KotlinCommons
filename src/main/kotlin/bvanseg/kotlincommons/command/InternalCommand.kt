@@ -31,7 +31,7 @@ import bvanseg.kotlincommons.command.gear.Gear
 import bvanseg.kotlincommons.command.transformer.Transformer
 import bvanseg.kotlincommons.command.util.Union
 import bvanseg.kotlincommons.command.validator.Validator
-import bvanseg.kotlincommons.kclass.getKClass
+import bvanseg.kotlincommons.reflect.getKClass
 import bvanseg.kotlincommons.string.joinStrings
 import kotlin.reflect.KClass
 import kotlin.reflect.KFunction

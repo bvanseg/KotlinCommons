@@ -26,7 +26,7 @@ package bvanseg.kotlincommons.event.bus
 import bvanseg.kotlincommons.any.getLogger
 import bvanseg.kotlincommons.event.annotation.SubscribeEvent
 import bvanseg.kotlincommons.event.event.InternalEvent
-import bvanseg.kotlincommons.kclass.getKClass
+import bvanseg.kotlincommons.reflect.getKClass
 import kotlin.reflect.full.findAnnotation
 import kotlin.reflect.full.memberFunctions
 import kotlin.reflect.full.superclasses

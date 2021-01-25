@@ -24,7 +24,7 @@
 package bvanseg.kotlincommons.command
 
 import bvanseg.kotlincommons.command.context.Context
-import bvanseg.kotlincommons.kclass.getKClass
+import bvanseg.kotlincommons.reflect.getKClass
 import kotlin.reflect.full.isSubclassOf
 
 /**

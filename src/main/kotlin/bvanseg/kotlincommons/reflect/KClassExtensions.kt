@@ -21,40 +21,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package bvanseg.kotlincommons.javaclass
+package bvanseg.kotlincommons.reflect
 
-import java.lang.reflect.Constructor
-import kotlin.reflect.full.createInstance
-
-
-@Deprecated(
-    "Deprecated in favor of Kotlin-reflect-backed createInstance and createInstanceFrom. Will be removed in KC 2.7.1.",
-    ReplaceWith("createInstanceFrom(clazz)")
-)
-fun <T> createNewInstance(clazz: Class<T>): T? = createNewInstance(clazz, null)
-
-/**
- * @author Boston Vanseghi
- * @since 2.7.0
- */
-fun <T : Any> Class<T>.createInstance(): T = this.kotlin.createInstance()
-
-/**
- * @author Boston Vanseghi
- * @since 2.7.0
- */
-fun <T : Any> createInstanceFrom(clazz: Class<T>): T = clazz.kotlin.createInstance()
+import java.net.URL
+import kotlin.reflect.KClass
+import kotlin.reflect.KType
 
 // TODO: Document.
-fun <T> createNewInstance(clazz: Class<T>, parameterTypes: Array<Class<*>>?, vararg arguments: Any): T? {
-    var constructor: Constructor<T>? = null
-    try {
-        constructor = if (parameterTypes == null)
-            clazz.getDeclaredConstructor()
-        else
-            clazz.getDeclaredConstructor(*parameterTypes)
-    } catch (e: Exception) {
-        e.printStackTrace()
-    }
-    return constructor?.newInstance(*arguments)
-}
+fun KType.getKClass(): KClass<*> = this.classifier!! as KClass<*>
+
+/**
+ * Gets a resource from the base class path of the current class, throwing an exception if one can't
+ * be found
+ *
+ * @author CraftSpider
+ * @since 2.0.0
+ */
+fun <T : Any> KClass<T>.getResource(name: String): URL =
+    this.java.classLoader.getResource(name)
+        ?: throw Exception("Resource '%s' not found".format(name))
