@@ -21,38 +21,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package bvanseg.kotlincommons.net.http
+package bvanseg.kotlincommons.io.net.http
 
 /**
- * An expansion of [RestAction] that allows for chaining [RestAction] queues.
- *
  * @author Boston Vanseghi
- * @since 2.3.0
+ * @since 2.5.1
  */
-class FlatMapRestAction<T, O>(val callback: (T?) -> RestAction<O>, private val parent: RestAction<T>) :
-    RestAction<O>() {
+object QueryHandler {
 
-    override fun queueImpl(): FlatMapRestAction<T, O> {
-        parent.queue {
-            callback(it)
+    fun build(vararg pairs: Pair<String, Any?>) =
+        "?" + pairs.filter { it.second != null }.joinToString("&") { pair -> "${pair.first}=${pair.second}" }
+
+    fun derive(query: String): List<Pair<String, String>> = query.replace("?", "").split('&').run {
+        val pairs = mutableListOf<Pair<String, String>>()
+
+        for (param in this) {
+            val split = param.split("=")
+            pairs.add(split[0] to split[1])
         }
 
-        return this
-    }
-
-    override fun queueImpl(callback: (O) -> Unit): FlatMapRestAction<T, O> {
-        parent.queue {
-            val resultAction = this.callback(it)
-            resultAction.queue { result ->
-                callback(result)
-            }
-        }
-
-        return this
-    }
-
-    override fun completeImpl(): O? {
-        val value = parent.complete()
-        return callback(value).complete()
+        return pairs
     }
 }

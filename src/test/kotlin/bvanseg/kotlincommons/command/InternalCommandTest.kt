@@ -8,7 +8,7 @@ import bvanseg.kotlincommons.command.gear.Gear
 import bvanseg.kotlincommons.command.util.Argument
 import bvanseg.kotlincommons.command.util.Union
 import bvanseg.kotlincommons.command.validator.impl.ClampInt
-import bvanseg.kotlincommons.logging.debug
+import bvanseg.kotlincommons.io.logging.debug
 import com.nhaarman.mockitokotlin2.anyOrNull
 import com.nhaarman.mockitokotlin2.argumentCaptor
 import com.nhaarman.mockitokotlin2.verify

@@ -1,4 +1,4 @@
-package bvanseg.kotlincommons.logging
+package bvanseg.kotlincommons.io.logging
 
 import bvanseg.kotlincommons.any.getLogger
 import org.junit.jupiter.api.Test

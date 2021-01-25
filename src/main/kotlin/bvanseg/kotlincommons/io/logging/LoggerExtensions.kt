@@ -21,25 +21,51 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package bvanseg.kotlincommons.net.http
+package bvanseg.kotlincommons.io.logging
+
+import org.slf4j.Logger
 
 /**
+ * Logs an object of any type as a [String].
+ *
+ * @param any The object to log.
+ *
  * @author Boston Vanseghi
- * @since 2.5.1
  */
-object QueryHandler {
+fun Logger.debug(any: Any?) = this.debug("{}", any.toString())
 
-    fun build(vararg pairs: Pair<String, Any?>) =
-        "?" + pairs.filter { it.second != null }.joinToString("&") { pair -> "${pair.first}=${pair.second}" }
+/**
+ * Logs an object of any type as a [String].
+ *
+ * @param any The object to log.
+ *
+ * @author Boston Vanseghi
+ */
+fun Logger.error(any: Any?) = this.error("{}", any.toString())
 
-    fun derive(query: String): List<Pair<String, String>> = query.replace("?", "").split('&').run {
-        val pairs = mutableListOf<Pair<String, String>>()
+/**
+ * Logs an object of any type as a [String].
+ *
+ * @param any The object to log.
+ *
+ * @author Boston Vanseghi
+ */
+fun Logger.info(any: Any?) = this.info("{}", any.toString())
 
-        for (param in this) {
-            val split = param.split("=")
-            pairs.add(split[0] to split[1])
-        }
+/**
+ * Logs an object of any type as a [String].
+ *
+ * @param any The object to log.
+ *
+ * @author Boston Vanseghi
+ */
+fun Logger.trace(any: Any?) = this.trace("{}", any.toString())
 
-        return pairs
-    }
-}
+/**
+ * Logs an object of any type as a [String].
+ *
+ * @param any The object to log.
+ *
+ * @author Boston Vanseghi
+ */
+fun Logger.warn(any: Any?) = this.warn("{}", any.toString())

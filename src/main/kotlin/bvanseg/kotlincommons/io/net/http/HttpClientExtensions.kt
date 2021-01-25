@@ -21,18 +21,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package bvanseg.kotlincommons.net.http
+package bvanseg.kotlincommons.io.net.http
 
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import java.net.http.HttpClient
+import java.net.http.HttpRequest
 
-/**
- * @author Boston Vanseghi
- * @since 2.3.0
- */
-// TODO: Move to KotlinCommons object.
-object KCHttp {
+fun HttpRequest.Builder.PATCH(publisher: HttpRequest.BodyPublisher) = this.method("PATCH", publisher)
 
-    val DEFAULT_HTTP_CLIENT = HttpClient.newHttpClient()
-    val jsonMapper = jacksonObjectMapper()
+fun httpRequest(block: KCHttpRequest.() -> Unit): HttpRequest {
+    val kcRequest = KCHttpRequest()
+    kcRequest.block()
+    return kcRequest.requestBuilder.build()
 }
+

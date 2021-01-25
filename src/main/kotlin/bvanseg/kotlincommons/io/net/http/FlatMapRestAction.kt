@@ -21,51 +21,38 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package bvanseg.kotlincommons.logging
-
-import org.slf4j.Logger
+package bvanseg.kotlincommons.io.net.http
 
 /**
- * Logs an object of any type as a [String].
- *
- * @param any The object to log.
+ * An expansion of [RestAction] that allows for chaining [RestAction] queues.
  *
  * @author Boston Vanseghi
+ * @since 2.3.0
  */
-fun Logger.debug(any: Any?) = this.debug("{}", any.toString())
+class FlatMapRestAction<T, O>(val callback: (T?) -> RestAction<O>, private val parent: RestAction<T>) :
+    RestAction<O>() {
 
-/**
- * Logs an object of any type as a [String].
- *
- * @param any The object to log.
- *
- * @author Boston Vanseghi
- */
-fun Logger.error(any: Any?) = this.error("{}", any.toString())
+    override fun queueImpl(): FlatMapRestAction<T, O> {
+        parent.queue {
+            callback(it)
+        }
 
-/**
- * Logs an object of any type as a [String].
- *
- * @param any The object to log.
- *
- * @author Boston Vanseghi
- */
-fun Logger.info(any: Any?) = this.info("{}", any.toString())
+        return this
+    }
 
-/**
- * Logs an object of any type as a [String].
- *
- * @param any The object to log.
- *
- * @author Boston Vanseghi
- */
-fun Logger.trace(any: Any?) = this.trace("{}", any.toString())
+    override fun queueImpl(callback: (O) -> Unit): FlatMapRestAction<T, O> {
+        parent.queue {
+            val resultAction = this.callback(it)
+            resultAction.queue { result ->
+                callback(result)
+            }
+        }
 
-/**
- * Logs an object of any type as a [String].
- *
- * @param any The object to log.
- *
- * @author Boston Vanseghi
- */
-fun Logger.warn(any: Any?) = this.warn("{}", any.toString())
+        return this
+    }
+
+    override fun completeImpl(): O? {
+        val value = parent.complete()
+        return callback(value).complete()
+    }
+}

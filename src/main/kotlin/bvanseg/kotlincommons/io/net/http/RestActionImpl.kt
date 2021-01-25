@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package bvanseg.kotlincommons.net.http
+package bvanseg.kotlincommons.io.net.http
 
 import bvanseg.kotlincommons.any.getLogger
 import com.fasterxml.jackson.core.type.TypeReference

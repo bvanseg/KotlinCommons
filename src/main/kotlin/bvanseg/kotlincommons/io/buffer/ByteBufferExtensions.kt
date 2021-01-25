@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package bvanseg.kotlincommons.buffer
+package bvanseg.kotlincommons.io.buffer
 
 import bvanseg.kotlincommons.project.Version
 import java.nio.ByteBuffer
