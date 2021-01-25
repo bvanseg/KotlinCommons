@@ -28,6 +28,24 @@ import bvanseg.kotlincommons.project.Version
 import java.util.Random
 
 /**
+ * @author Boston Vanseghi
+ * @since 2.7.0
+ */
+typealias StringArray = Array<String>
+
+/**
+ * @author Boston Vanseghi
+ * @since 2.7.0
+ */
+typealias Array2D<T> = Array<Array<T>>
+
+/**
+ * @author Boston Vanseghi
+ * @since 2.7.0
+ */
+typealias Array3D<T> = Array<Array<Array<T>>>
+
+/**
  * An object representing KotlinCommons, storing miscellaneous data about the overall project.
  *
  * @author Boston Vanseghi

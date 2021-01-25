@@ -23,7 +23,7 @@
  */
 package bvanseg.kotlincommons.command.annotation
 
-import bvanseg.kotlincommons.alias.StringArray
+import bvanseg.kotlincommons.StringArray
 
 /**
  * The basis for all commands. Any functions within a [bvanseg.kotlincommons.command.gear.Gear] annotated with this

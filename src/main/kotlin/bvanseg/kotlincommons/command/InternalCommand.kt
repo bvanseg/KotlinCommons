@@ -23,7 +23,7 @@
  */
 package bvanseg.kotlincommons.command
 
-import bvanseg.kotlincommons.alias.StringArray
+import bvanseg.kotlincommons.StringArray
 import bvanseg.kotlincommons.command.annotation.Command
 import bvanseg.kotlincommons.command.context.Context
 import bvanseg.kotlincommons.command.exception.*

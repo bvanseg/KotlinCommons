@@ -23,6 +23,8 @@
  */
 package bvanseg.kotlincommons.array
 
+import bvanseg.kotlincommons.Array2D
+import bvanseg.kotlincommons.Array3D
 import bvanseg.kotlincommons.KotlinCommons
 import java.util.Random
 
@@ -45,7 +47,7 @@ fun <T> Array<T>.random(random: Random = KotlinCommons.KC_RANDOM): T = get(rando
  * @author Boston Vanseghi
  * @since 2.0.2
  */
-fun <T> Array<Array<T>>.random(random: Random = KotlinCommons.KC_RANDOM): T = get(random.nextInt(size))[random.nextInt(size)]
+fun <T> Array2D<T>.random(random: Random = KotlinCommons.KC_RANDOM): T = get(random.nextInt(size))[random.nextInt(size)]
 
 /**
  * Gets a random element from the 3D [Array].
@@ -55,7 +57,7 @@ fun <T> Array<Array<T>>.random(random: Random = KotlinCommons.KC_RANDOM): T = ge
  * @author Boston Vanseghi
  * @since 2.0.2
  */
-fun <T> Array<Array<Array<T>>>.random(random: Random = KotlinCommons.KC_RANDOM): T =
+fun <T> Array3D<T>.random(random: Random = KotlinCommons.KC_RANDOM): T =
     get(random.nextInt(size))[random.nextInt(size)][random.nextInt(size)]
 
 /**
@@ -72,7 +74,7 @@ inline fun <reified T> Array<T>.anyNull(): Boolean = any { it == null }
  * @author Boston Vanseghi
  * @since 2.0.2
  */
-inline fun <reified T> Array<Array<T>>.anyNull(): Boolean = any { e1 -> e1.any { e2 -> e2 == null } }
+inline fun <reified T> Array2D<T>.anyNull(): Boolean = any { e1 -> e1.any { e2 -> e2 == null } }
 
 /**
  * Checks the 3D [Array] to see if any of the elements are null.
@@ -80,5 +82,5 @@ inline fun <reified T> Array<Array<T>>.anyNull(): Boolean = any { e1 -> e1.any {
  * @author Boston Vanseghi
  * @since 2.0.2
  */
-inline fun <reified T> Array<Array<Array<T>>>.anyNull(): Boolean =
+inline fun <reified T> Array3D<T>.anyNull(): Boolean =
     any { e1 -> e1.any { e2 -> e2.any { e3 -> e3 == null } } }
