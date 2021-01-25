@@ -21,58 +21,56 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package bvanseg.kotlincommons.tuple
+package bvanseg.kotlincommons.grouping.collection.iterable
 
 /**
- * Checks if the [value] is between [Pair.first] and [Pair.second] (exclusive)
- *
- * @author bright_spark
- * @since 2.0.1
- */
-fun <T : Comparable<T>> Pair<T, T>.between(value: T): Boolean = value > first && value < second
-
-/**
- * Checks if the [value] is between [Pair.first] and [Pair.second] (inclusive)
- *
- * @author bright_spark
- * @since 2.0.1
- */
-fun <T : Comparable<T>> Pair<T, T>.contains(value: T): Boolean = value in first..second
-
-
-/**
- * Converts this triple into a list.
+ * Correlates every element in the [Iterable] to a [Byte] value and then sums all [Byte] values together.
  *
  * @author Boston Vanseghi
- * @since 2.7.0
  */
-fun <T> Triple<T, T, T>.toList(): List<T> = listOf(first, second, third)
+inline fun <T> Iterable<T>.sumByByte(selector: (T) -> Byte): Byte {
+    var sum = 0
+    for (element in this) {
+        sum += selector(element)
+    }
+    return sum.toByte()
+}
 
 /**
- * Converts this quad into a list.
- */
-fun <T> Quad<T, T, T, T>.toList(): List<T> = listOf(first, second, third, fourth)
-
-/**
- * Converts this triple into a list.
+ * Correlates every element in the [Iterable] to a [Short] value and then sums all [Short] values together.
  *
  * @author Boston Vanseghi
- * @since 2.7.0
  */
-fun <T> MutableTriple<T, T, T>.toList(): List<T> = listOf(first, second, third)
+inline fun <T> Iterable<T>.sumByShort(selector: (T) -> Short): Short {
+    var sum = 0L
+    for (element in this) {
+        sum += selector(element)
+    }
+    return sum.toShort()
+}
 
 /**
- * Converts this quad into a list.
+ * Correlates every element in the [Iterable] to a [Long] value and then sums all [Long] values together.
  *
  * @author Boston Vanseghi
- * @since 2.7.0
  */
-fun <T> MutableQuad<T, T, T, T>.toList(): List<T> = listOf(first, second, third, fourth)
+inline fun <T> Iterable<T>.sumByLong(selector: (T) -> Long): Long {
+    var sum = 0L
+    for (element in this) {
+        sum += selector(element)
+    }
+    return sum
+}
 
 /**
- * Creates a tuple of type [MutablePair] from this and [that].
+ * Correlates every element in the [Iterable] to a [Float] value and then sums all [Float] values together.
  *
- * @author bright_spark
- * @since 2.2.5
+ * @author Boston Vanseghi
  */
-infix fun <A, B> A.toMut(that: B): MutablePair<A, B> = MutablePair(this, that)
+inline fun <T> Iterable<T>.sumByFloat(selector: (T) -> Float): Float {
+    var sum = 0f
+    for (element in this) {
+        sum += selector(element)
+    }
+    return sum
+}

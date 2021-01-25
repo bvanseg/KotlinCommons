@@ -23,7 +23,7 @@
  */
 package bvanseg.kotlincommons.flag
 
-import bvanseg.kotlincommons.collection.DualHashMap
+import bvanseg.kotlincommons.grouping.collection.DualHashMap
 import java.math.BigInteger
 import java.util.EnumSet
 

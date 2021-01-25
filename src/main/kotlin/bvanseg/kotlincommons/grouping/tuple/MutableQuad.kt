@@ -21,16 +21,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package bvanseg.kotlincommons.collection
+package bvanseg.kotlincommons.grouping.tuple
 
 /**
- * Adds a vararg collection of [elements] to the [MutableCollection].
- *
- * @param elements - The elements to add to the collection.
- *
- * @return Whether or not adding all of the elements succeeded.
+ * A mutable version of the [Quad] class.
  *
  * @author Boston Vanseghi
- * @since 2.0.1
+ * @since 2.7.0
  */
-fun <E> MutableCollection<E>.addAll(vararg elements: E): Boolean = this.addAll(*elements)
+data class MutableQuad<A, B, C, D>(var first: A, var second: B, var third: C, var fourth: D) {
+    override fun toString(): String = "($first, $second, $third, $fourth)"
+
+    fun setAll(first: A, second: B, third: C, fourth: D) = synchronized(this) {
+        this.first = first
+        this.second = second
+        this.third = third
+        this.fourth = fourth
+    }
+}

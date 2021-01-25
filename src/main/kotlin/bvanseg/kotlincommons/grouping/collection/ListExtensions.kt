@@ -21,30 +21,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package bvanseg.kotlincommons.collection
-
-import java.util.LinkedList
+package bvanseg.kotlincommons.grouping.collection
 
 /**
- * A very minimal class that limits the number of elements that can be added to it.
+ * Adds a vararg collection of [elements] to the [MutableCollection].
  *
- * @author bright_spark
- * @since 1.0.1
+ * @param elements - The elements to add to the collection.
+ *
+ * @return Whether or not adding all of the elements succeeded.
+ *
+ * @author Boston Vanseghi
+ * @since 2.0.1
  */
-class SizedList<T>(private val maxSize: Int) : LinkedList<T>() {
-
-    /**
-     * Adds an element to the list. If the current size of the list exceeds the max size, the head element of the list
-     * will be dropped.
-     */
-    override fun add(element: T): Boolean {
-        // TODO: It's possible the size value could have changed at this point to be over the max size, in which case
-        // This would lead to the list no longer being limited.
-        if (this.size == maxSize) {
-            this.removeAt(0)
-        }
-        return super.add(element)
-    }
-
-    // TODO: addAll implementations can bypass the limit, therefore they need to be overridden and dealt with.
-}
+fun <E> MutableCollection<E>.addAll(vararg elements: E): Boolean = this.addAll(*elements)

@@ -21,21 +21,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package bvanseg.kotlincommons.tuple
+package bvanseg.kotlincommons.grouping.tuple
 
 /**
- * A mutable version of the [Quad] class.
+ * Represents a quad of data. Similar to a [Triple].
  *
  * @author Boston Vanseghi
- * @since 2.7.0
+ * @since 2.0.2
  */
-data class MutableQuad<A, B, C, D>(var first: A, var second: B, var third: C, var fourth: D) {
-    override fun toString(): String = "($first, $second, $third, $fourth)"
+data class Quad<out A, out B, out C, out D>(
+    val first: A,
+    val second: B,
+    val third: C,
+    val fourth: D
+) {
 
-    fun setAll(first: A, second: B, third: C, fourth: D) = synchronized(this) {
-        this.first = first
-        this.second = second
-        this.third = third
-        this.fourth = fourth
-    }
+    /**
+     * Returns string representation of the [Quad] including its [first], [second], [third], and [fourth] values.
+     */
+    override fun toString(): String = "($first, $second, $third, $fourth)"
 }

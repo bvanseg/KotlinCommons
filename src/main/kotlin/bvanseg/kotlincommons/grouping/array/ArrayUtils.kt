@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package bvanseg.kotlincommons.array
+package bvanseg.kotlincommons.grouping.array
 
 /**
  * Creates a 2D array of the given type [T].

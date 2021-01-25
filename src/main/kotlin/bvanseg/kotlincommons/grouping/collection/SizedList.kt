@@ -21,27 +21,30 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package bvanseg.kotlincommons.collection
+package bvanseg.kotlincommons.grouping.collection
+
+import java.util.LinkedList
 
 /**
- * A class used in mapping multiple values [V] to a single key [K].
+ * A very minimal class that limits the number of elements that can be added to it.
  *
- * @author Boston Vanseghi
- * @since 2.1.1
+ * @author bright_spark
+ * @since 1.0.1
  */
-abstract class MultiMap<K, out V> {
+class SizedList<T>(private val maxSize: Int) : LinkedList<T>() {
 
-    protected abstract val backingMap: Map<K, Collection<V>>
+    /**
+     * Adds an element to the list. If the current size of the list exceeds the max size, the head element of the list
+     * will be dropped.
+     */
+    override fun add(element: T): Boolean {
+        // TODO: It's possible the size value could have changed at this point to be over the max size, in which case
+        // This would lead to the list no longer being limited.
+        if (this.size == maxSize) {
+            this.removeAt(0)
+        }
+        return super.add(element)
+    }
 
-    abstract val isEmpty: Boolean
-
-    abstract fun keySet(): Set<K>
-
-    abstract fun entrySet(): Set<Map.Entry<K, Collection<V>>>
-
-    abstract fun values(): Collection<Collection<V>>
-
-    abstract fun containsKey(key: K): Boolean
-
-    abstract fun size(): Int
+    // TODO: addAll implementations can bypass the limit, therefore they need to be overridden and dealt with.
 }

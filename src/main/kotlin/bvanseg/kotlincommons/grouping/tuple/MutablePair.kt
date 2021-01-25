@@ -21,20 +21,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package bvanseg.kotlincommons.tuple
+package bvanseg.kotlincommons.grouping.tuple
 
 /**
- * A mutable version of the [Triple] class.
+ * A mutable version of the [Pair] class.
  *
- * @author Boston Vanseghi
- * @since 2.7.0
+ * @author bright_spark
+ * @since 2.2.5
  */
-data class MutableTriple<A, B, C>(var first: A, var second: B, var third: C) {
-    override fun toString(): String = "($first, $second, $third)"
+data class MutablePair<A, B>(var first: A, var second: B) {
+    override fun toString(): String = "($first, $second)"
 
-    fun setAll(first: A, second: B, third: C) = synchronized(this) {
+    fun setAll(first: A, second: B) {
         this.first = first
         this.second = second
-        this.third = third
     }
 }

@@ -1,4 +1,4 @@
-package bvanseg.kotlincommons.collection
+package bvanseg.kotlincommons.grouping.collection
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test

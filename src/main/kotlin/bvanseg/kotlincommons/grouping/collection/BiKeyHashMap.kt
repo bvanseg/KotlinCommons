@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package bvanseg.kotlincommons.collection
+package bvanseg.kotlincommons.grouping.collection
 
 /**
  * A [Collection] class that supports two keys ([K1], [K2]) mapped to a single value [V].

@@ -21,19 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package bvanseg.kotlincommons.tuple
+package bvanseg.kotlincommons.grouping.collection
 
 /**
- * A mutable version of the [Pair] class.
+ * Takes a [HashMap] and creates a [DualHashMap] with it, allowing it to be reversed.
  *
- * @author bright_spark
- * @since 2.2.5
+ * @author Boston Vanseghi
+ * @since 2.1.2
  */
-data class MutablePair<A, B>(var first: A, var second: B) {
-    override fun toString(): String = "($first, $second)"
-
-    fun setAll(first: A, second: B) {
-        this.first = first
-        this.second = second
-    }
-}
+fun <K, V> HashMap<K, V>.toDualMap(): DualHashMap<K, V> = DualHashMap(this)

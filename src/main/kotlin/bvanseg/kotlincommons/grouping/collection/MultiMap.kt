@@ -21,33 +21,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package bvanseg.kotlincommons.enum
-
-import java.util.EnumSet
+package bvanseg.kotlincommons.grouping.collection
 
 /**
- * Creates an [EnumSet] of the given [Enum] type [E].
- *
- * @param values The values to create an [EnumSet] out of.
- *
- * @return An [EnumSet] with the given [values].
+ * A class used in mapping multiple values [V] to a single key [K].
  *
  * @author Boston Vanseghi
- * @since 2.5.0
+ * @since 2.1.1
  */
-inline fun <reified E : Enum<E>> enumSetOf(vararg values: E): EnumSet<E> = when {
-    values.isEmpty() -> EnumSet.noneOf(E::class.java)
-    values.size == 1 -> EnumSet.of(values.first())
-    else -> EnumSet.of(values.first(), *values.slice(1 until values.size).toTypedArray())
-}
+abstract class MultiMap<K, out V> {
 
-/**
- * Gets an [Enum] value of type [T] based on the enum value's [name].
- *
- * @param name The name of the [Enum] value to find.
- * @param ignoreCase Whether or not casing should be ignored when searching for the [Enum] value by name.
- *
- * @Return An [Enum] value with the specified name or null if no such entry was found.
- */
-inline fun <reified T : Enum<T>> enumValueOfOrNull(name: String?, ignoreCase: Boolean = false): T? =
-    if (name == null) null else enumValues<T>().find { it.name.equals(name, ignoreCase) }
+    protected abstract val backingMap: Map<K, Collection<V>>
+
+    abstract val isEmpty: Boolean
+
+    abstract fun keySet(): Set<K>
+
+    abstract fun entrySet(): Set<Map.Entry<K, Collection<V>>>
+
+    abstract fun values(): Collection<Collection<V>>
+
+    abstract fun containsKey(key: K): Boolean
+
+    abstract fun size(): Int
+}

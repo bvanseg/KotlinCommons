@@ -1,4 +1,4 @@
-package bvanseg.kotlincommons.enum
+package bvanseg.kotlincommons.grouping.enum
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue

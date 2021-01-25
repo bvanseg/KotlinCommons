@@ -21,12 +21,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package bvanseg.kotlincommons.collection
+package bvanseg.kotlincommons.grouping.tuple
 
 /**
- * Takes a [HashMap] and creates a [DualHashMap] with it, allowing it to be reversed.
+ * A mutable version of the [Triple] class.
  *
  * @author Boston Vanseghi
- * @since 2.1.2
+ * @since 2.7.0
  */
-fun <K, V> HashMap<K, V>.toDualMap(): DualHashMap<K, V> = DualHashMap(this)
+data class MutableTriple<A, B, C>(var first: A, var second: B, var third: C) {
+    override fun toString(): String = "($first, $second, $third)"
+
+    fun setAll(first: A, second: B, third: C) = synchronized(this) {
+        this.first = first
+        this.second = second
+        this.third = third
+    }
+}

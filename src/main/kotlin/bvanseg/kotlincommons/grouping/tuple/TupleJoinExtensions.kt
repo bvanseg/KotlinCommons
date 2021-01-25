@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package bvanseg.kotlincommons.tuple
+package bvanseg.kotlincommons.grouping.tuple
 
 /**
  * Allows the concatenation of a [Pair] to an object to produce a [Triple].

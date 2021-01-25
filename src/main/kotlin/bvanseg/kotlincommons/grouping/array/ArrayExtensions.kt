@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package bvanseg.kotlincommons.array
+package bvanseg.kotlincommons.grouping.array
 
 import bvanseg.kotlincommons.Array2D
 import bvanseg.kotlincommons.Array3D

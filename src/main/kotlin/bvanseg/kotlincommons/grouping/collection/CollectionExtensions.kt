@@ -1,4 +1,4 @@
-package bvanseg.kotlincommons.collection
+package bvanseg.kotlincommons.grouping.collection
 
 /**
  * Checks if the given [Collection] object shares any elements with the other [collection] object.

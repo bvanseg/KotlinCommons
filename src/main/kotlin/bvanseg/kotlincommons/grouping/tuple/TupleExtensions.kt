@@ -21,56 +21,58 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package bvanseg.kotlincommons.collection
-
-import java.util.ArrayList
-import java.util.LinkedList
+package bvanseg.kotlincommons.grouping.tuple
 
 /**
- * Creates a cartesian product out of the given 2D [List] object.
+ * Checks if the [value] is between [Pair.first] and [Pair.second] (exclusive)
  *
- * @param lists The two-dimensional [List] to produce a cartesian product for.
- *
- * @return A cartesian product represented as a [List] of [List]s with the given element type [T].
- *
- * @author Boston Vanseghi
+ * @author bright_spark
+ * @since 2.0.1
  */
-fun <T> cartesianProduct(lists: List<List<T>>): List<List<T>> {
-    val resultLists = ArrayList<List<T>>()
-    if (lists.isEmpty()) {
-        resultLists.add(ArrayList())
-        return resultLists
-    } else {
-        val firstList = lists[0]
-        val remainingLists = cartesianProduct(lists.subList(1, lists.size))
-        for (condition in firstList) {
-            for (remainingList in remainingLists) {
-                val resultList = ArrayList<T>()
-                resultList.add(condition)
-                resultList.addAll(remainingList)
-                resultLists.add(resultList)
-            }
-        }
-    }
-    return resultLists
-}
+fun <T : Comparable<T>> Pair<T, T>.between(value: T): Boolean = value > first && value < second
 
 /**
- * Creates a [LinkedList] of the given type [T].
+ * Checks if the [value] is between [Pair.first] and [Pair.second] (inclusive)
+ *
+ * @author bright_spark
+ * @since 2.0.1
+ */
+fun <T : Comparable<T>> Pair<T, T>.contains(value: T): Boolean = value in first..second
+
+
+/**
+ * Converts this triple into a list.
  *
  * @author Boston Vanseghi
  * @since 2.7.0
  */
-fun <T> linkedListOf(): LinkedList<T> = LinkedList()
+fun <T> Triple<T, T, T>.toList(): List<T> = listOf(first, second, third)
 
 /**
- * Creates a [LinkedList] out of the given [List] with type [T].
+ * Converts this quad into a list.
+ */
+fun <T> Quad<T, T, T, T>.toList(): List<T> = listOf(first, second, third, fourth)
+
+/**
+ * Converts this triple into a list.
  *
  * @author Boston Vanseghi
  * @since 2.7.0
  */
-inline fun <reified T> List<T>.toLinkedList(): LinkedList<T> {
-    val llist = LinkedList<T>()
-    llist.addAll(this)
-    return llist
-}
+fun <T> MutableTriple<T, T, T>.toList(): List<T> = listOf(first, second, third)
+
+/**
+ * Converts this quad into a list.
+ *
+ * @author Boston Vanseghi
+ * @since 2.7.0
+ */
+fun <T> MutableQuad<T, T, T, T>.toList(): List<T> = listOf(first, second, third, fourth)
+
+/**
+ * Creates a tuple of type [MutablePair] from this and [that].
+ *
+ * @author bright_spark
+ * @since 2.2.5
+ */
+infix fun <A, B> A.toMut(that: B): MutablePair<A, B> = MutablePair(this, that)
