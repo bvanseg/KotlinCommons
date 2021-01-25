@@ -24,20 +24,17 @@
 package bvanseg.kotlincommons.util.ratelimit
 
 import bvanseg.kotlincommons.io.logging.getLogger
-import bvanseg.kotlincommons.time.api.every
-import bvanseg.kotlincommons.time.api.milliseconds
 import bvanseg.kotlincommons.util.project.Experimental
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.channels.sendBlocking
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import java.time.Instant
 import java.time.OffsetDateTime
 import java.util.concurrent.ConcurrentLinkedDeque
-import java.util.concurrent.Executors
-import java.util.concurrent.ScheduledExecutorService
+import java.util.concurrent.LinkedBlockingQueue
 import java.util.concurrent.atomic.AtomicLong
 
 /**
@@ -48,18 +45,13 @@ import java.util.concurrent.atomic.AtomicLong
 @Experimental
 class RateLimiter<T> constructor(
     val tokenBucket: TokenBucket,
-    private val service: ScheduledExecutorService = Executors.newSingleThreadScheduledExecutor {
-        val thread = Thread(it)
-        thread.isDaemon = true
-        thread
-    },
     cycleStrategy: (RateLimiter<T>) -> Unit = { rateLimiter ->
-        GlobalScope.launch {
+        GlobalScope.launch(Dispatchers.IO) {
             while (rateLimiter.isRunning) {
                 tokenBucket.refill()
 
                 while (tokenBucket.isNotEmpty()) {
-                    val next = rateLimiter.submissionTypeQueue.peekFirst() ?: continue
+                    val next = rateLimiter.submissionTypeQueue.take() ?: continue
 
                     when (next.first) {
                         SubmissionType.SYNCHRONOUS -> {
@@ -71,7 +63,7 @@ class RateLimiter<T> constructor(
                                     tokenBucket.tokenLimit
                                 )
                                 rateLimiter.syncChannel.send(rateLimiter.finishedSyncID.getAndIncrement())
-                                rateLimiter.submissionTypeQueue.removeFirst()
+                                rateLimiter.submissionTypeQueue.remove()
                             }
                         }
                         SubmissionType.ASYNCHRONOUS -> {
@@ -85,7 +77,7 @@ class RateLimiter<T> constructor(
                                     tokenBucket.tokenLimit
                                 )
                                 callback()
-                                rateLimiter.submissionTypeQueue.removeFirst()
+                                rateLimiter.submissionTypeQueue.remove()
                                 logger.trace(
                                     "Finished executing queued submission: TokenBucket ({}/{}).",
                                     tokenBucket.currentTokenCount,
@@ -102,7 +94,7 @@ class RateLimiter<T> constructor(
             }
         }
     },
-    private val shutdownStrategy: () -> Unit = { service.shutdown() }
+    private val shutdownStrategy: () -> Unit = { }
 ) {
 
     companion object {
@@ -132,7 +124,7 @@ class RateLimiter<T> constructor(
     /**
      * Maintains the order of submission types to their consumption cost.
      */
-    private val submissionTypeQueue = ConcurrentLinkedDeque<Pair<SubmissionType, Long>>()
+    private val submissionTypeQueue = LinkedBlockingQueue<Pair<SubmissionType, Long>>()
 
     /**
      *
@@ -152,7 +144,7 @@ class RateLimiter<T> constructor(
      */
     fun submit(consume: Long = 1, ratelimitCallback: () -> Unit) {
         logger.trace("Received asynchronous submission.")
-        submissionTypeQueue.addLast(SubmissionType.ASYNCHRONOUS to consume)
+        submissionTypeQueue.offer(SubmissionType.ASYNCHRONOUS to consume)
         asyncQueue.addLast(ratelimitCallback)
     }
 
@@ -173,7 +165,7 @@ class RateLimiter<T> constructor(
      * @param consume The amount of tokens to consume for the given task. Defaults to 1.
      */
     fun submitBlocking(consume: Long = 1) = runBlocking {
-        submissionTypeQueue.addLast(SubmissionType.SYNCHRONOUS to consume)
+        submissionTypeQueue.offer(SubmissionType.SYNCHRONOUS to consume)
 
         val uniqueID = workingSyncID.getAndIncrement()
 
