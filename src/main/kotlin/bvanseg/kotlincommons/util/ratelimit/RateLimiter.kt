@@ -34,7 +34,7 @@ import kotlinx.coroutines.runBlocking
 import java.time.Instant
 import java.time.OffsetDateTime
 import java.util.concurrent.ConcurrentLinkedDeque
-import java.util.concurrent.LinkedBlockingQueue
+import java.util.concurrent.LinkedBlockingDeque
 import java.util.concurrent.atomic.AtomicLong
 
 /**
@@ -51,7 +51,7 @@ class RateLimiter<T> constructor(
                 tokenBucket.refill()
 
                 while (tokenBucket.isNotEmpty()) {
-                    val next = rateLimiter.submissionTypeQueue.take() ?: continue
+                    val next = rateLimiter.submissionTypeQueue.takeFirst() ?: continue
 
                     when (next.first) {
                         SubmissionType.SYNCHRONOUS -> {
@@ -63,7 +63,8 @@ class RateLimiter<T> constructor(
                                     tokenBucket.tokenLimit
                                 )
                                 rateLimiter.syncChannel.send(rateLimiter.finishedSyncID.getAndIncrement())
-                                rateLimiter.submissionTypeQueue.remove()
+                            } else {
+                                rateLimiter.submissionTypeQueue.offerFirst(next)
                             }
                         }
                         SubmissionType.ASYNCHRONOUS -> {
@@ -77,12 +78,13 @@ class RateLimiter<T> constructor(
                                     tokenBucket.tokenLimit
                                 )
                                 callback()
-                                rateLimiter.submissionTypeQueue.remove()
                                 logger.trace(
                                     "Finished executing queued submission: TokenBucket ({}/{}).",
                                     tokenBucket.currentTokenCount,
                                     tokenBucket.tokenLimit
                                 )
+                            } else {
+                                rateLimiter.submissionTypeQueue.offerFirst(next)
                             }
                         }
                     }
@@ -124,7 +126,7 @@ class RateLimiter<T> constructor(
     /**
      * Maintains the order of submission types to their consumption cost.
      */
-    private val submissionTypeQueue = LinkedBlockingQueue<Pair<SubmissionType, Long>>()
+    private val submissionTypeQueue = LinkedBlockingDeque<Pair<SubmissionType, Long>>()
 
     /**
      *
@@ -144,7 +146,7 @@ class RateLimiter<T> constructor(
      */
     fun submit(consume: Long = 1, ratelimitCallback: () -> Unit) {
         logger.trace("Received asynchronous submission.")
-        submissionTypeQueue.offer(SubmissionType.ASYNCHRONOUS to consume)
+        submissionTypeQueue.offerFirst(SubmissionType.ASYNCHRONOUS to consume)
         asyncQueue.addLast(ratelimitCallback)
     }
 
@@ -165,7 +167,7 @@ class RateLimiter<T> constructor(
      * @param consume The amount of tokens to consume for the given task. Defaults to 1.
      */
     fun submitBlocking(consume: Long = 1) = runBlocking {
-        submissionTypeQueue.offer(SubmissionType.SYNCHRONOUS to consume)
+        submissionTypeQueue.offerFirst(SubmissionType.SYNCHRONOUS to consume)
 
         val uniqueID = workingSyncID.getAndIncrement()
 
