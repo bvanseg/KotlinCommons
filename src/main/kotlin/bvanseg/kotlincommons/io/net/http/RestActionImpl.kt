@@ -23,7 +23,7 @@
  */
 package bvanseg.kotlincommons.io.net.http
 
-import bvanseg.kotlincommons.any.getLogger
+import bvanseg.kotlincommons.io.logging.getLogger
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import java.net.http.HttpClient

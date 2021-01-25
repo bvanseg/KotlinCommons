@@ -24,6 +24,23 @@
 package bvanseg.kotlincommons.io.logging
 
 import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+
+/**
+ * Allows any class to get a logger of itself.
+ *
+ * @author Boston Vanseghi
+ */
+fun Any.getLogger(): Logger {
+    val klass = this::class
+    val clazz = klass.java
+
+    return if (klass.isCompanion) {
+        LoggerFactory.getLogger(clazz.declaringClass)
+    } else {
+        LoggerFactory.getLogger(clazz)
+    }
+}
 
 /**
  * Logs an object of any type as a [String].

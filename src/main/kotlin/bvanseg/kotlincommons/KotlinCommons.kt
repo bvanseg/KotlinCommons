@@ -23,7 +23,7 @@
  */
 package bvanseg.kotlincommons
 
-import bvanseg.kotlincommons.any.getLogger
+import bvanseg.kotlincommons.io.logging.getLogger
 import bvanseg.kotlincommons.project.Version
 import java.util.Random
 

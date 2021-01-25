@@ -23,7 +23,7 @@
  */
 package bvanseg.kotlincommons.event.bus
 
-import bvanseg.kotlincommons.any.getLogger
+import bvanseg.kotlincommons.io.logging.getLogger
 import bvanseg.kotlincommons.event.annotation.SubscribeEvent
 import bvanseg.kotlincommons.event.event.InternalEvent
 import bvanseg.kotlincommons.reflect.getKClass

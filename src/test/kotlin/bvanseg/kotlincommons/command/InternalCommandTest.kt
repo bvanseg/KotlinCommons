@@ -1,7 +1,7 @@
 package bvanseg.kotlincommons.command
 
 import bvanseg.kotlincommons.StringArray
-import bvanseg.kotlincommons.any.getLogger
+import bvanseg.kotlincommons.io.logging.getLogger
 import bvanseg.kotlincommons.command.annotation.Command
 import bvanseg.kotlincommons.command.context.EmptyContext
 import bvanseg.kotlincommons.command.gear.Gear
