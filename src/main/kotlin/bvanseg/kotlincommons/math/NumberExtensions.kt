@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package bvanseg.kotlincommons.number
+package bvanseg.kotlincommons.math
 
 import bvanseg.kotlincommons.graphic.Color
 import bvanseg.kotlincommons.util.project.Experimental

@@ -1,6 +1,10 @@
 package bvanseg.kotlincommons.number
 
 import argStreamOf
+import bvanseg.kotlincommons.math.ifNegative
+import bvanseg.kotlincommons.math.ifPositive
+import bvanseg.kotlincommons.math.isEven
+import bvanseg.kotlincommons.math.isOdd
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test

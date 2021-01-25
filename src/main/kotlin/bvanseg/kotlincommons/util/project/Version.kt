@@ -23,7 +23,7 @@
  */
 package bvanseg.kotlincommons.util.project
 
-import bvanseg.kotlincommons.number.HashCodeBuilder
+import bvanseg.kotlincommons.util.HashCodeBuilder
 
 /**
  * A class that adheres to Apache's versioning guidelines. @see <a href="https://commons.apache.org/releases/versioning.html"></a>
