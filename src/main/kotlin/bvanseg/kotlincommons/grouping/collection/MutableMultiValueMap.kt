@@ -59,6 +59,10 @@ class MutableMultiValueMap<K, V> : MultiMap<K, V>() {
         list
     }
 
+    operator fun get(key: K): MutableList<V>? = backingMap[key]
+
+    operator fun set(key: K, value: MutableList<V>) = backingMap.put(key, value)
+
     override fun keySet(): Set<K> = backingMap.keys
 
     override fun entrySet(): Set<Map.Entry<K, Collection<V>>> = backingMap.entries

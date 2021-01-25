@@ -19,9 +19,9 @@ class MultiMapTest {
         multiMap.put("Jeffrey", "Hill")
 
         // Then
-        assertEquals(1, multiMap["Jeffrey"].size)
-        assertEquals(2, multiMap["John"].size)
-        assertEquals(2, multiMap["Jane"].size)
+        assertEquals(1, multiMap["Jeffrey"]?.size)
+        assertEquals(2, multiMap["John"]?.size)
+        assertEquals(2, multiMap["Jane"]?.size)
     }
 
     @Test
@@ -37,10 +37,10 @@ class MultiMapTest {
         multiMap.put("Jeffrey", "Hill")
 
         // Then
-        assertTrue(multiMap["Jeffrey"].contains("Hill"))
-        assertTrue(multiMap["John"].contains("Smith"))
-        assertTrue(multiMap["John"].contains("Doe"))
-        assertTrue(multiMap["Jane"].contains("Jackson"))
-        assertTrue(multiMap["Jane"].contains("Doe"))
+        assertTrue(multiMap["Jeffrey"]?.contains("Hill") ?: false)
+        assertTrue(multiMap["John"]?.contains("Smith") ?: false)
+        assertTrue(multiMap["John"]?.contains("Doe") ?: false)
+        assertTrue(multiMap["Jane"]?.contains("Jackson") ?: false)
+        assertTrue(multiMap["Jane"]?.contains("Doe") ?: false)
     }
 }
