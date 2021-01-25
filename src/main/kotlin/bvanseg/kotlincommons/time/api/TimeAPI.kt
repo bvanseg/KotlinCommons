@@ -52,26 +52,37 @@ val Number.millenniums
 
 @Experimental
 val nanoseconds: KTimeBase = KTimeBase(KTimeUnit.NANOSECOND)
+
 @Experimental
 val microseconds: KTimeBase = KTimeBase(KTimeUnit.MICROSECOND)
+
 @Experimental
 val milliseconds: KTimeBase = KTimeBase(KTimeUnit.MILLISECOND)
+
 @Experimental
 val seconds: KTimeBase = KTimeBase(KTimeUnit.SECOND)
+
 @Experimental
 val minutes: KTimeBase = KTimeBase(KTimeUnit.MINUTE)
+
 @Experimental
 val hours: KTimeBase = KTimeBase(KTimeUnit.HOUR)
+
 @Experimental
 val days: KTimeBase = KTimeBase(KTimeUnit.DAY)
+
 @Experimental
 val weeks: KTimeBase = KTimeBase(KTimeUnit.WEEK)
+
 @Experimental
 val years: KTimeBase = KTimeBase(KTimeUnit.YEAR)
+
 @Experimental
 val decades: KTimeBase = KTimeBase(KTimeUnit.DECADE)
+
 @Experimental
 val centuries: KTimeBase = KTimeBase(KTimeUnit.CENTURY)
+
 @Experimental
 val millenniums: KTimeBase = KTimeBase(KTimeUnit.MILLENNIUM)
 
@@ -123,11 +134,13 @@ operator fun KTime.rangeTo(other: KTime): KTime = other - this
 
 @Experimental
 operator fun KTime.dec(): KTime = this.apply { this.value -= 1 }
+
 @Experimental
 operator fun KTime.inc(): KTime = this.apply { this.value += 1 }
 
 @Experimental
 operator fun KTime.plus(other: Number): KTime = this.apply { this.value += other.toDouble() }
+
 @Experimental
 operator fun KTime.minus(other: Number): KTime = this.apply { this.value -= other.toDouble() }
 

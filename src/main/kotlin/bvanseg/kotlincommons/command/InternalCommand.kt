@@ -247,7 +247,8 @@ open class InternalCommand(
 
                             if (transformer != null) {
                                 // If this is the last arg but we have more to go?
-                                val input = if (index == paramSize - 1) argsList.joinStrings(startIndex = index) else arg
+                                val input =
+                                    if (index == paramSize - 1) argsList.joinStrings(startIndex = index) else arg
                                 try {
                                     if (input.isNotBlank()) {
                                         pArgs[parameter.name!!] = transformer.parse(parameter, input, context)
