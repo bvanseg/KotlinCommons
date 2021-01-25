@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package bvanseg.kotlincommons.flag
+package bvanseg.kotlincommons.bool
 
 import bvanseg.kotlincommons.grouping.collection.DualHashMap
 import java.math.BigInteger

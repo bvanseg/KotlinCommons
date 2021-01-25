@@ -1,5 +1,6 @@
 package bvanseg.kotlincommons.flag
 
+import bvanseg.kotlincommons.bool.FlagManager
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import java.util.EnumSet
