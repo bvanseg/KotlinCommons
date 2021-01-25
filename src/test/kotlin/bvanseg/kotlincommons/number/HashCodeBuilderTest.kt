@@ -1,6 +1,6 @@
 package bvanseg.kotlincommons.number
 
-import bvanseg.kotlincommons.string.ToStringBuilder
+import bvanseg.kotlincommons.lang.string.ToStringBuilder
 
 class HashCodeBuilderTest {
 

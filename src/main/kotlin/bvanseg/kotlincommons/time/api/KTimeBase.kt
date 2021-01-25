@@ -1,6 +1,6 @@
 package bvanseg.kotlincommons.time.api
 
-import bvanseg.kotlincommons.project.Experimental
+import bvanseg.kotlincommons.util.project.Experimental
 
 /**
  * Represents the concept of a time unit without a value.

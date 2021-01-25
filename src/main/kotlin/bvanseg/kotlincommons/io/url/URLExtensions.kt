@@ -23,7 +23,7 @@
  */
 package bvanseg.kotlincommons.io.url
 
-import bvanseg.kotlincommons.string.remove
+import bvanseg.kotlincommons.lang.string.remove
 import java.net.URL
 
 /**

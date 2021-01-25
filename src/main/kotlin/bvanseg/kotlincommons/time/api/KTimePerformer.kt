@@ -1,6 +1,6 @@
 package bvanseg.kotlincommons.time.api
 
-import bvanseg.kotlincommons.project.Experimental
+import bvanseg.kotlincommons.util.project.Experimental
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch

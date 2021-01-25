@@ -24,7 +24,7 @@
 package bvanseg.kotlincommons
 
 import bvanseg.kotlincommons.io.logging.getLogger
-import bvanseg.kotlincommons.project.Version
+import bvanseg.kotlincommons.util.project.Version
 import java.util.Random
 
 /**

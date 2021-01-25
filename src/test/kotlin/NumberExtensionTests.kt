@@ -1,4 +1,4 @@
-import bvanseg.kotlincommons.comparable.clamp
+import bvanseg.kotlincommons.util.comparable.clamp
 import org.junit.jupiter.api.Test
 
 class NumberExtensionTests {

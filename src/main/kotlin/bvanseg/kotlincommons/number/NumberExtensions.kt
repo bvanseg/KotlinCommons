@@ -24,7 +24,7 @@
 package bvanseg.kotlincommons.number
 
 import bvanseg.kotlincommons.graphic.Color
-import bvanseg.kotlincommons.project.Experimental
+import bvanseg.kotlincommons.util.project.Experimental
 import java.text.NumberFormat
 import kotlin.math.log10
 

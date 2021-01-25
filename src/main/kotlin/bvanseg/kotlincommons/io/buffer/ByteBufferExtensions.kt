@@ -23,7 +23,7 @@
  */
 package bvanseg.kotlincommons.io.buffer
 
-import bvanseg.kotlincommons.project.Version
+import bvanseg.kotlincommons.util.project.Version
 import java.nio.ByteBuffer
 import java.util.UUID
 

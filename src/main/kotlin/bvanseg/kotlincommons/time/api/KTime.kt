@@ -1,6 +1,6 @@
 package bvanseg.kotlincommons.time.api
 
-import bvanseg.kotlincommons.project.Experimental
+import bvanseg.kotlincommons.util.project.Experimental
 
 /**
  * Represents a measurement of time, given a value and the unit representing that value.
