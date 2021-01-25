@@ -23,7 +23,6 @@
  */
 package bvanseg.kotlincommons.grouping.collection
 
-import java.util.ArrayList
 import java.util.HashMap
 
 /**
@@ -32,43 +31,43 @@ import java.util.HashMap
  * @author Boston Vanseghi
  * @since 2.1.1
  */
-// TODO: This has potential to be more useful if the map's value type was something more concrete than a MutableCollection.
-class MutableMultiMap<K, V> : MultiMap<K, V>() {
+class MutableMultiValueMap<K, V> : MultiMap<K, V>() {
 
-    override val backingMap: HashMap<K, MutableCollection<V>> = HashMap()
+    override val backingMap: HashMap<K, MutableList<V>> = HashMap()
 
     override val isEmpty: Boolean
         get() = backingMap.isEmpty()
 
-    // TODO: This could be rewritten without !! operators.
     fun put(key: K, value: V) {
-        if (backingMap[key] == null)
-            backingMap[key] = ArrayList()
+        var list = backingMap[key]
 
-        backingMap[key]!!.add(value)
+        if (list == null) {
+            list = mutableListOf()
+            backingMap[key] = list
+        }
+
+        list.add(value)
     }
 
-    // TODO: This could be rewritten without !! operators. Also is not thread-safe.
-    fun putIfAbsent(key: K, value: V) {
-        if (backingMap[key] == null)
-            backingMap[key] = ArrayList()
+    fun putIfAbsent(key: K, value: V) = backingMap.putIfAbsent(key, mutableListOf<V>().apply {
+        add(value)
+    })
 
-        if (!backingMap[key]!!.contains(value))
-            backingMap[key]!!.add(value)
+    fun computeIfAbsent(key: K, value: V) = backingMap.computeIfAbsent(key) {
+        val list = mutableListOf<V>()
+        list.add(value)
+        list
     }
-
-    // TODO: This isn't null safe.
-    operator fun get(key: K): MutableCollection<V> = backingMap[key]!!
 
     override fun keySet(): Set<K> = backingMap.keys
 
     override fun entrySet(): Set<Map.Entry<K, Collection<V>>> = backingMap.entries
 
-    override fun values(): Collection<MutableCollection<V>> = backingMap.values
+    override fun values(): Collection<MutableList<V>> = backingMap.values
 
     override fun containsKey(key: K): Boolean = backingMap.containsKey(key)
 
-    fun remove(key: K): MutableCollection<V>? = backingMap.remove(key)
+    fun remove(key: K): MutableList<V>? = backingMap.remove(key)
 
     override fun size(): Int = backingMap.values.sumBy { it.size }
 
@@ -76,13 +75,4 @@ class MutableMultiMap<K, V> : MultiMap<K, V>() {
 
     fun remove(key: K, value: V): Boolean =
         if (backingMap[key] != null) backingMap[key]?.remove(value) ?: false else false
-
-    fun replace(key: K, oldValue: V, newValue: V): Boolean {
-        if (backingMap[key] != null) {
-            if (backingMap[key]!!.remove(oldValue))
-                return backingMap[key]!!.add(newValue)
-        }
-        // TODO: The new value should be added along with a new collection if there is simply no collection.
-        return false
-    }
 }

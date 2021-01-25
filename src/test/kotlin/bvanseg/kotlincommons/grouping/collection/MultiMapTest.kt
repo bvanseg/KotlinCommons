@@ -9,7 +9,7 @@ class MultiMapTest {
     @Test
     fun testMultiMapSizing() {
         // Given
-        val multiMap = MutableMultiMap<String, String>()
+        val multiMap = MutableMultiValueMap<String, String>()
 
         // When
         multiMap.put("John", "Smith")
@@ -27,7 +27,7 @@ class MultiMapTest {
     @Test
     fun testMultiMapElements() {
         // Given
-        val multiMap = MutableMultiMap<String, String>()
+        val multiMap = MutableMultiValueMap<String, String>()
 
         // When
         multiMap.put("John", "Smith")
