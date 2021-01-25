@@ -24,10 +24,20 @@
 package bvanseg.kotlincommons.util.ratelimit
 
 import bvanseg.kotlincommons.io.logging.getLogger
+import bvanseg.kotlincommons.time.api.every
+import bvanseg.kotlincommons.time.api.milliseconds
+import bvanseg.kotlincommons.util.project.Experimental
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.sendBlocking
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import java.time.Instant
+import java.time.OffsetDateTime
 import java.util.concurrent.ConcurrentLinkedDeque
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledExecutorService
-import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicLong
 
 /**
@@ -35,39 +45,62 @@ import java.util.concurrent.atomic.AtomicLong
  * @author Jacob Glickman (https://github.com/jhg023)[https://github.com/jhg023]
  * @since 2.3.4
  */
-class RateLimiter<T>(
+@Experimental
+class RateLimiter<T> constructor(
     val tokenBucket: TokenBucket,
     private val service: ScheduledExecutorService = Executors.newSingleThreadScheduledExecutor {
         val thread = Thread(it)
         thread.isDaemon = true
         thread
     },
-    cycleStrategy: (RateLimiter<T>, AtomicLong, ConcurrentLinkedDeque<Pair<Long, () -> Unit>>) -> Unit = { ratelimiter, bc, q ->
-        service.scheduleAtFixedRate({
-            tokenBucket.refill()
+    cycleStrategy: (RateLimiter<T>) -> Unit = { rateLimiter ->
+        GlobalScope.launch {
+            while (rateLimiter.isRunning) {
+                tokenBucket.refill()
 
-            while (tokenBucket.isNotEmpty()) {
-                while (bc.get() > 0) {
-                    Thread.onSpinWait()
-                }
+                while (tokenBucket.isNotEmpty()) {
+                    val next = rateLimiter.submissionTypeQueue.peekFirst() ?: continue
 
-                val next = q.pollFirst()
+                    when (next.first) {
+                        SubmissionType.SYNCHRONOUS -> {
+                            val cost = next.second
+                            if (tokenBucket.tryConsume(cost)) {
+                                logger.trace(
+                                    "Executing blocking submission: TokenBucket ({}/{}).",
+                                    tokenBucket.currentTokenCount,
+                                    tokenBucket.tokenLimit
+                                )
+                                rateLimiter.syncChannel.send(rateLimiter.finishedSyncID.getAndIncrement())
+                                rateLimiter.submissionTypeQueue.removeFirst()
+                            }
+                        }
+                        SubmissionType.ASYNCHRONOUS -> {
+                            val cost = next.second
 
-                next?.let {
-                    val pair = tokenBucket.tryConsume(it.first, it.second)
-
-                    if (pair.first) {
-                        logger.trace(
-                            "Executed queued submission: TokenBucket ({}/{}).",
-                            tokenBucket.currentTokenCount,
-                            tokenBucket.tokenLimit
-                        )
-                    } else {
-                        q.addFirst(it.first to it.second)
+                            if (tokenBucket.tryConsume(cost)) {
+                                val callback = rateLimiter.asyncQueue.poll()
+                                logger.trace(
+                                    "Executing queued submission: TokenBucket ({}/{}).",
+                                    tokenBucket.currentTokenCount,
+                                    tokenBucket.tokenLimit
+                                )
+                                callback()
+                                rateLimiter.submissionTypeQueue.removeFirst()
+                                logger.trace(
+                                    "Finished executing queued submission: TokenBucket ({}/{}).",
+                                    tokenBucket.currentTokenCount,
+                                    tokenBucket.tokenLimit
+                                )
+                            }
+                        }
                     }
-                } ?: break
+                }
+                val snapshotMillis = Instant.now().toEpochMilli() + OffsetDateTime.now().offset.totalSeconds * 1000L
+                // Get the delta between the next interval and the current time.
+                val delta = tokenBucket.refillTime - snapshotMillis % tokenBucket.refillTime
+                delay(delta)
             }
-        }, tokenBucket.refillTime, tokenBucket.refillTime, TimeUnit.MILLISECONDS)
+        }
     },
     private val shutdownStrategy: () -> Unit = { service.shutdown() }
 ) {
@@ -77,17 +110,38 @@ class RateLimiter<T>(
     }
 
     /**
-     * The number of blocking requests that have yet to be satisfied.
+     * The channel to send synchronous IDs through.
      */
-    private val blockingCount = AtomicLong(0)
+    private val syncChannel = Channel<Long>()
+
+    /**
+     * The latest ID of the synchronous tasks.
+     */
+    private val workingSyncID = AtomicLong()
+
+    /**
+     * The current number of synchronous tasks finished so far.
+     */
+    private val finishedSyncID = AtomicLong()
 
     /**
      * The number of queued up submissions awaiting execution by the [RateLimiter].
      */
-    private val queue = ConcurrentLinkedDeque<Pair<Long, () -> Unit>>()
+    private val asyncQueue = ConcurrentLinkedDeque<() -> Unit>()
+
+    /**
+     * Maintains the order of submission types to their consumption cost.
+     */
+    private val submissionTypeQueue = ConcurrentLinkedDeque<Pair<SubmissionType, Long>>()
+
+    /**
+     *
+     */
+    var isRunning: Boolean = true
+        private set
 
     init {
-        cycleStrategy(this, blockingCount, queue)
+        cycleStrategy(this)
     }
 
     /**
@@ -98,18 +152,8 @@ class RateLimiter<T>(
      */
     fun submit(consume: Long = 1, ratelimitCallback: () -> Unit) {
         logger.trace("Received asynchronous submission.")
-
-        if (queue.isEmpty()) {
-            synchronized(tokenBucket) {
-                val pair = tokenBucket.tryConsume(consume, ratelimitCallback)
-
-                if (!pair.first) {
-                    queue.addLast(consume to ratelimitCallback)
-                }
-            }
-        } else if (queue.size < tokenBucket.maxSize) {
-            queue.addLast(consume to ratelimitCallback)
-        }
+        submissionTypeQueue.addLast(SubmissionType.ASYNCHRONOUS to consume)
+        asyncQueue.addLast(ratelimitCallback)
     }
 
     /**
@@ -119,23 +163,8 @@ class RateLimiter<T>(
      * @param callback The callback to execute once a token is readily available.
      */
     fun <R> submitBlocking(consume: Long = 1, callback: () -> R): R {
-
-        logger.trace("Executing blocking submission...")
-
-        // TODO: This while loop will eat up CPU cycles as it awaits a token. A better solution would be to use Kotlin [Channel]s.
-        while (true) {
-            blockingCount.incrementAndGet()
-            val pair = tokenBucket.tryConsume(consume, callback)
-            blockingCount.decrementAndGet()
-
-            if (pair.first) {
-                logger.trace(
-                    "Finished executing submission: TokenBucket " +
-                            "({}/{}).", tokenBucket.currentTokenCount, tokenBucket.tokenLimit
-                )
-                return pair.second!!
-            }
-        }
+        submitBlocking(consume)
+        return callback()
     }
 
     /**
@@ -143,20 +172,15 @@ class RateLimiter<T>(
      *
      * @param consume The amount of tokens to consume for the given task. Defaults to 1.
      */
-    fun submitBlocking(consume: Long = 1) {
+    fun submitBlocking(consume: Long = 1) = runBlocking {
+        submissionTypeQueue.addLast(SubmissionType.SYNCHRONOUS to consume)
 
-        logger.trace("Entering blocking submission...")
-        // TODO: This while loop will eat up CPU cycles as it awaits a token. A better solution would be to use Kotlin [Channel]s.
+        val uniqueID = workingSyncID.getAndIncrement()
+
         while (true) {
-            blockingCount.incrementAndGet()
-            val pair = tokenBucket.tryConsume(consume) {}
-            blockingCount.decrementAndGet()
+            val id = syncChannel.receive()
 
-            if (pair.first) {
-                logger.trace(
-                    "Finished executing submission: TokenBucket " +
-                            "({}/{}).", tokenBucket.currentTokenCount, tokenBucket.tokenLimit
-                )
+            if (uniqueID == id) {
                 break
             }
         }
@@ -167,6 +191,7 @@ class RateLimiter<T>(
      */
     fun shutdown() {
         logger.trace("Shutting down RateLimiter...")
+        isRunning = false
         shutdownStrategy()
     }
 }

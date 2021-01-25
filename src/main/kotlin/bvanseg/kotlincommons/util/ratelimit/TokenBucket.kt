@@ -75,7 +75,7 @@ data class TokenBucket(
     fun isEmpty() = currentTokenCount == 0L
     fun isNotEmpty() = currentTokenCount > 0L
 
-    fun <R> tryConsume(amount: Long = 1, callback: () -> R?): Pair<Boolean, R?> {
+    fun tryConsume(amount: Long = 1): Boolean {
         if (amount < 0) {
             throw IllegalArgumentException("Consume amount may not be negative!")
         }
@@ -84,10 +84,10 @@ data class TokenBucket(
             lock.lock()
             if (currentTokenCount >= amount) {
                 currentTokenCount -= amount
-                return true to callback()
+                return true
             }
 
-            return false to null
+            return false
 
         } finally {
             lock.unlock()
