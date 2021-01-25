@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package bvanseg.kotlincommons.type
+package bvanseg.kotlincommons.reflect.type
 
 import bvanseg.kotlincommons.project.Experimental
 import java.lang.reflect.ParameterizedType
