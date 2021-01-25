@@ -27,26 +27,49 @@ import java.net.URI
 import java.net.URL
 import java.util.Base64
 
-fun List<String>.joinStrings(startIndex: Int = 0, endIndex: Int = -1): String {
+/**
+ * Joins a specific range of a [List] of [String] objects together.
+ *
+ * @param separator The separating sequence that should be inserted between [String]s.
+ * @param startIndex The starting index of the first element to start joining.
+ * @param endIndex The ending index of the final element to stop joining at. Defaults to -1, which signifies that the
+ * function should keep joining together until the end of the list.
+ *
+ * @author bright_spark
+ */
+fun List<String>.joinStrings(separator: CharSequence = " ", startIndex: Int = 0, endIndex: Int = -1): String {
     val sb = StringBuilder()
     val start = kotlin.math.max(startIndex, 0)
     val end = if (endIndex < 0) this.size else kotlin.math.min(endIndex, this.size)
-    if (start > end)
+    if (start > end) {
         throw IllegalArgumentException("Start index ($start) must not be greater than the end index ($end)")
+    }
     (start until end).forEach {
-        if (it > start)
-            sb.append(" ")
+        if (it > start) {
+            sb.append(separator)
+        }
         sb.append(this[it])
     }
     return sb.toString()
 }
 
+/**
+ * Removes the given [String]s from the current [String].
+ *
+ * @author Boston Vanseghi
+ */
 fun String.remove(vararg strings: String): String {
-    var str = this
-    strings.forEach {
-        str = this.replace(it, "")
+    val str = StringBuilder(this)
+
+    for (current in strings) {
+        var index = str.indexOf(current)
+
+        while (index != -1) {
+            str.replace(index, index + current.length, "")
+            index = str.indexOf(current)
+        }
     }
-    return str
+    return str.toString()
 }
 
 /**
