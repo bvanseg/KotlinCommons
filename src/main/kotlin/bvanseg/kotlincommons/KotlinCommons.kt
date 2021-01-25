@@ -25,6 +25,8 @@ package bvanseg.kotlincommons
 
 import bvanseg.kotlincommons.io.logging.getLogger
 import bvanseg.kotlincommons.util.project.Version
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import java.net.http.HttpClient
 import java.util.Random
 
 /**
@@ -67,4 +69,14 @@ object KotlinCommons {
      * A default random instance provided by KotlinCommons for internal or external use.
      */
     val KC_RANDOM = Random()
+
+    /**
+     * A default instance of Java 11's HttpClient.
+     */
+    val KC_HTTP_CLIENT = HttpClient.newHttpClient()
+
+    /**
+     * A default instance of fasterXML's Jackson Object Mapper.
+     */
+    val KC_JACKSON_OBJECT_MAPPER = jacksonObjectMapper()
 }

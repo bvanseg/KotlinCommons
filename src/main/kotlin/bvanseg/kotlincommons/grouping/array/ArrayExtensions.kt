@@ -28,7 +28,6 @@ import bvanseg.kotlincommons.Array3D
 import bvanseg.kotlincommons.KotlinCommons
 import java.util.Random
 
-// TODO: Instead of instantiating a Random every time, use a default random from the KotlinCommons object.
 /**
  * Gets a random element from the [Array].
  *
