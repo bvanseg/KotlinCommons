@@ -32,6 +32,7 @@ import java.util.HashMap
  * @author Boston Vanseghi
  * @since 2.1.1
  */
+// TODO: This has potential to be more useful if the map's value type was something more concrete than a MutableCollection.
 class MutableMultiMap<K, V> : MultiMap<K, V>() {
 
     override val backingMap: HashMap<K, MutableCollection<V>> = HashMap()
@@ -39,6 +40,7 @@ class MutableMultiMap<K, V> : MultiMap<K, V>() {
     override val isEmpty: Boolean
         get() = backingMap.isEmpty()
 
+    // TODO: This could be rewritten without !! operators.
     fun put(key: K, value: V) {
         if (backingMap[key] == null)
             backingMap[key] = ArrayList()
@@ -46,6 +48,7 @@ class MutableMultiMap<K, V> : MultiMap<K, V>() {
         backingMap[key]!!.add(value)
     }
 
+    // TODO: This could be rewritten without !! operators. Also is not thread-safe.
     fun putIfAbsent(key: K, value: V) {
         if (backingMap[key] == null)
             backingMap[key] = ArrayList()
@@ -54,6 +57,7 @@ class MutableMultiMap<K, V> : MultiMap<K, V>() {
             backingMap[key]!!.add(value)
     }
 
+    // TODO: This isn't null safe.
     operator fun get(key: K): MutableCollection<V> = backingMap[key]!!
 
     override fun keySet(): Set<K> = backingMap.keys
@@ -78,6 +82,7 @@ class MutableMultiMap<K, V> : MultiMap<K, V>() {
             if (backingMap[key]!!.remove(oldValue))
                 return backingMap[key]!!.add(newValue)
         }
+        // TODO: The new value should be added along with a new collection if there is simply no collection.
         return false
     }
 }

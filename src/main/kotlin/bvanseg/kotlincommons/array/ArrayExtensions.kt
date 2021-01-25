@@ -25,30 +25,37 @@ package bvanseg.kotlincommons.array
 
 import java.util.Random
 
+// TODO: Instead of instantiating a Random every time, use a default random from the KotlinCommons object.
 /**
  * Gets a random element from the [Array].
+ *
+ * @param random The [Random] object to use in selecting an [Array] element randomly.
  *
  * @author Boston Vanseghi
  * @since 2.0.2
  */
-fun <T> Array<T>.random(rnd: Random = Random()): T = get(rnd.nextInt(size))
+fun <T> Array<T>.random(random: Random = Random()): T = get(random.nextInt(size))
 
 /**
  * Gets a random element from the 2D [Array].
  *
- * @author Boston Vanseghi
- * @since 2.0.2
- */
-fun <T> Array<Array<T>>.random(rnd: Random = Random()): T = get(rnd.nextInt(size))[rnd.nextInt(size)]
-
-/**
- * Gets a random element from the 3D [Array].
+ * @param random The [Random] object to use in selecting an [Array] element randomly.
  *
  * @author Boston Vanseghi
  * @since 2.0.2
  */
-fun <T> Array<Array<Array<T>>>.random(rnd: Random = Random()): T =
-    get(rnd.nextInt(size))[rnd.nextInt(size)][rnd.nextInt(size)]
+fun <T> Array<Array<T>>.random(random: Random = Random()): T = get(random.nextInt(size))[random.nextInt(size)]
+
+/**
+ * Gets a random element from the 3D [Array].
+ *
+ * @param random The [Random] object to use in selecting an [Array] element randomly.
+ *
+ * @author Boston Vanseghi
+ * @since 2.0.2
+ */
+fun <T> Array<Array<Array<T>>>.random(random: Random = Random()): T =
+    get(random.nextInt(size))[random.nextInt(size)][random.nextInt(size)]
 
 /**
  * Checks the [Array] to see if any of the elements are null.

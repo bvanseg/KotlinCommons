@@ -23,6 +23,15 @@
  */
 package bvanseg.kotlincommons.number
 
+/**
+ * Determines if a [Number] is prime or not.
+ *
+ * @return True if the [Number] is prime, false otherwise.
+ *
+ * @author Boston Vanseghi
+ * @since 2.7.0
+ */
+// TODO: Needs clarification (and sourcing) on which particular primality-testing method is used here.
 fun Number.isPrime(): Boolean {
     val value = this.toDouble()
     if (value < 2) return false

@@ -38,8 +38,13 @@ class SizedList<T>(private val maxSize: Int) : LinkedList<T>() {
      * will be dropped.
      */
     override fun add(element: T): Boolean {
-        if (this.size == maxSize)
+        // TODO: It's possible the size value could have changed at this point to be over the max size, in which case
+        // This would lead to the list no longer being limited.
+        if (this.size == maxSize) {
             this.removeAt(0)
+        }
         return super.add(element)
     }
+
+    // TODO: addAll implementations can bypass the limit, therefore they need to be overridden and dealt with.
 }

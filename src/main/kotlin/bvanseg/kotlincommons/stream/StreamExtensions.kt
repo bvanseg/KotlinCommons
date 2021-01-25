@@ -28,7 +28,9 @@ import java.util.stream.Stream
 /**
  * Creates a [Stream] of this [Array]
  *
+ * @return a [Stream] of this [Array] with the same typing [T].
+ *
  * @author bright_spark
  * @since 2.0.1
  */
-fun <T> Array<T>.stream(): Stream<T> = Stream.of<T>(*this)
+fun <T> Array<T>.stream(): Stream<T> = Stream.of(*this)

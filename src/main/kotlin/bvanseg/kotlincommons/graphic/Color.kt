@@ -36,6 +36,7 @@ import kotlin.math.round
  * @author Boston Vanseghi
  * @since 2.0.2
  */
+// TODO: Document.
 class Color : Serializable {
 
     private var hasSetColor = false

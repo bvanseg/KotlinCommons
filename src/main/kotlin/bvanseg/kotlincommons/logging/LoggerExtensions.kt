@@ -25,8 +25,47 @@ package bvanseg.kotlincommons.logging
 
 import org.slf4j.Logger
 
+/**
+ * Logs an object of any type as a [String].
+ *
+ * @param any The object to log.
+ *
+ * @author Boston Vanseghi
+ */
 fun Logger.debug(any: Any?) = this.debug("{}", any.toString())
+
+/**
+ * Logs an object of any type as a [String].
+ *
+ * @param any The object to log.
+ *
+ * @author Boston Vanseghi
+ */
 fun Logger.error(any: Any?) = this.error("{}", any.toString())
+
+/**
+ * Logs an object of any type as a [String].
+ *
+ * @param any The object to log.
+ *
+ * @author Boston Vanseghi
+ */
 fun Logger.info(any: Any?) = this.info("{}", any.toString())
+
+/**
+ * Logs an object of any type as a [String].
+ *
+ * @param any The object to log.
+ *
+ * @author Boston Vanseghi
+ */
 fun Logger.trace(any: Any?) = this.trace("{}", any.toString())
+
+/**
+ * Logs an object of any type as a [String].
+ *
+ * @param any The object to log.
+ *
+ * @author Boston Vanseghi
+ */
 fun Logger.warn(any: Any?) = this.warn("{}", any.toString())

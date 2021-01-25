@@ -24,6 +24,7 @@
 package bvanseg.kotlincommons.number
 
 import bvanseg.kotlincommons.graphic.Color
+import bvanseg.kotlincommons.project.Experimental
 import java.text.NumberFormat
 import kotlin.math.log10
 
@@ -55,8 +56,16 @@ fun Number.toColor(): Color = Color(this.toInt())
  */
 fun Number.isOdd(): Boolean = !isEven()
 
+/**
+ * Returns the digit count of the given number.
+ *
+ * @author Boston Vanseghi
+ */
+@Experimental
+// TODO: Testing required for float/double types
 fun Number.numDigits(): Int = (log10(this.toDouble()) + 1).toInt()
 
+@Experimental
 fun Int.getDigits(): IntArray {
     if (this == 0) return intArrayOf()
 

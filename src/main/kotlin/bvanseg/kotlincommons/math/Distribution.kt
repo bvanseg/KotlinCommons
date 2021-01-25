@@ -30,12 +30,14 @@ import kotlin.math.sqrt
  * @author Boston Vanseghi
  * @since 2.2.5
  */
+// TODO: Document and source.
 fun normalPdf(x: Double): Double = exp((-x * x) / 2) / sqrt(2 * Math.PI)
 
 /**
  * @author Boston Vanseghi
  * @since 2.2.5
  */
+// TODO: Document and source.
 fun normalCdf(x: Double): Double {
     var temp = x
     val neg = if (temp < 0.0) 1 else 0

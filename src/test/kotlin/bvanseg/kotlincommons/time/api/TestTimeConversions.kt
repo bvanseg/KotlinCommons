@@ -1,8 +1,10 @@
 package bvanseg.kotlincommons.time.api
 
+import bvanseg.kotlincommons.project.Experimental
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
+@Experimental
 class TestTimeConversions {
 
     @Test

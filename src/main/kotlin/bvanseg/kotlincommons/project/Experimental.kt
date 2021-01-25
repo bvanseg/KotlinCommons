@@ -6,4 +6,5 @@ package bvanseg.kotlincommons.project
  * @author Boston Vanseghi
  * @since 2.7.0
  */
-annotation class Experimental()
+@RequiresOptIn
+annotation class Experimental(val warning: String = "")

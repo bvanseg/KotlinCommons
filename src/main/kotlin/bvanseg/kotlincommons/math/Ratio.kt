@@ -27,6 +27,7 @@ package bvanseg.kotlincommons.math
  * @author Boston Vanseghi
  * @since 2.2.5
  */
+// TODO: Document.
 data class Ratio<T : Number>(var left: T, var right: T) {
 
     fun getLeftPercent(): Float =

@@ -1,11 +1,14 @@
 package bvanseg.kotlincommons.time.api
 
+import bvanseg.kotlincommons.project.Experimental
+
 /**
  * Represents a measurement of time, given a value and the unit representing that value.
  *
  * @author Boston Vanseghi
  * @since 2.7.0
  */
+@Experimental
 data class KTime(var value: Double, override var unit: KTimeUnit) : KTimeBase(unit) {
 
     init {

@@ -24,6 +24,10 @@
 package bvanseg.kotlincommons.cache
 
 /**
+ * Wraps around the [value] in order to attach a [timeToLiveMS] to the object.
+ *
+ * Hashing and equal checks are only performed on [value], and [timeToLiveMS] is ignored.
+ *
  * @author Boston Vanseghi
  * @since 2.5.0
  */

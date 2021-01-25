@@ -1,9 +1,11 @@
 package bvanseg.kotlincommons.cache
 
+import bvanseg.kotlincommons.project.Experimental
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
+@Experimental
 class CacheTest {
 
     @Test

@@ -23,4 +23,11 @@
  */
 package bvanseg.kotlincommons.alias
 
+// TODO: Move type aliases to KotlinCommons file.
+/**
+ * @author Boston Vanseghi
+ * @since 2.7.0
+ */
 typealias StringArray = Array<String>
+
+// TODO: Add aliases for multi-dimensional arrays

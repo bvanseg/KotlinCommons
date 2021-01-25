@@ -26,6 +26,11 @@ package bvanseg.kotlincommons.enum
 import java.util.EnumSet
 
 /**
+ * Creates an [EnumSet] of the given [Enum] type [E].
+ *
+ * @param values The values to create an [EnumSet] out of.
+ *
+ * @return An [EnumSet] with the given [values].
  *
  * @author Boston Vanseghi
  * @since 2.5.0
@@ -37,7 +42,12 @@ inline fun <reified E : Enum<E>> enumSetOf(vararg values: E): EnumSet<E> = when 
 }
 
 /**
- * Returns an enum entry with the specified name or `null` if no such entry was found.
+ * Gets an [Enum] value of type [T] based on the enum value's [name].
+ *
+ * @param name The name of the [Enum] value to find.
+ * @param ignoreCase Whether or not casing should be ignored when searching for the [Enum] value by name.
+ *
+ * @Return An [Enum] value with the specified name or null if no such entry was found.
  */
 inline fun <reified T : Enum<T>> enumValueOfOrNull(name: String?, ignoreCase: Boolean = false): T? =
     if (name == null) null else enumValues<T>().find { it.name.equals(name, ignoreCase) }

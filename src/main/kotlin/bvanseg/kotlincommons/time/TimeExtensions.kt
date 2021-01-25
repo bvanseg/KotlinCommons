@@ -53,7 +53,13 @@ fun LocalDateTime.toFileSafeString(): String = this.format(fileSafeFormat)
  * e.g. 1 hour, 30 minutes and 10 seconds
  *
  * @param millis Whether milliseconds should be included in the returned String
+ * @param shorthand Whether or not the time suffixes should be shortened or not.
+ *
+ * @return a time-formatted [String].
+ *
+ * @author bright_spark
  */
+@Deprecated("This functionality can be combined with the time API.")
 fun Duration.format(millis: Boolean = false, shorthand: Boolean = false): String {
     val milliseconds = if (millis) this.toMillis() % 1000 else 0
     val seconds = this.seconds % 60
@@ -82,5 +88,6 @@ fun Duration.format(millis: Boolean = false, shorthand: Boolean = false): String
     return sb.toString()
 }
 
+@Deprecated("This functionality can be combined with the time API.")
 private fun timePairToString(pair: Pair<Long, String>, shorthand: Boolean): String =
     "${pair.first}${if (shorthand) "" else " "}${pair.second}${if (pair.first != 1L && !shorthand) "s" else ""}"

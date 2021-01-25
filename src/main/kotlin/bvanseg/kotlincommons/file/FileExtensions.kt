@@ -33,6 +33,8 @@ import java.nio.file.Files
 /**
  * Renames a [File] to the given [name]. Extensions and directories are handled automatically.
  *
+ * @param name The new name [this] [File] should take on.
+ *
  * @author Boston Vanseghi
  * @since 2.0.1
  */
@@ -49,6 +51,8 @@ fun File.rename(name: String): File {
 
 /**
  * Copies the current [File] to a new [File] with the given [destination].
+ *
+ * @param destination The [File] to copy [this] to.
  *
  * @author Boston Vanseghi
  * @since 2.0.1
@@ -67,4 +71,7 @@ fun File.copyTo(destination: File) {
     }
 }
 
+/**
+ * @return True if [this] is a directory path [File], false otherwise.
+ */
 fun File.isDirectoryPath(): Boolean = this.name.lastIndexOf('.') == -1

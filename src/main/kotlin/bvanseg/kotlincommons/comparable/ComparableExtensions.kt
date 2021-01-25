@@ -59,6 +59,15 @@ fun <T : Comparable<T>> T?.clampOrNull(min: T, max: T): T? = when {
 }
 
 /**
+ * Checks if the given [value] falls between a [min] and a [max] value.
+ *
+ * @param value The value to check.
+ * @param min The lower bound for the [value].
+ * @param max The upper bound for the [value].
+ * @param inclusive Whether or not the [value] can be equal to the [min] or [max].
+ *
+ * @return True if the given [value] is between the [min] and [max], false otherwise.
+ *
  * @author Boston Vanseghi
  * @since 2.7.0
  */

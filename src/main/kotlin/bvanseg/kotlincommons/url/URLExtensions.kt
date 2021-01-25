@@ -29,11 +29,10 @@ import java.net.URL
 /**
  * Returns the URL without the file:/ protocol, if it has it
  *
- * TODO: Remove arbitrary starting protocol
- *
  * @author CraftSpider
  * @since 2.0.0
  */
+// TODO: Remove arbitrary starting protocol
 fun URL.toPath(): String =
     if (System.getProperty("os.name").contains("Windows")) toString().remove("file:/")
     else toString().remove("file:")

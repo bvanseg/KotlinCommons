@@ -31,8 +31,11 @@ import bvanseg.kotlincommons.fp.Kind2
  * @since 2.4.0
  */
 class ForEitherOf
+
+// TODO: Move to type alias file.
 typealias EitherOf<A, B> = Kind2<ForEitherOf, A, B>
 
+// TODO: Move to Either extensions file.
 @Suppress("UNCHECKED_CAST")
 fun <A, B> EitherOf<A, B>.fix() = this as Either<A, B>
 
@@ -42,6 +45,7 @@ fun <A, B> EitherOf<A, B>.fix() = this as Either<A, B>
  *  "An error occurred while doing something: $it"
  * }
  */
+// TODO: Document.
 sealed class Either<out L, out R> : EitherOf<L, R> {
     data class Left<out L>(val value: L) : Either<L, Nothing>()
     class Right<out R>(val value: R) : Either<Nothing, R>()

@@ -30,6 +30,7 @@ import java.net.http.HttpClient
  * @author Boston Vanseghi
  * @since 2.3.0
  */
+// TODO: Move to KotlinCommons object.
 object KCHttp {
 
     val DEFAULT_HTTP_CLIENT = HttpClient.newHttpClient()

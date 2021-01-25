@@ -1,5 +1,7 @@
 package bvanseg.kotlincommons.time.api
 
+import bvanseg.kotlincommons.project.Experimental
+
 /**
  *
  * @param max The maximum number of cycles this unit can have relative to the super unit. For example, a second
@@ -11,6 +13,7 @@ package bvanseg.kotlincommons.time.api
  * @author Boston Vanseghi
  * @since 2.7.0
  */
+@Experimental
 enum class KTimeUnit(val max: Long = 1) {
     NANOSECOND(1000),
     MICROSECOND(1000),

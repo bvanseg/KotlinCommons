@@ -24,6 +24,8 @@
 package bvanseg.kotlincommons.cache
 
 /**
+ * Represents a [Cache] entry in the map.
+ *
  * @author Boston Vanseghi
  * @since 2.5.0
  */

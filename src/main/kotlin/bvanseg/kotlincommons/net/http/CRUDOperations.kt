@@ -31,7 +31,6 @@ import java.time.Duration
  * @author Boston Vanseghi
  * @since 2.3.0
  */
-
 class Headers {
     private val map: HashMap<String, String> = hashMapOf()
 
@@ -46,6 +45,10 @@ class Headers {
     fun get(): Map<String, String> = map
 }
 
+/**
+ * @author Boston Vanseghi
+ * @since 2.3.0
+ */
 class Parameters {
     private val map: HashMap<String, String> = hashMapOf()
 
@@ -60,6 +63,10 @@ class Parameters {
     fun get(): Map<String, String> = map
 }
 
+/**
+ * @author Boston Vanseghi
+ * @since 2.3.0
+ */
 open class CRUDOperation {
     var target: String = ""
     var timeout: Duration = Duration.ofSeconds(30L)

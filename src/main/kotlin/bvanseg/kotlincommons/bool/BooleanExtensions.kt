@@ -26,6 +26,8 @@ package bvanseg.kotlincommons.bool
 /**
  * Will execute [block] if this [Boolean] is true.
  *
+ * @param block The block to execute if [this] is true.
+ *
  * @return This boolean
  *
  * @author bright_spark
@@ -39,7 +41,9 @@ inline fun Boolean.ifTrue(block: () -> Unit): Boolean {
 /**
  * Will execute [block] if this [Boolean] is false.
  *
- * @return This boolean
+ * @param block The block to execute if [this] is false.
+ *
+ * @return This [Boolean]
  *
  * @author bright_spark
  * @since 2.0.1
@@ -49,4 +53,9 @@ inline fun Boolean.ifFalse(block: () -> Unit): Boolean {
     return this
 }
 
+/**
+ * Converts a [Boolean] to a numeric value.
+ *
+ * @author Boston Vanseghi
+ */
 fun Boolean.toInt(): Int = if (this) 1 else 0

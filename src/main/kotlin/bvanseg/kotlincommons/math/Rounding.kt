@@ -74,5 +74,16 @@ fun roundToNearest(value: Double, nearest: Double, mode: RoundingMode = Rounding
     RoundingMode.DOWN -> nearest * (floor(abs(value / nearest)))
 }
 
+/**
+ * Rounds [this] to the given [nearest].
+ *
+ * @param nearest The multiple to round the value to.
+ * @param mode The [RoundingMode] to use in rounding calculations. Defaults to [RoundingMode.NEAREST].
+ *
+ * @return The rounded value.
+ *
+ * @author Boston Vanseghi
+ * @since 2.7.0
+ */
 fun Number.roundToNearest(nearest: Double, mode: RoundingMode = RoundingMode.NEAREST) =
     roundToNearest(this.toDouble(), nearest, mode)

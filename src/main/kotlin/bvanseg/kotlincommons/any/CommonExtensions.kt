@@ -29,6 +29,8 @@ import java.util.Optional
 
 /**
  * Allows any class to get a logger of itself.
+ *
+ * @author Boston Vanseghi
  */
 fun Any.getLogger(): Logger {
     val klass = this::class
@@ -52,6 +54,8 @@ fun <T> T.toOptional(): Optional<T> = Optional.of(this)
 /**
  * Gets the package path of the current class, optionally with a [depth] limit.
  * A [depth] of 0 or less will return the whole path.
+ *
+ * @param depth The depth of traversal into the package path.
  *
  * @author bright_spark
  * @since 2.4.0

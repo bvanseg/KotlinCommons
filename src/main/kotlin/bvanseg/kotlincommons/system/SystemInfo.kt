@@ -33,6 +33,7 @@ import javax.management.ObjectName
  * @author bright_spark
  * @since 1.0.0
  */
+// TODO: Move to KotlinCommons object.
 object SystemInfo {
 
     /**

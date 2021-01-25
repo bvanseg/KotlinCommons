@@ -49,6 +49,8 @@ class EventBus {
         private val logger = getLogger()
     }
 
+    // TODO: Allow EventBus to be enabled/disabled.
+
     private val listeners: MutableList<Any> = mutableListOf()
     private val listenerEvents: HashMap<Class<*>, MutableList<InternalEvent>> = hashMapOf()
     private val events: HashMap<Class<*>, MutableList<InternalEvent>> = hashMapOf()

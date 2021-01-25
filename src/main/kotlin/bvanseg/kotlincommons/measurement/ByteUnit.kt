@@ -34,7 +34,8 @@ enum class ByteUnit {
     KB,
     MB,
     GB,
-    TB;
+    TB,
+    PB;
 
     fun to(value: Long, unit: ByteUnit): Long {
         val diff = ordinal - unit.ordinal
@@ -50,4 +51,5 @@ enum class ByteUnit {
     fun toMegabytes(value: Long): Long = to(value, MB)
     fun toGigabytes(value: Long): Long = to(value, GB)
     fun toTerabytes(value: Long): Long = to(value, TB)
+    fun toPetabytes(value: Long): Long = to(value, PB)
 }

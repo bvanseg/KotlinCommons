@@ -34,6 +34,7 @@ sealed class ByteData(open var value: Long, val type: ByteUnit) {
     data class MegaByte(override var value: Long) : ByteData(value, ByteUnit.MB)
     data class GigaByte(override var value: Long) : ByteData(value, ByteUnit.GB)
     data class TeraByte(override var value: Long) : ByteData(value, ByteUnit.TB)
+    data class PetaByte(override var value: Long) : ByteData(value, ByteUnit.PB)
 
     companion object {
         fun createFromType(type: ByteUnit, value: Long) = when (type) {
@@ -42,6 +43,7 @@ sealed class ByteData(open var value: Long, val type: ByteUnit) {
             ByteUnit.MB -> MegaByte(value)
             ByteUnit.GB -> GigaByte(value)
             ByteUnit.TB -> TeraByte(value)
+            ByteUnit.PB -> PetaByte(value)
         }
     }
 }
@@ -71,11 +73,17 @@ val Number.TB: ByteData.TeraByte
 val Number.terabytes: ByteData.TeraByte
     get() = ByteData.TeraByte(this.toLong())
 
+val Number.PB: ByteData.PetaByte
+    get() = this.petabytes
+val Number.petabytes: ByteData.PetaByte
+    get() = ByteData.PetaByte(this.toLong())
+
 val B = ByteUnit.B
 val KB = ByteUnit.KB
 val MB = ByteUnit.MB
 val GB = ByteUnit.GB
 val TB = ByteUnit.TB
+val PB = ByteUnit.PB
 
 operator fun ByteData.plus(other: ByteData): ByteData = when {
     // Ex. this.type == Kilobytes and other.type == Bytes

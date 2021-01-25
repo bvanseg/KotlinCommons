@@ -27,7 +27,7 @@ import java.net.URL
 import kotlin.reflect.KClass
 import kotlin.reflect.KType
 
-
+// TODO: Document.
 fun KType.getKClass(): KClass<*> = this.classifier!! as KClass<*>
 
 /**

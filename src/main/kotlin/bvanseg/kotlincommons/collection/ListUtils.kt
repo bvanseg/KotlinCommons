@@ -26,6 +26,15 @@ package bvanseg.kotlincommons.collection
 import java.util.ArrayList
 import java.util.LinkedList
 
+/**
+ * Creates a cartesian product out of the given 2D [List] object.
+ *
+ * @param lists The two-dimensional [List] to produce a cartesian product for.
+ *
+ * @return A cartesian product represented as a [List] of [List]s with the given element type [T].
+ *
+ * @author Boston Vanseghi
+ */
 fun <T> cartesianProduct(lists: List<List<T>>): List<List<T>> {
     val resultLists = ArrayList<List<T>>()
     if (lists.isEmpty()) {
@@ -47,20 +56,21 @@ fun <T> cartesianProduct(lists: List<List<T>>): List<List<T>> {
 }
 
 /**
+ * Creates a [LinkedList] of the given type [T].
+ *
  * @author Boston Vanseghi
  * @since 2.7.0
  */
 fun <T> linkedListOf(): LinkedList<T> = LinkedList()
 
 /**
+ * Creates a [LinkedList] out of the given [List] with type [T].
+ *
  * @author Boston Vanseghi
  * @since 2.7.0
  */
 inline fun <reified T> List<T>.toLinkedList(): LinkedList<T> {
     val llist = LinkedList<T>()
-    for (e in this) {
-        llist.add(e)
-    }
-
+    llist.addAll(this)
     return llist
 }

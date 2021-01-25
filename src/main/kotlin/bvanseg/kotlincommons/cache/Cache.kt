@@ -23,14 +23,17 @@
  */
 package bvanseg.kotlincommons.cache
 
+import bvanseg.kotlincommons.project.Experimental
 import java.util.concurrent.ConcurrentHashMap
 
 /**
  * @author Boston Vanseghi
  * @since 2.5.0
  */
+@Experimental
 class Cache<K, V>(private val defaultTimeToLiveMS: Long) {
 
+    // TODO: Fix entries in the map not getting removed from invalidation unless they are accessed, causing a memory leak.
     private val map = ConcurrentHashMap<K, CacheEntry<V>>()
 
     private val size

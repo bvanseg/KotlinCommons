@@ -31,12 +31,27 @@ package bvanseg.kotlincommons.math
  */
 class Average(var total: Double = 0.0, private var count: Int = 0) {
 
+    /**
+     * Adds the given [value] to the [Average], increasing the [total] and the [count].
+     *
+     * @param value The value to add to the [Average].
+     */
     fun add(value: Double) {
         this.total += value
         count++
     }
 
+    /**
+     * Calculates the average value.
+     *
+     * @return The average created from the [total] divided by the [count], or 0 if there is no count.
+     */
     fun getAverage(): Double = if (count != 0) (total / count) else 0.0
 
+    /**
+     * Copies the current [Average] instance to a new instance.
+     *
+     * @return A copy of the current [Average].
+     */
     fun copy(): Average = Average(this.total, this.count)
 }
