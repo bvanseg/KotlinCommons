@@ -154,4 +154,13 @@ class EventBus {
             }
         }
     }
+
+    /**
+     * Removes all listeners and clears all internal events.
+     */
+    fun reset() {
+        listeners.clear()
+        listenerEvents.clear()
+        events.clear()
+    }
 }
