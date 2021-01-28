@@ -49,7 +49,7 @@ class EventBus {
         private val logger = getLogger()
     }
 
-    // TODO: Allow EventBus to be enabled/disabled.
+    var isEnabled = true
 
     private val listeners: MutableList<Any> = mutableListOf()
     private val listenerEvents: HashMap<Class<*>, MutableList<InternalEvent>> = hashMapOf()
@@ -95,6 +95,8 @@ class EventBus {
     fun removeListener(listener: Any) = listeners.remove(listener)
 
     fun fire(e: Any) {
+        if (!isEnabled) return
+
         events[e::class.java]?.let { list ->
             list.forEach {
                 logger.debug("Firing event {} with object {}", it, e)
@@ -115,6 +117,8 @@ class EventBus {
     fun fireForListener(listener: Any, event: Any) = fireForListener(listener::class.java, event)
 
     fun fireForListener(listener: Class<*>, event: Any) {
+        if (!isEnabled) return
+        
         listenerEvents[listener]?.forEach {
             it.function.valueParameters.firstOrNull()?.let { param ->
                 val clazz = param.type.getKClass().java
