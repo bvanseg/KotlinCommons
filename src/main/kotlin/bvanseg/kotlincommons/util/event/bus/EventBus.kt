@@ -51,8 +51,19 @@ class EventBus {
 
     var isEnabled = true
 
+    /**
+     * A collection of listener objects.
+     */
     private val listeners: MutableList<Any> = mutableListOf()
+
+    /**
+     * A collection that maps a listener class to its [InternalEvent] handlers.
+     */
     private val listenerEvents: HashMap<Class<*>, MutableList<InternalEvent>> = hashMapOf()
+
+    /**
+     * A collection that maps an event type to its [InternalEvent] handlers.
+     */
     private val events: HashMap<Class<*>, MutableList<InternalEvent>> = hashMapOf()
 
     fun addListener(listener: Any) {
@@ -63,8 +74,8 @@ class EventBus {
             }
 
             val event = InternalEvent(function, listener)
-            function.valueParameters.firstOrNull()?.let { param ->
-                val clazz = param.type.getKClass().java
+            function.valueParameters.firstOrNull()?.let { parameter ->
+                val clazz = parameter.type.getKClass().java
                 if (events[clazz] == null)
                     events[clazz] = mutableListOf()
 
@@ -78,8 +89,7 @@ class EventBus {
                         )
                 } ?: logger.warn("Failed to add event {} for listener {}!", event, listener)
 
-            }
-                ?: throw RuntimeException("Failed to add event listener. Subscribed event function must have a single parameter!")
+            } ?: throw RuntimeException("Failed to add event listener. Subscribed event function must have a single parameter!")
 
             if (listenerEvents[listener::class.java] == null) {
                 listenerEvents[listener::class.java] = mutableListOf()
@@ -92,22 +102,30 @@ class EventBus {
         logger.debug("Successfully added listener {}", listener)
     }
 
+    /**
+     * Removes the given [listener] object.
+     */
     fun removeListener(listener: Any) = listeners.remove(listener)
 
-    fun fire(e: Any) {
+    /**
+     * Gets the class of the given event and fires all corresponding handlers for it.
+     *
+     * @param event The event to fire.
+     */
+    fun fire(event: Any) {
         if (!isEnabled) return
 
-        events[e::class.java]?.let { list ->
-            list.forEach {
-                logger.debug("Firing event {} with object {}", it, e)
-                it.invoke(e)
+        events[event::class.java]?.let { internalEvents ->
+            internalEvents.forEach { internalEvent ->
+                logger.debug("Firing event {} with object {}", internalEvent, event)
+                internalEvent.invoke(event)
             }
 
             // Walk up the superclasses and fire those, as well.
-            for (c in e::class.superclasses) {
-                events[c.java]?.let {
-                    it.forEach {
-                        it.invoke(e)
+            for (superClass in event::class.superclasses) {
+                events[superClass.java]?.let { superClassInternalEvents ->
+                    superClassInternalEvents.forEach { internalEvent ->
+                        internalEvent.invoke(event)
                     }
                 }
             }
@@ -118,19 +136,19 @@ class EventBus {
 
     fun fireForListener(listener: Class<*>, event: Any) {
         if (!isEnabled) return
-        
-        listenerEvents[listener]?.forEach {
-            it.function.valueParameters.firstOrNull()?.let { param ->
-                val clazz = param.type.getKClass().java
 
-                if (event::class.java == clazz) {
-                    it.invoke(event)
+        listenerEvents[listener]?.forEach { internalEvent ->
+            internalEvent.function.valueParameters.firstOrNull()?.let { param ->
+                val parameterClass = param.type.getKClass().java
+
+                if (event::class.java == parameterClass) {
+                    internalEvent.invoke(event)
                 }
 
                 // Walk up the superclasses and fire those, as well.
-                for (c in event::class.superclasses) {
-                    if (clazz == c.java) {
-                        it.invoke(event)
+                for (superClass in event::class.superclasses) {
+                    if (parameterClass == superClass.java) {
+                        internalEvent.invoke(event)
                     }
                 }
             }
