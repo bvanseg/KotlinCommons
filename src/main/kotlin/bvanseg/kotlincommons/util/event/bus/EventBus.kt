@@ -27,6 +27,7 @@ import bvanseg.kotlincommons.io.logging.getLogger
 import bvanseg.kotlincommons.util.event.annotation.SubscribeEvent
 import bvanseg.kotlincommons.util.event.event.InternalEvent
 import bvanseg.kotlincommons.reflect.getKClass
+import bvanseg.kotlincommons.util.event.event.CallbackEvent
 import kotlin.reflect.full.findAnnotation
 import kotlin.reflect.full.memberFunctions
 import kotlin.reflect.full.superclasses
@@ -49,10 +50,26 @@ class EventBus {
         private val logger = getLogger()
     }
 
-    // TODO: Allow EventBus to be enabled/disabled.
+    var isEnabled = true
 
+    /**
+     * A collection of listener objects.
+     */
     private val listeners: MutableList<Any> = mutableListOf()
+
+    /**
+     * A collection that maps a listener class to its [InternalEvent] handlers.
+     */
     private val listenerEvents: HashMap<Class<*>, MutableList<InternalEvent>> = hashMapOf()
+
+    /**
+     * A collection that maps an event type to its [InternalEvent] handlers.
+     */
+    val callbackListeners: HashMap<Class<*>, MutableList<CallbackEvent<*>>> = hashMapOf()
+
+    /**
+     * A collection that maps an event type to its [InternalEvent] handlers.
+     */
     private val events: HashMap<Class<*>, MutableList<InternalEvent>> = hashMapOf()
 
     fun addListener(listener: Any) {
@@ -63,8 +80,8 @@ class EventBus {
             }
 
             val event = InternalEvent(function, listener)
-            function.valueParameters.firstOrNull()?.let { param ->
-                val clazz = param.type.getKClass().java
+            function.valueParameters.firstOrNull()?.let { parameter ->
+                val clazz = parameter.type.getKClass().java
                 if (events[clazz] == null)
                     events[clazz] = mutableListOf()
 
@@ -78,8 +95,7 @@ class EventBus {
                         )
                 } ?: logger.warn("Failed to add event {} for listener {}!", event, listener)
 
-            }
-                ?: throw RuntimeException("Failed to add event listener. Subscribed event function must have a single parameter!")
+            } ?: throw RuntimeException("Failed to add event listener. Subscribed event function must have a single parameter!")
 
             if (listenerEvents[listener::class.java] == null) {
                 listenerEvents[listener::class.java] = mutableListOf()
@@ -92,21 +108,58 @@ class EventBus {
         logger.debug("Successfully added listener {}", listener)
     }
 
-    fun removeListener(listener: Any) = listeners.remove(listener)
+    /**
+     *
+     */
+    inline fun <reified T: Any> on(noinline callback: (T) -> Unit) {
+        val callbackClass = T::class.java
 
-    fun fire(e: Any) {
-        events[e::class.java]?.let { list ->
-            list.forEach {
-                logger.debug("Firing event {} with object {}", it, e)
-                it.invoke(e)
+        if(callbackListeners[callbackClass] == null) {
+            callbackListeners[callbackClass] = mutableListOf()
+        }
+
+        callbackListeners[callbackClass]!!.add(CallbackEvent(callback))
+    }
+
+    /**
+     * Removes the given [listener] object.
+     */
+    fun removeListener(listener: Any) {
+        listeners.remove(listener)
+        listenerEvents.remove(listener::class.java)
+    }
+
+    /**
+     * Gets the class of the given event and fires all corresponding handlers for it.
+     *
+     * @param event The event to fire.
+     */
+    fun fire(event: Any) {
+        if (!isEnabled) return
+
+        events[event::class.java]?.let { internalEvents ->
+            internalEvents.forEach { internalEvent ->
+                logger.debug("Firing event {} with object {}", internalEvent, event)
+                internalEvent.invoke(event)
             }
 
             // Walk up the superclasses and fire those, as well.
-            for (c in e::class.superclasses) {
-                events[c.java]?.let {
-                    it.forEach {
-                        it.invoke(e)
+            for (superClass in event::class.superclasses) {
+                events[superClass.java]?.let { superClassInternalEvents ->
+                    superClassInternalEvents.forEach { internalEvent ->
+                        internalEvent.invoke(event)
                     }
+                }
+            }
+        }
+
+        callbackListeners[event::class.java]?.forEach { callbackEvent ->
+            ((callbackEvent as CallbackEvent<Any>).invoke(event))
+
+            // Walk up the superclasses and fire those, as well.
+            for (superClass in event::class.superclasses) {
+                callbackListeners[superClass.java]?.forEach { superCallbackEvent ->
+                    ((superCallbackEvent as CallbackEvent<Any>).invoke(event))
                 }
             }
         }
@@ -115,21 +168,33 @@ class EventBus {
     fun fireForListener(listener: Any, event: Any) = fireForListener(listener::class.java, event)
 
     fun fireForListener(listener: Class<*>, event: Any) {
-        listenerEvents[listener]?.forEach {
-            it.function.valueParameters.firstOrNull()?.let { param ->
-                val clazz = param.type.getKClass().java
+        if (!isEnabled) return
 
-                if (event::class.java == clazz) {
-                    it.invoke(event)
+        listenerEvents[listener]?.forEach { internalEvent ->
+            internalEvent.function.valueParameters.firstOrNull()?.let { param ->
+                val parameterClass = param.type.getKClass().java
+
+                if (event::class.java == parameterClass) {
+                    internalEvent.invoke(event)
                 }
 
                 // Walk up the superclasses and fire those, as well.
-                for (c in event::class.superclasses) {
-                    if (clazz == c.java) {
-                        it.invoke(event)
+                for (superClass in event::class.superclasses) {
+                    if (parameterClass == superClass.java) {
+                        internalEvent.invoke(event)
                     }
                 }
             }
         }
+    }
+
+    /**
+     * Removes all listeners and clears all internal events.
+     */
+    fun reset() {
+        listeners.clear()
+        listenerEvents.clear()
+        callbackListeners.clear()
+        events.clear()
     }
 }
