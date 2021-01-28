@@ -1,6 +1,7 @@
 package bvanseg.kotlincommons.io.file
 
 import bvanseg.kotlincommons.util.project.Experimental
+import java.io.BufferedWriter
 import java.nio.file.Files
 import java.nio.file.Path
 import kotlin.reflect.KClass
@@ -29,7 +30,7 @@ class CSV(fileName: String): AutoCloseable {
     /**
      * NIO Buffered Writer for quick writing.
      */
-    private val writer = Files.newBufferedWriter(Path.of("$fileName.csv"))
+    private val writer: BufferedWriter = Files.newBufferedWriter(Path.of("$fileName.csv"))
 
     /**
      * Index object classes to their properties and corresponding getters for quick access.
@@ -93,4 +94,9 @@ class CSV(fileName: String): AutoCloseable {
     override fun close() {
         writer.close()
     }
+
+    /**
+     * Flushes the backing [BufferedWriter] of the CSV file.
+     */
+    fun flush() = writer.flush()
 }
