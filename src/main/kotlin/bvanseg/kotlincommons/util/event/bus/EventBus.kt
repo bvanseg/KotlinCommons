@@ -27,6 +27,7 @@ import bvanseg.kotlincommons.io.logging.getLogger
 import bvanseg.kotlincommons.util.event.annotation.SubscribeEvent
 import bvanseg.kotlincommons.util.event.event.InternalEvent
 import bvanseg.kotlincommons.reflect.getKClass
+import bvanseg.kotlincommons.util.event.event.CallbackEvent
 import kotlin.reflect.full.findAnnotation
 import kotlin.reflect.full.memberFunctions
 import kotlin.reflect.full.superclasses
@@ -60,6 +61,11 @@ class EventBus {
      * A collection that maps a listener class to its [InternalEvent] handlers.
      */
     private val listenerEvents: HashMap<Class<*>, MutableList<InternalEvent>> = hashMapOf()
+
+    /**
+     * A collection that maps an event type to its [InternalEvent] handlers.
+     */
+    val callbackListeners: HashMap<Class<*>, MutableList<CallbackEvent<*>>> = hashMapOf()
 
     /**
      * A collection that maps an event type to its [InternalEvent] handlers.
@@ -103,6 +109,19 @@ class EventBus {
     }
 
     /**
+     *
+     */
+    inline fun <reified T: Any> on(noinline callback: (T) -> Unit) {
+        val callbackClass = T::class.java
+
+        if(callbackListeners[callbackClass] == null) {
+            callbackListeners[callbackClass] = mutableListOf()
+        }
+
+        callbackListeners[callbackClass]!!.add(CallbackEvent(callback))
+    }
+
+    /**
      * Removes the given [listener] object.
      */
     fun removeListener(listener: Any) {
@@ -130,6 +149,17 @@ class EventBus {
                     superClassInternalEvents.forEach { internalEvent ->
                         internalEvent.invoke(event)
                     }
+                }
+            }
+        }
+
+        callbackListeners[event::class.java]?.forEach { callbackEvent ->
+            ((callbackEvent as CallbackEvent<Any>).invoke(event))
+
+            // Walk up the superclasses and fire those, as well.
+            for (superClass in event::class.superclasses) {
+                callbackListeners[superClass.java]?.forEach { superCallbackEvent ->
+                    ((superCallbackEvent as CallbackEvent<Any>).invoke(event))
                 }
             }
         }
@@ -164,6 +194,7 @@ class EventBus {
     fun reset() {
         listeners.clear()
         listenerEvents.clear()
+        callbackListeners.clear()
         events.clear()
     }
 }
