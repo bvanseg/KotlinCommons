@@ -105,7 +105,10 @@ class EventBus {
     /**
      * Removes the given [listener] object.
      */
-    fun removeListener(listener: Any) = listeners.remove(listener)
+    fun removeListener(listener: Any) {
+        listeners.remove(listener)
+        listenerEvents.remove(listener::class.java)
+    }
 
     /**
      * Gets the class of the given event and fires all corresponding handlers for it.
