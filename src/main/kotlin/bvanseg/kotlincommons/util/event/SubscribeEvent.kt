@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package bvanseg.kotlincommons.util.event.annotation
+package bvanseg.kotlincommons.util.event
 
 /**
  * Hooks a function as part of a listener. Functions annotated with this will be called during event firing.

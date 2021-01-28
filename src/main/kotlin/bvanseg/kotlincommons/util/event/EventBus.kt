@@ -21,13 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package bvanseg.kotlincommons.util.event.bus
+package bvanseg.kotlincommons.util.event
 
 import bvanseg.kotlincommons.io.logging.getLogger
-import bvanseg.kotlincommons.util.event.annotation.SubscribeEvent
-import bvanseg.kotlincommons.util.event.event.InternalEvent
 import bvanseg.kotlincommons.reflect.getKClass
-import bvanseg.kotlincommons.util.event.event.CallbackEvent
 import kotlin.reflect.full.findAnnotation
 import kotlin.reflect.full.memberFunctions
 import kotlin.reflect.full.superclasses

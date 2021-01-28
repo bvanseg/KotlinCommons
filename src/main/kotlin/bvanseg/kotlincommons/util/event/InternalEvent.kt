@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package bvanseg.kotlincommons.util.event.event
+package bvanseg.kotlincommons.util.event
 
 import bvanseg.kotlincommons.lang.string.ToStringBuilder
 import kotlin.reflect.KFunction

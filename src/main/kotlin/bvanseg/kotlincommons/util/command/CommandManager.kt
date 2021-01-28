@@ -70,7 +70,7 @@ import bvanseg.kotlincommons.util.command.validator.impl.ClampLong
 import bvanseg.kotlincommons.util.command.validator.impl.ClampLongValidator
 import bvanseg.kotlincommons.util.command.validator.impl.ClampShort
 import bvanseg.kotlincommons.util.command.validator.impl.ClampShortValidator
-import bvanseg.kotlincommons.util.event.bus.EventBus
+import bvanseg.kotlincommons.util.event.EventBus
 import kotlin.collections.set
 import kotlin.reflect.KClass
 import kotlin.reflect.full.companionObjectInstance

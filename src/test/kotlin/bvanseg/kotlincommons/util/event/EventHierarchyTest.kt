@@ -1,6 +1,5 @@
 package bvanseg.kotlincommons.util.event
 
-import bvanseg.kotlincommons.util.event.bus.EventBus
 import org.junit.jupiter.api.Test
 
 class EventHierarchyTest {

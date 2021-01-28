@@ -1,7 +1,5 @@
 package bvanseg.kotlincommons.util.event
 
-import bvanseg.kotlincommons.util.event.annotation.SubscribeEvent
-
 object BasicListener {
 
     @SubscribeEvent
