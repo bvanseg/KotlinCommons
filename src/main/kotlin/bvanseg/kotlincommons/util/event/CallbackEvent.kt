@@ -1,4 +1,4 @@
-package bvanseg.kotlincommons.util.event.event
+package bvanseg.kotlincommons.util.event
 
 /**
  * Acts as a wrapper around a single-parameter callback, allowing for type erasure in collections.
