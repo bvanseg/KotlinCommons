@@ -192,6 +192,8 @@ class RateLimiter<T> constructor(
      * @param ratelimitCallback - The callback to execute once a token is available.
      */
     fun submit(consume: Long = 1, ratelimitCallback: () -> Unit) {
+        if(!isConsumeValid(consume)) return
+
         logger.trace("Received asynchronous submission.")
         asyncDeque.addLast(ratelimitCallback)
         submissionTypeDeque.offerFirst(SubmissionType.ASYNCHRONOUS to consume)
@@ -214,6 +216,8 @@ class RateLimiter<T> constructor(
      * @param consume The amount of tokens to consume for the given task. Defaults to 1.
      */
     fun submitBlocking(consume: Long = 1) = runBlocking {
+        if(!isConsumeValid(consume)) return@runBlocking
+
         submissionTypeDeque.offerFirst(SubmissionType.SYNCHRONOUS to consume)
 
         val uniqueID = workingSyncID.getAndIncrement()
@@ -225,6 +229,25 @@ class RateLimiter<T> constructor(
                 break
             }
         }
+    }
+
+    /**
+     * Validates whether or not the given [consume] amount is viable.
+     *
+     * @param consume The consume amount trying to be used.
+     *
+     * @return true or false if the consume count is good to use.
+     */
+    private fun isConsumeValid(consume: Long): Boolean = when {
+        consume < 0 -> {
+            logger.warn("Consume count for rate limiter submission can not be negative: {}", consume)
+            false
+        }
+        consume > tokenBucket.tokenLimit -> {
+            logger.warn("Consume count for rate limiter submission can not be greater than token limit: {}/{}", consume, tokenBucket.tokenLimit)
+            false
+        }
+        else -> true
     }
 
     fun start() {
