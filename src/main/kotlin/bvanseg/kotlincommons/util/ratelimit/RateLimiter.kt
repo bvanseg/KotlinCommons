@@ -59,6 +59,7 @@ class RateLimiter<T> constructor(
 
     var cycleStrategy: (RateLimiter<T>) -> Unit = { rateLimiter ->
         GlobalScope.launch(Dispatchers.IO) {
+            var nextRefreshTime = 0L
             while (rateLimiter.isRunning) {
 
                 val preRefillEvent = BucketRefillEvent.PRE(this@RateLimiter)
@@ -68,9 +69,13 @@ class RateLimiter<T> constructor(
                 eventBus.fire(postRefillEvent)
 
                 while (tokenBucket.isNotEmpty()) {
-                    val next = rateLimiter.submissionTypeQueue.takeFirst() ?: continue
-                    // FIXME: Since takeFirst blocks until an element is present, it's possible that by the time that
-                    // Happens, we have passed our token refresh time. If that happens, we need to refresh.
+                    val next = rateLimiter.submissionTypeDeque.takeFirst() ?: continue
+
+                    if (System.currentTimeMillis() >= nextRefreshTime) {
+                        eventBus.fire(preRefillEvent)
+                        tokenBucket.refill()
+                        eventBus.fire(postRefillEvent)
+                    }
 
                     when (next.first) {
                         SubmissionType.SYNCHRONOUS -> {
@@ -83,14 +88,14 @@ class RateLimiter<T> constructor(
                                 )
                                 rateLimiter.syncChannel.send(rateLimiter.finishedSyncID.getAndIncrement())
                             } else {
-                                rateLimiter.submissionTypeQueue.offerFirst(next)
+                                rateLimiter.submissionTypeDeque.offerFirst(next)
                             }
                         }
                         SubmissionType.ASYNCHRONOUS -> {
                             val cost = next.second
 
                             if (tokenBucket.tryConsume(cost)) {
-                                val callback = rateLimiter.asyncQueue.poll()
+                                val callback = rateLimiter.asyncDeque.poll()
                                 logger.trace(
                                     "Executing queued submission: TokenBucket ({}/{}).",
                                     tokenBucket.currentTokenCount,
@@ -103,7 +108,7 @@ class RateLimiter<T> constructor(
                                     tokenBucket.tokenLimit
                                 )
                             } else {
-                                rateLimiter.submissionTypeQueue.offerFirst(next)
+                                rateLimiter.submissionTypeDeque.offerFirst(next)
                             }
                         }
                     }
@@ -115,6 +120,9 @@ class RateLimiter<T> constructor(
                 val snapshotMillis = Instant.now().toEpochMilli() + OffsetDateTime.now().offset.totalSeconds * 1000L
                 // Get the delta between the next interval and the current time.
                 val delta = tokenBucket.refillTime - snapshotMillis % tokenBucket.refillTime
+
+                nextRefreshTime = System.currentTimeMillis() + delta
+
                 delay(delta)
             }
         }
@@ -140,12 +148,12 @@ class RateLimiter<T> constructor(
     /**
      * The number of queued up submissions awaiting execution by the [RateLimiter].
      */
-    private val asyncQueue = ConcurrentLinkedDeque<() -> Unit>()
+    private val asyncDeque = ConcurrentLinkedDeque<() -> Unit>()
 
     /**
      * Maintains the order of submission types to their consumption cost.
      */
-    private val submissionTypeQueue = LinkedBlockingDeque<Pair<SubmissionType, Long>>()
+    private val submissionTypeDeque = LinkedBlockingDeque<Pair<SubmissionType, Long>>()
 
     /**
      *
@@ -167,8 +175,8 @@ class RateLimiter<T> constructor(
      */
     fun submit(consume: Long = 1, ratelimitCallback: () -> Unit) {
         logger.trace("Received asynchronous submission.")
-        submissionTypeQueue.offerFirst(SubmissionType.ASYNCHRONOUS to consume)
-        asyncQueue.addLast(ratelimitCallback)
+        submissionTypeDeque.offerFirst(SubmissionType.ASYNCHRONOUS to consume)
+        asyncDeque.addLast(ratelimitCallback)
     }
 
     /**
@@ -188,7 +196,7 @@ class RateLimiter<T> constructor(
      * @param consume The amount of tokens to consume for the given task. Defaults to 1.
      */
     fun submitBlocking(consume: Long = 1) = runBlocking {
-        submissionTypeQueue.offerFirst(SubmissionType.SYNCHRONOUS to consume)
+        submissionTypeDeque.offerFirst(SubmissionType.SYNCHRONOUS to consume)
 
         val uniqueID = workingSyncID.getAndIncrement()
 
