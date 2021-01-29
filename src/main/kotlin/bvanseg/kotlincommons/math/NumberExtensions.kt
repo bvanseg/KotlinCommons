@@ -57,6 +57,26 @@ fun Number.toColor(): Color = Color(this.toInt())
 fun Number.isOdd(): Boolean = !isEven()
 
 /**
+ * Checks whether the number is positive or not.
+ *
+ * @return True if the [Number] is positive.
+ *
+ * @author Boston Vanseghi
+ * @since 2.7.0
+ */
+fun Number.isPositive(): Boolean = this.toDouble() >= 0
+
+/**
+ * Checks whether the number is negative or not.
+ *
+ * @return True if the [Number] is negative.
+ *
+ * @author Boston Vanseghi
+ * @since 2.7.0
+ */
+fun Number.isNegative(): Boolean = !this.isPositive()
+
+/**
  * Returns the digit count of the given number.
  *
  * @author Boston Vanseghi
