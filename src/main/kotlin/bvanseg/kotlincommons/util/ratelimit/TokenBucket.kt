@@ -24,6 +24,7 @@
 package bvanseg.kotlincommons.util.ratelimit
 
 import bvanseg.kotlincommons.io.logging.getLogger
+import bvanseg.kotlincommons.util.HashCodeBuilder
 import java.util.concurrent.locks.ReentrantLock
 
 /**
@@ -89,5 +90,22 @@ data class TokenBucket(
         } finally {
             lock.unlock()
         }
+    }
+
+    override fun hashCode(): Int = HashCodeBuilder.builder(this::class)
+        .append(this.tokenLimit)
+        .append(this.refillTime).hashCode()
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as TokenBucket
+
+        if (tokenLimit != other.tokenLimit) return false
+        if (refillTime != other.refillTime) return false
+        if (currentTokenCount != other.currentTokenCount) return false
+
+        return true
     }
 }

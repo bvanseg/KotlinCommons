@@ -28,6 +28,7 @@ import bvanseg.kotlincommons.util.project.Version
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import java.net.http.HttpClient
 import java.util.Random
+import java.util.concurrent.ConcurrentHashMap
 
 /**
  * @author Boston Vanseghi
@@ -58,7 +59,7 @@ object KotlinCommons {
     /**
      * The version of KotlinCommons.
      */
-    val VERSION = Version(2, 7, 0, "beta2")
+    val VERSION = Version(2, 7, 0, "beta3")
 
     /**
      * A default logger provided by KotlinCommons.
@@ -79,4 +80,6 @@ object KotlinCommons {
      * A default instance of fasterXML's Jackson Object Mapper.
      */
     val KC_JACKSON_OBJECT_MAPPER = jacksonObjectMapper()
+
+    val KC_THREAD_ATTRIBUTE_MAP = ConcurrentHashMap<Long, ConcurrentHashMap<String, ThreadLocal<*>>>()
 }

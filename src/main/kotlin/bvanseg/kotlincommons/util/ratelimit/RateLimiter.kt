@@ -24,6 +24,8 @@
 package bvanseg.kotlincommons.util.ratelimit
 
 import bvanseg.kotlincommons.io.logging.getLogger
+import bvanseg.kotlincommons.lang.thread.getAttribute
+import bvanseg.kotlincommons.lang.thread.setAttribute
 import bvanseg.kotlincommons.util.event.EventBus
 import bvanseg.kotlincommons.util.ratelimit.event.BucketEmptyEvent
 import bvanseg.kotlincommons.util.ratelimit.event.BucketRefillEvent
@@ -32,6 +34,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -212,7 +215,7 @@ class RateLimiter constructor(
     fun submitBlocking(consume: Long = 1) = runBlocking {
         if (!isConsumeValid(consume)) return@runBlocking
 
-        val receiver = syncChannel.openSubscription()
+        val receiver = getSyncReceiverChannel()
 
         submissionTypeDeque.offerLast(SubmissionType.SYNCHRONOUS to consume)
 
@@ -227,8 +230,6 @@ class RateLimiter constructor(
         }
 
         finishedSyncID.incrementAndGet()
-
-        receiver.cancel()
     }
 
     /**
@@ -274,5 +275,22 @@ class RateLimiter constructor(
         isRunning.set(false)
         shutdownStrategy()
         eventBus.fire(postShutdownEvent)
+    }
+
+    /**
+     * @author Boston Vanseghi
+     * @since 2.7.0
+     */
+    @Suppress("EXPERIMENTAL_API_USAGE")
+    fun getSyncReceiverChannel(): ReceiveChannel<Long> {
+        val uniqueAttributeName = "RateLimiter-Channel-${tokenBucket.hashCode() + Thread.currentThread().id}"
+        var receiver = Thread.currentThread().getAttribute<ReceiveChannel<Long>>(uniqueAttributeName)
+
+        if (receiver == null || receiver.isClosedForReceive) {
+            logger.trace("Creating new receiver channel thread attribute: {}", uniqueAttributeName)
+            receiver = Thread.currentThread().setAttribute(uniqueAttributeName, syncChannel.openSubscription())
+        }
+
+        return receiver
     }
 }
