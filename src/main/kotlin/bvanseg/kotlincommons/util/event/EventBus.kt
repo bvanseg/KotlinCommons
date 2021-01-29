@@ -102,7 +102,10 @@ class EventBus {
             listenerEvents[listener::class.java]!!.add(event)
         }
 
-        listeners.add(listener)
+        synchronized(listeners) {
+            listeners.add(listener)
+        }
+
         logger.debug("Successfully added listener {}", listener)
     }
 
@@ -122,7 +125,7 @@ class EventBus {
     /**
      * Removes the given [listener] object.
      */
-    fun removeListener(listener: Any) {
+    fun removeListener(listener: Any) = synchronized(listeners) {
         listeners.remove(listener)
         listenerEvents.remove(listener::class.java)
     }
@@ -190,7 +193,9 @@ class EventBus {
      * Removes all listeners and clears all internal events.
      */
     fun reset() {
-        listeners.clear()
+        synchronized(listeners) {
+            listeners.clear()
+        }
         listenerEvents.clear()
         callbackListeners.clear()
         events.clear()
