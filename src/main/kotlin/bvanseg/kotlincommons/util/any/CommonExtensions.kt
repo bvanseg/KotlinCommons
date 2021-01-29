@@ -56,6 +56,6 @@ fun Any.packagePath(depth: Int = 0): String = this::class.qualifiedName!!.substr
  * @author Boston Vanseghi
  * @since 2.7.0
  */
-inline fun <T: Any, R> T.sync(callback: () -> R) = synchronized(this) {
+inline fun <T : Any, R> T.sync(callback: () -> R) = synchronized(this) {
     callback()
 }

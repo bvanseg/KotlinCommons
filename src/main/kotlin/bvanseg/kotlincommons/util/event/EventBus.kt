@@ -93,7 +93,8 @@ class EventBus {
                         )
                 } ?: logger.warn("Failed to add event {} for listener {}!", event, listener)
 
-            } ?: throw RuntimeException("Failed to add event listener. Subscribed event function must have a single parameter!")
+            }
+                ?: throw RuntimeException("Failed to add event listener. Subscribed event function must have a single parameter!")
 
             if (listenerEvents[listener::class.java] == null) {
                 listenerEvents[listener::class.java] = mutableListOf()
@@ -112,10 +113,10 @@ class EventBus {
     /**
      *
      */
-    inline fun <reified T: Any> on(noinline callback: (T) -> Unit) {
+    inline fun <reified T : Any> on(noinline callback: (T) -> Unit) {
         val callbackClass = T::class.java
 
-        if(callbackListeners[callbackClass] == null) {
+        if (callbackListeners[callbackClass] == null) {
             callbackListeners[callbackClass] = mutableListOf()
         }
 

@@ -23,9 +23,9 @@
  */
 package bvanseg.kotlincommons.graphic
 
-import bvanseg.kotlincommons.util.comparable.clamp
 import bvanseg.kotlincommons.grouping.tuple.MutableQuad
 import bvanseg.kotlincommons.grouping.tuple.MutableTriple
+import bvanseg.kotlincommons.util.comparable.clamp
 import java.io.Serializable
 import kotlin.math.ceil
 import kotlin.math.round

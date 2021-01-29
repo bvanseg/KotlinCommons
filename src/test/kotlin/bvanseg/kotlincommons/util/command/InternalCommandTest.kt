@@ -1,6 +1,7 @@
 package bvanseg.kotlincommons.util.command
 
 import bvanseg.kotlincommons.StringArray
+import bvanseg.kotlincommons.io.logging.debug
 import bvanseg.kotlincommons.io.logging.getLogger
 import bvanseg.kotlincommons.util.command.annotation.Command
 import bvanseg.kotlincommons.util.command.context.EmptyContext
@@ -8,7 +9,6 @@ import bvanseg.kotlincommons.util.command.gear.Gear
 import bvanseg.kotlincommons.util.command.util.Argument
 import bvanseg.kotlincommons.util.command.util.Union
 import bvanseg.kotlincommons.util.command.validator.impl.ClampInt
-import bvanseg.kotlincommons.io.logging.debug
 import com.nhaarman.mockitokotlin2.anyOrNull
 import com.nhaarman.mockitokotlin2.argumentCaptor
 import com.nhaarman.mockitokotlin2.verify

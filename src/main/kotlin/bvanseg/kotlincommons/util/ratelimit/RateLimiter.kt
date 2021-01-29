@@ -24,10 +24,7 @@
 package bvanseg.kotlincommons.util.ratelimit
 
 import bvanseg.kotlincommons.io.logging.getLogger
-import bvanseg.kotlincommons.math.isNegative
-import bvanseg.kotlincommons.math.isPositive
 import bvanseg.kotlincommons.util.event.EventBus
-import bvanseg.kotlincommons.util.project.Experimental
 import bvanseg.kotlincommons.util.ratelimit.event.BucketEmptyEvent
 import bvanseg.kotlincommons.util.ratelimit.event.BucketRefillEvent
 import bvanseg.kotlincommons.util.ratelimit.event.RateLimiterShutdownEvent
@@ -35,14 +32,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
-import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import java.time.Instant
-import java.time.OffsetDateTime
 import java.util.concurrent.ConcurrentLinkedDeque
 import java.util.concurrent.LinkedBlockingDeque
 import java.util.concurrent.atomic.AtomicLong
@@ -194,7 +186,7 @@ class RateLimiter constructor(
      * @param ratelimitCallback - The callback to execute once a token is available.
      */
     fun submit(consume: Long = 1, ratelimitCallback: () -> Unit) {
-        if(!isConsumeValid(consume)) return
+        if (!isConsumeValid(consume)) return
 
         logger.trace("Received asynchronous submission.")
         asyncDeque.addLast(ratelimitCallback)
@@ -218,7 +210,7 @@ class RateLimiter constructor(
      * @param consume The amount of tokens to consume for the given task. Defaults to 1.
      */
     fun submitBlocking(consume: Long = 1) = runBlocking {
-        if(!isConsumeValid(consume)) return@runBlocking
+        if (!isConsumeValid(consume)) return@runBlocking
 
         val receiver = syncChannel.openSubscription()
 
@@ -252,7 +244,11 @@ class RateLimiter constructor(
             false
         }
         consume > tokenBucket.tokenLimit -> {
-            logger.warn("Consume count for rate limiter submission can not be greater than token limit: {}/{}", consume, tokenBucket.tokenLimit)
+            logger.warn(
+                "Consume count for rate limiter submission can not be greater than token limit: {}/{}",
+                consume,
+                tokenBucket.tokenLimit
+            )
             false
         }
         else -> true

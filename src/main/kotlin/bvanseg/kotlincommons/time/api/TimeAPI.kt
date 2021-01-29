@@ -1,7 +1,5 @@
 package bvanseg.kotlincommons.time.api
 
-import bvanseg.kotlincommons.util.project.Experimental
-
 val Number.nanoseconds
     get() = KTime(this.toDouble(), KTimeUnit.NANOSECOND)
 

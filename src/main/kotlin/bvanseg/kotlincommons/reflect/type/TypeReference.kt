@@ -23,7 +23,6 @@
  */
 package bvanseg.kotlincommons.reflect.type
 
-import bvanseg.kotlincommons.util.project.Experimental
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 

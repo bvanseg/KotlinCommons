@@ -6,6 +6,6 @@ package bvanseg.kotlincommons.util.event
  * @author Boston Vanseghi
  * @since 2.7.0
  */
-class CallbackEvent<T: Any>(val callback: (T) -> Unit) {
+class CallbackEvent<T : Any>(val callback: (T) -> Unit) {
     fun invoke(value: T) = callback(value)
 }
