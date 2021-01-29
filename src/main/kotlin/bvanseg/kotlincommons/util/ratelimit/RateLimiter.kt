@@ -24,7 +24,11 @@
 package bvanseg.kotlincommons.util.ratelimit
 
 import bvanseg.kotlincommons.io.logging.getLogger
+import bvanseg.kotlincommons.util.event.EventBus
 import bvanseg.kotlincommons.util.project.Experimental
+import bvanseg.kotlincommons.util.ratelimit.event.BucketEmptyEvent
+import bvanseg.kotlincommons.util.ratelimit.event.BucketRefillEvent
+import bvanseg.kotlincommons.util.ratelimit.event.RateLimiterShutdownEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.Channel
@@ -45,13 +49,28 @@ import java.util.concurrent.atomic.AtomicLong
 @Experimental
 class RateLimiter<T> constructor(
     val tokenBucket: TokenBucket,
-    cycleStrategy: (RateLimiter<T>) -> Unit = { rateLimiter ->
+    val eventBus: EventBus = EventBus.DEFAULT,
+    autoStart: Boolean = true
+) {
+
+    companion object {
+        val logger = getLogger()
+    }
+
+    var cycleStrategy: (RateLimiter<T>) -> Unit = { rateLimiter ->
         GlobalScope.launch(Dispatchers.IO) {
             while (rateLimiter.isRunning) {
+
+                val preRefillEvent = BucketRefillEvent.PRE(this@RateLimiter)
+                val postRefillEvent = BucketRefillEvent.POST(this@RateLimiter)
+                eventBus.fire(preRefillEvent)
                 tokenBucket.refill()
+                eventBus.fire(postRefillEvent)
 
                 while (tokenBucket.isNotEmpty()) {
                     val next = rateLimiter.submissionTypeQueue.takeFirst() ?: continue
+                    // FIXME: Since takeFirst blocks until an element is present, it's possible that by the time that
+                    // Happens, we have passed our token refresh time. If that happens, we need to refresh.
 
                     when (next.first) {
                         SubmissionType.SYNCHRONOUS -> {
@@ -89,19 +108,19 @@ class RateLimiter<T> constructor(
                         }
                     }
                 }
+
+                val bucketEmptyEvent = BucketEmptyEvent(this@RateLimiter)
+                eventBus.fire(bucketEmptyEvent)
+
                 val snapshotMillis = Instant.now().toEpochMilli() + OffsetDateTime.now().offset.totalSeconds * 1000L
                 // Get the delta between the next interval and the current time.
                 val delta = tokenBucket.refillTime - snapshotMillis % tokenBucket.refillTime
                 delay(delta)
             }
         }
-    },
-    private val shutdownStrategy: () -> Unit = { }
-) {
-
-    companion object {
-        val logger = getLogger()
     }
+
+    var shutdownStrategy: () -> Unit = { }
 
     /**
      * The channel to send synchronous IDs through.
@@ -135,7 +154,9 @@ class RateLimiter<T> constructor(
         private set
 
     init {
-        cycleStrategy(this)
+        if (autoStart) {
+            start()
+        }
     }
 
     /**
@@ -180,12 +201,21 @@ class RateLimiter<T> constructor(
         }
     }
 
+    fun start() {
+        logger.trace("Starting RateLimiter...")
+        cycleStrategy(this)
+    }
+
     /**
      * Shuts down the [RateLimiter]'s internal scheduler.
      */
     fun shutdown() {
+        val preShutdownEvent = RateLimiterShutdownEvent.PRE(this)
+        val postShutdownEvent = RateLimiterShutdownEvent.POST(this)
         logger.trace("Shutting down RateLimiter...")
+        eventBus.fire(preShutdownEvent)
         isRunning = false
         shutdownStrategy()
+        eventBus.fire(postShutdownEvent)
     }
 }
