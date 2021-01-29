@@ -25,6 +25,7 @@ package bvanseg.kotlincommons.util.event
 
 import bvanseg.kotlincommons.io.logging.getLogger
 import bvanseg.kotlincommons.reflect.getKClass
+import java.util.concurrent.ConcurrentHashMap
 import kotlin.reflect.full.findAnnotation
 import kotlin.reflect.full.memberFunctions
 import kotlin.reflect.full.superclasses
@@ -57,17 +58,17 @@ class EventBus {
     /**
      * A collection that maps a listener class to its [InternalEvent] handlers.
      */
-    private val listenerEvents: HashMap<Class<*>, MutableList<InternalEvent>> = hashMapOf()
+    private val listenerEvents: ConcurrentHashMap<Class<*>, MutableList<InternalEvent>> = ConcurrentHashMap()
 
     /**
      * A collection that maps an event type to its [InternalEvent] handlers.
      */
-    val callbackListeners: HashMap<Class<*>, MutableList<CallbackEvent<*>>> = hashMapOf()
+    val callbackListeners: ConcurrentHashMap<Class<*>, MutableList<CallbackEvent<*>>> = ConcurrentHashMap()
 
     /**
      * A collection that maps an event type to its [InternalEvent] handlers.
      */
-    private val events: HashMap<Class<*>, MutableList<InternalEvent>> = hashMapOf()
+    private val events: ConcurrentHashMap<Class<*>, MutableList<InternalEvent>> = ConcurrentHashMap()
 
     fun addListener(listener: Any) {
         listener::class.memberFunctions.filter { it.findAnnotation<SubscribeEvent>() != null }.forEach { function ->
