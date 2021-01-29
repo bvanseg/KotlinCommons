@@ -45,3 +45,17 @@ fun <T> T.toOptional(): Optional<T> = Optional.of(this)
 fun Any.packagePath(depth: Int = 0): String = this::class.qualifiedName!!.substringBeforeLast('.').let { path ->
     if (depth <= 0) path else path.split('.').take(depth).joinToString(".")
 }
+
+/**
+ * Synchronizes [this].
+ *
+ * @param callback The callback to execute in a synchronized scope.
+ *
+ * @return The last construct at the end of the synchronized scope as type [T].
+ *
+ * @author Boston Vanseghi
+ * @since 2.7.0
+ */
+inline fun <T: Any, R> T.sync(callback: () -> R) = synchronized(this) {
+    callback()
+}
