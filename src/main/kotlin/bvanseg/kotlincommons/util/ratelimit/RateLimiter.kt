@@ -176,7 +176,7 @@ class RateLimiter<T> constructor(
     /**
      *
      */
-    var isRunning: Boolean = true
+    var isRunning: Boolean = false
         private set
 
     init {
@@ -252,6 +252,7 @@ class RateLimiter<T> constructor(
 
     fun start() {
         logger.trace("Starting RateLimiter...")
+        isRunning = true
         cycleStrategy(this)
     }
 
