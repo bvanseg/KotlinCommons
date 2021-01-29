@@ -23,7 +23,6 @@
  */
 package bvanseg.kotlincommons.reflect.type
 
-import bvanseg.kotlincommons.util.project.Experimental
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 
@@ -34,15 +33,18 @@ import java.lang.reflect.Type
  * @author Boston Vanseghi
  * @since 2.7.0
  */
-@Experimental
-class TypeReference<T> : Comparable<TypeReference<T>> {
-    var type: Type
+abstract class TypeReference<T> : Comparable<TypeReference<T>> {
+    val type: Type
 
     override fun compareTo(other: TypeReference<T>): Int = 0
 
     init {
         val superClass = this.javaClass.genericSuperclass
-        require(superClass !is Class<*>) { "Internal error: TypeReference constructed without actual type information" }
-        type = (superClass as ParameterizedType).actualTypeArguments[0]
+
+        if (superClass is Class<*>) {
+            throw IllegalArgumentException("Internal error: TypeReference constructed without actual type information")
+        } else {
+            type = (superClass as ParameterizedType).actualTypeArguments[0]
+        }
     }
 }

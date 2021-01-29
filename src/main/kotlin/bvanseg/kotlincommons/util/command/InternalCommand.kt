@@ -24,6 +24,8 @@
 package bvanseg.kotlincommons.util.command
 
 import bvanseg.kotlincommons.StringArray
+import bvanseg.kotlincommons.lang.string.joinStrings
+import bvanseg.kotlincommons.reflect.getKClass
 import bvanseg.kotlincommons.util.command.annotation.Command
 import bvanseg.kotlincommons.util.command.context.Context
 import bvanseg.kotlincommons.util.command.exception.*
@@ -31,8 +33,6 @@ import bvanseg.kotlincommons.util.command.gear.Gear
 import bvanseg.kotlincommons.util.command.transformer.Transformer
 import bvanseg.kotlincommons.util.command.util.Union
 import bvanseg.kotlincommons.util.command.validator.Validator
-import bvanseg.kotlincommons.reflect.getKClass
-import bvanseg.kotlincommons.lang.string.joinStrings
 import kotlin.reflect.KClass
 import kotlin.reflect.KFunction
 import kotlin.reflect.KParameter
@@ -292,7 +292,8 @@ open class InternalCommand(
                 }
 
                 validatorsList.forEach { validator ->
-                    val mutatedValue = (validator as Validator<Annotation, Any>).mutate(annotation, parameterValue)
+                    @Suppress("UNCHECKED_CAST") val mutatedValue =
+                        (validator as Validator<Annotation, Any>).mutate(annotation, parameterValue)
 
                     pArgs[parameterName] = mutatedValue
 

@@ -1,7 +1,5 @@
 package bvanseg.kotlincommons.time.api
 
-import bvanseg.kotlincommons.util.project.Experimental
-
 /**
  *
  * @param max The maximum number of cycles this unit can have relative to the super unit. For example, a second

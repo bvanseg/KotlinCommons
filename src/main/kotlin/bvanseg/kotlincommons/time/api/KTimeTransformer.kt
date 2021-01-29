@@ -1,7 +1,5 @@
 package bvanseg.kotlincommons.time.api
 
-import bvanseg.kotlincommons.util.project.Experimental
-
 interface KTimeTransformer {
     fun transform(value: Double, unit: KTimeUnit): Double
 }

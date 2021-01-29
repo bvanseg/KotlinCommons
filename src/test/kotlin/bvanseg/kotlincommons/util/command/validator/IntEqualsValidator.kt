@@ -4,7 +4,7 @@ package bvanseg.kotlincommons.util.command.validator
  * @author Boston Vanseghi
  * @since 2.7.0
  */
-class IntEqualsValidator : Validator<IntEquals, Int> {
+class IntEqualsValidator : Validator<IntEquals, Int>(IntEquals::class.java) {
     // Transform whatever number is passed in to the annotation's number.
     override fun mutate(annotation: IntEquals, value: Int): Int = value * 2
 

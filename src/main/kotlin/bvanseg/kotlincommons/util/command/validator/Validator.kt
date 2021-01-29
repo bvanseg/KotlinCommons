@@ -4,7 +4,7 @@ package bvanseg.kotlincommons.util.command.validator
  * @author Boston Vanseghi
  * @since 2.7.0
  */
-interface Validator<T : Annotation, V : Any> {
+abstract class Validator<T : Annotation, V : Any>(val type: Class<T>) {
 
     /**
      * Takes the given value and changes or discards it. This fires before [validate].
@@ -15,7 +15,7 @@ interface Validator<T : Annotation, V : Any> {
      *
      * @return A changed or new [value].
      */
-    fun mutate(annotation: T, value: V): V = value
+    open fun mutate(annotation: T, value: V): V = value
 
     /**
      * Takes a given value and performs checks on it to make sure it is valid.
@@ -25,7 +25,7 @@ interface Validator<T : Annotation, V : Any> {
      *
      * @return True or false if the given [value] is valid.
      */
-    fun validate(annotation: T, value: V): Boolean
+    abstract fun validate(annotation: T, value: V): Boolean
 
     /**
      * Creates an error message caused by the validation step failing. This function will
@@ -36,6 +36,6 @@ interface Validator<T : Annotation, V : Any> {
      *
      * @return A [ValidationError].
      */
-    fun createError(annotation: T, value: V): ValidationError =
+    open fun createError(annotation: T, value: V): ValidationError =
         ValidationError("Validation failed for annotation $annotation with value $value!")
 }

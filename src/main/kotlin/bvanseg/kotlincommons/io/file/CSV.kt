@@ -25,7 +25,7 @@ import kotlin.reflect.full.primaryConstructor
  * @since 2.7.0
  */
 @Experimental
-class CSV(fileName: String): AutoCloseable {
+class CSV(fileName: String) : AutoCloseable {
 
     /**
      * NIO Buffered Writer for quick writing.

@@ -23,11 +23,11 @@
  */
 package bvanseg.kotlincommons.util.command.transformer
 
-import bvanseg.kotlincommons.util.command.context.Context
-import bvanseg.kotlincommons.util.command.util.Argument
 import bvanseg.kotlincommons.lang.string.remove
 import bvanseg.kotlincommons.lang.string.toURIOrNull
 import bvanseg.kotlincommons.lang.string.toURLOrNull
+import bvanseg.kotlincommons.util.command.context.Context
+import bvanseg.kotlincommons.util.command.util.Argument
 import java.math.BigDecimal
 import java.math.BigInteger
 import java.net.URI

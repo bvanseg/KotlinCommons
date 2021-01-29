@@ -93,7 +93,8 @@ class EventBus {
                         )
                 } ?: logger.warn("Failed to add event {} for listener {}!", event, listener)
 
-            } ?: throw RuntimeException("Failed to add event listener. Subscribed event function must have a single parameter!")
+            }
+                ?: throw RuntimeException("Failed to add event listener. Subscribed event function must have a single parameter!")
 
             if (listenerEvents[listener::class.java] == null) {
                 listenerEvents[listener::class.java] = mutableListOf()
@@ -102,17 +103,20 @@ class EventBus {
             listenerEvents[listener::class.java]!!.add(event)
         }
 
-        listeners.add(listener)
+        synchronized(listeners) {
+            listeners.add(listener)
+        }
+
         logger.debug("Successfully added listener {}", listener)
     }
 
     /**
      *
      */
-    inline fun <reified T: Any> on(noinline callback: (T) -> Unit) {
+    inline fun <reified T : Any> on(noinline callback: (T) -> Unit) {
         val callbackClass = T::class.java
 
-        if(callbackListeners[callbackClass] == null) {
+        if (callbackListeners[callbackClass] == null) {
             callbackListeners[callbackClass] = mutableListOf()
         }
 
@@ -122,7 +126,7 @@ class EventBus {
     /**
      * Removes the given [listener] object.
      */
-    fun removeListener(listener: Any) {
+    fun removeListener(listener: Any) = synchronized(listeners) {
         listeners.remove(listener)
         listenerEvents.remove(listener::class.java)
     }
@@ -190,7 +194,9 @@ class EventBus {
      * Removes all listeners and clears all internal events.
      */
     fun reset() {
-        listeners.clear()
+        synchronized(listeners) {
+            listeners.clear()
+        }
         listenerEvents.clear()
         callbackListeners.clear()
         events.clear()
