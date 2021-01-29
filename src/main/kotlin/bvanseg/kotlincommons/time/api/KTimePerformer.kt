@@ -33,7 +33,8 @@ class KTimePerformer(val frequency: KTime, val action: (KTimePerformer) -> Unit,
     var startDelay: Long = -1L
 
     @Volatile
-    private var shouldStop: Boolean = false
+    var shouldStop: Boolean = false
+        private set
 
     private var exceptionCallback: (Throwable) -> Unit = {
         it.printStackTrace()
@@ -54,6 +55,10 @@ class KTimePerformer(val frequency: KTime, val action: (KTimePerformer) -> Unit,
 
         startDelay = millisToExecuteAt - currentMillis
         return this
+    }
+
+    fun stop() {
+        shouldStop = true
     }
 
     /**
@@ -83,10 +88,6 @@ class KTimePerformer(val frequency: KTime, val action: (KTimePerformer) -> Unit,
     fun onException(cb: (Throwable) -> Unit): KTimePerformer {
         exceptionCallback = cb
         return this
-    }
-
-    fun stop() {
-        shouldStop = true
     }
 
     /**
