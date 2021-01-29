@@ -292,7 +292,7 @@ open class InternalCommand(
                 }
 
                 validatorsList.forEach { validator ->
-                    val mutatedValue = (validator as Validator<Annotation, Any>).mutate(annotation, parameterValue)
+                    @Suppress("UNCHECKED_CAST") val mutatedValue = (validator as Validator<Annotation, Any>).mutate(annotation, parameterValue)
 
                     pArgs[parameterName] = mutatedValue
 

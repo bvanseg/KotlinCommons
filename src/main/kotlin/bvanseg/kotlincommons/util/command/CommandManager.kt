@@ -109,6 +109,7 @@ class CommandManager<T : Any>(val prefix: String = "!") {
         val e = CommandManagerInitializationEvent()
         eventBus.fire(e)
         if (!e.isCancelled) {
+            @Suppress("EXPERIMENTAL_API_USAGE")
             addTransformers(
                 IntTransformer,
                 DoubleTransformer,
