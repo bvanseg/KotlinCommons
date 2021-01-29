@@ -49,7 +49,7 @@ fun Any.getLogger(): Logger {
  *
  * @author Boston Vanseghi
  */
-fun Logger.debug(any: Any?) = this.debug("{}", any.toString())
+fun Logger.debug(any: Any?) = this.debug("{}", any)
 
 /**
  * Logs an object of any type as a [String].
@@ -58,7 +58,7 @@ fun Logger.debug(any: Any?) = this.debug("{}", any.toString())
  *
  * @author Boston Vanseghi
  */
-fun Logger.error(any: Any?) = this.error("{}", any.toString())
+fun Logger.error(any: Any?) = this.error("{}", any)
 
 /**
  * Logs an object of any type as a [String].
@@ -67,7 +67,7 @@ fun Logger.error(any: Any?) = this.error("{}", any.toString())
  *
  * @author Boston Vanseghi
  */
-fun Logger.info(any: Any?) = this.info("{}", any.toString())
+fun Logger.info(any: Any?) = this.info("{}", any)
 
 /**
  * Logs an object of any type as a [String].
@@ -76,7 +76,7 @@ fun Logger.info(any: Any?) = this.info("{}", any.toString())
  *
  * @author Boston Vanseghi
  */
-fun Logger.trace(any: Any?) = this.trace("{}", any.toString())
+fun Logger.trace(any: Any?) = this.trace("{}", any)
 
 /**
  * Logs an object of any type as a [String].
@@ -85,7 +85,7 @@ fun Logger.trace(any: Any?) = this.trace("{}", any.toString())
  *
  * @author Boston Vanseghi
  */
-fun Logger.warn(any: Any?) = this.warn("{}", any.toString())
+fun Logger.warn(any: Any?) = this.warn("{}", any)
 
 inline fun Logger.info(callback: () -> Any) {
     if (this.isInfoEnabled) this.info(callback())
