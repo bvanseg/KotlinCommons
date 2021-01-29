@@ -37,6 +37,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import java.util.concurrent.ConcurrentLinkedDeque
 import java.util.concurrent.LinkedBlockingDeque
+import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicLong
 
 /**
@@ -63,7 +64,7 @@ class RateLimiter constructor(
 
             var nextRefreshTime = 0L
 
-            while (rateLimiter.isRunning) {
+            while (rateLimiter.isRunning.get()) {
 
                 while (true) {
                     val next = rateLimiter.submissionTypeDeque.takeFirst() ?: continue
@@ -170,8 +171,7 @@ class RateLimiter constructor(
     /**
      *
      */
-    var isRunning: Boolean = false
-        private set
+    val isRunning: AtomicBoolean = AtomicBoolean()
 
     init {
         if (autoStart) {
@@ -255,12 +255,11 @@ class RateLimiter constructor(
     }
 
     fun start() {
-        if (isRunning) {
+        if (isRunning.getAndSet(true)) {
             logger.warn("Attempted to start RateLimiter but it is already running!")
             return
         }
         logger.trace("Starting RateLimiter...")
-        isRunning = true
         cycleStrategy(this)
     }
 
@@ -272,7 +271,7 @@ class RateLimiter constructor(
         val postShutdownEvent = RateLimiterShutdownEvent.POST(this)
         logger.trace("Shutting down RateLimiter...")
         eventBus.fire(preShutdownEvent)
-        isRunning = false
+        isRunning.set(false)
         shutdownStrategy()
         eventBus.fire(postShutdownEvent)
     }
