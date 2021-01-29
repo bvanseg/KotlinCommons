@@ -8,7 +8,6 @@ import bvanseg.kotlincommons.util.project.Experimental
  * @author Boston Vanseghi
  * @since 2.7.0
  */
-@Experimental
 data class KTime(var value: Double, override var unit: KTimeUnit) : KTimeBase(unit) {
 
     init {
