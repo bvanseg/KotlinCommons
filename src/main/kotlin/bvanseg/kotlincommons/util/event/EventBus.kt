@@ -25,6 +25,9 @@ package bvanseg.kotlincommons.util.event
 
 import bvanseg.kotlincommons.io.logging.getLogger
 import bvanseg.kotlincommons.reflect.getKClass
+import kotlinx.coroutines.channels.BroadcastChannel
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.sendBlocking
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.reflect.full.findAnnotation
 import kotlin.reflect.full.memberFunctions
@@ -49,6 +52,11 @@ class EventBus {
     }
 
     var isEnabled = true
+
+    @Suppress("EXPERIMENTAL_API_USAGE")
+    val eventChannel: BroadcastChannel<Any> by lazy {
+        BroadcastChannel(Channel.BUFFERED)
+    }
 
     /**
      * A collection of listener objects.
@@ -165,6 +173,8 @@ class EventBus {
                 }
             }
         }
+
+        eventChannel.sendBlocking(event)
     }
 
     fun fireForListener(listener: Any, event: Any) = fireForListener(listener::class.java, event)
