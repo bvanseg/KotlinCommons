@@ -35,7 +35,6 @@ import java.util.concurrent.locks.ReentrantLock
  */
 data class TokenBucket(
     val tokenLimit: Long,
-    val maxSize: Long,
     val refillTime: Long,
     private val initUpdate: Long,
     private val initTokenCount: Long = tokenLimit,
