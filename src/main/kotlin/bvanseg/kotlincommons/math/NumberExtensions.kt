@@ -64,7 +64,7 @@ fun Number.isOdd(): Boolean = !isEven()
  * @author Boston Vanseghi
  * @since 2.7.0
  */
-fun Number.isPositive(): Boolean = this.toDouble() >= 0
+fun Number.isPositive(): Boolean = this.toDouble() > 0
 
 /**
  * Checks whether the number is negative or not.
