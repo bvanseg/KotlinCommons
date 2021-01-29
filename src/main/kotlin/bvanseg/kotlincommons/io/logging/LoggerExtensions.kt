@@ -91,22 +91,42 @@ inline fun Logger.info(callback: () -> Any) {
     if (this.isInfoEnabled) this.info(callback())
 }
 
+/**
+ * @author Boston Vanseghi
+ * @since 2.7.0
+ */
 inline fun Logger.warn(callback: () -> Any) {
     if (this.isWarnEnabled) this.warn(callback())
 }
 
+/**
+ * @author Boston Vanseghi
+ * @since 2.7.0
+ */
 inline fun Logger.error(callback: () -> Any) {
     if (this.isErrorEnabled) this.error(callback())
 }
 
+/**
+ * @author Boston Vanseghi
+ * @since 2.7.0
+ */
 inline fun Logger.error(e: Throwable, callback: (Throwable) -> String) {
     if (this.isErrorEnabled) this.error(callback(e), e)
 }
 
+/**
+ * @author Boston Vanseghi
+ * @since 2.7.0
+ */
 inline fun Logger.debug(callback: () -> Any) {
     if (this.isDebugEnabled) this.debug(callback())
 }
 
+/**
+ * @author Boston Vanseghi
+ * @since 2.7.0
+ */
 inline fun Logger.trace(callback: () -> Any) {
     if (this.isTraceEnabled) this.trace(callback())
 }
