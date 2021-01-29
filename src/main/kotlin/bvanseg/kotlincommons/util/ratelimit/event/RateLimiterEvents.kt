@@ -7,32 +7,28 @@ import bvanseg.kotlincommons.util.ratelimit.RateLimiter
  * @author Boston Vanseghi
  * @since 2.7.0
  */
-@Experimental
-open class RateLimiterEvent<T> constructor(val rateLimiter: RateLimiter<T>)
+open class RateLimiterEvent constructor(val rateLimiter: RateLimiter)
 
 /**
  * @author Boston Vanseghi
  * @since 2.7.0
  */
-@Experimental
-open class BucketRefillEvent<T>(rateLimiter: RateLimiter<T>): RateLimiterEvent<T>(rateLimiter) {
-    class PRE<T>(rateLimiter: RateLimiter<T>): BucketRefillEvent<T>(rateLimiter)
-    class POST<T>(rateLimiter: RateLimiter<T>): BucketRefillEvent<T>(rateLimiter)
+open class BucketRefillEvent(rateLimiter: RateLimiter): RateLimiterEvent(rateLimiter) {
+    class PRE(rateLimiter: RateLimiter): BucketRefillEvent(rateLimiter)
+    class POST(rateLimiter: RateLimiter): BucketRefillEvent(rateLimiter)
 }
 
 /**
  * @author Boston Vanseghi
  * @since 2.7.0
  */
-@Experimental
-open class BucketEmptyEvent<T>(rateLimiter: RateLimiter<T>): RateLimiterEvent<T>(rateLimiter)
+open class BucketEmptyEvent(rateLimiter: RateLimiter): RateLimiterEvent(rateLimiter)
 
 /**
  * @author Boston Vanseghi
  * @since 2.7.0
  */
-@Experimental
-open class RateLimiterShutdownEvent<T>(rateLimiter: RateLimiter<T>): RateLimiterEvent<T>(rateLimiter) {
-    class PRE<T>(rateLimiter: RateLimiter<T>): RateLimiterShutdownEvent<T>(rateLimiter)
-    class POST<T>(rateLimiter: RateLimiter<T>): RateLimiterShutdownEvent<T>(rateLimiter)
+open class RateLimiterShutdownEvent(rateLimiter: RateLimiter): RateLimiterEvent(rateLimiter) {
+    class PRE(rateLimiter: RateLimiter): RateLimiterShutdownEvent(rateLimiter)
+    class POST(rateLimiter: RateLimiter): RateLimiterShutdownEvent(rateLimiter)
 }

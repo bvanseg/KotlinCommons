@@ -37,7 +37,8 @@ data class TokenBucket(
     val tokenLimit: Long,
     val refillTime: Long,
     private val initUpdate: Long,
-    private val initTokenCount: Long = tokenLimit,
+    @Volatile
+    var currentTokenCount: Long = tokenLimit,
     private val refreshStrategy: (TokenBucket) -> Unit = {
         it.currentTokenCount = tokenLimit
     }
@@ -52,20 +53,17 @@ data class TokenBucket(
 
     private val lock = ReentrantLock(true)
 
-    @Volatile
-    var currentTokenCount: Long = initTokenCount
-
     fun refill() {
-        if (currentTokenCount < tokenLimit) {
-            try {
-                lock.lock()
+        try {
+            lock.lock()
+            if (currentTokenCount < tokenLimit) {
                 logger.debug("Refreshing tokens: TokenBucket ({}/{}).", currentTokenCount, tokenLimit)
                 refreshStrategy(this)
                 logger.debug("Finished refreshing tokens: TokenBucket ({}/{}).", currentTokenCount, tokenLimit)
                 lastUpdate = System.currentTimeMillis()
-            } finally {
-                lock.unlock()
             }
+        } finally {
+            lock.unlock()
         }
     }
 

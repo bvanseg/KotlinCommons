@@ -24,6 +24,8 @@
 package bvanseg.kotlincommons.util.ratelimit
 
 import bvanseg.kotlincommons.io.logging.getLogger
+import bvanseg.kotlincommons.math.isNegative
+import bvanseg.kotlincommons.math.isPositive
 import bvanseg.kotlincommons.util.event.EventBus
 import bvanseg.kotlincommons.util.project.Experimental
 import bvanseg.kotlincommons.util.ratelimit.event.BucketEmptyEvent
@@ -31,8 +33,12 @@ import bvanseg.kotlincommons.util.ratelimit.event.BucketRefillEvent
 import bvanseg.kotlincommons.util.ratelimit.event.RateLimiterShutdownEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import java.time.Instant
@@ -46,8 +52,7 @@ import java.util.concurrent.atomic.AtomicLong
  * @author Jacob Glickman (https://github.com/jhg023)[https://github.com/jhg023]
  * @since 2.3.4
  */
-@Experimental
-class RateLimiter<T> constructor(
+class RateLimiter constructor(
     val tokenBucket: TokenBucket,
     val eventBus: EventBus = EventBus.DEFAULT,
     autoStart: Boolean = true
@@ -61,22 +66,14 @@ class RateLimiter<T> constructor(
         it.printStackTrace()
     }
 
-    var cycleStrategy: (RateLimiter<T>) -> Unit = { rateLimiter ->
+    var cycleStrategy: (RateLimiter) -> Unit = { rateLimiter ->
         GlobalScope.launch(Dispatchers.IO) {
+
             var nextRefreshTime = 0L
+
             while (rateLimiter.isRunning) {
 
-                try {
-                    val preRefillEvent = BucketRefillEvent.PRE(this@RateLimiter)
-                    val postRefillEvent = BucketRefillEvent.POST(this@RateLimiter)
-                    eventBus.fire(preRefillEvent)
-                    tokenBucket.refill()
-                    eventBus.fire(postRefillEvent)
-                } catch (e: Exception) {
-                    exceptionStrategy(e)
-                }
-
-                while (tokenBucket.isNotEmpty()) {
+                while (true) {
                     val next = rateLimiter.submissionTypeDeque.takeFirst() ?: continue
 
                     if (System.currentTimeMillis() >= nextRefreshTime) {
@@ -86,6 +83,11 @@ class RateLimiter<T> constructor(
                             eventBus.fire(preRefillEvent)
                             tokenBucket.refill()
                             eventBus.fire(postRefillEvent)
+
+                            // Reset the next refresh time.
+                            val snapshotMillis = System.currentTimeMillis() % tokenBucket.refillTime
+                            val delta = tokenBucket.refillTime - snapshotMillis
+                            nextRefreshTime = System.currentTimeMillis() + delta
                         } catch (e: Exception) {
                             exceptionStrategy(e)
                         }
@@ -100,7 +102,8 @@ class RateLimiter<T> constructor(
                                     tokenBucket.currentTokenCount,
                                     tokenBucket.tokenLimit
                                 )
-                                rateLimiter.syncChannel.send(rateLimiter.finishedSyncID.getAndIncrement())
+                                @Suppress("EXPERIMENTAL_API_USAGE")
+                                rateLimiter.syncChannel.send(rateLimiter.finishedSyncID.get())
                             } else {
                                 rateLimiter.submissionTypeDeque.offerFirst(next)
                             }
@@ -126,6 +129,10 @@ class RateLimiter<T> constructor(
                             }
                         }
                     }
+
+                    if (tokenBucket.isEmpty()) {
+                        break
+                    }
                 }
 
                 try {
@@ -135,13 +142,7 @@ class RateLimiter<T> constructor(
                     exceptionStrategy(e)
                 }
 
-                val snapshotMillis = Instant.now().toEpochMilli() + OffsetDateTime.now().offset.totalSeconds * 1000L
-                // Get the delta between the next interval and the current time.
-                val delta = tokenBucket.refillTime - snapshotMillis % tokenBucket.refillTime
-
-                nextRefreshTime = System.currentTimeMillis() + delta
-
-                delay(delta)
+                delay(nextRefreshTime - System.currentTimeMillis())
             }
         }
     }
@@ -151,7 +152,8 @@ class RateLimiter<T> constructor(
     /**
      * The channel to send synchronous IDs through.
      */
-    private val syncChannel = Channel<Long>()
+    @Suppress("EXPERIMENTAL_API_USAGE")
+    private val syncChannel = BroadcastChannel<Long>(Channel.BUFFERED)
 
     /**
      * The latest ID of the synchronous tasks.
@@ -218,17 +220,23 @@ class RateLimiter<T> constructor(
     fun submitBlocking(consume: Long = 1) = runBlocking {
         if(!isConsumeValid(consume)) return@runBlocking
 
-        submissionTypeDeque.offerFirst(SubmissionType.SYNCHRONOUS to consume)
+        val receiver = syncChannel.openSubscription()
+
+        submissionTypeDeque.offerLast(SubmissionType.SYNCHRONOUS to consume)
 
         val uniqueID = workingSyncID.getAndIncrement()
 
         while (true) {
-            val id = syncChannel.receive()
+            val id = receiver.receive()
 
             if (uniqueID == id) {
                 break
             }
         }
+
+        finishedSyncID.incrementAndGet()
+
+        receiver.cancel()
     }
 
     /**
@@ -251,6 +259,10 @@ class RateLimiter<T> constructor(
     }
 
     fun start() {
+        if (isRunning) {
+            logger.warn("Attempted to start RateLimiter but it is already running!")
+            return
+        }
         logger.trace("Starting RateLimiter...")
         isRunning = true
         cycleStrategy(this)
