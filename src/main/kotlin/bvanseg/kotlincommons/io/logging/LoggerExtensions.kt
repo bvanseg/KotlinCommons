@@ -88,7 +88,7 @@ fun Logger.trace(any: Any?) = this.trace("{}", any)
 fun Logger.warn(any: Any?) = this.warn("{}", any)
 
 inline fun Logger.info(callback: () -> Any) {
-    if (this.isInfoEnabled) this.info(callback())
+    if (this.isInfoEnabled) this.info(callback().toString())
 }
 
 /**
@@ -96,7 +96,7 @@ inline fun Logger.info(callback: () -> Any) {
  * @since 2.7.0
  */
 inline fun Logger.warn(callback: () -> Any) {
-    if (this.isWarnEnabled) this.warn(callback())
+    if (this.isWarnEnabled) this.warn(callback().toString())
 }
 
 /**
@@ -104,7 +104,7 @@ inline fun Logger.warn(callback: () -> Any) {
  * @since 2.7.0
  */
 inline fun Logger.error(callback: () -> Any) {
-    if (this.isErrorEnabled) this.error(callback())
+    if (this.isErrorEnabled) this.error(callback().toString())
 }
 
 /**
@@ -120,7 +120,7 @@ inline fun Logger.error(e: Throwable, callback: (Throwable) -> String) {
  * @since 2.7.0
  */
 inline fun Logger.debug(callback: () -> Any) {
-    if (this.isDebugEnabled) this.debug(callback())
+    if (this.isDebugEnabled) this.debug(callback().toString())
 }
 
 /**
@@ -128,5 +128,5 @@ inline fun Logger.debug(callback: () -> Any) {
  * @since 2.7.0
  */
 inline fun Logger.trace(callback: () -> Any) {
-    if (this.isTraceEnabled) this.trace(callback())
+    if (this.isTraceEnabled) this.trace(callback().toString())
 }
