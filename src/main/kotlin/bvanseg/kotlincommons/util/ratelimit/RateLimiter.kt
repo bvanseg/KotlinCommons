@@ -24,8 +24,6 @@
 package bvanseg.kotlincommons.util.ratelimit
 
 import bvanseg.kotlincommons.io.logging.getLogger
-import bvanseg.kotlincommons.lang.thread.getAttribute
-import bvanseg.kotlincommons.lang.thread.setAttribute
 import bvanseg.kotlincommons.util.event.EventBus
 import bvanseg.kotlincommons.util.ratelimit.event.BucketEmptyEvent
 import bvanseg.kotlincommons.util.ratelimit.event.BucketRefillEvent
@@ -38,6 +36,7 @@ import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.ConcurrentLinkedDeque
 import java.util.concurrent.LinkedBlockingDeque
 import java.util.concurrent.atomic.AtomicBoolean
@@ -143,7 +142,25 @@ class RateLimiter constructor(
         }
     }
 
-    var shutdownStrategy: () -> Unit = { }
+    @Suppress("EXPERIMENTAL_API_USAGE")
+    var shutdownStrategy: () -> Unit = {
+        // Cancel receiver channels and clear map.
+        receiverChannels.forEach { (_, channel) ->
+            channel.cancel()
+        }
+        receiverChannels.clear()
+
+        // Cancel primary sync channel.
+        syncChannel.cancel()
+
+        // Clear Deques
+        asyncDeque.clear()
+        submissionTypeDeque.clear()
+
+        // Reset sync IDs.
+        workingSyncID.set(0L)
+        finishedSyncID.set(0L)
+    }
 
     /**
      * The channel to send synchronous IDs through.
@@ -171,8 +188,10 @@ class RateLimiter constructor(
      */
     private val submissionTypeDeque = LinkedBlockingDeque<Pair<SubmissionType, Long>>()
 
+    private val receiverChannels = ConcurrentHashMap<Long, ReceiveChannel<Long>>()
+
     /**
-     *
+     * Indicates whether or not the [RateLimiter]'s cycle strategy is executing periodically.
      */
     val isRunning: AtomicBoolean = AtomicBoolean()
 
@@ -255,6 +274,9 @@ class RateLimiter constructor(
         else -> true
     }
 
+    /**
+     * Starts the [RateLimiter].
+     */
     fun start() {
         if (isRunning.getAndSet(true)) {
             logger.warn("Attempted to start RateLimiter but it is already running!")
@@ -283,14 +305,15 @@ class RateLimiter constructor(
      */
     @Suppress("EXPERIMENTAL_API_USAGE")
     fun getSyncReceiverChannel(): ReceiveChannel<Long> {
-        val uniqueAttributeName = "RateLimiter-Channel-${tokenBucket.hashCode() + Thread.currentThread().id}"
-        var receiver = Thread.currentThread().getAttribute<ReceiveChannel<Long>>(uniqueAttributeName)
+        val threadID = Thread.currentThread().id
 
-        if (receiver == null || receiver.isClosedForReceive) {
-            logger.trace("Creating new receiver channel thread attribute: {}", uniqueAttributeName)
-            receiver = Thread.currentThread().setAttribute(uniqueAttributeName, syncChannel.openSubscription())
-        }
+        return receiverChannels.compute(threadID) { _, channel ->
+            var toReturn = channel
+            if (toReturn == null || toReturn.isClosedForReceive) {
+                toReturn = syncChannel.openSubscription()
+            }
 
-        return receiver
+            toReturn
+        }!!
     }
 }
