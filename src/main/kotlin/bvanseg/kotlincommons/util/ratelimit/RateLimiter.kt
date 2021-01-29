@@ -175,8 +175,8 @@ class RateLimiter<T> constructor(
      */
     fun submit(consume: Long = 1, ratelimitCallback: () -> Unit) {
         logger.trace("Received asynchronous submission.")
-        submissionTypeDeque.offerFirst(SubmissionType.ASYNCHRONOUS to consume)
         asyncDeque.addLast(ratelimitCallback)
+        submissionTypeDeque.offerFirst(SubmissionType.ASYNCHRONOUS to consume)
     }
 
     /**
