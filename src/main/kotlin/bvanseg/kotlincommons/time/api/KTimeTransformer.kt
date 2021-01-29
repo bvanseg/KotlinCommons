@@ -2,12 +2,10 @@ package bvanseg.kotlincommons.time.api
 
 import bvanseg.kotlincommons.util.project.Experimental
 
-@Experimental
 interface KTimeTransformer {
     fun transform(value: Double, unit: KTimeUnit): Double
 }
 
-@Experimental
 object NanosecondTransformer : KTimeTransformer {
     override fun transform(value: Double, unit: KTimeUnit): Double {
         return when (unit) {
@@ -27,7 +25,6 @@ object NanosecondTransformer : KTimeTransformer {
     }
 }
 
-@Experimental
 object MicrosecondTransformer : KTimeTransformer {
     override fun transform(value: Double, unit: KTimeUnit): Double {
         return when (unit) {
@@ -47,7 +44,6 @@ object MicrosecondTransformer : KTimeTransformer {
     }
 }
 
-@Experimental
 object MillisecondTransformer : KTimeTransformer {
     override fun transform(value: Double, unit: KTimeUnit): Double {
         return when (unit) {
@@ -67,7 +63,6 @@ object MillisecondTransformer : KTimeTransformer {
     }
 }
 
-@Experimental
 object SecondTransformer : KTimeTransformer {
     override fun transform(value: Double, unit: KTimeUnit): Double {
         return when (unit) {
@@ -87,7 +82,6 @@ object SecondTransformer : KTimeTransformer {
     }
 }
 
-@Experimental
 object MinuteTransformer : KTimeTransformer {
     override fun transform(value: Double, unit: KTimeUnit): Double {
         return when (unit) {
@@ -107,7 +101,6 @@ object MinuteTransformer : KTimeTransformer {
     }
 }
 
-@Experimental
 object HourTransformer : KTimeTransformer {
     override fun transform(value: Double, unit: KTimeUnit): Double {
         return when (unit) {
@@ -127,7 +120,6 @@ object HourTransformer : KTimeTransformer {
     }
 }
 
-@Experimental
 object DayTransformer : KTimeTransformer {
     override fun transform(value: Double, unit: KTimeUnit): Double {
         return when (unit) {
@@ -147,7 +139,6 @@ object DayTransformer : KTimeTransformer {
     }
 }
 
-@Experimental
 object WeekTransformer : KTimeTransformer {
     override fun transform(value: Double, unit: KTimeUnit): Double {
         return when (unit) {
@@ -167,7 +158,6 @@ object WeekTransformer : KTimeTransformer {
     }
 }
 
-@Experimental
 object YearTransformer : KTimeTransformer {
     override fun transform(value: Double, unit: KTimeUnit): Double {
         return when (unit) {
@@ -187,7 +177,6 @@ object YearTransformer : KTimeTransformer {
     }
 }
 
-@Experimental
 object DecadeTransformer : KTimeTransformer {
     override fun transform(value: Double, unit: KTimeUnit): Double {
         return when (unit) {
@@ -207,7 +196,6 @@ object DecadeTransformer : KTimeTransformer {
     }
 }
 
-@Experimental
 object CenturyTransformer : KTimeTransformer {
     override fun transform(value: Double, unit: KTimeUnit): Double {
         return when (unit) {
@@ -227,7 +215,6 @@ object CenturyTransformer : KTimeTransformer {
     }
 }
 
-@Experimental
 object MillenniumTransformer : KTimeTransformer {
     override fun transform(value: Double, unit: KTimeUnit): Double {
         return when (unit) {

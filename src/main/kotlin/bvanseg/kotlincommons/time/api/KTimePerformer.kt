@@ -25,7 +25,6 @@ import java.time.OffsetDateTime
  * @author Boston Vanseghi
  * @since 2.7.0
  */
-@Experimental
 class KTimePerformer(val frequency: KTime, val action: (KTimePerformer) -> Unit, val counterDrift: Boolean = false) {
 
     var offset: Long = -1L

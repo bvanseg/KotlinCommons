@@ -13,7 +13,6 @@ import bvanseg.kotlincommons.util.project.Experimental
  * @author Boston Vanseghi
  * @since 2.7.0
  */
-@Experimental
 enum class KTimeUnit(val max: Long = 1) {
     NANOSECOND(1000),
     MICROSECOND(1000),
