@@ -99,6 +99,10 @@ inline fun Logger.error(callback: () -> Any) {
     if (this.isErrorEnabled) this.error(callback())
 }
 
+inline fun Logger.error(e: Throwable, callback: (Throwable) -> String) {
+    if (this.isErrorEnabled) this.error(callback(e), e)
+}
+
 inline fun Logger.debug(callback: () -> Any) {
     if (this.isDebugEnabled) this.debug(callback())
 }
