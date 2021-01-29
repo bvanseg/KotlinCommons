@@ -190,7 +190,7 @@ class RateLimiter constructor(
 
         logger.trace("Received asynchronous submission.")
         asyncDeque.addLast(ratelimitCallback)
-        submissionTypeDeque.offerFirst(SubmissionType.ASYNCHRONOUS to consume)
+        submissionTypeDeque.offerLast(SubmissionType.ASYNCHRONOUS to consume)
     }
 
     /**
