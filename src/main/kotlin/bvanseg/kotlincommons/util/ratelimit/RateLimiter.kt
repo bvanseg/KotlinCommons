@@ -57,24 +57,38 @@ class RateLimiter<T> constructor(
         val logger = getLogger()
     }
 
+    var exceptionStrategy: (Throwable) -> Unit = {
+        it.printStackTrace()
+    }
+
     var cycleStrategy: (RateLimiter<T>) -> Unit = { rateLimiter ->
         GlobalScope.launch(Dispatchers.IO) {
             var nextRefreshTime = 0L
             while (rateLimiter.isRunning) {
 
-                val preRefillEvent = BucketRefillEvent.PRE(this@RateLimiter)
-                val postRefillEvent = BucketRefillEvent.POST(this@RateLimiter)
-                eventBus.fire(preRefillEvent)
-                tokenBucket.refill()
-                eventBus.fire(postRefillEvent)
+                try {
+                    val preRefillEvent = BucketRefillEvent.PRE(this@RateLimiter)
+                    val postRefillEvent = BucketRefillEvent.POST(this@RateLimiter)
+                    eventBus.fire(preRefillEvent)
+                    tokenBucket.refill()
+                    eventBus.fire(postRefillEvent)
+                } catch (e: Exception) {
+                    exceptionStrategy(e)
+                }
 
                 while (tokenBucket.isNotEmpty()) {
                     val next = rateLimiter.submissionTypeDeque.takeFirst() ?: continue
 
                     if (System.currentTimeMillis() >= nextRefreshTime) {
-                        eventBus.fire(preRefillEvent)
-                        tokenBucket.refill()
-                        eventBus.fire(postRefillEvent)
+                        try {
+                            val preRefillEvent = BucketRefillEvent.PRE(this@RateLimiter)
+                            val postRefillEvent = BucketRefillEvent.POST(this@RateLimiter)
+                            eventBus.fire(preRefillEvent)
+                            tokenBucket.refill()
+                            eventBus.fire(postRefillEvent)
+                        } catch (e: Exception) {
+                            exceptionStrategy(e)
+                        }
                     }
 
                     when (next.first) {
@@ -114,8 +128,12 @@ class RateLimiter<T> constructor(
                     }
                 }
 
-                val bucketEmptyEvent = BucketEmptyEvent(this@RateLimiter)
-                eventBus.fire(bucketEmptyEvent)
+                try {
+                    val bucketEmptyEvent = BucketEmptyEvent(this@RateLimiter)
+                    eventBus.fire(bucketEmptyEvent)
+                } catch (e: Exception) {
+                    exceptionStrategy(e)
+                }
 
                 val snapshotMillis = Instant.now().toEpochMilli() + OffsetDateTime.now().offset.totalSeconds * 1000L
                 // Get the delta between the next interval and the current time.
