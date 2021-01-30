@@ -113,12 +113,16 @@ class RateLimiter constructor(
                                     tokenBucket.currentTokenCount,
                                     tokenBucket.tokenLimit
                                 )
-                                callback()
-                                logger.trace(
-                                    "Finished executing queued submission: TokenBucket ({}/{}).",
-                                    tokenBucket.currentTokenCount,
-                                    tokenBucket.tokenLimit
-                                )
+                                try {
+                                    callback()
+                                    logger.trace(
+                                        "Finished executing queued submission: TokenBucket ({}/{}).",
+                                        tokenBucket.currentTokenCount,
+                                        tokenBucket.tokenLimit
+                                    )
+                                } catch (e: Exception) {
+                                    exceptionStrategy(e)
+                                }
                             } else {
                                 rateLimiter.submissionTypeDeque.offerFirst(next)
                             }
