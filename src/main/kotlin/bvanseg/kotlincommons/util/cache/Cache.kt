@@ -23,7 +23,6 @@
  */
 package bvanseg.kotlincommons.util.cache
 
-import bvanseg.kotlincommons.grouping.collection.IndexedConcurrentHashMap
 import bvanseg.kotlincommons.util.project.Experimental
 import java.util.concurrent.ConcurrentHashMap
 
@@ -32,9 +31,10 @@ import java.util.concurrent.ConcurrentHashMap
  * @since 2.5.0
  */
 @Experimental
-class Cache<K: Any, V>(private val defaultTimeToLiveMS: Long) {
+class Cache<K, V>(private val defaultTimeToLiveMS: Long) {
 
-    private val map = IndexedConcurrentHashMap<K, CacheEntry<V>>()
+    // TODO: Fix entries in the map not getting removed from invalidation unless they are accessed, causing a memory leak.
+    private val map = ConcurrentHashMap<K, CacheEntry<V>>()
 
     private val size
         get() = map.size
@@ -46,25 +46,22 @@ class Cache<K: Any, V>(private val defaultTimeToLiveMS: Long) {
 
     fun getEntry(key: K): CacheEntry<V>? = map[key]
 
-    fun get(key: K): V? {
+    fun get(key: K): V? = map.compute(key) { k, entry ->
         val currentTimeMS = System.currentTimeMillis()
 
-        val entry = map[key]
-
-        updateCache()
-
-        if (entry != null && currentTimeMS >= entry.expiration) {
-            map.remove(key)
-            return null
+        return@compute entry?.run {
+            if (currentTimeMS >= expiration) {
+                map.remove(k)
+                null
+            } else {
+                entry
+            }
         }
+    }?.value
 
-        return entry?.value
-    }
+    fun getAndInvalidate(key: K): V? = map.remove(key)?.value
 
-    fun getAndInvalidate(key: K): V? = get(key)?.also { map.remove(key) }
-
-    private fun insert(key: CacheKey<K>, value: V) {
-        updateCache()
+    private fun insert(key: CacheKey<K>, value: V) = synchronized(map) {
         map[key.value] = CacheEntry(value, key.timeToLiveMS + System.currentTimeMillis())
     }
 
@@ -83,18 +80,4 @@ class Cache<K: Any, V>(private val defaultTimeToLiveMS: Long) {
         }!!.value
 
     override fun toString(): String = map.toString()
-
-    fun updateCache() {
-        val currentTimeMS = System.currentTimeMillis()
-        var first = map.firstOrNull()
-
-        while(first != null) {
-            if (currentTimeMS >= first.expiration) {
-                map.removeFirst()
-                first = map.firstOrNull()
-            } else {
-                break
-            }
-        }
-    }
 }
