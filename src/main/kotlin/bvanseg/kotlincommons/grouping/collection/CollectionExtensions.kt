@@ -15,3 +15,15 @@ fun <E> Collection<E>.containsAny(collection: Collection<E>): Boolean {
     }
     return false
 }
+
+/**
+ * @author Boston Vanseghi
+ * @since 2.7.0
+ */
+fun <E> LinkedHashSet<E>.removeFirst() = this.remove(this.firstOrNull())
+
+/**
+ * @author Boston Vanseghi
+ * @since 2.7.0
+ */
+fun <E> LinkedHashSet<E>.removeLast() = this.remove(this.lastOrNull())
