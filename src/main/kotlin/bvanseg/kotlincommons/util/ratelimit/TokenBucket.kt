@@ -25,6 +25,7 @@ package bvanseg.kotlincommons.util.ratelimit
 
 import bvanseg.kotlincommons.io.logging.getLogger
 import bvanseg.kotlincommons.util.HashCodeBuilder
+import java.util.concurrent.atomic.AtomicLong
 import java.util.concurrent.locks.ReentrantLock
 
 /**
@@ -37,11 +38,11 @@ import java.util.concurrent.locks.ReentrantLock
 data class TokenBucket(
     val tokenLimit: Long,
     val refillTime: Long,
-    private val initUpdate: Long,
-    @Volatile
-    var currentTokenCount: Long = tokenLimit,
+    val refillTimeOffset: Long = 0L,
+    private val initUpdate: Long = System.currentTimeMillis(),
+    var currentTokenCount: AtomicLong = AtomicLong(tokenLimit),
     private val refreshStrategy: (TokenBucket) -> Unit = {
-        it.currentTokenCount = tokenLimit
+        it.currentTokenCount.set(tokenLimit)
     }
 ) {
     @Volatile
@@ -57,7 +58,7 @@ data class TokenBucket(
     fun refill() {
         try {
             lock.lock()
-            if (currentTokenCount < tokenLimit) {
+            if (currentTokenCount.get() < tokenLimit) {
                 logger.debug("Refreshing tokens: TokenBucket ({}/{}).", currentTokenCount, tokenLimit)
                 refreshStrategy(this)
                 logger.debug("Finished refreshing tokens: TokenBucket ({}/{}).", currentTokenCount, tokenLimit)
@@ -68,10 +69,10 @@ data class TokenBucket(
         }
     }
 
-    fun isFull() = currentTokenCount
-    fun isNotFull() = currentTokenCount != tokenLimit
-    fun isEmpty() = currentTokenCount == 0L
-    fun isNotEmpty() = currentTokenCount > 0L
+    fun isFull(): Boolean = currentTokenCount.get() == tokenLimit
+    fun isNotFull(): Boolean = currentTokenCount.get() != tokenLimit
+    fun isEmpty(): Boolean = currentTokenCount.get() == 0L
+    fun isNotEmpty(): Boolean = currentTokenCount.get() > 0L
 
     fun tryConsume(amount: Long = 1): Boolean {
         if (amount < 0) {
@@ -80,8 +81,8 @@ data class TokenBucket(
 
         try {
             lock.lock()
-            if (currentTokenCount >= amount) {
-                currentTokenCount -= amount
+            if (currentTokenCount.get() >= amount) {
+                currentTokenCount.addAndGet(-amount)
                 return true
             }
 

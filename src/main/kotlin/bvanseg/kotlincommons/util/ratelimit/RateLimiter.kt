@@ -71,7 +71,7 @@ class RateLimiter constructor(
                 while (true) {
                     val next = rateLimiter.submissionTypeDeque.takeFirst() ?: continue
 
-                    if (System.currentTimeMillis() >= nextRefreshTime) {
+                    if (System.currentTimeMillis() >= nextRefreshTime + tokenBucket.refillTimeOffset) {
                         try {
                             val preRefillEvent = BucketRefillEvent.PRE(this@RateLimiter)
                             val postRefillEvent = BucketRefillEvent.POST(this@RateLimiter)
@@ -141,7 +141,7 @@ class RateLimiter constructor(
                     exceptionStrategy(e)
                 }
 
-                delay(nextRefreshTime - System.currentTimeMillis())
+                delay((nextRefreshTime - System.currentTimeMillis()) + tokenBucket.refillTimeOffset)
             }
         }
     }
