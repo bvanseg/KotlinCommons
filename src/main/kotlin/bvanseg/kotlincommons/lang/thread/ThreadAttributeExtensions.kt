@@ -14,6 +14,7 @@ private fun validateThreadAttributeMap() {
 fun <T> Thread.getAttribute(name: String): T? {
     validateThreadAttributeMap()
     val currentThreadID = this.id
+
     @Suppress("UNCHECKED_CAST")
     val value = KotlinCommons.KC_THREAD_ATTRIBUTE_MAP[currentThreadID]!![name]?.get() as T?
     return value
@@ -32,7 +33,8 @@ fun <T> Thread.setAttribute(name: String, value: T): T {
         KotlinCommons.KC_THREAD_ATTRIBUTE_MAP[currentThreadID]!![name] = ThreadLocal<T>()
     }
 
-    @Suppress("UNCHECKED_CAST") val attribute = KotlinCommons.KC_THREAD_ATTRIBUTE_MAP[currentThreadID]!![name]!! as ThreadLocal<T>
+    @Suppress("UNCHECKED_CAST") val attribute =
+        KotlinCommons.KC_THREAD_ATTRIBUTE_MAP[currentThreadID]!![name]!! as ThreadLocal<T>
 
     attribute.set(value)
 
