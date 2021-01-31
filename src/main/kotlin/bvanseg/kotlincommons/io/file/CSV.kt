@@ -8,6 +8,7 @@ import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 import kotlin.reflect.full.memberProperties
 import kotlin.reflect.full.primaryConstructor
+import kotlin.reflect.jvm.isAccessible
 
 /**
  * A class that can write to a file in the CSV (comma-separated values) format. Capable of writing objects or just
@@ -27,6 +28,10 @@ import kotlin.reflect.full.primaryConstructor
 @Experimental
 class CSV(fileName: String) : AutoCloseable {
 
+    companion object {
+        private val regex: Regex = Regex("(?=[A-Z])")
+    }
+
     /**
      * NIO Buffered Writer for quick writing.
      */
@@ -38,28 +43,62 @@ class CSV(fileName: String) : AutoCloseable {
     private val indices = hashMapOf<KClass<*>, HashMap<String, KProperty1.Getter<out Any, Any?>>>()
 
     /**
+     * Index object classes to their properties and corresponding getters for quick access.
+     */
+    private val parameterNameCache = hashMapOf<KClass<*>, HashMap<String, String>>()
+
+    /**
      * Append calls to an in-memory builder to help performance.
      */
     private val builder = StringBuilder()
+
+    fun appendHeader(kclass: KClass<*>): Boolean {
+        if (kclass.isData) {
+            // If the KClass has not been indexed, do so.
+            cacheKClassType(kclass)
+
+            kclass.primaryConstructor?.parameters?.forEach { kParameter ->
+                if (parameterNameCache[kclass] == null) {
+                    parameterNameCache[kclass] = hashMapOf()
+                }
+
+                var formattedName = parameterNameCache[kclass]?.get(kParameter.name)
+
+                if (formattedName == null) {
+                    formattedName = kParameter.name?.split(regex)?.joinToString(" ") { it.capitalize() }
+                    kParameter.name?.let { name ->
+                        parameterNameCache[kclass]!!.put(name, formattedName ?: name)
+                    }
+                }
+
+                builder.append(formattedName)
+                builder.append(',')
+            }
+            builder.append('\n')
+            writer.append(builder.toString())
+            builder.setLength(0)
+            return true
+        }
+
+        return false
+    }
+
+    fun appendHeader(obj: Any): Boolean = appendHeader(obj::class)
 
     fun append(obj: Any): Boolean {
         val kclass = obj::class
 
         if (kclass.isData) {
             // If the KClass has not been indexed, do so.
-            if (indices[kclass] == null) {
-                val mappings = hashMapOf<String, KProperty1.Getter<out Any, Any?>>()
-                indices[kclass] = mappings
-
-                // map property names to getters
-                kclass.memberProperties.forEach {
-                    mappings[it.name] = it.getter
-                }
-            }
+            cacheKClassType(kclass)
 
             kclass.primaryConstructor?.parameters?.forEach {
                 val mappings = indices[kclass]!!
                 val getter = mappings[it.name]
+
+                if (getter?.isAccessible == false) {
+                    getter.isAccessible = true
+                }
 
                 val value = getter?.call(obj)
 
@@ -76,7 +115,7 @@ class CSV(fileName: String) : AutoCloseable {
             }
             builder.append('\n')
             writer.append(builder.toString())
-            builder.clear()
+            builder.setLength(0)
             return true
         }
 
@@ -99,4 +138,16 @@ class CSV(fileName: String) : AutoCloseable {
      * Flushes the backing [BufferedWriter] of the CSV file.
      */
     fun flush() = writer.flush()
+
+    private fun cacheKClassType(kclass: KClass<*>) {
+        if (indices[kclass] == null) {
+            val mappings = hashMapOf<String, KProperty1.Getter<out Any, Any?>>()
+            indices[kclass] = mappings
+
+            // map property names to getters
+            kclass.memberProperties.forEach {
+                mappings[it.name] = it.getter
+            }
+        }
+    }
 }
