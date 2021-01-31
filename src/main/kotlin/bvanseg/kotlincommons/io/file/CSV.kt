@@ -25,7 +25,6 @@ import kotlin.reflect.jvm.isAccessible
  * @author Boston Vanseghi
  * @since 2.7.0
  */
-@Experimental
 class CSV(fileName: String) : AutoCloseable {
 
     companion object {
