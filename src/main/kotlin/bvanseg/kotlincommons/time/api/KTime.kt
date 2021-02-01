@@ -17,7 +17,6 @@ class KTime(var value: Double, var unit: KTimeUnit) {
         when {
             value.isNaN() -> throw IllegalStateException("Expected a valid time value but got $value instead.")
             value.isInfinite() -> throw IllegalStateException("Expected a finite value but got $value instead.")
-            value < 0 -> throw IllegalStateException("Time value can not be negative: $value.")
         }
     }
 
