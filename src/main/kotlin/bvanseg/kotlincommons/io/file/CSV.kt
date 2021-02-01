@@ -151,6 +151,15 @@ class CSV(fileName: String, vararg options: OpenOption) : AutoCloseable {
         }
     }
 
+    fun appendCell(item: Any, flush: Boolean = false) {
+        writer.append(item.toString())
+        writer.append(",")
+
+        if (flush) {
+            flush()
+        }
+    }
+
     override fun close() {
         writer.close()
     }
