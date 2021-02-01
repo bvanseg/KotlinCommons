@@ -52,7 +52,7 @@ class CSV(fileName: String, vararg options: OpenOption) : AutoCloseable {
      */
     private val builder = StringBuilder()
 
-    fun appendHeader(kclass: KClass<*>): Boolean {
+    fun appendHeader(kclass: KClass<*>, flush: Boolean = false): Boolean {
         if (kclass.isData) {
             // If the KClass has not been indexed, do so.
             cacheKClassType(kclass)
@@ -77,15 +77,20 @@ class CSV(fileName: String, vararg options: OpenOption) : AutoCloseable {
             builder.append('\n')
             writer.append(builder.toString())
             builder.setLength(0)
+
+            if (flush) {
+                flush()
+            }
+
             return true
         }
 
         return false
     }
 
-    fun appendHeader(obj: Any): Boolean = appendHeader(obj::class)
+    fun appendHeader(obj: Any, flush: Boolean = false): Boolean = appendHeader(obj::class, flush)
 
-    fun append(obj: Any): Boolean {
+    fun append(obj: Any, flush: Boolean = false): Boolean {
         val kclass = obj::class
 
         if (kclass.isData) {
@@ -116,18 +121,27 @@ class CSV(fileName: String, vararg options: OpenOption) : AutoCloseable {
             builder.append('\n')
             writer.append(builder.toString())
             builder.setLength(0)
+
+            if (flush) {
+                flush()
+            }
+
             return true
         }
 
         return false
     }
 
-    fun appendRow(vararg items: Any) {
+    fun appendRow(vararg items: Any, flush: Boolean = false) {
         for (item in items) {
             writer.append(item.toString())
             writer.append(",")
         }
         writer.append("\n")
+
+        if (flush) {
+            flush()
+        }
     }
 
     override fun close() {
