@@ -23,6 +23,7 @@
  */
 package bvanseg.kotlincommons.util.any
 
+import bvanseg.kotlincommons.time.api.KTime
 import java.util.Optional
 
 /**
@@ -59,3 +60,5 @@ fun Any.packagePath(depth: Int = 0): String = this::class.qualifiedName!!.substr
 inline fun <T : Any, R> T.sync(callback: () -> R) = synchronized(this) {
     callback()
 }
+
+suspend fun delay(time: KTime) = kotlinx.coroutines.delay(time.toMillis())
