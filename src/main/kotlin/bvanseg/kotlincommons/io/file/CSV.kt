@@ -3,6 +3,7 @@ package bvanseg.kotlincommons.io.file
 import bvanseg.kotlincommons.util.project.Experimental
 import java.io.BufferedWriter
 import java.nio.file.Files
+import java.nio.file.OpenOption
 import java.nio.file.Path
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
@@ -25,7 +26,7 @@ import kotlin.reflect.jvm.isAccessible
  * @author Boston Vanseghi
  * @since 2.7.0
  */
-class CSV(fileName: String) : AutoCloseable {
+class CSV(fileName: String, vararg options: OpenOption) : AutoCloseable {
 
     companion object {
         private val regex: Regex = Regex("(?=[A-Z])")
@@ -34,7 +35,7 @@ class CSV(fileName: String) : AutoCloseable {
     /**
      * NIO Buffered Writer for quick writing.
      */
-    private val writer: BufferedWriter = Files.newBufferedWriter(Path.of("$fileName.csv"))
+    private val writer: BufferedWriter = Files.newBufferedWriter(Path.of("$fileName.csv"), *options)
 
     /**
      * Index object classes to their properties and corresponding getters for quick access.
