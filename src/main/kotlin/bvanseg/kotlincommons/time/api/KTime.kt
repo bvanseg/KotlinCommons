@@ -1,5 +1,8 @@
 package bvanseg.kotlincommons.time.api
 
+import java.time.Duration
+import java.time.temporal.ChronoUnit
+
 /**
  * Represents a measurement of time, given a value and the unit representing that value.
  *
@@ -27,6 +30,8 @@ data class KTime(var value: Double, override var unit: KTimeUnit) : KTimeBase(un
     }
 
     fun toMillis(): Long = KTime(unit.convertTo(value, KTimeUnit.MILLISECOND), KTimeUnit.MILLISECOND).value.toLong()
+
+    fun toDuration(): Duration = Duration.of(this.convertTo(KTimeUnit.NANOSECOND).toLong(), ChronoUnit.NANOS)
 
     fun convertTo(otherUnit: KTimeUnit) = this.unit.convertTo(this.value, otherUnit)
 
