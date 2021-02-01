@@ -59,6 +59,14 @@ abstract class RestAction<T> {
 
     fun queue(): RestAction<T> = queueImpl()
     fun queue(callback: (T) -> Unit): RestAction<T> = queueImpl(callback)
+    fun submit(): CompletableFuture<out HttpResponse<*>>? {
+        queueImpl()
+        return future
+    }
+    fun submit(callback: (T) -> Unit): CompletableFuture<out HttpResponse<*>>? {
+        queueImpl(callback)
+        return future
+    }
     fun complete() = completeImpl()
 
     protected abstract fun queueImpl(): RestAction<T>
