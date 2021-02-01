@@ -4,11 +4,12 @@ import bvanseg.kotlincommons.time.api.KTimeUnit
 
 /**
  * @author Boston Vanseghi
- * @since 2.7.0
+ * @since 2.7.1
  */
 object HalfDayTransformer : KTimeTransformer {
     override fun transform(value: Double, unit: KTimeUnit): Double {
         return when (unit) {
+            KTimeUnit.NEVER -> KTimeUnit.NEVER_CONSTANT
             KTimeUnit.NANOSECOND -> value * 1_000_000.0 * 1000 * 60 * 60 * 12
             KTimeUnit.MICROSECOND -> value * 1_000.0 * 1000 * 60 * 60 * 12
             KTimeUnit.MILLISECOND -> value * 1000.0 * 60 * 60 * 12
@@ -22,7 +23,7 @@ object HalfDayTransformer : KTimeTransformer {
             KTimeUnit.DECADE -> value / (365.0 * 10 * 2)
             KTimeUnit.CENTURY -> value / (365.0 * 100 * 2)
             KTimeUnit.MILLENNIUM -> value / (365.0 * 1000 * 2)
-            KTimeUnit.UNKNOWN -> KTimeUnit.UNKNOWN_CONSTANT
+            KTimeUnit.FOREVER -> KTimeUnit.FOREVER_CONSTANT
         }
     }
 }

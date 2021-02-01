@@ -9,6 +9,7 @@ import bvanseg.kotlincommons.time.api.KTimeUnit
 object MillenniumTransformer : KTimeTransformer {
     override fun transform(value: Double, unit: KTimeUnit): Double {
         return when (unit) {
+            KTimeUnit.NEVER -> KTimeUnit.NEVER_CONSTANT
             KTimeUnit.NANOSECOND -> value * 1_000_000.0 * 1000 * 60 * 60 * 24 * 365 * 1000
             KTimeUnit.MICROSECOND -> value * 1_000.0 * 1000 * 60 * 60 * 24 * 365 * 1000
             KTimeUnit.MILLISECOND -> value * 1000.0 * 60 * 60 * 24 * 365 * 1000
@@ -22,7 +23,7 @@ object MillenniumTransformer : KTimeTransformer {
             KTimeUnit.DECADE -> value * 100
             KTimeUnit.CENTURY -> value * 10
             KTimeUnit.MILLENNIUM -> value
-            KTimeUnit.UNKNOWN -> KTimeUnit.UNKNOWN_CONSTANT
+            KTimeUnit.FOREVER -> KTimeUnit.FOREVER_CONSTANT
         }
     }
 }

@@ -27,6 +27,7 @@ import java.time.temporal.ChronoUnit
  * @since 2.7.0
  */
 enum class KTimeUnit(val max: Long = 1) {
+    NEVER,
     NANOSECOND(1000),
     MICROSECOND(1000),
     MILLISECOND(1000),
@@ -40,10 +41,11 @@ enum class KTimeUnit(val max: Long = 1) {
     DECADE,
     CENTURY,
     MILLENNIUM,
-    UNKNOWN;
+    FOREVER;
 
     companion object {
-        const val UNKNOWN_CONSTANT = -1.0
+        const val NEVER_CONSTANT = Double.MIN_VALUE
+        const val FOREVER_CONSTANT = Double.MAX_VALUE
     }
 
     /**
@@ -67,6 +69,7 @@ enum class KTimeUnit(val max: Long = 1) {
         }
 
         return when (this) {
+            NEVER -> NEVER_CONSTANT
             NANOSECOND -> NanosecondTransformer.transform(value, unit)
             MICROSECOND -> MicrosecondTransformer.transform(value, unit)
             MILLISECOND -> MillisecondTransformer.transform(value, unit)
@@ -80,14 +83,15 @@ enum class KTimeUnit(val max: Long = 1) {
             DECADE -> DecadeTransformer.transform(value, unit)
             CENTURY -> CenturyTransformer.transform(value, unit)
             MILLENNIUM -> MillenniumTransformer.transform(value, unit)
-            UNKNOWN -> UNKNOWN_CONSTANT
+            FOREVER -> FOREVER_CONSTANT
         }
     }
 
-    fun getSubUnit(): KTimeUnit = values().getOrNull(this.ordinal - 1) ?: UNKNOWN
-    fun getSuperUnit(): KTimeUnit = values().getOrNull(this.ordinal + 1) ?: UNKNOWN
+    fun getSubUnit(): KTimeUnit = values().getOrNull(this.ordinal - 1) ?: NEVER
+    fun getSuperUnit(): KTimeUnit = values().getOrNull(this.ordinal + 1) ?: FOREVER
 
     fun toChronoUnit(): ChronoUnit? = when(this) {
+        NEVER -> null
         NANOSECOND -> ChronoUnit.NANOS
         MICROSECOND -> ChronoUnit.MICROS
         MILLISECOND -> ChronoUnit.MILLIS
@@ -101,6 +105,6 @@ enum class KTimeUnit(val max: Long = 1) {
         DECADE -> ChronoUnit.DECADES
         CENTURY -> ChronoUnit.CENTURIES
         MILLENNIUM -> ChronoUnit.MILLENNIA
-        else -> null
+        FOREVER -> ChronoUnit.FOREVER
     }
 }
