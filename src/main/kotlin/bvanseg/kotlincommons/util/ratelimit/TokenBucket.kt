@@ -65,6 +65,8 @@ data class TokenBucket(
                 refreshStrategy(this)
                 logger.debug("Finished refreshing tokens: TokenBucket ({}/{}).", currentTokenCount, tokenLimit)
                 lastUpdate = System.currentTimeMillis()
+            } else {
+                logger.trace { "Token bucket is full, $currentTokenCount/$tokenLimit"}
             }
         } finally {
             lock.unlock()

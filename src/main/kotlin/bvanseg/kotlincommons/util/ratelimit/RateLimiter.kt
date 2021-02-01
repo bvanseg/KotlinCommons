@@ -26,6 +26,7 @@ package bvanseg.kotlincommons.util.ratelimit
 import bvanseg.kotlincommons.io.logging.debug
 import bvanseg.kotlincommons.io.logging.getLogger
 import bvanseg.kotlincommons.io.logging.trace
+import bvanseg.kotlincommons.io.logging.warn
 import bvanseg.kotlincommons.util.any.sync
 import bvanseg.kotlincommons.util.event.EventBus
 import bvanseg.kotlincommons.util.ratelimit.event.BucketEmptyEvent
@@ -278,10 +279,13 @@ class RateLimiter constructor(
 
         while (true) {
             if (receiver.isClosedForReceive) {
+                logger.warn { "Receiver channel with unique ID $uniqueID was closed! Regenerating..." }
                 receiver = getSyncReceiverChannel()
             }
 
+            logger.trace { "Preparing to await for id from sync channel..." }
             val id = receiver.receive()
+            logger.trace { "Got ID $id from sync channel, unique ID is $uniqueID." }
 
             if (uniqueID == id) {
                 break
