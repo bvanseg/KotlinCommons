@@ -23,6 +23,10 @@
  */
 package bvanseg.kotlincommons.io.net.http
 
+import bvanseg.kotlincommons.time.api.KTime
+import bvanseg.kotlincommons.util.any.delay
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.net.http.HttpResponse
 import java.util.concurrent.CompletableFuture
 
@@ -59,6 +63,16 @@ abstract class RestAction<T> {
 
     fun queue(): RestAction<T> = queueImpl()
     fun queue(callback: (T) -> Unit): RestAction<T> = queueImpl(callback)
+
+    fun queueAfter(delay: KTime) = GlobalScope.launch {
+        delay(delay)
+        queueImpl()
+    }
+    fun queueAfter(delay: KTime, callback: (T) -> Unit) = GlobalScope.launch {
+        delay(delay)
+        queueImpl(callback)
+    }
+
     fun submit(): CompletableFuture<out HttpResponse<*>>? {
         queueImpl()
         return future
@@ -67,6 +81,7 @@ abstract class RestAction<T> {
         queueImpl(callback)
         return future
     }
+
     fun complete() = completeImpl()
 
     protected abstract fun queueImpl(): RestAction<T>
