@@ -88,7 +88,7 @@ class RateLimiter constructor(
                             val snapshotMillis = System.currentTimeMillis() % tokenBucket.refillTime
                             val delta = tokenBucket.refillTime - snapshotMillis
                             nextRefreshTime = System.currentTimeMillis() + delta
-                            logger.debug { "Calculated time until next TokenBucket refill is $nextRefreshTime." }
+                            logger.debug { "Calculated time until next TokenBucket refill is $delta." }
                         } catch (e: Exception) {
                             exceptionStrategy(e)
                         }
