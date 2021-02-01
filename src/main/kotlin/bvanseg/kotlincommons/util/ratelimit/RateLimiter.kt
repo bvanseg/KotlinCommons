@@ -23,8 +23,10 @@
  */
 package bvanseg.kotlincommons.util.ratelimit
 
+import bvanseg.kotlincommons.io.logging.debug
 import bvanseg.kotlincommons.io.logging.getLogger
 import bvanseg.kotlincommons.io.logging.trace
+import bvanseg.kotlincommons.util.any.sync
 import bvanseg.kotlincommons.util.event.EventBus
 import bvanseg.kotlincommons.util.ratelimit.event.BucketEmptyEvent
 import bvanseg.kotlincommons.util.ratelimit.event.BucketRefillEvent
@@ -48,6 +50,7 @@ import java.util.concurrent.atomic.AtomicLong
  * @author Jacob Glickman (https://github.com/jhg023)[https://github.com/jhg023]
  * @since 2.3.4
  */
+@Suppress("EXPERIMENTAL_API_USAGE")
 class RateLimiter constructor(
     val tokenBucket: TokenBucket,
     val eventBus: EventBus = EventBus.DEFAULT,
@@ -98,7 +101,12 @@ class RateLimiter constructor(
                                     tokenBucket.currentTokenCount,
                                     tokenBucket.tokenLimit
                                 )
-                                @Suppress("EXPERIMENTAL_API_USAGE")
+
+                                if (rateLimiter.syncChannel.isClosedForSend) {
+                                    logger.warn("Synchronous send channel is closed, receiver channels may be dead. Attempting recovery...")
+                                    attemptChannelRecovery()
+                                }
+
                                 rateLimiter.syncChannel.send(rateLimiter.finishedSyncID.get())
                             } else {
                                 rateLimiter.submissionTypeDeque.offerFirst(next)
@@ -143,13 +151,12 @@ class RateLimiter constructor(
                 }
 
                 val sleepTime = (nextRefreshTime - System.currentTimeMillis()) + tokenBucket.refillTimeOffset
-                logger.trace { "Sleeping for $sleepTime milliseconds..." }
+                logger.debug { "Sleeping for $sleepTime milliseconds..." }
                 delay(sleepTime)
             }
         }
     }
 
-    @Suppress("EXPERIMENTAL_API_USAGE")
     var shutdownStrategy: () -> Unit = {
         // Cancel receiver channels and clear map.
         receiverChannels.forEach { (_, channel) ->
@@ -172,8 +179,7 @@ class RateLimiter constructor(
     /**
      * The channel to send synchronous IDs through.
      */
-    @Suppress("EXPERIMENTAL_API_USAGE")
-    private val syncChannel = BroadcastChannel<Long>(Channel.BUFFERED)
+    private var syncChannel = BroadcastChannel<Long>(Channel.BUFFERED)
 
     /**
      * The latest ID of the synchronous tasks.
@@ -209,6 +215,29 @@ class RateLimiter constructor(
     }
 
     /**
+     * Attempts to recover the synchronous channels to a working state.
+     */
+    private fun attemptChannelRecovery() {
+        logger.debug("Attempting to recover RateLimiter channels...")
+        // Close the current sync channel if open and create a new one.
+        syncChannel.cancel()
+        syncChannel = BroadcastChannel(Channel.BUFFERED)
+
+        // Close all existing receiver channels if necessary and regenerate them.
+        receiverChannels.sync {
+            // Cancel all channels in case they are open.
+            receiverChannels.forEach { (_, channel) ->
+                channel.cancel()
+            }
+            // For all channel keys, generate a new subscription for them.
+            receiverChannels.keys.forEach { key ->
+                receiverChannels[key] = syncChannel.openSubscription()
+            }
+        }
+        logger.debug("Finished recovering RateLimiter channels.")
+    }
+
+    /**
      * Submits an asynchronous task to the [RateLimiter] to be executed once a token is readily available.
      *
      * @param consume The number of tokens the action consumes. Defaults to 1 token.
@@ -241,13 +270,17 @@ class RateLimiter constructor(
     fun submitBlocking(consume: Long = 1) = runBlocking {
         if (!isConsumeValid(consume)) return@runBlocking
 
-        val receiver = getSyncReceiverChannel()
+        var receiver = getSyncReceiverChannel()
 
         submissionTypeDeque.offerLast(SubmissionType.SYNCHRONOUS to consume)
 
         val uniqueID = workingSyncID.getAndIncrement()
 
         while (true) {
+            if (receiver.isClosedForReceive) {
+                receiver = getSyncReceiverChannel()
+            }
+
             val id = receiver.receive()
 
             if (uniqueID == id) {
@@ -310,13 +343,13 @@ class RateLimiter constructor(
      * @author Boston Vanseghi
      * @since 2.7.0
      */
-    @Suppress("EXPERIMENTAL_API_USAGE")
     fun getSyncReceiverChannel(): ReceiveChannel<Long> {
         val threadID = Thread.currentThread().id
 
         return receiverChannels.compute(threadID) { _, channel ->
             var toReturn = channel
             if (toReturn == null || toReturn.isClosedForReceive) {
+                logger.debug("Creating new receiver channel for Rate Limiter...")
                 toReturn = syncChannel.openSubscription()
             }
 

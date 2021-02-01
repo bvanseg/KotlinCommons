@@ -24,6 +24,7 @@
 package bvanseg.kotlincommons.util.ratelimit
 
 import bvanseg.kotlincommons.io.logging.getLogger
+import bvanseg.kotlincommons.io.logging.trace
 import bvanseg.kotlincommons.util.HashCodeBuilder
 import java.util.concurrent.atomic.AtomicLong
 import java.util.concurrent.locks.ReentrantLock
@@ -57,6 +58,7 @@ data class TokenBucket(
 
     fun refill() {
         try {
+            logger.trace { "Preparing to enter lock in TokenBucket#refill... " }
             lock.lock()
             if (currentTokenCount.get() < tokenLimit) {
                 logger.debug("Refreshing tokens: TokenBucket ({}/{}).", currentTokenCount, tokenLimit)
@@ -66,6 +68,7 @@ data class TokenBucket(
             }
         } finally {
             lock.unlock()
+            logger.trace { "Successfully left lock in TokenBucket#refill!" }
         }
     }
 
@@ -80,6 +83,7 @@ data class TokenBucket(
         }
 
         try {
+            logger.trace { "Preparing to enter lock in TokenBucket#tryConsume..." }
             lock.lock()
             if (currentTokenCount.get() >= amount) {
                 currentTokenCount.addAndGet(-amount)
@@ -90,6 +94,7 @@ data class TokenBucket(
 
         } finally {
             lock.unlock()
+            logger.trace { "Successfully left lock in TokenBucket#tryConsume!" }
         }
     }
 
