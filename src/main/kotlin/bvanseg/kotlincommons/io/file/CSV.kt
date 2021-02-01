@@ -2,7 +2,6 @@ package bvanseg.kotlincommons.io.file
 
 import bvanseg.kotlincommons.io.logging.getLogger
 import bvanseg.kotlincommons.io.logging.warn
-import bvanseg.kotlincommons.util.project.Experimental
 import java.io.BufferedWriter
 import java.nio.file.Files
 import java.nio.file.OpenOption
@@ -74,16 +73,9 @@ class CSV(fileName: String, vararg options: OpenOption) : AutoCloseable {
                     }
                 }
 
-                builder.append(formattedName)
-                builder.append(',')
+                appendItem(formattedName)
             }
-            builder.append('\n')
-            writer.append(builder.toString())
-            builder.setLength(0)
-
-            if (flush) {
-                flush()
-            }
+            endRow(flush)
 
             return true
         } else {
@@ -112,24 +104,9 @@ class CSV(fileName: String, vararg options: OpenOption) : AutoCloseable {
 
                 val value = getter?.call(obj)
 
-                if (value != null) {
-                    if (value is Array<*>) {
-                        builder.append(value.contentToString())
-                    } else {
-                        builder.append(value.toString())
-                    }
-                } else {
-                    builder.append("NULL")
-                }
-                builder.append(',')
+                appendItem(value)
             }
-            builder.append('\n')
-            writer.append(builder.toString())
-            builder.setLength(0)
-
-            if (flush) {
-                flush()
-            }
+            endRow(flush)
 
             return true
         } else {
@@ -141,19 +118,15 @@ class CSV(fileName: String, vararg options: OpenOption) : AutoCloseable {
 
     fun appendRow(vararg items: Any, flush: Boolean = false) {
         for (item in items) {
-            writer.append(item.toString())
-            writer.append(",")
+            appendItem(item)
         }
-        writer.append("\n")
-
-        if (flush) {
-            flush()
-        }
+        endRow(flush)
     }
 
     fun appendCell(item: Any, flush: Boolean = false) {
-        writer.append(item.toString())
-        writer.append(",")
+        appendItem(item)
+        writer.append(builder.toString())
+        builder.setLength(0)
 
         if (flush) {
             flush()
@@ -178,6 +151,24 @@ class CSV(fileName: String, vararg options: OpenOption) : AutoCloseable {
             kclass.memberProperties.forEach {
                 mappings[it.name] = it.getter
             }
+        }
+    }
+
+    private fun appendItem(item: Any?) {
+        builder.append(when (item) {
+            null -> "NULL"
+            is Array<*> -> "\"${item.joinToString(", ")}\""
+            else -> item.toString()
+        } + ",")
+    }
+
+    private fun endRow(flush: Boolean) {
+        builder.append("\n")
+        writer.append(builder.toString())
+        builder.setLength(0)
+
+        if (flush) {
+            flush()
         }
     }
 }
