@@ -15,6 +15,7 @@ object WeekTransformer : KTimeTransformer {
             KTimeUnit.SECOND -> value * 60.0 * 60 * 24 * 7
             KTimeUnit.MINUTE -> value * 60.0 * 24 * 7
             KTimeUnit.HOUR -> value * 24 * 7
+            KTimeUnit.HALF_DAY -> value * 7 * 2
             KTimeUnit.DAY -> value * 7
             KTimeUnit.WEEK -> value
             KTimeUnit.YEAR -> (value * 7) / 365.0

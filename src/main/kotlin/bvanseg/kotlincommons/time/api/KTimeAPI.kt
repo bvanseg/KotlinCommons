@@ -50,6 +50,8 @@ val hours: KTimeBase = KTimeBase(KTimeUnit.HOUR)
 
 val days: KTimeBase = KTimeBase(KTimeUnit.DAY)
 
+val halfDays: KTimeBase = KTimeBase(KTimeUnit.HALF_DAY)
+
 val weeks: KTimeBase = KTimeBase(KTimeUnit.WEEK)
 
 val years: KTimeBase = KTimeBase(KTimeUnit.YEAR)

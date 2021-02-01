@@ -15,6 +15,7 @@ object DecadeTransformer : KTimeTransformer {
             KTimeUnit.SECOND -> value * 60.0 * 60 * 24 * 365 * 10
             KTimeUnit.MINUTE -> value * 60.0 * 24 * 365 * 10
             KTimeUnit.HOUR -> value * 24 * 365 * 10
+            KTimeUnit.HALF_DAY -> value * 2 * 365 * 10
             KTimeUnit.DAY -> value * 365 * 10
             KTimeUnit.WEEK -> (value * 365 * 10) / 7.0
             KTimeUnit.YEAR -> value * 10

@@ -15,6 +15,7 @@ object MicrosecondTransformer : KTimeTransformer {
             KTimeUnit.SECOND -> value / (1_000.0 * 1000)
             KTimeUnit.MINUTE -> value / (1_000.0 * 1000 * 60)
             KTimeUnit.HOUR -> value / (1_000.0 * 1000 * 60 * 60)
+            KTimeUnit.HALF_DAY -> value / (1_000.0 * 1000 * 60 * 60 * 24 * 2)
             KTimeUnit.DAY -> value / (1_000.0 * 1000 * 60 * 60 * 24)
             KTimeUnit.WEEK -> value / (1_000.0 * 1000 * 60 * 60 * 24 * 7)
             KTimeUnit.YEAR -> value / (1_000.0 * 1000 * 60 * 60 * 24 * 365)

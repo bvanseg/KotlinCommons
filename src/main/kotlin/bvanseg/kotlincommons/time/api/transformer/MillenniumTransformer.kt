@@ -15,6 +15,7 @@ object MillenniumTransformer : KTimeTransformer {
             KTimeUnit.SECOND -> value * 60.0 * 60 * 24 * 365 * 1000
             KTimeUnit.MINUTE -> value * 60.0 * 24 * 365 * 1000
             KTimeUnit.HOUR -> value * 24 * 365 * 1000
+            KTimeUnit.HALF_DAY -> value * 2 * 365 * 1000
             KTimeUnit.DAY -> value * 365 * 1000
             KTimeUnit.WEEK -> (value * 365 * 1000) / 7.0
             KTimeUnit.YEAR -> value * 1000

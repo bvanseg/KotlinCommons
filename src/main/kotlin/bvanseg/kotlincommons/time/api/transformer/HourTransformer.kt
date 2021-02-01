@@ -15,6 +15,7 @@ object HourTransformer : KTimeTransformer {
             KTimeUnit.SECOND -> value * 60.0 * 60
             KTimeUnit.MINUTE -> value * 60.0
             KTimeUnit.HOUR -> value
+            KTimeUnit.HALF_DAY -> value / 12.0
             KTimeUnit.DAY -> value / 24.0
             KTimeUnit.WEEK -> value / (24.0 * 7)
             KTimeUnit.YEAR -> value / (24.0 * 365)

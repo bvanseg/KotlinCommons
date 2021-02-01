@@ -3,6 +3,7 @@ package bvanseg.kotlincommons.time.api
 import bvanseg.kotlincommons.time.api.transformer.CenturyTransformer
 import bvanseg.kotlincommons.time.api.transformer.DayTransformer
 import bvanseg.kotlincommons.time.api.transformer.DecadeTransformer
+import bvanseg.kotlincommons.time.api.transformer.HalfDayTransformer
 import bvanseg.kotlincommons.time.api.transformer.HourTransformer
 import bvanseg.kotlincommons.time.api.transformer.MicrosecondTransformer
 import bvanseg.kotlincommons.time.api.transformer.MillenniumTransformer
@@ -32,6 +33,7 @@ enum class KTimeUnit(val max: Long = 1) {
     SECOND(60),
     MINUTE(60),
     HOUR(24),
+    HALF_DAY,
     DAY,
     WEEK,
     YEAR,
@@ -71,13 +73,14 @@ enum class KTimeUnit(val max: Long = 1) {
             SECOND -> SecondTransformer.transform(value, unit)
             MINUTE -> MinuteTransformer.transform(value, unit)
             HOUR -> HourTransformer.transform(value, unit)
+            HALF_DAY -> HalfDayTransformer.transform(value, unit)
             DAY -> DayTransformer.transform(value, unit)
             WEEK -> WeekTransformer.transform(value, unit)
             YEAR -> YearTransformer.transform(value, unit)
             DECADE -> DecadeTransformer.transform(value, unit)
             CENTURY -> CenturyTransformer.transform(value, unit)
             MILLENNIUM -> MillenniumTransformer.transform(value, unit)
-            else -> UNKNOWN_CONSTANT
+            UNKNOWN -> UNKNOWN_CONSTANT
         }
     }
 
@@ -91,6 +94,7 @@ enum class KTimeUnit(val max: Long = 1) {
         SECOND -> ChronoUnit.SECONDS
         MINUTE -> ChronoUnit.MINUTES
         HOUR -> ChronoUnit.HOURS
+        HALF_DAY -> ChronoUnit.HALF_DAYS
         DAY -> ChronoUnit.DAYS
         WEEK -> ChronoUnit.WEEKS
         YEAR -> ChronoUnit.YEARS
