@@ -25,6 +25,7 @@ package bvanseg.kotlincommons.util.event
 
 import bvanseg.kotlincommons.io.logging.getLogger
 import bvanseg.kotlincommons.reflect.getKClass
+import bvanseg.kotlincommons.util.any.sync
 import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.sendBlocking
@@ -123,12 +124,7 @@ class EventBus {
      */
     inline fun <reified T : Any> on(noinline callback: (T) -> Unit) {
         val callbackClass = T::class.java
-
-        if (callbackListeners[callbackClass] == null) {
-            callbackListeners[callbackClass] = mutableListOf()
-        }
-
-        callbackListeners[callbackClass]!!.add(CallbackEvent(callback))
+        callbackListeners.computeIfAbsent(callbackClass) { mutableListOf() }.add(CallbackEvent(callback))
     }
 
     /**
@@ -147,6 +143,8 @@ class EventBus {
     fun fire(event: Any) {
         if (!isEnabled) return
 
+        val eventClass = event::class.java
+
         events[event::class.java]?.let { internalEvents ->
             internalEvents.forEach { internalEvent ->
                 logger.debug("Firing event {} with object {}", internalEvent, event)
@@ -163,15 +161,21 @@ class EventBus {
             }
         }
 
-        callbackListeners[event::class.java]?.forEach { callbackEvent ->
-            ((callbackEvent as CallbackEvent<Any>).invoke(event))
+        callbackListeners.computeIfPresent(eventClass) { _, value ->
+            value.forEach { callbackEvent ->
+                ((callbackEvent as CallbackEvent<Any>).invoke(event))
 
-            // Walk up the superclasses and fire those, as well.
-            for (superClass in event::class.superclasses) {
-                callbackListeners[superClass.java]?.forEach { superCallbackEvent ->
-                    ((superCallbackEvent as CallbackEvent<Any>).invoke(event))
+                // Walk up the superclasses and fire those, as well.
+                for (superClass in event::class.superclasses) {
+                    callbackListeners.computeIfPresent(superClass.java) { _, v ->
+                        v.forEach { superCallbackEvent ->
+                            ((superCallbackEvent as CallbackEvent<Any>).invoke(event))
+                        }
+                        null
+                    }
                 }
             }
+            null
         }
 
         eventChannel.sendBlocking(event)

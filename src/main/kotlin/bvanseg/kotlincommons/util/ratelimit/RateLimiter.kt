@@ -26,32 +26,24 @@ package bvanseg.kotlincommons.util.ratelimit
 import bvanseg.kotlincommons.io.logging.debug
 import bvanseg.kotlincommons.io.logging.getLogger
 import bvanseg.kotlincommons.io.logging.trace
-import bvanseg.kotlincommons.io.logging.warn
-import bvanseg.kotlincommons.util.any.sync
+import bvanseg.kotlincommons.time.api.every
+import bvanseg.kotlincommons.time.api.milliseconds
 import bvanseg.kotlincommons.util.event.EventBus
-import bvanseg.kotlincommons.util.ratelimit.event.BucketEmptyEvent
 import bvanseg.kotlincommons.util.ratelimit.event.BucketRefillEvent
 import bvanseg.kotlincommons.util.ratelimit.event.RateLimiterShutdownEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.channels.BroadcastChannel
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import java.util.concurrent.ConcurrentHashMap
-import java.util.concurrent.ConcurrentLinkedDeque
+import java.util.concurrent.CountDownLatch
 import java.util.concurrent.LinkedBlockingDeque
 import java.util.concurrent.atomic.AtomicBoolean
-import java.util.concurrent.atomic.AtomicLong
 
 /**
  * @author Boston Vanseghi
  * @author Jacob Glickman (https://github.com/jhg023)[https://github.com/jhg023]
  * @since 2.3.4
  */
-@Suppress("EXPERIMENTAL_API_USAGE")
 class RateLimiter constructor(
     val tokenBucket: TokenBucket,
     val eventBus: EventBus = EventBus.DEFAULT,
@@ -67,143 +59,66 @@ class RateLimiter constructor(
     }
 
     var cycleStrategy: (RateLimiter) -> Unit = { rateLimiter ->
+        val initDelta = calculateSleepTime(false).milliseconds
+
+        every(tokenBucket.refillTime.milliseconds, counterDrift = true) { performer ->
+            val preRefillEvent = BucketRefillEvent.PRE(this@RateLimiter)
+            val postRefillEvent = BucketRefillEvent.POST(this@RateLimiter)
+            eventBus.fire(preRefillEvent)
+            tokenBucket.refill()
+            eventBus.fire(postRefillEvent)
+
+            if (!isRunning.get()) {
+                performer.stop()
+            }
+        }.delay(initDelta).offset(tokenBucket.refillTimeOffset.milliseconds).execute(async = true)
+
+        // Used only for asynchronous tasks.
         GlobalScope.launch(Dispatchers.IO) {
-
-            var nextRefreshTime = 0L
-
             while (rateLimiter.isRunning.get()) {
+                try {
+                    val next = rateLimiter.asyncDeque.takeFirst() ?: continue
+                    val cost = next.first
 
-                while (true) {
-                    val next = rateLimiter.submissionTypeDeque.takeFirst() ?: continue
-
-                    if (System.currentTimeMillis() >= nextRefreshTime + tokenBucket.refillTimeOffset) {
+                    if (tokenBucket.tryConsume(cost)) {
+                        val callback = next.second
+                        logger.trace(
+                            "Executing queued submission: TokenBucket ({}/{}).",
+                            tokenBucket.currentTokenCount,
+                            tokenBucket.tokenLimit
+                        )
                         try {
-                            val preRefillEvent = BucketRefillEvent.PRE(this@RateLimiter)
-                            val postRefillEvent = BucketRefillEvent.POST(this@RateLimiter)
-                            eventBus.fire(preRefillEvent)
-                            tokenBucket.refill()
-                            eventBus.fire(postRefillEvent)
-
-                            // Reset the next refresh time.
-                            val snapshotMillis = System.currentTimeMillis() % tokenBucket.refillTime
-                            val delta = tokenBucket.refillTime - snapshotMillis
-                            nextRefreshTime = System.currentTimeMillis() + delta
-                            logger.debug { "Calculated time until next TokenBucket refill is $delta." }
+                            callback()
+                            logger.trace(
+                                "Finished executing queued submission: TokenBucket ({}/{}).",
+                                tokenBucket.currentTokenCount,
+                                tokenBucket.tokenLimit
+                            )
                         } catch (e: Exception) {
                             exceptionStrategy(e)
                         }
+                    } else {
+                        rateLimiter.asyncDeque.offerFirst(next)
+
+                        val delta = calculateSleepTime(true)
+                        logger.debug { "Sleeping for $delta milliseconds..." }
+                        delay(delta)
                     }
-
-                    when (next.first) {
-                        SubmissionType.SYNCHRONOUS -> {
-                            val cost = next.second
-                            if (tokenBucket.tryConsume(cost)) {
-                                logger.trace(
-                                    "Executing blocking submission: TokenBucket ({}/{}).",
-                                    tokenBucket.currentTokenCount,
-                                    tokenBucket.tokenLimit
-                                )
-
-                                if (rateLimiter.syncChannel.isClosedForSend) {
-                                    logger.warn("Synchronous send channel is closed, receiver channels may be dead. Attempting recovery...")
-                                    attemptChannelRecovery()
-                                }
-
-                                rateLimiter.syncChannel.send(rateLimiter.finishedSyncID.get())
-                            } else {
-                                rateLimiter.submissionTypeDeque.offerFirst(next)
-                            }
-                        }
-                        SubmissionType.ASYNCHRONOUS -> {
-                            val cost = next.second
-
-                            if (tokenBucket.tryConsume(cost)) {
-                                val callback = rateLimiter.asyncDeque.poll()
-                                logger.trace(
-                                    "Executing queued submission: TokenBucket ({}/{}).",
-                                    tokenBucket.currentTokenCount,
-                                    tokenBucket.tokenLimit
-                                )
-                                try {
-                                    callback()
-                                    logger.trace(
-                                        "Finished executing queued submission: TokenBucket ({}/{}).",
-                                        tokenBucket.currentTokenCount,
-                                        tokenBucket.tokenLimit
-                                    )
-                                } catch (e: Exception) {
-                                    exceptionStrategy(e)
-                                }
-                            } else {
-                                rateLimiter.submissionTypeDeque.offerFirst(next)
-                            }
-                        }
-                    }
-
-                    if (tokenBucket.isEmpty()) {
-                        break
-                    }
-                }
-
-                try {
-                    val bucketEmptyEvent = BucketEmptyEvent(this@RateLimiter)
-                    eventBus.fire(bucketEmptyEvent)
                 } catch (e: Exception) {
                     exceptionStrategy(e)
                 }
-
-                val sleepTime = (nextRefreshTime - System.currentTimeMillis()) + tokenBucket.refillTimeOffset
-                logger.debug { "Sleeping for $sleepTime milliseconds..." }
-                delay(sleepTime)
             }
         }
     }
 
     var shutdownStrategy: () -> Unit = {
-        // Cancel receiver channels and clear map.
-        receiverChannels.forEach { (_, channel) ->
-            channel.cancel()
-        }
-        receiverChannels.clear()
-
-        // Cancel primary sync channel.
-        syncChannel.cancel()
-
-        // Clear Deques
         asyncDeque.clear()
-        submissionTypeDeque.clear()
-
-        // Reset sync IDs.
-        workingSyncID.set(0L)
-        finishedSyncID.set(0L)
     }
 
     /**
-     * The channel to send synchronous IDs through.
+     * Collects asynchronous tasks paired up with their token cost.
      */
-    private var syncChannel = BroadcastChannel<Long>(Channel.BUFFERED)
-
-    /**
-     * The latest ID of the synchronous tasks.
-     */
-    private val workingSyncID = AtomicLong()
-
-    /**
-     * The current number of synchronous tasks finished so far.
-     */
-    private val finishedSyncID = AtomicLong()
-
-    /**
-     * The number of queued up submissions awaiting execution by the [RateLimiter].
-     */
-    private val asyncDeque = ConcurrentLinkedDeque<() -> Unit>()
-
-    /**
-     * Maintains the order of submission types to their consumption cost.
-     */
-    private val submissionTypeDeque = LinkedBlockingDeque<Pair<SubmissionType, Long>>()
-
-    private val receiverChannels = ConcurrentHashMap<Long, ReceiveChannel<Long>>()
+    private val asyncDeque = LinkedBlockingDeque<Pair<Long, () -> Unit>>()
 
     /**
      * Indicates whether or not the [RateLimiter]'s cycle strategy is executing periodically.
@@ -216,27 +131,9 @@ class RateLimiter constructor(
         }
     }
 
-    /**
-     * Attempts to recover the synchronous channels to a working state.
-     */
-    private fun attemptChannelRecovery() {
-        logger.debug("Attempting to recover RateLimiter channels...")
-        // Close the current sync channel if open and create a new one.
-        syncChannel.cancel()
-        syncChannel = BroadcastChannel(Channel.BUFFERED)
-
-        // Close all existing receiver channels if necessary and regenerate them.
-        receiverChannels.sync {
-            // Cancel all channels in case they are open.
-            receiverChannels.forEach { (_, channel) ->
-                channel.cancel()
-            }
-            // For all channel keys, generate a new subscription for them.
-            receiverChannels.keys.forEach { key ->
-                receiverChannels[key] = syncChannel.openSubscription()
-            }
-        }
-        logger.debug("Finished recovering RateLimiter channels.")
+    fun calculateSleepTime(flag: Boolean): Long {
+        val snapshotMillis = System.currentTimeMillis() % tokenBucket.refillTime
+        return (tokenBucket.refillTime - snapshotMillis) + (if(flag) tokenBucket.refillTimeOffset else 0L)
     }
 
     /**
@@ -249,8 +146,7 @@ class RateLimiter constructor(
         if (!isConsumeValid(consume)) return
 
         logger.trace("Received asynchronous submission.")
-        asyncDeque.addLast(ratelimitCallback)
-        submissionTypeDeque.offerLast(SubmissionType.ASYNCHRONOUS to consume)
+        asyncDeque.addLast(consume to ratelimitCallback)
     }
 
     /**
@@ -265,35 +161,26 @@ class RateLimiter constructor(
     }
 
     /**
-     * Blocks the current thread until tokens of the specified amount are consumed.
+     * Submits a blocking task to the [RateLimiter] to be executed once a token is readily available.
      *
      * @param consume The amount of tokens to consume for the given task. Defaults to 1.
      */
-    fun submitBlocking(consume: Long = 1) = runBlocking {
-        if (!isConsumeValid(consume)) return@runBlocking
-
-        var receiver = getSyncReceiverChannel()
-
-        submissionTypeDeque.offerLast(SubmissionType.SYNCHRONOUS to consume)
-
-        val uniqueID = workingSyncID.getAndIncrement()
-
+    fun submitBlocking(consume: Long = 1) {
         while (true) {
-            if (receiver.isClosedForReceive) {
-                logger.warn { "Receiver channel with unique ID $uniqueID was closed! Regenerating..." }
-                receiver = getSyncReceiverChannel()
-            }
-
-            logger.trace { "Preparing to await for id from sync channel..." }
-            val id = receiver.receive()
-            logger.trace { "Got ID $id from sync channel, unique ID is $uniqueID." }
-
-            if (uniqueID == id) {
+            if (tokenBucket.tryConsume(consume)) {
                 break
+            } else {
+                val latch = CountDownLatch(1)
+
+                EventBus.DEFAULT.on<BucketRefillEvent.POST> {
+                    latch.countDown()
+                }
+
+                logger.debug { "Sleeping in thread ${Thread.currentThread().id} for ${calculateSleepTime(false)} milliseconds..." }
+                latch.await()
+                logger.trace { "Finished sleeping in thread ${Thread.currentThread().id}." }
             }
         }
-
-        finishedSyncID.incrementAndGet()
     }
 
     /**
@@ -342,23 +229,5 @@ class RateLimiter constructor(
         isRunning.set(false)
         shutdownStrategy()
         eventBus.fire(postShutdownEvent)
-    }
-
-    /**
-     * @author Boston Vanseghi
-     * @since 2.7.0
-     */
-    fun getSyncReceiverChannel(): ReceiveChannel<Long> {
-        val threadID = Thread.currentThread().id
-
-        return receiverChannels.compute(threadID) { _, channel ->
-            var toReturn = channel
-            if (toReturn == null || toReturn.isClosedForReceive) {
-                logger.debug("Creating new receiver channel for Rate Limiter...")
-                toReturn = syncChannel.openSubscription()
-            }
-
-            toReturn
-        }!!
     }
 }

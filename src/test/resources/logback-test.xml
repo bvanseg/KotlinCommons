@@ -6,9 +6,7 @@
             <onMismatch>DENY</onMismatch>
         </filter>
         <encoder>
-            <pattern>[%cyan(%d{yyyy-MM-dd HH:mm:ss.SSS})] [%gray(%thread)] [%white(%level)] [%magenta(%logger{120})] :
-                %msg%n
-            </pattern>
+            <pattern>[%cyan(%d{yyyy-MM-dd HH:mm:ss.SSS})] [%gray(%thread)] [%white(%level)] [%magenta(%logger{120})] : %msg%n </pattern>
         </encoder>
     </appender>
 
@@ -19,9 +17,7 @@
             <onMismatch>DENY</onMismatch>
         </filter>
         <encoder>
-            <pattern>[%cyan(%d{yyyy-MM-dd HH:mm:ss.SSS})] [%gray(%thread)] [%blue(%level)] [%magenta(%logger{120})] :
-                %msg%n
-            </pattern>
+            <pattern>[%cyan(%d{yyyy-MM-dd HH:mm:ss.SSS})] [%gray(%thread)] [%blue(%level)] [%magenta(%logger{120})] : %msg%n </pattern>
         </encoder>
     </appender>
 
@@ -32,9 +28,7 @@
             <onMismatch>DENY</onMismatch>
         </filter>
         <encoder>
-            <pattern>[%cyan(%d{yyyy-MM-dd HH:mm:ss.SSS})] [%gray(%thread)] [%green(%level)] [%magenta(%logger{120})] :
-                %msg%n
-            </pattern>
+            <pattern>[%cyan(%d{yyyy-MM-dd HH:mm:ss.SSS})] [%gray(%thread)] [%green(%level)] [%magenta(%logger{120})] : %msg%n </pattern>
         </encoder>
     </appender>
 
@@ -45,9 +39,7 @@
             <onMismatch>DENY</onMismatch>
         </filter>
         <encoder>
-            <pattern>[%cyan(%d{yyyy-MM-dd HH:mm:ss.SSS})] [%gray(%thread)] [%yellow(%level)] [%magenta(%logger{120})] :
-                %msg%n
-            </pattern>
+            <pattern>[%cyan(%d{yyyy-MM-dd HH:mm:ss.SSS})] [%gray(%thread)] [%yellow(%level)] [%magenta(%logger{120})] : %msg%n </pattern>
         </encoder>
     </appender>
 
@@ -58,9 +50,7 @@
             <onMismatch>DENY</onMismatch>
         </filter>
         <encoder>
-            <pattern>[%cyan(%d{yyyy-MM-dd HH:mm:ss.SSS})] [%gray(%thread)] [%red(%level)] [%magenta(%logger{120})] :
-                %msg%n
-            </pattern>
+            <pattern>[%cyan(%d{yyyy-MM-dd HH:mm:ss.SSS})] [%gray(%thread)] [%red(%level)] [%magenta(%logger{120})] : %msg%n </pattern>
         </encoder>
     </appender>
 
