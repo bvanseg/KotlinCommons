@@ -30,6 +30,7 @@ import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.sendBlocking
 import java.util.concurrent.ConcurrentHashMap
+import java.util.concurrent.CountDownLatch
 import kotlin.reflect.full.findAnnotation
 import kotlin.reflect.full.memberFunctions
 import kotlin.reflect.full.superclasses
@@ -202,6 +203,21 @@ class EventBus {
                 }
             }
         }
+    }
+
+    /**
+     * Awaits an event, blocking the current thread until the event is fired by this [EventBus].
+     *
+     * @param T The type of event to await. Superclasses of specific events are also acceptable to await.
+     */
+    inline fun <reified T : Any> awaitEvent() {
+        val latch = CountDownLatch(1)
+
+        this.on<T> {
+            latch.countDown()
+        }
+
+        latch.await()
     }
 
     /**

@@ -170,15 +170,7 @@ class RateLimiter constructor(
             if (tokenBucket.tryConsume(consume)) {
                 break
             } else {
-                val latch = CountDownLatch(1)
-
-                EventBus.DEFAULT.on<BucketRefillEvent.POST> {
-                    latch.countDown()
-                }
-
-                logger.debug { "Sleeping in thread ${Thread.currentThread().id} for ${calculateSleepTime(false)} milliseconds..." }
-                latch.await()
-                logger.trace { "Finished sleeping in thread ${Thread.currentThread().id}." }
+                EventBus.DEFAULT.awaitEvent<BucketRefillEvent.POST>()
             }
         }
     }
