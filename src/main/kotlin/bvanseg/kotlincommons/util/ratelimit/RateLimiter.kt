@@ -61,7 +61,7 @@ class RateLimiter constructor(
     var cycleStrategy: (RateLimiter) -> Unit = { rateLimiter ->
         val initDelta = calculateSleepTime(false).milliseconds
 
-        every(tokenBucket.refillTime.milliseconds, counterDrift = true) { performer ->
+        every(tokenBucket.refillTime, counterDrift = true) { performer ->
             val preRefillEvent = BucketRefillEvent.PRE(this@RateLimiter)
             val postRefillEvent = BucketRefillEvent.POST(this@RateLimiter)
             eventBus.fire(preRefillEvent)
@@ -71,7 +71,7 @@ class RateLimiter constructor(
             if (!isRunning.get()) {
                 performer.stop()
             }
-        }.delay(initDelta).offset(tokenBucket.refillTimeOffset.milliseconds).execute(async = true)
+        }.delay(initDelta).offsetMillis(tokenBucket.refillTimeOffset).execute(async = true)
 
         // Used only for asynchronous tasks.
         GlobalScope.launch(Dispatchers.IO) {

@@ -28,8 +28,8 @@ import kotlinx.coroutines.delay
 class KTimePerformer(val frequency: KTime, val action: (KTimePerformer) -> Unit, val counterDrift: Boolean = false) {
 
     var offset: Long = -1L
-    var initDelay: Long = -1L
-    var startDelay: Long = -1L
+    var timeDelay: Long = -1L
+    var startDateDelay: Long = -1L
 
     @Volatile
     var shouldStop: Boolean = false
@@ -52,7 +52,7 @@ class KTimePerformer(val frequency: KTime, val action: (KTimePerformer) -> Unit,
         val currentMillis = odt.toInstant().toEpochMilli()
         val millisToExecuteAt = date.toInstant(odt.offset).toEpochMilli()
 
-        startDelay = millisToExecuteAt - currentMillis
+        startDateDelay = millisToExecuteAt - currentMillis
         return this
     }
 
@@ -73,6 +73,8 @@ class KTimePerformer(val frequency: KTime, val action: (KTimePerformer) -> Unit,
         return this
     }
 
+    fun offsetMillis(millis: Long) = offset(millis.milliseconds)
+
     /**
      * Adds a delay to the performer.
      *
@@ -80,9 +82,11 @@ class KTimePerformer(val frequency: KTime, val action: (KTimePerformer) -> Unit,
      */
     fun delay(time: KTime): KTimePerformer {
 
-        initDelay = time.toMillis().toLong()
+        timeDelay = time.toMillis().toLong()
         return this
     }
+
+    fun delayMillis(millis: Long): KTimePerformer = delay(millis.milliseconds)
 
     fun onException(cb: (Throwable) -> Unit): KTimePerformer {
         exceptionCallback = cb
@@ -110,13 +114,13 @@ class KTimePerformer(val frequency: KTime, val action: (KTimePerformer) -> Unit,
     private val executor: suspend CoroutineScope.() -> Any = {
 
         // Date-based delay.
-        if (startDelay > 0) {
-            delay(startDelay)
+        if (startDateDelay > 0) {
+            delay(startDateDelay)
         }
 
         // Unit-based delay.
-        if (initDelay > 0) {
-            delay(initDelay)
+        if (timeDelay > 0) {
+            delay(timeDelay)
         }
 
         while (true) {

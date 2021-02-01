@@ -55,6 +55,9 @@ infix fun KTime.into(unit: KTimeUnit): KTime {
     return KTime(newValue, unit)
 }
 
+fun every(timeInMillis: Long, counterDrift: Boolean = false, cb: (KTimePerformer) -> Unit): KTimePerformer =
+    every(timeInMillis.milliseconds, counterDrift, cb)
+
 fun every(frequency: KTime, counterDrift: Boolean = false, cb: (KTimePerformer) -> Unit): KTimePerformer =
     KTimePerformer(frequency, cb, counterDrift)
 
