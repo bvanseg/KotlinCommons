@@ -1,5 +1,7 @@
 package bvanseg.kotlincommons.time.api
 
+import bvanseg.kotlincommons.lang.string.ToStringBuilder
+import bvanseg.kotlincommons.util.HashCodeBuilder
 import java.time.Duration
 import java.time.temporal.ChronoUnit
 
@@ -9,7 +11,7 @@ import java.time.temporal.ChronoUnit
  * @author Boston Vanseghi
  * @since 2.7.0
  */
-data class KTime(var value: Double, var unit: KTimeUnit) {
+class KTime(var value: Double, var unit: KTimeUnit) {
 
     init {
         when {
@@ -28,6 +30,9 @@ data class KTime(var value: Double, var unit: KTimeUnit) {
             convertedValue == other.value
         }
     }
+
+    override fun hashCode(): Int = HashCodeBuilder.builder(this::class).append(value).append(unit).hashCode()
+    override fun toString(): String = ToStringBuilder.builder(this::class).append("value", value).append("unit", unit).toString()
 
     fun toNever(): Double = KTimeUnit.NEVER_CONSTANT
     fun toNanos(): Double = unit.convertTo(value, KTimeUnit.NANOSECOND)
