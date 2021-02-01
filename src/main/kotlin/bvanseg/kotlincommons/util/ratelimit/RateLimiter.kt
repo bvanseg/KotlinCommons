@@ -100,9 +100,7 @@ class RateLimiter constructor(
                     } else {
                         rateLimiter.asyncDeque.offerFirst(next)
 
-                        val delta = calculateSleepTime(true)
-                        logger.debug { "Sleeping for $delta milliseconds..." }
-                        delay(delta)
+                        EventBus.DEFAULT.awaitCoroutineEvent<BucketRefillEvent.POST>()
                     }
                 } catch (e: Exception) {
                     exceptionStrategy(e)
@@ -170,7 +168,7 @@ class RateLimiter constructor(
             if (tokenBucket.tryConsume(consume)) {
                 break
             } else {
-                EventBus.DEFAULT.awaitEvent<BucketRefillEvent.POST>()
+                EventBus.DEFAULT.awaitThreadEvent<BucketRefillEvent.POST>()
             }
         }
     }

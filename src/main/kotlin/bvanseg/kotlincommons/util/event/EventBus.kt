@@ -25,6 +25,7 @@ package bvanseg.kotlincommons.util.event
 
 import bvanseg.kotlincommons.io.logging.getLogger
 import bvanseg.kotlincommons.reflect.getKClass
+import bvanseg.kotlincommons.util.concurrent.KCountDownLatch
 import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.sendBlocking
@@ -209,8 +210,24 @@ class EventBus {
      *
      * @param T The type of event to await. Superclasses of specific events are also acceptable to await.
      */
-    inline fun <reified T : Any> awaitEvent() {
+    inline fun <reified T : Any> awaitThreadEvent() {
         val latch = CountDownLatch(1)
+
+        this.on<T> {
+            latch.countDown()
+        }
+
+        latch.await()
+    }
+
+    /**
+     * Awaits an event, blocking the current coroutine until the event is fired by this [EventBus].
+     * Functions similarly to [awaitThreadEvent], but instead uses a [KCountDownLatch] as opposed to a [CountDownLatch].
+     *
+     * @param T The type of event to await. Superclasses of specific events are also acceptable to await.
+     */
+    suspend inline fun <reified T : Any> awaitCoroutineEvent() {
+        val latch = KCountDownLatch(1)
 
         this.on<T> {
             latch.countDown()
