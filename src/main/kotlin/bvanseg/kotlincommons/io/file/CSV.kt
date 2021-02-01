@@ -1,5 +1,7 @@
 package bvanseg.kotlincommons.io.file
 
+import bvanseg.kotlincommons.io.logging.getLogger
+import bvanseg.kotlincommons.io.logging.warn
 import bvanseg.kotlincommons.util.project.Experimental
 import java.io.BufferedWriter
 import java.nio.file.Files
@@ -29,6 +31,7 @@ import kotlin.reflect.jvm.isAccessible
 class CSV(fileName: String, vararg options: OpenOption) : AutoCloseable {
 
     companion object {
+        private val logger = getLogger()
         private val regex: Regex = Regex("(?=[A-Z])")
     }
 
@@ -83,6 +86,8 @@ class CSV(fileName: String, vararg options: OpenOption) : AutoCloseable {
             }
 
             return true
+        } else {
+            logger.warn { "CSV header-writing is for data class types only, class '$kclass' is not a data class!" }
         }
 
         return false
@@ -127,6 +132,8 @@ class CSV(fileName: String, vararg options: OpenOption) : AutoCloseable {
             }
 
             return true
+        } else {
+            logger.warn { "CSV appending is for data class types only, class '$kclass' is not a data class!" }
         }
 
         return false
