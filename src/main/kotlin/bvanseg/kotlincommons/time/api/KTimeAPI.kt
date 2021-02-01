@@ -36,35 +36,23 @@ val Number.centuries
 val Number.millenniums
     get() = KTime(this.toDouble(), KTimeUnit.MILLENNIUM)
 
-val nanoseconds: KTimeBase = KTimeBase(KTimeUnit.NANOSECOND)
+val nanoseconds: KTimeUnit = KTimeUnit.NANOSECOND
+val microseconds: KTimeUnit = KTimeUnit.MICROSECOND
+val milliseconds: KTimeUnit = KTimeUnit.MILLISECOND
+val seconds: KTimeUnit = KTimeUnit.SECOND
+val minutes: KTimeUnit = KTimeUnit.MINUTE
+val hours: KTimeUnit = KTimeUnit.HOUR
+val days: KTimeUnit = KTimeUnit.DAY
+val halfDays: KTimeUnit = KTimeUnit.HALF_DAY
+val weeks: KTimeUnit = KTimeUnit.WEEK
+val years: KTimeUnit = KTimeUnit.YEAR
+val decades: KTimeUnit = KTimeUnit.DECADE
+val centuries: KTimeUnit = KTimeUnit.CENTURY
+val millenniums: KTimeUnit = KTimeUnit.MILLENNIUM
 
-val microseconds: KTimeBase = KTimeBase(KTimeUnit.MICROSECOND)
-
-val milliseconds: KTimeBase = KTimeBase(KTimeUnit.MILLISECOND)
-
-val seconds: KTimeBase = KTimeBase(KTimeUnit.SECOND)
-
-val minutes: KTimeBase = KTimeBase(KTimeUnit.MINUTE)
-
-val hours: KTimeBase = KTimeBase(KTimeUnit.HOUR)
-
-val days: KTimeBase = KTimeBase(KTimeUnit.DAY)
-
-val halfDays: KTimeBase = KTimeBase(KTimeUnit.HALF_DAY)
-
-val weeks: KTimeBase = KTimeBase(KTimeUnit.WEEK)
-
-val years: KTimeBase = KTimeBase(KTimeUnit.YEAR)
-
-val decades: KTimeBase = KTimeBase(KTimeUnit.DECADE)
-
-val centuries: KTimeBase = KTimeBase(KTimeUnit.CENTURY)
-
-val millenniums: KTimeBase = KTimeBase(KTimeUnit.MILLENNIUM)
-
-infix fun KTime.into(other: KTimeBase): KTime {
-    val newValue = this.unit.convertTo(this.value, other.unit)
-    return KTime(newValue, other.unit)
+infix fun KTime.into(unit: KTimeUnit): KTime {
+    val newValue = this.unit.convertTo(this.value, unit)
+    return KTime(newValue, unit)
 }
 
 fun every(frequency: KTime, counterDrift: Boolean = false, cb: (KTimePerformer) -> Unit): KTimePerformer =
