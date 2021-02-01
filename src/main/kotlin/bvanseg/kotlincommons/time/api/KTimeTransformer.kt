@@ -19,6 +19,7 @@ object NanosecondTransformer : KTimeTransformer {
             KTimeUnit.DECADE -> value / (1_000_000.0 * 1000 * 60 * 60 * 24 * 365 * 10)
             KTimeUnit.CENTURY -> value / (1_000_000.0 * 1000 * 60 * 60 * 24 * 365 * 100)
             KTimeUnit.MILLENNIUM -> value / (1_000_000.0 * 1000 * 60 * 60 * 24 * 365 * 1000)
+            KTimeUnit.UNKNOWN -> KTimeUnit.UNKNOWN_CONSTANT
         }
     }
 }
@@ -38,6 +39,7 @@ object MicrosecondTransformer : KTimeTransformer {
             KTimeUnit.DECADE -> value / (1_000.0 * 1000 * 60 * 60 * 24 * 365 * 10)
             KTimeUnit.CENTURY -> value / (1_000.0 * 1000 * 60 * 60 * 24 * 365 * 100)
             KTimeUnit.MILLENNIUM -> value / (1_000.0 * 1000 * 60 * 60 * 24 * 365 * 1000)
+            KTimeUnit.UNKNOWN -> KTimeUnit.UNKNOWN_CONSTANT
         }
     }
 }
@@ -57,6 +59,7 @@ object MillisecondTransformer : KTimeTransformer {
             KTimeUnit.DECADE -> value / (1000.0 * 60 * 60 * 24 * 365 * 10)
             KTimeUnit.CENTURY -> value / (1000.0 * 60 * 60 * 24 * 365 * 100)
             KTimeUnit.MILLENNIUM -> value / (1000.0 * 60 * 60 * 24 * 365 * 1000)
+            KTimeUnit.UNKNOWN -> KTimeUnit.UNKNOWN_CONSTANT
         }
     }
 }
@@ -76,6 +79,7 @@ object SecondTransformer : KTimeTransformer {
             KTimeUnit.DECADE -> value / (60.0 * 60 * 24 * 365 * 10)
             KTimeUnit.CENTURY -> value / (60.0 * 60 * 24 * 365 * 100)
             KTimeUnit.MILLENNIUM -> value / (60.0 * 60 * 24 * 365 * 1000)
+            KTimeUnit.UNKNOWN -> KTimeUnit.UNKNOWN_CONSTANT
         }
     }
 }
@@ -95,6 +99,7 @@ object MinuteTransformer : KTimeTransformer {
             KTimeUnit.DECADE -> value / (60.0 * 24 * 365 * 10)
             KTimeUnit.CENTURY -> value / (60.0 * 24 * 365 * 100)
             KTimeUnit.MILLENNIUM -> value / (60.0 * 24 * 365 * 1000)
+            KTimeUnit.UNKNOWN -> KTimeUnit.UNKNOWN_CONSTANT
         }
     }
 }
@@ -114,6 +119,7 @@ object HourTransformer : KTimeTransformer {
             KTimeUnit.DECADE -> value / (24.0 * 365 * 10)
             KTimeUnit.CENTURY -> value / (24.0 * 365 * 100)
             KTimeUnit.MILLENNIUM -> value / (24.0 * 365 * 1000)
+            KTimeUnit.UNKNOWN -> KTimeUnit.UNKNOWN_CONSTANT
         }
     }
 }
@@ -133,6 +139,7 @@ object DayTransformer : KTimeTransformer {
             KTimeUnit.DECADE -> value / (365.0 * 10)
             KTimeUnit.CENTURY -> value / (365.0 * 100)
             KTimeUnit.MILLENNIUM -> value / (365.0 * 1000)
+            KTimeUnit.UNKNOWN -> KTimeUnit.UNKNOWN_CONSTANT
         }
     }
 }
@@ -152,6 +159,7 @@ object WeekTransformer : KTimeTransformer {
             KTimeUnit.DECADE -> (value * 7) / (365.0 * 10)
             KTimeUnit.CENTURY -> (value * 7) / (365.0 * 100)
             KTimeUnit.MILLENNIUM -> (value * 7) / (365.0 * 1000)
+            KTimeUnit.UNKNOWN -> KTimeUnit.UNKNOWN_CONSTANT
         }
     }
 }
@@ -171,6 +179,7 @@ object YearTransformer : KTimeTransformer {
             KTimeUnit.DECADE -> value / 10.0
             KTimeUnit.CENTURY -> value / 100.0
             KTimeUnit.MILLENNIUM -> value / 1000.0
+            KTimeUnit.UNKNOWN -> KTimeUnit.UNKNOWN_CONSTANT
         }
     }
 }
@@ -190,6 +199,7 @@ object DecadeTransformer : KTimeTransformer {
             KTimeUnit.DECADE -> value
             KTimeUnit.CENTURY -> value / 10.0
             KTimeUnit.MILLENNIUM -> value / 100.0
+            KTimeUnit.UNKNOWN -> KTimeUnit.UNKNOWN_CONSTANT
         }
     }
 }
@@ -209,6 +219,7 @@ object CenturyTransformer : KTimeTransformer {
             KTimeUnit.DECADE -> value * 10
             KTimeUnit.CENTURY -> value
             KTimeUnit.MILLENNIUM -> value / 10.0
+            KTimeUnit.UNKNOWN -> KTimeUnit.UNKNOWN_CONSTANT
         }
     }
 }
@@ -228,6 +239,7 @@ object MillenniumTransformer : KTimeTransformer {
             KTimeUnit.DECADE -> value * 100
             KTimeUnit.CENTURY -> value * 10
             KTimeUnit.MILLENNIUM -> value
+            KTimeUnit.UNKNOWN -> KTimeUnit.UNKNOWN_CONSTANT
         }
     }
 }

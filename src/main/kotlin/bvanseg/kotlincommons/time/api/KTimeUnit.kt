@@ -1,5 +1,8 @@
 package bvanseg.kotlincommons.time.api
 
+import java.time.temporal.ChronoUnit
+import java.time.temporal.TemporalUnit
+
 /**
  *
  * @param max The maximum number of cycles this unit can have relative to the super unit. For example, a second
@@ -23,7 +26,12 @@ enum class KTimeUnit(val max: Long = 1) {
     YEAR,
     DECADE,
     CENTURY,
-    MILLENNIUM;
+    MILLENNIUM,
+    UNKNOWN;
+
+    companion object {
+        const val UNKNOWN_CONSTANT = -1.0
+    }
 
     /**
      * Converts a given value to the other unit.
@@ -58,9 +66,26 @@ enum class KTimeUnit(val max: Long = 1) {
             DECADE -> DecadeTransformer.transform(value, unit)
             CENTURY -> CenturyTransformer.transform(value, unit)
             MILLENNIUM -> MillenniumTransformer.transform(value, unit)
+            else -> UNKNOWN_CONSTANT
         }
     }
 
-    fun getSubUnit(): KTimeUnit? = values().getOrNull(this.ordinal - 1)
-    fun getSuperUnit(): KTimeUnit? = values().getOrNull(this.ordinal + 1)
+    fun getSubUnit(): KTimeUnit = values().getOrNull(this.ordinal - 1) ?: UNKNOWN
+    fun getSuperUnit(): KTimeUnit = values().getOrNull(this.ordinal + 1) ?: UNKNOWN
+
+    fun toChronoUnit(): ChronoUnit? = when(this) {
+        NANOSECOND -> ChronoUnit.NANOS
+        MICROSECOND -> ChronoUnit.MICROS
+        MILLISECOND -> ChronoUnit.MILLIS
+        SECOND -> ChronoUnit.SECONDS
+        MINUTE -> ChronoUnit.MINUTES
+        HOUR -> ChronoUnit.HOURS
+        DAY -> ChronoUnit.DAYS
+        WEEK -> ChronoUnit.WEEKS
+        YEAR -> ChronoUnit.YEARS
+        DECADE -> ChronoUnit.DECADES
+        CENTURY -> ChronoUnit.CENTURIES
+        MILLENNIUM -> ChronoUnit.MILLENNIA
+        else -> null
+    }
 }
