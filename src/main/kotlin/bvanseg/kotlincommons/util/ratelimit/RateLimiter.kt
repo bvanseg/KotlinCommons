@@ -24,6 +24,7 @@
 package bvanseg.kotlincommons.util.ratelimit
 
 import bvanseg.kotlincommons.io.logging.getLogger
+import bvanseg.kotlincommons.io.logging.trace
 import bvanseg.kotlincommons.util.event.EventBus
 import bvanseg.kotlincommons.util.ratelimit.event.BucketEmptyEvent
 import bvanseg.kotlincommons.util.ratelimit.event.BucketRefillEvent
@@ -141,7 +142,9 @@ class RateLimiter constructor(
                     exceptionStrategy(e)
                 }
 
-                delay((nextRefreshTime - System.currentTimeMillis()) + tokenBucket.refillTimeOffset)
+                val sleepTime = (nextRefreshTime - System.currentTimeMillis()) + tokenBucket.refillTimeOffset
+                logger.trace { "Sleeping for $sleepTime milliseconds..." }
+                delay(sleepTime)
             }
         }
     }
