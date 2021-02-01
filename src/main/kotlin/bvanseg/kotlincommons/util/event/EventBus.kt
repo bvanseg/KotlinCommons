@@ -25,7 +25,6 @@ package bvanseg.kotlincommons.util.event
 
 import bvanseg.kotlincommons.io.logging.getLogger
 import bvanseg.kotlincommons.reflect.getKClass
-import bvanseg.kotlincommons.util.any.sync
 import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.sendBlocking
