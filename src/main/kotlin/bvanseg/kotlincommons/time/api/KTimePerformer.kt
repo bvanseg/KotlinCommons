@@ -7,6 +7,7 @@ import kotlinx.coroutines.runBlocking
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.OffsetDateTime
+import kotlinx.coroutines.delay
 
 /**
  *
@@ -68,7 +69,7 @@ class KTimePerformer(val frequency: KTime, val action: (KTimePerformer) -> Unit,
      * @param time The amount of time by which to offset the current action.
      */
     fun offset(time: KTime): KTimePerformer {
-        offset = time.toMillis()
+        offset = time.toMillis().toLong()
         return this
     }
 
@@ -79,7 +80,7 @@ class KTimePerformer(val frequency: KTime, val action: (KTimePerformer) -> Unit,
      */
     fun delay(time: KTime): KTimePerformer {
 
-        initDelay = time.toMillis()
+        initDelay = time.toMillis().toLong()
         return this
     }
 
@@ -110,12 +111,12 @@ class KTimePerformer(val frequency: KTime, val action: (KTimePerformer) -> Unit,
 
         // Date-based delay.
         if (startDelay > 0) {
-            kotlinx.coroutines.delay(startDelay)
+            delay(startDelay)
         }
 
         // Unit-based delay.
         if (initDelay > 0) {
-            kotlinx.coroutines.delay(initDelay)
+            delay(initDelay)
         }
 
         while (true) {
@@ -125,7 +126,7 @@ class KTimePerformer(val frequency: KTime, val action: (KTimePerformer) -> Unit,
 
             // Offset-based delay.
             if (offset > 0) {
-                kotlinx.coroutines.delay(offset)
+                delay(offset)
             }
 
             try {
@@ -143,10 +144,10 @@ class KTimePerformer(val frequency: KTime, val action: (KTimePerformer) -> Unit,
                 // Get current time accounting for offsets.
                 val snapshotMillis = Instant.now().toEpochMilli() + OffsetDateTime.now().offset.totalSeconds * 1000L
                 // Get the delta between the next interval and the current time.
-                val delta = frequency.toMillis() - snapshotMillis % frequency.toMillis()
-                kotlinx.coroutines.delay(delta)
+                val delta = frequency.toMillis().toLong() - snapshotMillis % frequency.toMillis().toLong()
+                delay(delta)
             } else {
-                kotlinx.coroutines.delay(frequency.toMillis())
+                delay(frequency.toMillis().toLong())
             }
         }
     }

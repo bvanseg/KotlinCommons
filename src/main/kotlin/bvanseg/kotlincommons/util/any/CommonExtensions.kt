@@ -61,4 +61,4 @@ inline fun <T : Any, R> T.sync(callback: () -> R) = synchronized(this) {
     callback()
 }
 
-suspend fun delay(time: KTime) = kotlinx.coroutines.delay(time.toMillis())
+suspend fun delay(time: KTime) = kotlinx.coroutines.delay(time.toMillis().toLong())

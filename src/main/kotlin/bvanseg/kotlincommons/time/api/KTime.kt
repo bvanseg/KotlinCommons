@@ -29,13 +29,30 @@ data class KTime(var value: Double, override var unit: KTimeUnit) : KTimeBase(un
         }
     }
 
-    fun toMillis(): Long = KTime(unit.convertTo(value, KTimeUnit.MILLISECOND), KTimeUnit.MILLISECOND).value.toLong()
+    fun toNever(): Double = KTimeUnit.NEVER_CONSTANT
+    fun toNanos(): Double = unit.convertTo(value, KTimeUnit.NANOSECOND)
+    fun toMicros(): Double = unit.convertTo(value, KTimeUnit.MICROSECOND)
+    fun toMillis(): Double = unit.convertTo(value, KTimeUnit.MILLISECOND)
+    fun toSeconds(): Double = unit.convertTo(value, KTimeUnit.SECOND)
+    fun toMinutes(): Double = unit.convertTo(value, KTimeUnit.MINUTE)
+    fun toHours(): Double = unit.convertTo(value, KTimeUnit.HOUR)
+    fun toHalfDays(): Double = unit.convertTo(value, KTimeUnit.HALF_DAY)
+    fun toDays(): Double = unit.convertTo(value, KTimeUnit.DAY)
+    fun toWeeks(): Double = unit.convertTo(value, KTimeUnit.WEEK)
+    fun toYears(): Double = unit.convertTo(value, KTimeUnit.YEAR)
+    fun toDecades(): Double = unit.convertTo(value, KTimeUnit.DECADE)
+    fun toCenturies(): Double = unit.convertTo(value, KTimeUnit.CENTURY)
+    fun toMillenniums(): Double = unit.convertTo(value, KTimeUnit.MILLENNIUM)
+    fun toForever(): Double = KTimeUnit.FOREVER_CONSTANT
 
     fun toDuration(): Duration = Duration.of(this.convertTo(KTimeUnit.NANOSECOND).toLong(), ChronoUnit.NANOS)
 
     fun convertTo(otherUnit: KTimeUnit) = this.unit.convertTo(this.value, otherUnit)
 
     companion object {
+        val NEVER = KTime(KTimeUnit.NEVER_CONSTANT, KTimeUnit.NEVER)
+        val FOREVER = KTime(KTimeUnit.FOREVER_CONSTANT, KTimeUnit.FOREVER)
+
         fun now(): KTime = KTime(System.currentTimeMillis().toDouble(), KTimeUnit.MILLISECOND)
     }
 }
