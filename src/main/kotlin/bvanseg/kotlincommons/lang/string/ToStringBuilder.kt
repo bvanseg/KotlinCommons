@@ -65,6 +65,9 @@ class ToStringBuilder private constructor() {
 
     companion object {
         @JvmStatic
+        fun builder(obj: Any): ToStringBuilder = builder(obj::class)
+
+        @JvmStatic
         fun builder(clazz: KClass<*>): ToStringBuilder = ToStringBuilder().apply {
             this.append("${clazz.simpleName}(")
         }
