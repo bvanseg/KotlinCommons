@@ -233,5 +233,8 @@ open class KhronoTime(
 
     companion object {
         fun now(): KhronoTime = LocalTime.now().toKhronoTime()
+
+        val midnight: KhronoTime = KhronoTime(hr = 24.0)
+        val afternoon: KhronoTime = KhronoTime(hr = 12.0)
     }
 }
