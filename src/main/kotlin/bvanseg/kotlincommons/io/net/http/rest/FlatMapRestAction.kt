@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package bvanseg.kotlincommons.io.net.http
+package bvanseg.kotlincommons.io.net.http.rest
 
 /**
  * An expansion of [RestAction] that allows for chaining [RestAction] queues.

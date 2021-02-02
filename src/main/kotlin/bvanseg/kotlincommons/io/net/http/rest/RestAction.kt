@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package bvanseg.kotlincommons.io.net.http
+package bvanseg.kotlincommons.io.net.http.rest
 
 import bvanseg.kotlincommons.time.api.Khrono
 import bvanseg.kotlincommons.util.any.delay
