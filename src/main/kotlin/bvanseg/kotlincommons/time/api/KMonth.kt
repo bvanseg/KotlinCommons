@@ -1,5 +1,7 @@
 package bvanseg.kotlincommons.time.api
 
+import bvanseg.kotlincommons.util.comparable.clamp
+
 /**
  * @author Boston Vanseghi
  * @since 2.8.0
@@ -16,5 +18,32 @@ enum class KMonth(val monthValue: Int, val days: Int) {
     SEPTEMBER(9, 30),
     OCTOBER(10, 31),
     NOVEMBER(11, 30),
-    DECEMBER(12, 31)
+    DECEMBER(12, 31);
+
+    companion object {
+        fun getFromDayOfYear(dayOfYear: Int): KMonth {
+            var d = clamp(dayOfYear, 1, 365)
+            var month = JANUARY
+
+            while (d > month.days) {
+                d -= month.days
+                month = values()[month.ordinal + 1]
+            }
+
+            return month
+        }
+
+        fun getDaysUpTo(month: KMonth): Int {
+            var d = 0
+            var currentMonth = JANUARY
+
+            while (currentMonth < month) {
+                d += currentMonth.days
+                currentMonth = values()[currentMonth.ordinal + 1]
+            }
+            return d
+        }
+    }
+
+    fun toKhrono(): Khrono = Khrono(getDaysUpTo(this).toDouble(), KhronoUnit.DAY)
 }
