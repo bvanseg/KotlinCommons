@@ -69,7 +69,8 @@ open class KhronoDate(
 
     fun daysUntil(date: KhronoDate): Double = date.asDays - this.asDays
     fun daysSince(date: KhronoDate): Double = this.asDays - date.asDays
-    fun isBetween(lowerBound: KhronoDate, upperBound: KhronoDate): Boolean = this.asMillis >= lowerBound.asMillis && this.asMillis <= upperBound.asMillis
+    fun isBetween(lowerBound: KhronoDate, upperBound: KhronoDate): Boolean =
+        this.asMillis >= lowerBound.asMillis && this.asMillis <= upperBound.asMillis
 
     override fun toString(): String = "${month.monthValue}/${day.toLong()}/${year.toLong()}"
 

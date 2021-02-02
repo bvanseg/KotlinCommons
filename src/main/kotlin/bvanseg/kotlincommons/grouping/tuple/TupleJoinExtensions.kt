@@ -46,4 +46,5 @@ infix fun <A, B, C, D> Pair<A, B>.merge(that: Pair<C, D>): Quad<A, B, C, D> =
  * @author Boston Vanseghi
  * @since 2.7.0
  */
-infix fun <A, B, C, D> Triple<A, B, C>.merge(that: D): Quad<A, B, C, D> = Quad(this.first, this.second, this.third, that)
+infix fun <A, B, C, D> Triple<A, B, C>.merge(that: D): Quad<A, B, C, D> =
+    Quad(this.first, this.second, this.third, that)

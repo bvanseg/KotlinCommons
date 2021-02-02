@@ -2,7 +2,6 @@ package bvanseg.kotlincommons.util.ratelimit
 
 import bvanseg.kotlincommons.time.api.seconds
 import org.junit.jupiter.api.Disabled
-import java.util.concurrent.TimeUnit
 
 @Disabled
 class RateLimiterTest {

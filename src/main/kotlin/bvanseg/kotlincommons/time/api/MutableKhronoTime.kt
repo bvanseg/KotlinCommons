@@ -60,11 +60,35 @@ class MutableKhronoTime(
     }
 
     override val asNanos: Double
-        get() = Khrono.combineAll(KhronoUnit.NANOSECOND, hour, minute, second, millisecond, microsecond, nanosecond).value
+        get() = Khrono.combineAll(
+            KhronoUnit.NANOSECOND,
+            hour,
+            minute,
+            second,
+            millisecond,
+            microsecond,
+            nanosecond
+        ).value
     override val asMicros: Double
-        get() = Khrono.combineAll(KhronoUnit.MICROSECOND, hour, minute, second, millisecond, microsecond, nanosecond).value
+        get() = Khrono.combineAll(
+            KhronoUnit.MICROSECOND,
+            hour,
+            minute,
+            second,
+            millisecond,
+            microsecond,
+            nanosecond
+        ).value
     override val asMillis: Double
-        get() = Khrono.combineAll(KhronoUnit.MILLISECOND, hour, minute, second, millisecond, microsecond, nanosecond).value
+        get() = Khrono.combineAll(
+            KhronoUnit.MILLISECOND,
+            hour,
+            minute,
+            second,
+            millisecond,
+            microsecond,
+            nanosecond
+        ).value
     override val asSeconds: Double
         get() = Khrono.combineAll(KhronoUnit.SECOND, hour, minute, second, millisecond, microsecond, nanosecond).value
     override val asMinutes: Double
@@ -84,5 +108,13 @@ class MutableKhronoTime(
     override val asCenturies: Double
         get() = Khrono.combineAll(KhronoUnit.CENTURY, hour, minute, second, millisecond, microsecond, nanosecond).value
     override val asMillenniums: Double
-        get() = Khrono.combineAll(KhronoUnit.MILLENNIUM, hour, minute, second, millisecond, microsecond, nanosecond).value
+        get() = Khrono.combineAll(
+            KhronoUnit.MILLENNIUM,
+            hour,
+            minute,
+            second,
+            millisecond,
+            microsecond,
+            nanosecond
+        ).value
 }

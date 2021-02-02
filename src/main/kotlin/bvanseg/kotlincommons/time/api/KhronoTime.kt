@@ -1,7 +1,6 @@
 package bvanseg.kotlincommons.time.api
 
 import java.time.LocalTime
-import bvanseg.kotlincommons.time.api.operator.minus
 
 /**
  * @author Boston Vanseghi
@@ -213,7 +212,14 @@ open class KhronoTime(
         nanosecond.toInt() + microsecond.toNanos().toInt() + millisecond.toNanos().toInt()
     )
 
-    fun toMutable(): MutableKhronoTime = MutableKhronoTime(hour.value, minute.value, second.value, millisecond.value, microsecond.value, nanosecond.value)
+    fun toMutable(): MutableKhronoTime = MutableKhronoTime(
+        hour.value,
+        minute.value,
+        second.value,
+        millisecond.value,
+        microsecond.value,
+        nanosecond.value
+    )
 
     fun nanosecondsSince(time: KhronoTime): Double = this.asNanos - time.asNanos
     fun microsecondsSince(time: KhronoTime): Double = this.asMicros - time.asMicros
@@ -229,7 +235,8 @@ open class KhronoTime(
     fun minutesUntil(time: KhronoTime): Double = time.asMinutes - this.asMinutes
     fun hoursUntil(time: KhronoTime): Double = time.asHours - this.asHours
 
-    override fun toString(): String = "${hour.toLong()}:${minute.toLong()}:${second.toLong()}.${millisecond.toLong()}.${microsecond.toLong() * nanosecond.toLong()}"
+    override fun toString(): String =
+        "${hour.toLong()}:${minute.toLong()}:${second.toLong()}.${millisecond.toLong()}.${microsecond.toLong() * nanosecond.toLong()}"
 
     companion object {
         fun now(): KhronoTime = LocalTime.now().toKhronoTime()
