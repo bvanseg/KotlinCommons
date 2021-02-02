@@ -60,5 +60,13 @@ open class Khrono(open val value: Double, open val unit: KhronoUnit) {
         val FOREVER = Khrono(KhronoUnit.FOREVER_CONSTANT, KhronoUnit.FOREVER)
 
         fun now(): Khrono = Khrono(System.currentTimeMillis().toDouble(), KhronoUnit.MILLISECOND)
+
+        fun combineAll(unit: KhronoUnit, vararg times: Khrono): Khrono {
+            var total: Double = 0.0
+            times.forEach {
+                total += it.convertTo(unit)
+            }
+            return Khrono(total, unit)
+        }
     }
 }
