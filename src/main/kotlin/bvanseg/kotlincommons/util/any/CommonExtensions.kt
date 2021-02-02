@@ -24,6 +24,9 @@
 package bvanseg.kotlincommons.util.any
 
 import bvanseg.kotlincommons.time.api.Khrono
+import bvanseg.kotlincommons.time.api.KhronoDate
+import bvanseg.kotlincommons.time.api.KhronoDateTime
+import bvanseg.kotlincommons.time.api.KhronoTime
 import java.util.Optional
 
 /**
@@ -62,3 +65,6 @@ inline fun <T : Any, R> T.sync(callback: () -> R) = synchronized(this) {
 }
 
 suspend fun delay(time: Khrono) = kotlinx.coroutines.delay(time.toMillis().toLong())
+suspend fun delay(time: KhronoTime) = kotlinx.coroutines.delay(time.asMillis.toLong())
+suspend fun delay(time: KhronoDate) = kotlinx.coroutines.delay(time.asMillis.toLong())
+suspend fun delay(time: KhronoDateTime) = kotlinx.coroutines.delay(time.asMillis.toLong())
