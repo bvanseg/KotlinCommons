@@ -1,6 +1,7 @@
 package bvanseg.kotlincommons.time.api.performer
 
 import bvanseg.kotlincommons.time.api.Khrono
+import bvanseg.kotlincommons.time.api.KhronoTime
 import bvanseg.kotlincommons.time.api.milliseconds
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.GlobalScope
@@ -75,6 +76,16 @@ class KhronoPerformer(val frequency: Khrono, val action: (KhronoPerformer) -> Un
         return this
     }
 
+    /**
+     * Adds an offset to occur before every action execution.
+     *
+     * This is particularly useful if you wish to execute a task every 3rd minute, for example. To execute a task every
+     * 3rd minute, one simply needs to set the frequency to every hour and then the offset to 3 minutes.
+     *
+     * @param time The amount of time by which to offset the current action.
+     */
+    fun offset(time: KhronoTime): KhronoPerformer = offsetMillis(time.asMillis.toLong())
+
     fun offsetMillis(millis: Long) = offset(millis.milliseconds)
 
     /**
@@ -87,6 +98,13 @@ class KhronoPerformer(val frequency: Khrono, val action: (KhronoPerformer) -> Un
         timeDelay = time.toMillis().toLong()
         return this
     }
+
+    /**
+     * Adds a delay to the performer.
+     *
+     * @param time The amount of time by which to delay the performer.
+     */
+    fun delay(time: KhronoTime): KhronoPerformer = delayMillis(time.asMillis.toLong())
 
     fun delayMillis(millis: Long): KhronoPerformer = delay(millis.milliseconds)
 
