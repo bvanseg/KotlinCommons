@@ -23,19 +23,15 @@
  */
 package bvanseg.kotlincommons.util.ratelimit
 
-import bvanseg.kotlincommons.io.logging.debug
 import bvanseg.kotlincommons.io.logging.getLogger
-import bvanseg.kotlincommons.io.logging.trace
-import bvanseg.kotlincommons.time.api.every
+import bvanseg.kotlincommons.time.api.performer.every
 import bvanseg.kotlincommons.time.api.milliseconds
 import bvanseg.kotlincommons.util.event.EventBus
 import bvanseg.kotlincommons.util.ratelimit.event.BucketRefillEvent
 import bvanseg.kotlincommons.util.ratelimit.event.RateLimiterShutdownEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.util.concurrent.CountDownLatch
 import java.util.concurrent.LinkedBlockingDeque
 import java.util.concurrent.atomic.AtomicBoolean
 
