@@ -1,5 +1,7 @@
 package bvanseg.kotlincommons.time.api
 
+import java.time.LocalDateTime
+
 /**
  * @author Boston Vanseghi
  * @since 2.8.0
@@ -52,4 +54,14 @@ open class KhronoDateTime(open val date: KhronoDate, open val time: KhronoTime) 
     open val asDecades: Double by lazy { date.asDecades + time.asDecades }
     open val asCenturies: Double by lazy { date.asCenturies + time.asCenturies }
     open val asMillenniums: Double by lazy { date.asMillenniums + time.asMillenniums }
+
+    fun toLocalDateTime(): LocalDateTime = LocalDateTime.of(
+        date.year.value.toInt(),
+        date.month.monthValue,
+        date.day.value.toInt(),
+        time.hour.value.toInt(),
+        time.minute.value.toInt(),
+        time.second.value.toInt(),
+        time.millisecond.toNanos().toInt() + time.microsecond.toNanos().toInt() + time.nanosecond.value.toInt()
+    )
 }
