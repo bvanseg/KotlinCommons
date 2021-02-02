@@ -226,13 +226,6 @@ open class KhronoTime(
     override fun toString(): String = "${hour.value.toLong()}:${minute.value.toLong()}:${second.value.toLong()}.${millisecond.value.toLong()}.${microsecond.value.toLong() * nanosecond.value.toLong()}"
 
     companion object {
-        fun now(): KhronoTime = LocalTime.now().run {
-            KhronoTime(
-                hr = this.hour.toDouble(),
-                min = this.minute.toDouble(),
-                sec = this.second.toDouble(),
-                nano = this.nano.toDouble()
-            )
-        }
+        fun now(): KhronoTime = LocalTime.now().toKhronoTime()
     }
 }

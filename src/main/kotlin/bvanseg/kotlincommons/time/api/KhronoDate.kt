@@ -75,13 +75,7 @@ open class KhronoDate(
 
     companion object {
         fun yesterday(): KhronoDate = now().toMutable().apply { day -= 1 }
-        fun now(): KhronoDate = LocalDate.now().run {
-            KhronoDate(
-                d = this.dayOfMonth.toDouble(),
-                mth = this.monthValue,
-                yr = this.year.toDouble()
-            )
-        }
+        fun now(): KhronoDate = LocalDate.now().toKhronoDate()
         fun tomorrow(): KhronoDate = now().toMutable().apply { day += 1 }
     }
 }
