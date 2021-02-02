@@ -68,6 +68,7 @@ abstract class RestAction<T> {
         delay(delay)
         queueImpl()
     }
+
     fun queueAfter(delay: Khrono, callback: (T) -> Unit) = GlobalScope.launch {
         delay(delay)
         queueImpl(callback)
@@ -77,6 +78,7 @@ abstract class RestAction<T> {
         queueImpl()
         return future
     }
+
     fun submit(callback: (T) -> Unit): CompletableFuture<out HttpResponse<*>>? {
         queueImpl(callback)
         return future

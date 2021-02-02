@@ -11,7 +11,7 @@ class MutableKhronoTime(
     millis: Double = 0.0,
     micro: Double = 0.0,
     nano: Double = 0.0
-): KhronoTime(hr, min, sec, millis, micro, nano) {
+) : KhronoTime(hr, min, sec, millis, micro, nano) {
     override lateinit var nanosecond: Khrono
     override lateinit var microsecond: Khrono
     override lateinit var millisecond: Khrono

@@ -31,7 +31,8 @@ open class Khrono(open val value: Double, open val unit: KhronoUnit) {
     }
 
     override fun hashCode(): Int = HashCodeBuilder.builder(this::class).append(value).append(unit).hashCode()
-    override fun toString(): String = ToStringBuilder.builder(this::class).append("value", value).append("unit", unit).toString()
+    override fun toString(): String =
+        ToStringBuilder.builder(this::class).append("value", value).append("unit", unit).toString()
 
     fun toNever(): Double = KhronoUnit.NEVER_CONSTANT
     fun toNanos(): Double = unit.convertTo(value, KhronoUnit.NANOSECOND)

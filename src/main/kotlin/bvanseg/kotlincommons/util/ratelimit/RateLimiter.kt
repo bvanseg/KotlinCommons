@@ -24,8 +24,8 @@
 package bvanseg.kotlincommons.util.ratelimit
 
 import bvanseg.kotlincommons.io.logging.getLogger
-import bvanseg.kotlincommons.time.api.performer.every
 import bvanseg.kotlincommons.time.api.milliseconds
+import bvanseg.kotlincommons.time.api.performer.every
 import bvanseg.kotlincommons.util.event.EventBus
 import bvanseg.kotlincommons.util.ratelimit.event.BucketRefillEvent
 import bvanseg.kotlincommons.util.ratelimit.event.RateLimiterShutdownEvent
@@ -127,7 +127,7 @@ class RateLimiter constructor(
 
     fun calculateSleepTime(flag: Boolean): Long {
         val snapshotMillis = System.currentTimeMillis() % tokenBucket.refillTime
-        return (tokenBucket.refillTime - snapshotMillis) + (if(flag) tokenBucket.refillTimeOffset else 0L)
+        return (tokenBucket.refillTime - snapshotMillis) + (if (flag) tokenBucket.refillTimeOffset else 0L)
     }
 
     /**

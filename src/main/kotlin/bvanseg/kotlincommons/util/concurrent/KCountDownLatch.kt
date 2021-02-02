@@ -63,8 +63,7 @@ class KCountDownLatch(initialCount: Int) {
                     locked = false
                 }
             }
-        }
-        finally {
+        } finally {
             if (locked) {
                 lock.unlock()
             }

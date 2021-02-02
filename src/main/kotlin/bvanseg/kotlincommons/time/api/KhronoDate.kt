@@ -3,7 +3,6 @@ package bvanseg.kotlincommons.time.api
 import bvanseg.kotlincommons.time.api.operator.plus
 import bvanseg.kotlincommons.util.comparable.clamp
 import java.time.LocalDate
-import java.time.LocalTime
 
 /**
  * @author Boston Vanseghi

@@ -34,7 +34,10 @@ open class KhronoDateTime(open val date: KhronoDate, open val time: KhronoTime) 
         millisecond: Double = 0.0,
         microsecond: Double = 0.0,
         nanosecond: Double = 0.0
-    ) : this(KhronoDate(day, month.monthValue, year), KhronoTime(hour, minute, second, millisecond, microsecond, nanosecond))
+    ) : this(
+        KhronoDate(day, month.monthValue, year),
+        KhronoTime(hour, minute, second, millisecond, microsecond, nanosecond)
+    )
 
     val asNanos: Double by lazy { date.asNanos + time.asNanos }
     val asMicros: Double by lazy { date.asMicros + time.asMicros }

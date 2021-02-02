@@ -155,12 +155,14 @@ class CSV(fileName: String, vararg options: OpenOption) : AutoCloseable {
     }
 
     private fun appendItem(item: Any?) {
-        builder.append(when (item) {
-            null -> "NULL"
-            is Array<*> -> "\"${item.joinToString(", ")}\""
-            is Collection<*> -> "\"${item.joinToString(", ")}\""
-            else -> item.toString()
-        } + ",")
+        builder.append(
+            when (item) {
+                null -> "NULL"
+                is Array<*> -> "\"${item.joinToString(", ")}\""
+                is Collection<*> -> "\"${item.joinToString(", ")}\""
+                else -> item.toString()
+            } + ","
+        )
     }
 
     private fun endRow(flush: Boolean) {

@@ -64,20 +64,152 @@ open class KhronoTime(
         hour = Khrono(hourLeftover, KhronoUnit.HOUR)
     }
 
-    val asNanos: Double by lazy { Khrono.combineAll(KhronoUnit.NANOSECOND, hour, minute, second, millisecond, microsecond, nanosecond).value }
-    val asMicros: Double by lazy { Khrono.combineAll(KhronoUnit.MICROSECOND, hour, minute, second, millisecond, microsecond, nanosecond).value }
-    val asMillis: Double by lazy { Khrono.combineAll(KhronoUnit.MILLISECOND, hour, minute, second, millisecond, microsecond, nanosecond).value }
-    val asSeconds: Double by lazy { Khrono.combineAll(KhronoUnit.SECOND, hour, minute, second, millisecond, microsecond, nanosecond).value }
-    val asMinutes: Double by lazy { Khrono.combineAll(KhronoUnit.MINUTE, hour, minute, second, millisecond, microsecond, nanosecond).value }
-    val asHours: Double by lazy { Khrono.combineAll(KhronoUnit.HOUR, hour, minute, second, millisecond, microsecond, nanosecond).value }
-    val asHalfDays: Double by lazy { Khrono.combineAll(KhronoUnit.HALF_DAY, hour, minute, second, millisecond, microsecond, nanosecond).value }
-    val asDays: Double by lazy { Khrono.combineAll(KhronoUnit.DAY, hour, minute, second, millisecond, microsecond, nanosecond).value }
-    val asWeeks: Double by lazy { Khrono.combineAll(KhronoUnit.WEEK, hour, minute, second, millisecond, microsecond, nanosecond).value }
-    val asYears: Double by lazy { Khrono.combineAll(KhronoUnit.YEAR, hour, minute, second, millisecond, microsecond, nanosecond).value }
-    val asDecades: Double by lazy { Khrono.combineAll(KhronoUnit.DECADE, hour, minute, second, millisecond, microsecond, nanosecond).value }
-    val asCenturies: Double by lazy { Khrono.combineAll(KhronoUnit.CENTURY, hour, minute, second, millisecond, microsecond, nanosecond).value }
-    val asMillenniums: Double by lazy { Khrono.combineAll(KhronoUnit.MILLENNIUM, hour, minute, second, millisecond, microsecond, nanosecond).value }
+    val asNanos: Double by lazy {
+        Khrono.combineAll(
+            KhronoUnit.NANOSECOND,
+            hour,
+            minute,
+            second,
+            millisecond,
+            microsecond,
+            nanosecond
+        ).value
+    }
+    val asMicros: Double by lazy {
+        Khrono.combineAll(
+            KhronoUnit.MICROSECOND,
+            hour,
+            minute,
+            second,
+            millisecond,
+            microsecond,
+            nanosecond
+        ).value
+    }
+    val asMillis: Double by lazy {
+        Khrono.combineAll(
+            KhronoUnit.MILLISECOND,
+            hour,
+            minute,
+            second,
+            millisecond,
+            microsecond,
+            nanosecond
+        ).value
+    }
+    val asSeconds: Double by lazy {
+        Khrono.combineAll(
+            KhronoUnit.SECOND,
+            hour,
+            minute,
+            second,
+            millisecond,
+            microsecond,
+            nanosecond
+        ).value
+    }
+    val asMinutes: Double by lazy {
+        Khrono.combineAll(
+            KhronoUnit.MINUTE,
+            hour,
+            minute,
+            second,
+            millisecond,
+            microsecond,
+            nanosecond
+        ).value
+    }
+    val asHours: Double by lazy {
+        Khrono.combineAll(
+            KhronoUnit.HOUR,
+            hour,
+            minute,
+            second,
+            millisecond,
+            microsecond,
+            nanosecond
+        ).value
+    }
+    val asHalfDays: Double by lazy {
+        Khrono.combineAll(
+            KhronoUnit.HALF_DAY,
+            hour,
+            minute,
+            second,
+            millisecond,
+            microsecond,
+            nanosecond
+        ).value
+    }
+    val asDays: Double by lazy {
+        Khrono.combineAll(
+            KhronoUnit.DAY,
+            hour,
+            minute,
+            second,
+            millisecond,
+            microsecond,
+            nanosecond
+        ).value
+    }
+    val asWeeks: Double by lazy {
+        Khrono.combineAll(
+            KhronoUnit.WEEK,
+            hour,
+            minute,
+            second,
+            millisecond,
+            microsecond,
+            nanosecond
+        ).value
+    }
+    val asYears: Double by lazy {
+        Khrono.combineAll(
+            KhronoUnit.YEAR,
+            hour,
+            minute,
+            second,
+            millisecond,
+            microsecond,
+            nanosecond
+        ).value
+    }
+    val asDecades: Double by lazy {
+        Khrono.combineAll(
+            KhronoUnit.DECADE,
+            hour,
+            minute,
+            second,
+            millisecond,
+            microsecond,
+            nanosecond
+        ).value
+    }
+    val asCenturies: Double by lazy {
+        Khrono.combineAll(
+            KhronoUnit.CENTURY,
+            hour,
+            minute,
+            second,
+            millisecond,
+            microsecond,
+            nanosecond
+        ).value
+    }
+    val asMillenniums: Double by lazy {
+        Khrono.combineAll(
+            KhronoUnit.MILLENNIUM,
+            hour,
+            minute,
+            second,
+            millisecond,
+            microsecond,
+            nanosecond
+        ).value
+    }
 
-    fun toLocalTime(): LocalTime = LocalTime.of(hour.value.toInt(), minute.value.toInt(), second.value.toInt(),
-        nanosecond.value.toInt() + microsecond.toNanos().toInt())
+    fun toLocalTime(): LocalTime = LocalTime.of(
+        hour.value.toInt(), minute.value.toInt(), second.value.toInt(),
+        nanosecond.value.toInt() + microsecond.toNanos().toInt()
+    )
 }

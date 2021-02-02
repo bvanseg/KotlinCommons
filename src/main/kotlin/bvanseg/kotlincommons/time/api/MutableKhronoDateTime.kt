@@ -4,7 +4,8 @@ package bvanseg.kotlincommons.time.api
  * @author Boston Vanseghi
  * @since 2.8.0
  */
-class MutableKhronoDateTime(override val date: MutableKhronoDate, override val time: MutableKhronoTime): KhronoDateTime(date, time) {
+class MutableKhronoDateTime(override val date: MutableKhronoDate, override val time: MutableKhronoTime) :
+    KhronoDateTime(date, time) {
 
     constructor(
         day: Double,
@@ -22,7 +23,10 @@ class MutableKhronoDateTime(override val date: MutableKhronoDate, override val t
         millisecond: Double = 0.0,
         microsecond: Double = 0.0,
         nanosecond: Double = 0.0
-    ) : this(MutableKhronoDate(day, month, year), MutableKhronoTime(hour, minute, second, millisecond, microsecond, nanosecond))
+    ) : this(
+        MutableKhronoDate(day, month, year),
+        MutableKhronoTime(hour, minute, second, millisecond, microsecond, nanosecond)
+    )
 
     constructor(
         day: Double,
@@ -34,5 +38,8 @@ class MutableKhronoDateTime(override val date: MutableKhronoDate, override val t
         millisecond: Double = 0.0,
         microsecond: Double = 0.0,
         nanosecond: Double = 0.0
-    ) : this(MutableKhronoDate(day, month.monthValue, year), MutableKhronoTime(hour, minute, second, millisecond, microsecond, nanosecond))
+    ) : this(
+        MutableKhronoDate(day, month.monthValue, year),
+        MutableKhronoTime(hour, minute, second, millisecond, microsecond, nanosecond)
+    )
 }
