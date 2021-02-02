@@ -12,11 +12,23 @@ fun every(timeInMillis: Long, counterDrift: Boolean = false, cb: (KhronoPerforme
 fun every(frequency: Khrono, counterDrift: Boolean = false, cb: (KhronoPerformer) -> Unit): KhronoPerformer =
     KhronoPerformer(frequency, cb, counterDrift)
 
+/**
+ * @author Boston Vanseghi
+ * @since 2.8.0
+ */
 fun every(frequency: KhronoTime, counterDrift: Boolean = false, cb: (KhronoPerformer) -> Unit): KhronoPerformer =
     every(frequency.asMillis.toLong(), counterDrift, cb)
 
+/**
+ * @author Boston Vanseghi
+ * @since 2.8.0
+ */
 fun every(frequency: KhronoDate, counterDrift: Boolean = false, cb: (KhronoPerformer) -> Unit): KhronoPerformer =
     every(frequency.asMillis.toLong(), counterDrift, cb)
 
+/**
+ * @author Boston Vanseghi
+ * @since 2.8.0
+ */
 fun every(frequency: KhronoDateTime, counterDrift: Boolean = false, cb: (KhronoPerformer) -> Unit): KhronoPerformer =
     every(frequency.asMillis.toLong(), counterDrift, cb)
