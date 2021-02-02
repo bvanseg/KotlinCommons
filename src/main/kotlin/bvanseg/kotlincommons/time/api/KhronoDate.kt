@@ -64,6 +64,9 @@ open class KhronoDate(
 
     fun toMutable(): MutableKhronoDate = MutableKhronoDate(day.value, month.monthValue, year.value)
 
+    fun dayBefore(): KhronoDate = toMutable().apply { day -= 1 }
+    fun dayAfter(): KhronoDate = toMutable().apply { day += 1 }
+
     fun daysUntil(date: KhronoDate): Double = date.asDays - this.asDays
     fun daysSince(date: KhronoDate): Double = this.asDays - date.asDays
     fun isBetween(lowerBound: KhronoDate, upperBound: KhronoDate): Boolean = this.asMillis >= lowerBound.asMillis && this.asMillis <= upperBound.asMillis
