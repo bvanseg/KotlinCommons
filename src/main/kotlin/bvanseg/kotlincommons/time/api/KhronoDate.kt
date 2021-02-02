@@ -62,4 +62,14 @@ open class KhronoDate(
     fun toLocalDate(): LocalDate = LocalDate.of(year.value.toInt(), month.monthValue, day.value.toInt())
 
     fun toMutable(): MutableKhronoDate = MutableKhronoDate(day.value, month.monthValue, year.value)
+
+    companion object {
+        fun now(): KhronoDate = LocalDate.now().run {
+            KhronoDate(
+                d = this.dayOfMonth.toDouble(),
+                mth = this.monthValue,
+                yr = this.year.toDouble()
+            )
+        }
+    }
 }
