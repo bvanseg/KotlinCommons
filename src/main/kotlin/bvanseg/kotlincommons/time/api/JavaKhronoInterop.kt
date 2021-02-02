@@ -21,6 +21,9 @@ fun LocalTime.toKhronoTime(): KhronoTime = this.run {
     )
 }
 
+fun LocalDateTime.toKhronoDate(): KhronoDate = this.toLocalDate().toKhronoDate()
+fun LocalDateTime.toKhronoTime(): KhronoTime = this.toLocalTime().toKhronoTime()
+
 fun LocalDateTime.toKhronoDateTime(): KhronoDateTime = this.run {
     KhronoDateTime(
         day = this.dayOfMonth.toDouble(),
