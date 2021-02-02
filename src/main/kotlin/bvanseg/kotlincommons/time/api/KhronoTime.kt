@@ -61,8 +61,7 @@ open class KhronoTime(
 
         val hourTotal = hr + hourFromMin
 
-        val hourLeftover = hourTotal % KhronoUnit.HOUR.max
-        hour = Khrono(hourLeftover, KhronoUnit.HOUR)
+        hour = Khrono(hourTotal, KhronoUnit.HOUR)
     }
 
     open val asNanos: Double by lazy {
@@ -222,6 +221,13 @@ open class KhronoTime(
     fun secondsSince(time: KhronoTime): Double = this.asSeconds - time.asSeconds
     fun minutesSince(time: KhronoTime): Double = this.asMinutes - time.asMinutes
     fun hoursSince(time: KhronoTime): Double = this.asHours - time.asHours
+
+    fun nanosecondsUntil(time: KhronoTime): Double = time.asNanos - this.asNanos
+    fun microsecondsUntil(time: KhronoTime): Double = time.asMicros - this.asMicros
+    fun millisecondsUntil(time: KhronoTime): Double = time.asMillis - this.asMillis
+    fun secondsUntil(time: KhronoTime): Double = time.asSeconds - this.asSeconds
+    fun minutesUntil(time: KhronoTime): Double = time.asMinutes - this.asMinutes
+    fun hoursUntil(time: KhronoTime): Double = time.asHours - this.asHours
 
     override fun toString(): String = "${hour.value.toLong()}:${minute.value.toLong()}:${second.value.toLong()}.${millisecond.value.toLong()}.${microsecond.value.toLong() * nanosecond.value.toLong()}"
 
