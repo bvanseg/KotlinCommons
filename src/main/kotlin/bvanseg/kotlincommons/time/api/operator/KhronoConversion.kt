@@ -1,8 +1,8 @@
 package bvanseg.kotlincommons.time.api.operator
 
-import bvanseg.kotlincommons.time.api.KDate
-import bvanseg.kotlincommons.time.api.KDateTime
-import bvanseg.kotlincommons.time.api.KTime
+import bvanseg.kotlincommons.time.api.KhronoDate
+import bvanseg.kotlincommons.time.api.KhronoDateTime
+import bvanseg.kotlincommons.time.api.KhronoTime
 import bvanseg.kotlincommons.time.api.Khrono
 import bvanseg.kotlincommons.time.api.KhronoUnit
 
@@ -11,5 +11,5 @@ infix fun Khrono.into(unit: KhronoUnit): Khrono {
     return Khrono(newValue, unit)
 }
 
-operator fun KDate.plus(other: KTime) = KDateTime(this, other)
-operator fun KTime.plus(other: KDate) = KDateTime(other, this)
+operator fun KhronoDate.plus(other: KhronoTime) = KhronoDateTime(this, other)
+operator fun KhronoTime.plus(other: KhronoDate) = KhronoDateTime(other, this)

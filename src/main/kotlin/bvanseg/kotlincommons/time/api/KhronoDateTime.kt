@@ -4,13 +4,13 @@ package bvanseg.kotlincommons.time.api
  * @author Boston Vanseghi
  * @since 2.8.0
  */
-open class KDateTime(open val date: KDate, open val time: KTime) {
+open class KhronoDateTime(open val date: KhronoDate, open val time: KhronoTime) {
 
     constructor(
         day: Double,
         month: Int,
         year: Double
-    ) : this(KDate(day, month, year), KTime())
+    ) : this(KhronoDate(day, month, year), KhronoTime())
 
     constructor(
         day: Double,
@@ -22,11 +22,11 @@ open class KDateTime(open val date: KDate, open val time: KTime) {
         millisecond: Double = 0.0,
         microsecond: Double = 0.0,
         nanosecond: Double = 0.0
-    ) : this(KDate(day, month, year), KTime(hour, minute, second, millisecond, microsecond, nanosecond))
+    ) : this(KhronoDate(day, month, year), KhronoTime(hour, minute, second, millisecond, microsecond, nanosecond))
 
     constructor(
         day: Double,
-        month: KMonth,
+        month: KhronoMonth,
         year: Double,
         hour: Double = 0.0,
         minute: Double = 0.0,
@@ -34,7 +34,7 @@ open class KDateTime(open val date: KDate, open val time: KTime) {
         millisecond: Double = 0.0,
         microsecond: Double = 0.0,
         nanosecond: Double = 0.0
-    ) : this(KDate(day, month.monthValue, year), KTime(hour, minute, second, millisecond, microsecond, nanosecond))
+    ) : this(KhronoDate(day, month.monthValue, year), KhronoTime(hour, minute, second, millisecond, microsecond, nanosecond))
 
     val asNanos: Double by lazy { date.asNanos + time.asNanos }
     val asMicros: Double by lazy { date.asMicros + time.asMicros }

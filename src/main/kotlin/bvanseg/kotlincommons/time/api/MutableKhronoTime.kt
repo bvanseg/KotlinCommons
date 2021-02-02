@@ -4,14 +4,14 @@ package bvanseg.kotlincommons.time.api
  * @author Boston Vanseghi
  * @since 2.8.0
  */
-class MutableKTime(
+class MutableKhronoTime(
     hr: Double = 0.0,
     min: Double = 0.0,
     sec: Double = 0.0,
     millis: Double = 0.0,
     micro: Double = 0.0,
     nano: Double = 0.0
-): KTime(hr, min, sec, millis, micro, nano) {
+): KhronoTime(hr, min, sec, millis, micro, nano) {
     override lateinit var nanosecond: Khrono
     override lateinit var microsecond: Khrono
     override lateinit var millisecond: Khrono

@@ -7,7 +7,7 @@ package bvanseg.kotlincommons.time.api
 // TODO: Add support for AM/PM.
 // TODO: Add support for timezones.
 // TODO: Double-check whether or not negatives work.
-open class KTime(
+open class KhronoTime(
     hr: Double = 0.0,
     min: Double = 0.0,
     sec: Double = 0.0,

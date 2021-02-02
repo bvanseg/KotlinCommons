@@ -4,13 +4,13 @@ package bvanseg.kotlincommons.time.api
  * @author Boston Vanseghi
  * @since 2.8.0
  */
-class MutableKDateTime(override val date: MutableKDate, override val time: MutableKTime): KDateTime(date, time) {
+class MutableKhronoDateTime(override val date: MutableKhronoDate, override val time: MutableKhronoTime): KhronoDateTime(date, time) {
 
     constructor(
         day: Double,
         month: Int,
         year: Double
-    ) : this(MutableKDate(day, month, year), MutableKTime())
+    ) : this(MutableKhronoDate(day, month, year), MutableKhronoTime())
 
     constructor(
         day: Double,
@@ -22,11 +22,11 @@ class MutableKDateTime(override val date: MutableKDate, override val time: Mutab
         millisecond: Double = 0.0,
         microsecond: Double = 0.0,
         nanosecond: Double = 0.0
-    ) : this(MutableKDate(day, month, year), MutableKTime(hour, minute, second, millisecond, microsecond, nanosecond))
+    ) : this(MutableKhronoDate(day, month, year), MutableKhronoTime(hour, minute, second, millisecond, microsecond, nanosecond))
 
     constructor(
         day: Double,
-        month: KMonth,
+        month: KhronoMonth,
         year: Double,
         hour: Double = 0.0,
         minute: Double = 0.0,
@@ -34,5 +34,5 @@ class MutableKDateTime(override val date: MutableKDate, override val time: Mutab
         millisecond: Double = 0.0,
         microsecond: Double = 0.0,
         nanosecond: Double = 0.0
-    ) : this(MutableKDate(day, month.monthValue, year), MutableKTime(hour, minute, second, millisecond, microsecond, nanosecond))
+    ) : this(MutableKhronoDate(day, month.monthValue, year), MutableKhronoTime(hour, minute, second, millisecond, microsecond, nanosecond))
 }

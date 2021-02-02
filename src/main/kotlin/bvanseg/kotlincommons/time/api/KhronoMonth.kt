@@ -6,7 +6,7 @@ import bvanseg.kotlincommons.util.comparable.clamp
  * @author Boston Vanseghi
  * @since 2.8.0
  */
-enum class KMonth(val monthValue: Int, val days: Int) {
+enum class KhronoMonth(val monthValue: Int, val days: Int) {
     JANUARY(1, 31),
     FEBRUARY(2, 28),
     MARCH(3, 31),
@@ -21,7 +21,7 @@ enum class KMonth(val monthValue: Int, val days: Int) {
     DECEMBER(12, 31);
 
     companion object {
-        fun getFromDayOfYear(dayOfYear: Int): KMonth {
+        fun getFromDayOfYear(dayOfYear: Int): KhronoMonth {
             var d = clamp(dayOfYear, 1, 365)
             var month = JANUARY
 
@@ -33,7 +33,7 @@ enum class KMonth(val monthValue: Int, val days: Int) {
             return month
         }
 
-        fun getDaysUpTo(month: KMonth): Int {
+        fun getDaysUpTo(month: KhronoMonth): Int {
             var d = 0
             var currentMonth = JANUARY
 
