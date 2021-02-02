@@ -2,6 +2,8 @@ package bvanseg.kotlincommons.time.api
 
 import bvanseg.kotlincommons.time.api.operator.plus
 import bvanseg.kotlincommons.util.comparable.clamp
+import java.time.LocalDate
+import java.time.LocalTime
 
 /**
  * @author Boston Vanseghi
@@ -57,4 +59,6 @@ open class KhronoDate(
     val asDecades: Double by lazy { Khrono.combineAll(KhronoUnit.DECADE, day, monthKhrono, year).value }
     val asCenturies: Double by lazy { Khrono.combineAll(KhronoUnit.CENTURY, day, monthKhrono, year).value }
     val asMillenniums: Double by lazy { Khrono.combineAll(KhronoUnit.MILLENNIUM, day, monthKhrono, year).value }
+
+    fun toLocalDate(): LocalDate = LocalDate.of(year.value.toInt(), month.monthValue, day.value.toInt())
 }
