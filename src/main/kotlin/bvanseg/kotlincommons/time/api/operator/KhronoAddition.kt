@@ -25,6 +25,8 @@ operator fun Khrono.plus(other: Khrono): Khrono {
     }
 }
 
+operator fun Khrono.plus(other: Number): Khrono = Khrono(this.value + other.toDouble(), this.unit)
+
 /*
     MUTABLE
  */
