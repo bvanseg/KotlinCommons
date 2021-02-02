@@ -223,6 +223,8 @@ open class KhronoTime(
     fun minutesSince(time: KhronoTime): Double = this.asMinutes - time.asMinutes
     fun hoursSince(time: KhronoTime): Double = this.asHours - time.asHours
 
+    override fun toString(): String = "${hour.value.toLong()}:${minute.value.toLong()}:${second.value.toLong()}.${millisecond.value.toLong()}.${microsecond.value.toLong() * nanosecond.value.toLong()}"
+
     companion object {
         fun now(): KhronoTime = LocalTime.now().run {
             KhronoTime(
