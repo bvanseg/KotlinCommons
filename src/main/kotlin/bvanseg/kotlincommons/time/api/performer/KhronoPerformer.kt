@@ -1,5 +1,7 @@
-package bvanseg.kotlincommons.time.api
+package bvanseg.kotlincommons.time.api.performer
 
+import bvanseg.kotlincommons.time.api.Khrono
+import bvanseg.kotlincommons.time.api.milliseconds
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch

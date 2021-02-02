@@ -1,5 +1,6 @@
 package bvanseg.kotlincommons.time.api
 
+import bvanseg.kotlincommons.time.api.operator.rangeTo
 import bvanseg.kotlincommons.util.project.Experimental
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test

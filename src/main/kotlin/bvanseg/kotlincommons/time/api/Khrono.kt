@@ -11,7 +11,7 @@ import java.time.temporal.ChronoUnit
  * @author Boston Vanseghi
  * @since 2.7.0
  */
-class Khrono(var value: Double, var unit: KhronoUnit) {
+open class Khrono(open val value: Double, open val unit: KhronoUnit) {
 
     init {
         when {
@@ -52,6 +52,8 @@ class Khrono(var value: Double, var unit: KhronoUnit) {
     fun toDuration(): Duration = Duration.of(this.convertTo(KhronoUnit.NANOSECOND).toLong(), ChronoUnit.NANOS)
 
     fun convertTo(otherUnit: KhronoUnit) = this.unit.convertTo(this.value, otherUnit)
+
+    fun toMutable() = MutableKhrono(value, unit)
 
     companion object {
         val NEVER = Khrono(KhronoUnit.NEVER_CONSTANT, KhronoUnit.NEVER)

@@ -21,7 +21,7 @@ import java.time.temporal.ChronoUnit
  * is a sub-unit of a minute, and it takes 60 seconds to make up 1 minute, therefore, the maximum number of cycles for
  * the second is 60.
  *
- * Note, that this only applies to non-calendar units. Calendar units such as days default to 1.
+ * Note, that the above only applies to non-calendar units. Calendar units such as days default to 1.
  *
  * @author Boston Vanseghi
  * @since 2.7.0

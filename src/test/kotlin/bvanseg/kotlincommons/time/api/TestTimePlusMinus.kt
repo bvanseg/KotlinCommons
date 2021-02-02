@@ -1,5 +1,7 @@
 package bvanseg.kotlincommons.time.api
 
+import bvanseg.kotlincommons.time.api.operator.plus
+import bvanseg.kotlincommons.time.api.operator.minus
 import bvanseg.kotlincommons.util.project.Experimental
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -10,12 +12,12 @@ class TestTimePlusMinus {
     @Test
     fun testKTimePlus() {
         // GIVEN
-        val oneMinute = 1.minutes
-        val oneSecond = 1.seconds
+        val oneMinute: MutableKhrono = 1.minutes.toMutable()
+        val oneSecond: MutableKhrono = 1.seconds.toMutable()
 
         // WHEN
-        val oneMinuteOneSecond = oneMinute + oneSecond
-        val oneMinuteOneSecondAlt = oneSecond + oneMinute
+        val oneMinuteOneSecond: MutableKhrono = oneMinute + oneSecond
+        val oneMinuteOneSecondAlt: MutableKhrono = oneSecond + oneMinute
 
         // THEN
         assertEquals(61.0, oneMinuteOneSecond.value)
@@ -32,7 +34,7 @@ class TestTimePlusMinus {
     @Test
     fun testKTimeNumberPlus() {
         // GIVEN
-        val time = 60.seconds
+        val time: MutableKhrono = 60.seconds.toMutable()
 
         // WHEN
         // THEN
@@ -42,7 +44,7 @@ class TestTimePlusMinus {
     @Test
     fun testKTimeNumberPlusAssign() {
         // GIVEN
-        val time = 60.seconds
+        var time: MutableKhrono = 60.seconds.toMutable()
 
         // WHEN
         time += 1
@@ -54,11 +56,11 @@ class TestTimePlusMinus {
     @Test
     fun testKTimeMinus() {
         // GIVEN
-        val oneMinute = 1.minutes
-        val oneSecond = 1.seconds
+        val oneMinute: MutableKhrono = 1.minutes.toMutable()
+        val oneSecond: MutableKhrono = 1.seconds.toMutable()
 
         // WHEN
-        val oneMinuteOneSecond = oneMinute - oneSecond
+        val oneMinuteOneSecond: MutableKhrono = oneMinute - oneSecond
 
         // THEN
         assertEquals(59.0, oneMinuteOneSecond.value)
@@ -70,7 +72,7 @@ class TestTimePlusMinus {
     @Test
     fun testKTimeNumberMinus() {
         // GIVEN
-        val time = 60.seconds
+        val time: MutableKhrono = 60.seconds.toMutable()
 
         // WHEN
         // THEN
@@ -80,7 +82,7 @@ class TestTimePlusMinus {
     @Test
     fun testKTimeNumberMinusAssign() {
         // GIVEN
-        val time = 60.seconds
+        var time: MutableKhrono = 60.seconds.toMutable()
 
         // WHEN
         time -= 1
