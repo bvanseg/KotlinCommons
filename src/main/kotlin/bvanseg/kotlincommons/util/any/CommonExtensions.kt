@@ -35,7 +35,7 @@ import java.util.Optional
  * @author Boston Vanseghi
  * @since 2.0.1
  */
-fun <T> T.toOptional(): Optional<T> = Optional.of(this)
+fun <T : Any> T.toOptional(): Optional<T> = Optional.of(this)
 
 /**
  * Gets the package path of the current class, optionally with a [depth] limit.
