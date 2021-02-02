@@ -39,17 +39,17 @@ open class KhronoDateTime(open val date: KhronoDate, open val time: KhronoTime) 
         KhronoTime(hour, minute, second, millisecond, microsecond, nanosecond)
     )
 
-    val asNanos: Double by lazy { date.asNanos + time.asNanos }
-    val asMicros: Double by lazy { date.asMicros + time.asMicros }
-    val asMillis: Double by lazy { date.asMillis + time.asMillis }
-    val asSeconds: Double by lazy { date.asSeconds + time.asSeconds }
-    val asMinutes: Double by lazy { date.asMinutes + time.asMinutes }
-    val asHours: Double by lazy { date.asHours + time.asHours }
-    val asHalfDays: Double by lazy { date.asHalfDays + time.asHalfDays }
-    val asDays: Double by lazy { date.asDays + time.asDays }
-    val asWeeks: Double by lazy { date.asWeeks + time.asWeeks }
-    val asYears: Double by lazy { date.asYears + time.asYears }
-    val asDecades: Double by lazy { date.asDecades + time.asDecades }
-    val asCenturies: Double by lazy { date.asCenturies + time.asCenturies }
-    val asMillenniums: Double by lazy { date.asMillenniums + time.asMillenniums }
+    open val asNanos: Double by lazy { date.asNanos + time.asNanos }
+    open val asMicros: Double by lazy { date.asMicros + time.asMicros }
+    open val asMillis: Double by lazy { date.asMillis + time.asMillis }
+    open val asSeconds: Double by lazy { date.asSeconds + time.asSeconds }
+    open val asMinutes: Double by lazy { date.asMinutes + time.asMinutes }
+    open val asHours: Double by lazy { date.asHours + time.asHours }
+    open val asHalfDays: Double by lazy { date.asHalfDays + time.asHalfDays }
+    open val asDays: Double by lazy { date.asDays + time.asDays }
+    open val asWeeks: Double by lazy { date.asWeeks + time.asWeeks }
+    open val asYears: Double by lazy { date.asYears + time.asYears }
+    open val asDecades: Double by lazy { date.asDecades + time.asDecades }
+    open val asCenturies: Double by lazy { date.asCenturies + time.asCenturies }
+    open val asMillenniums: Double by lazy { date.asMillenniums + time.asMillenniums }
 }

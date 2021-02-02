@@ -65,7 +65,7 @@ open class KhronoTime(
         hour = Khrono(hourLeftover, KhronoUnit.HOUR)
     }
 
-    val asNanos: Double by lazy {
+    open val asNanos: Double by lazy {
         Khrono.combineAll(
             KhronoUnit.NANOSECOND,
             hour,
@@ -76,7 +76,7 @@ open class KhronoTime(
             nanosecond
         ).value
     }
-    val asMicros: Double by lazy {
+    open val asMicros: Double by lazy {
         Khrono.combineAll(
             KhronoUnit.MICROSECOND,
             hour,
@@ -87,7 +87,7 @@ open class KhronoTime(
             nanosecond
         ).value
     }
-    val asMillis: Double by lazy {
+    open val asMillis: Double by lazy {
         Khrono.combineAll(
             KhronoUnit.MILLISECOND,
             hour,
@@ -98,7 +98,7 @@ open class KhronoTime(
             nanosecond
         ).value
     }
-    val asSeconds: Double by lazy {
+    open val asSeconds: Double by lazy {
         Khrono.combineAll(
             KhronoUnit.SECOND,
             hour,
@@ -109,7 +109,7 @@ open class KhronoTime(
             nanosecond
         ).value
     }
-    val asMinutes: Double by lazy {
+    open val asMinutes: Double by lazy {
         Khrono.combineAll(
             KhronoUnit.MINUTE,
             hour,
@@ -120,7 +120,7 @@ open class KhronoTime(
             nanosecond
         ).value
     }
-    val asHours: Double by lazy {
+    open val asHours: Double by lazy {
         Khrono.combineAll(
             KhronoUnit.HOUR,
             hour,
@@ -131,7 +131,7 @@ open class KhronoTime(
             nanosecond
         ).value
     }
-    val asHalfDays: Double by lazy {
+    open val asHalfDays: Double by lazy {
         Khrono.combineAll(
             KhronoUnit.HALF_DAY,
             hour,
@@ -142,7 +142,7 @@ open class KhronoTime(
             nanosecond
         ).value
     }
-    val asDays: Double by lazy {
+    open val asDays: Double by lazy {
         Khrono.combineAll(
             KhronoUnit.DAY,
             hour,
@@ -153,7 +153,7 @@ open class KhronoTime(
             nanosecond
         ).value
     }
-    val asWeeks: Double by lazy {
+    open val asWeeks: Double by lazy {
         Khrono.combineAll(
             KhronoUnit.WEEK,
             hour,
@@ -164,7 +164,7 @@ open class KhronoTime(
             nanosecond
         ).value
     }
-    val asYears: Double by lazy {
+    open val asYears: Double by lazy {
         Khrono.combineAll(
             KhronoUnit.YEAR,
             hour,
@@ -175,7 +175,7 @@ open class KhronoTime(
             nanosecond
         ).value
     }
-    val asDecades: Double by lazy {
+    open val asDecades: Double by lazy {
         Khrono.combineAll(
             KhronoUnit.DECADE,
             hour,
@@ -186,7 +186,7 @@ open class KhronoTime(
             nanosecond
         ).value
     }
-    val asCenturies: Double by lazy {
+    open val asCenturies: Double by lazy {
         Khrono.combineAll(
             KhronoUnit.CENTURY,
             hour,
@@ -197,7 +197,7 @@ open class KhronoTime(
             nanosecond
         ).value
     }
-    val asMillenniums: Double by lazy {
+    open val asMillenniums: Double by lazy {
         Khrono.combineAll(
             KhronoUnit.MILLENNIUM,
             hour,

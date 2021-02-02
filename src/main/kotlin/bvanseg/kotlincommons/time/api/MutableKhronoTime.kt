@@ -58,4 +58,31 @@ class MutableKhronoTime(
         val hourLeftover = hourTotal % KhronoUnit.HOUR.max
         hour = Khrono(hourLeftover, KhronoUnit.HOUR)
     }
+
+    override val asNanos: Double
+        get() = Khrono.combineAll(KhronoUnit.NANOSECOND, hour, minute, second, millisecond, microsecond, nanosecond).value
+    override val asMicros: Double
+        get() = Khrono.combineAll(KhronoUnit.MICROSECOND, hour, minute, second, millisecond, microsecond, nanosecond).value
+    override val asMillis: Double
+        get() = Khrono.combineAll(KhronoUnit.MILLISECOND, hour, minute, second, millisecond, microsecond, nanosecond).value
+    override val asSeconds: Double
+        get() = Khrono.combineAll(KhronoUnit.SECOND, hour, minute, second, millisecond, microsecond, nanosecond).value
+    override val asMinutes: Double
+        get() = Khrono.combineAll(KhronoUnit.MINUTE, hour, minute, second, millisecond, microsecond, nanosecond).value
+    override val asHours: Double
+        get() = Khrono.combineAll(KhronoUnit.HOUR, hour, minute, second, millisecond, microsecond, nanosecond).value
+    override val asHalfDays: Double
+        get() = Khrono.combineAll(KhronoUnit.HALF_DAY, hour, minute, second, millisecond, microsecond, nanosecond).value
+    override val asDays: Double
+        get() = Khrono.combineAll(KhronoUnit.DAY, hour, minute, second, millisecond, microsecond, nanosecond).value
+    override val asWeeks: Double
+        get() = Khrono.combineAll(KhronoUnit.WEEK, hour, minute, second, millisecond, microsecond, nanosecond).value
+    override val asYears: Double
+        get() = Khrono.combineAll(KhronoUnit.YEAR, hour, minute, second, millisecond, microsecond, nanosecond).value
+    override val asDecades: Double
+        get() = Khrono.combineAll(KhronoUnit.DECADE, hour, minute, second, millisecond, microsecond, nanosecond).value
+    override val asCenturies: Double
+        get() = Khrono.combineAll(KhronoUnit.CENTURY, hour, minute, second, millisecond, microsecond, nanosecond).value
+    override val asMillenniums: Double
+        get() = Khrono.combineAll(KhronoUnit.MILLENNIUM, hour, minute, second, millisecond, microsecond, nanosecond).value
 }
