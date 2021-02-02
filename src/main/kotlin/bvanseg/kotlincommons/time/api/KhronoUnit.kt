@@ -26,21 +26,21 @@ import java.time.temporal.ChronoUnit
  * @author Boston Vanseghi
  * @since 2.7.0
  */
-enum class KhronoUnit(val max: Long = 1) {
+enum class KhronoUnit(val max: Double = 1.0, val calendarUnit: Double = 1.0) {
     NEVER,
-    NANOSECOND(1000),
-    MICROSECOND(1000),
-    MILLISECOND(1000),
-    SECOND(60),
-    MINUTE(60),
-    HOUR(24),
-    HALF_DAY,
-    DAY,
-    WEEK,
-    YEAR,
-    DECADE,
-    CENTURY,
-    MILLENNIUM,
+    NANOSECOND(1000.0),
+    MICROSECOND(1000.0),
+    MILLISECOND(1000.0),
+    SECOND(60.0),
+    MINUTE(60.0),
+    HOUR(24.0),
+    HALF_DAY(2.0, calendarUnit = 23.933333333333333333 / 2.0), // Calendar unit relative to hours
+    DAY(7.0, calendarUnit = 23.933333333333333333), // Calendar unit relative to hours
+    WEEK(3.999999999999912, calendarUnit = 7.609212479166666666666), // Calendar unit relative to days
+    YEAR(10.0, calendarUnit = 365.242199), // Calendar unit relative to days
+    DECADE(10.0, calendarUnit = 10 * YEAR.calendarUnit),
+    CENTURY(10.0, calendarUnit = 100 * YEAR.calendarUnit),
+    MILLENNIUM(calendarUnit = 1000 * YEAR.calendarUnit),
     FOREVER;
 
     companion object {
