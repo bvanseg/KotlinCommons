@@ -28,15 +28,6 @@ import java.nio.ByteBuffer
 import java.util.UUID
 
 /**
- * Reads two [Byte]s from the [ByteBuffer].
- *
- * @author Boston Vanseghi
- * @since 2.7.0
- */
-@Deprecated("Deprecated due to implementation being too specific.", ReplaceWith("getBytes(this.short.toInt())"))
-fun ByteBuffer.getBytes(): ByteArray = getBytes(this.short.toInt())
-
-/**
  * Reads a given [size] of [Byte]s from the [ByteBuffer].
  *
  * @param size The number of [Byte]s to read from the [ByteBuffer].
