@@ -69,9 +69,10 @@ class HashCodeBuilder private constructor() {
 
     companion object {
         @JvmStatic
-        fun builder(obj: Any) = builder(obj::class)
-
-        @JvmStatic
-        fun builder(clazz: KClass<*>) = HashCodeBuilder().append(clazz.simpleName)
+        fun builder(kclass: KClass<*>? = null) = HashCodeBuilder().also { builder ->
+            if (kclass != null) {
+                builder.append(kclass.simpleName)
+            }
+        }
     }
 }
