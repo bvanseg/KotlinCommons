@@ -66,6 +66,8 @@ open class KhronoDate(
     fun daysUntil(date: KhronoDate): Double = date.asDays - this.asDays
     fun daysSince(date: KhronoDate): Double = this.asDays - date.asDays
 
+    override fun toString(): String = "${day.value.toLong()}/${month.monthValue}/${year.value.toLong()}"
+
     companion object {
         fun now(): KhronoDate = LocalDate.now().run {
             KhronoDate(
