@@ -1,5 +1,6 @@
 package bvanseg.kotlincommons.time.api
 
+import bvanseg.kotlincommons.time.api.operator.minus
 import bvanseg.kotlincommons.time.api.operator.plus
 import bvanseg.kotlincommons.util.comparable.clamp
 import java.time.LocalDate
@@ -66,9 +67,10 @@ open class KhronoDate(
     fun daysUntil(date: KhronoDate): Double = date.asDays - this.asDays
     fun daysSince(date: KhronoDate): Double = this.asDays - date.asDays
 
-    override fun toString(): String = "${day.value.toLong()}/${month.monthValue}/${year.value.toLong()}"
+    override fun toString(): String = "${month.monthValue}/${day.value.toLong()}/${year.value.toLong()}"
 
     companion object {
+        fun yesterday(): KhronoDate = now().toMutable().apply { day -= 1 }
         fun now(): KhronoDate = LocalDate.now().run {
             KhronoDate(
                 d = this.dayOfMonth.toDouble(),
@@ -76,5 +78,6 @@ open class KhronoDate(
                 yr = this.year.toDouble()
             )
         }
+        fun tomorrow(): KhronoDate = now().toMutable().apply { day += 1 }
     }
 }
