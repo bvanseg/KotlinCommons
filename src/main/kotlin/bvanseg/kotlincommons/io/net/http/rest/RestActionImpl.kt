@@ -47,6 +47,7 @@ import java.util.*
  * @author Boston Vanseghi
  * @since 2.3.0
  */
+@Suppress("UNCHECKED_CAST")
 open class RestActionImpl<T>(
     private val request: HttpRequest,
     private val type: Class<T>,
