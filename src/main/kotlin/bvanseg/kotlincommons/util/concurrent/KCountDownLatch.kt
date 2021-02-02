@@ -51,10 +51,8 @@ class KCountDownLatch(initialCount: Int) {
         try {
             if (count > 0) {
                 suspendCancellableCoroutine<Unit> { cont ->
-                    println("test 1")
                     continuations += cont
                     cont.invokeOnCancellation {
-                        println("test 2")
                         if (cont.isCancelled) {
                             lock.withLock {
                                 continuations -= cont
