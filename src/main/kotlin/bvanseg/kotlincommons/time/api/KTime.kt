@@ -68,4 +68,11 @@ class KTime(
     val asSeconds: Double by lazy { Khrono.combineAll(KhronoUnit.SECOND, hour, minute, second, millisecond, microsecond, nanosecond).value }
     val asMinutes: Double by lazy { Khrono.combineAll(KhronoUnit.MINUTE, hour, minute, second, millisecond, microsecond, nanosecond).value }
     val asHours: Double by lazy { Khrono.combineAll(KhronoUnit.HOUR, hour, minute, second, millisecond, microsecond, nanosecond).value }
+    val asHalfDays: Double by lazy { Khrono.combineAll(KhronoUnit.HALF_DAY, hour, minute, second, millisecond, microsecond, nanosecond).value }
+    val asDays: Double by lazy { Khrono.combineAll(KhronoUnit.DAY, hour, minute, second, millisecond, microsecond, nanosecond).value }
+    val asWeeks: Double by lazy { Khrono.combineAll(KhronoUnit.WEEK, hour, minute, second, millisecond, microsecond, nanosecond).value }
+    val asYears: Double by lazy { Khrono.combineAll(KhronoUnit.YEAR, hour, minute, second, millisecond, microsecond, nanosecond).value }
+    val asDecades: Double by lazy { Khrono.combineAll(KhronoUnit.DECADE, hour, minute, second, millisecond, microsecond, nanosecond).value }
+    val asCenturies: Double by lazy { Khrono.combineAll(KhronoUnit.CENTURY, hour, minute, second, millisecond, microsecond, nanosecond).value }
+    val asMillenniums: Double by lazy { Khrono.combineAll(KhronoUnit.MILLENNIUM, hour, minute, second, millisecond, microsecond, nanosecond).value }
 }
