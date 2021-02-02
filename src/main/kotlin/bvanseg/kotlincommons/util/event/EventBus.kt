@@ -25,10 +25,14 @@ package bvanseg.kotlincommons.util.event
 
 import bvanseg.kotlincommons.io.logging.getLogger
 import bvanseg.kotlincommons.reflect.getKClass
+import bvanseg.kotlincommons.time.api.Khrono
+import bvanseg.kotlincommons.util.any.delay
 import bvanseg.kotlincommons.util.concurrent.KCountDownLatch
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.sendBlocking
+import kotlinx.coroutines.launch
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.CountDownLatch
 import kotlin.reflect.full.findAnnotation
@@ -57,6 +61,7 @@ class EventBus {
     var isEnabled = true
 
     @Suppress("EXPERIMENTAL_API_USAGE")
+    @Deprecated("Deprecated due to instability of channels in Kotlin, will be removed in KC 2.8.1.")
     val eventChannel: BroadcastChannel<Any> by lazy {
         BroadcastChannel(Channel.BUFFERED)
     }
@@ -234,6 +239,19 @@ class EventBus {
                 }
             }
         }
+    }
+
+    /**
+     * Schedules an event to fire after the given [Khrono] time.
+     *
+     * @param event The event to fire.
+     * @param delay The [Khrono] delay before the event is fired.
+     *
+     * @return A [kotlinx.coroutines.Job] of the scheduled event fire, which can be cancelled.
+     */
+    fun scheduleFire(event: Any, delay: Khrono) = GlobalScope.launch {
+        delay(delay)
+        this@EventBus.fire(event)
     }
 
     /**
