@@ -1,6 +1,7 @@
 package bvanseg.kotlincommons.time.api
 
 import java.time.LocalTime
+import bvanseg.kotlincommons.time.api.operator.minus
 
 /**
  * @author Boston Vanseghi
@@ -214,6 +215,13 @@ open class KhronoTime(
     )
 
     fun toMutable(): MutableKhronoTime = MutableKhronoTime(hour.value, minute.value, second.value, millisecond.value, microsecond.value, nanosecond.value)
+
+    fun nanosecondsSince(time: KhronoTime): Double = this.asNanos - time.asNanos
+    fun microsecondsSince(time: KhronoTime): Double = this.asMicros - time.asMicros
+    fun millisecondsSince(time: KhronoTime): Double = this.asMillis - time.asMillis
+    fun secondsSince(time: KhronoTime): Double = this.asSeconds - time.asSeconds
+    fun minutesSince(time: KhronoTime): Double = this.asMinutes - time.asMinutes
+    fun hoursSince(time: KhronoTime): Double = this.asHours - time.asHours
 
     companion object {
         fun now(): KhronoTime = LocalTime.now().run {
