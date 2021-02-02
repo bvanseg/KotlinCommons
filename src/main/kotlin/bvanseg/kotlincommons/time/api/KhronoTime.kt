@@ -212,4 +212,15 @@ open class KhronoTime(
         hour.value.toInt(), minute.value.toInt(), second.value.toInt(),
         nanosecond.value.toInt() + microsecond.toNanos().toInt()
     )
+
+    companion object {
+        fun now(): KhronoTime = LocalTime.now().run {
+            KhronoTime(
+                hr = this.hour.toDouble(),
+                min = this.minute.toDouble(),
+                sec = this.second.toDouble(),
+                nano = this.nano.toDouble()
+            )
+        }
+    }
 }
