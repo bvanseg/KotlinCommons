@@ -60,4 +60,6 @@ open class KhronoDate(
     val asMillenniums: Double by lazy { Khrono.combineAll(KhronoUnit.MILLENNIUM, day, monthKhrono, year).value }
 
     fun toLocalDate(): LocalDate = LocalDate.of(year.value.toInt(), month.monthValue, day.value.toInt())
+
+    fun toMutable(): MutableKhronoDate = MutableKhronoDate(day.value, month.monthValue, year.value)
 }
