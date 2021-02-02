@@ -44,6 +44,7 @@ import kotlin.reflect.jvm.javaMethod
  * @author Boston Vanseghi
  * @since 2.1.0
  */
+@Suppress("UNCHECKED_CAST")
 class EventBus {
 
     companion object {
@@ -69,6 +70,11 @@ class EventBus {
      * A collection that maps a listener class to its [InternalEvent] handlers.
      */
     private val listenerEvents: ConcurrentHashMap<Class<*>, MutableList<InternalEvent>> = ConcurrentHashMap()
+
+    /**
+     * A collection that maps an event type to its [InternalEvent] handlers.
+     */
+    val persistentCallbackListeners: ConcurrentHashMap<Class<*>, MutableList<CallbackEvent<*>>> = ConcurrentHashMap()
 
     /**
      * A collection that maps an event type to its [InternalEvent] handlers.
@@ -121,11 +127,19 @@ class EventBus {
     }
 
     /**
+     * Registers a callback listener.
      *
+     * @param persist Whether or not the given [callback] should persist as an event handler.
+     * @param callback The callback to execute upon receiving the target event.
      */
-    inline fun <reified T : Any> on(noinline callback: (T) -> Unit) {
+    inline fun <reified T : Any> on(persist: Boolean = false, noinline callback: (T) -> Unit) {
         val callbackClass = T::class.java
-        callbackListeners.computeIfAbsent(callbackClass) { mutableListOf() }.add(CallbackEvent(callback))
+
+        if (persist) {
+            persistentCallbackListeners.computeIfAbsent(callbackClass) { mutableListOf() }.add(CallbackEvent(callback))
+        } else {
+            callbackListeners.computeIfAbsent(callbackClass) { mutableListOf() }.add(CallbackEvent(callback))
+        }
     }
 
     /**
@@ -169,6 +183,23 @@ class EventBus {
                 // Walk up the superclasses and fire those, as well.
                 for (superClass in event::class.superclasses) {
                     callbackListeners.computeIfPresent(superClass.java) { _, v ->
+                        v.forEach { superCallbackEvent ->
+                            ((superCallbackEvent as CallbackEvent<Any>).invoke(event))
+                        }
+                        null
+                    }
+                }
+            }
+            null
+        }
+
+        persistentCallbackListeners.computeIfPresent(eventClass) { _, value ->
+            value.forEach { callbackEvent ->
+                ((callbackEvent as CallbackEvent<Any>).invoke(event))
+
+                // Walk up the superclasses and fire those, as well.
+                for (superClass in event::class.superclasses) {
+                    persistentCallbackListeners.computeIfPresent(superClass.java) { _, v ->
                         v.forEach { superCallbackEvent ->
                             ((superCallbackEvent as CallbackEvent<Any>).invoke(event))
                         }
@@ -244,6 +275,7 @@ class EventBus {
             listeners.clear()
         }
         listenerEvents.clear()
+        persistentCallbackListeners.clear()
         callbackListeners.clear()
         events.clear()
     }
