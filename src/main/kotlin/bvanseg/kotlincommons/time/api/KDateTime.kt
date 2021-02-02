@@ -4,7 +4,7 @@ package bvanseg.kotlincommons.time.api
  * @author Boston Vanseghi
  * @since 2.8.0
  */
-class KDateTime(val date: KDate, val time: KTime) {
+open class KDateTime(open val date: KDate, open val time: KTime) {
 
     constructor(
         day: Double,
