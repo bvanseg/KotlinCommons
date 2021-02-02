@@ -1,5 +1,7 @@
 package bvanseg.kotlincommons.time.api
 
+import java.time.LocalTime
+
 /**
  * @author Boston Vanseghi
  * @since 2.8.0
@@ -75,4 +77,7 @@ open class KhronoTime(
     val asDecades: Double by lazy { Khrono.combineAll(KhronoUnit.DECADE, hour, minute, second, millisecond, microsecond, nanosecond).value }
     val asCenturies: Double by lazy { Khrono.combineAll(KhronoUnit.CENTURY, hour, minute, second, millisecond, microsecond, nanosecond).value }
     val asMillenniums: Double by lazy { Khrono.combineAll(KhronoUnit.MILLENNIUM, hour, minute, second, millisecond, microsecond, nanosecond).value }
+
+    fun toLocalTime(): LocalTime = LocalTime.of(hour.value.toInt(), minute.value.toInt(), second.value.toInt(),
+        nanosecond.value.toInt() + microsecond.toNanos().toInt())
 }
