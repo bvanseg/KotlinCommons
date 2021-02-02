@@ -34,21 +34,28 @@ open class Khrono(open val value: Double, open val unit: KhronoUnit) {
     override fun toString(): String =
         ToStringBuilder.builder(this::class).append("value", value).append("unit", unit).toString()
 
-    fun toNever(): Double = KhronoUnit.NEVER_CONSTANT
-    fun toNanos(): Double = unit.convertTo(value, KhronoUnit.NANOSECOND)
-    fun toMicros(): Double = unit.convertTo(value, KhronoUnit.MICROSECOND)
-    fun toMillis(): Double = unit.convertTo(value, KhronoUnit.MILLISECOND)
-    fun toSeconds(): Double = unit.convertTo(value, KhronoUnit.SECOND)
-    fun toMinutes(): Double = unit.convertTo(value, KhronoUnit.MINUTE)
-    fun toHours(): Double = unit.convertTo(value, KhronoUnit.HOUR)
-    fun toHalfDays(): Double = unit.convertTo(value, KhronoUnit.HALF_DAY)
-    fun toDays(): Double = unit.convertTo(value, KhronoUnit.DAY)
-    fun toWeeks(): Double = unit.convertTo(value, KhronoUnit.WEEK)
-    fun toYears(): Double = unit.convertTo(value, KhronoUnit.YEAR)
-    fun toDecades(): Double = unit.convertTo(value, KhronoUnit.DECADE)
-    fun toCenturies(): Double = unit.convertTo(value, KhronoUnit.CENTURY)
-    fun toMillenniums(): Double = unit.convertTo(value, KhronoUnit.MILLENNIUM)
-    fun toForever(): Double = KhronoUnit.FOREVER_CONSTANT
+    open fun toNever(): Khrono = Khrono(KhronoUnit.NEVER_CONSTANT, KhronoUnit.NEVER)
+    open fun toNanos(): Khrono = Khrono(unit.convertTo(value, KhronoUnit.NANOSECOND), KhronoUnit.NANOSECOND)
+    open fun toMicros(): Khrono = Khrono(unit.convertTo(value, KhronoUnit.MICROSECOND), KhronoUnit.MICROSECOND)
+    open fun toMillis(): Khrono = Khrono(unit.convertTo(value, KhronoUnit.MILLISECOND), KhronoUnit.MILLISECOND)
+    open fun toSeconds(): Khrono = Khrono(unit.convertTo(value, KhronoUnit.SECOND), KhronoUnit.SECOND)
+    open fun toMinutes(): Khrono = Khrono(unit.convertTo(value, KhronoUnit.MINUTE), KhronoUnit.MINUTE)
+    open fun toHours(): Khrono = Khrono(unit.convertTo(value, KhronoUnit.HOUR), KhronoUnit.HOUR)
+    open fun toHalfDays(): Khrono = Khrono(unit.convertTo(value, KhronoUnit.HALF_DAY), KhronoUnit.HALF_DAY)
+    open fun toDays(): Khrono = Khrono(unit.convertTo(value, KhronoUnit.DAY), KhronoUnit.DAY)
+    open fun toWeeks(): Khrono = Khrono(unit.convertTo(value, KhronoUnit.WEEK), KhronoUnit.WEEK)
+    open fun toYears(): Khrono = Khrono(unit.convertTo(value, KhronoUnit.YEAR), KhronoUnit.YEAR)
+    open fun toDecades(): Khrono = Khrono(unit.convertTo(value, KhronoUnit.DECADE), KhronoUnit.DECADE)
+    open fun toCenturies(): Khrono = Khrono(unit.convertTo(value, KhronoUnit.CENTURY), KhronoUnit.CENTURY)
+    open fun toMillenniums(): Khrono = Khrono(unit.convertTo(value, KhronoUnit.MILLENNIUM), KhronoUnit.MILLENNIUM)
+    open fun toForever(): Khrono = Khrono(KhronoUnit.FOREVER_CONSTANT, KhronoUnit.FOREVER)
+
+    fun toByte(): Byte = value.toInt().toByte()
+    fun toShort(): Short = value.toInt().toShort()
+    fun toInt(): Int = value.toInt()
+    fun toLong(): Long = value.toLong()
+    fun toFloat(): Float = value.toFloat()
+    fun toDouble(): Double = value
 
     fun toDuration(): Duration = Duration.of(this.convertTo(KhronoUnit.NANOSECOND).toLong(), ChronoUnit.NANOS)
 

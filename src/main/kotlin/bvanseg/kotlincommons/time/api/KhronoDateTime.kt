@@ -56,12 +56,12 @@ open class KhronoDateTime(open val date: KhronoDate, open val time: KhronoTime) 
     open val asMillenniums: Double by lazy { date.asMillenniums + time.asMillenniums }
 
     fun toLocalDateTime(): LocalDateTime = LocalDateTime.of(
-        date.year.value.toInt(),
+        date.year.toInt(),
         date.month.monthValue,
-        date.day.value.toInt(),
-        time.hour.value.toInt(),
-        time.minute.value.toInt(),
-        time.second.value.toInt(),
+        date.day.toInt(),
+        time.hour.toInt(),
+        time.minute.toInt(),
+        time.second.toInt(),
         time.millisecond.toNanos().toInt() + time.microsecond.toNanos().toInt() + time.nanosecond.value.toInt()
     )
 

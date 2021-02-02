@@ -60,7 +60,7 @@ open class KhronoDate(
     open val asCenturies: Double by lazy { Khrono.combineAll(KhronoUnit.CENTURY, day, monthKhrono, year).value }
     open val asMillenniums: Double by lazy { Khrono.combineAll(KhronoUnit.MILLENNIUM, day, monthKhrono, year).value }
 
-    fun toLocalDate(): LocalDate = LocalDate.of(year.value.toInt(), month.monthValue, day.value.toInt())
+    fun toLocalDate(): LocalDate = LocalDate.of(year.toInt(), month.monthValue, day.toInt())
 
     fun toMutable(): MutableKhronoDate = MutableKhronoDate(day.value, month.monthValue, year.value)
 
@@ -71,7 +71,7 @@ open class KhronoDate(
     fun daysSince(date: KhronoDate): Double = this.asDays - date.asDays
     fun isBetween(lowerBound: KhronoDate, upperBound: KhronoDate): Boolean = this.asMillis >= lowerBound.asMillis && this.asMillis <= upperBound.asMillis
 
-    override fun toString(): String = "${month.monthValue}/${day.value.toLong()}/${year.value.toLong()}"
+    override fun toString(): String = "${month.monthValue}/${day.toLong()}/${year.toLong()}"
 
     companion object {
         fun yesterday(): KhronoDate = now().toMutable().apply { day -= 1 }

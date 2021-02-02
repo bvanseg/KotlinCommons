@@ -209,8 +209,8 @@ open class KhronoTime(
     }
 
     fun toLocalTime(): LocalTime = LocalTime.of(
-        hour.value.toInt(), minute.value.toInt(), second.value.toInt(),
-        nanosecond.value.toInt() + microsecond.toNanos().toInt()
+        hour.toInt(), minute.toInt(), second.toInt(),
+        nanosecond.toInt() + microsecond.toNanos().toInt() + millisecond.toNanos().toInt()
     )
 
     fun toMutable(): MutableKhronoTime = MutableKhronoTime(hour.value, minute.value, second.value, millisecond.value, microsecond.value, nanosecond.value)
@@ -229,7 +229,7 @@ open class KhronoTime(
     fun minutesUntil(time: KhronoTime): Double = time.asMinutes - this.asMinutes
     fun hoursUntil(time: KhronoTime): Double = time.asHours - this.asHours
 
-    override fun toString(): String = "${hour.value.toLong()}:${minute.value.toLong()}:${second.value.toLong()}.${millisecond.value.toLong()}.${microsecond.value.toLong() * nanosecond.value.toLong()}"
+    override fun toString(): String = "${hour.toLong()}:${minute.toLong()}:${second.toLong()}.${millisecond.toLong()}.${microsecond.toLong() * nanosecond.toLong()}"
 
     companion object {
         fun now(): KhronoTime = LocalTime.now().toKhronoTime()
