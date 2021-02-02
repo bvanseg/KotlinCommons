@@ -14,6 +14,7 @@ class KDate(
 ) {
     val day: Khrono
     val month: KMonth
+    val monthKhrono: Khrono
     val year: Khrono
 
     /**
@@ -34,6 +35,7 @@ class KDate(
 
         this.day = day.days
         this.month = currentMonth
+        this.monthKhrono = month.toKhrono()
         this.year = yr.years + (mth / 13)
     }
 
@@ -41,4 +43,18 @@ class KDate(
         val v = clamp(value - 1, 0, Int.MAX_VALUE)
         return KMonth.values()[v % 12]
     }
+
+    val asNanos: Double by lazy { Khrono.combineAll(KhronoUnit.NANOSECOND, day, monthKhrono, year).value }
+    val asMicros: Double by lazy { Khrono.combineAll(KhronoUnit.MICROSECOND, day, monthKhrono, year).value }
+    val asMillis: Double by lazy { Khrono.combineAll(KhronoUnit.MILLISECOND, day, monthKhrono, year).value }
+    val asSeconds: Double by lazy { Khrono.combineAll(KhronoUnit.SECOND, day, monthKhrono, year).value }
+    val asMinutes: Double by lazy { Khrono.combineAll(KhronoUnit.MINUTE, day, monthKhrono, year).value }
+    val asHours: Double by lazy { Khrono.combineAll(KhronoUnit.HOUR, day, monthKhrono, year).value }
+    val asHalfDays: Double by lazy { Khrono.combineAll(KhronoUnit.HALF_DAY, day, monthKhrono, year).value }
+    val asDays: Double by lazy { Khrono.combineAll(KhronoUnit.DAY, day, monthKhrono, year).value }
+    val asWeeks: Double by lazy { Khrono.combineAll(KhronoUnit.WEEK, day, monthKhrono, year).value }
+    val asYears: Double by lazy { Khrono.combineAll(KhronoUnit.YEAR, day, monthKhrono, year).value }
+    val asDecades: Double by lazy { Khrono.combineAll(KhronoUnit.DECADE, day, monthKhrono, year).value }
+    val asCenturies: Double by lazy { Khrono.combineAll(KhronoUnit.CENTURY, day, monthKhrono, year).value }
+    val asMillenniums: Double by lazy { Khrono.combineAll(KhronoUnit.MILLENNIUM, day, monthKhrono, year).value }
 }
