@@ -63,6 +63,12 @@ open class Khrono(open val value: Double, open val unit: KhronoUnit) {
 
     fun toMutable() = MutableKhrono(value, unit)
 
+    fun nextInterval(): Khrono {
+        val thisAsMillis = this.toMillis().toLong()
+        val snapshotMillis = System.currentTimeMillis() % thisAsMillis
+        return Khrono((thisAsMillis - snapshotMillis).toDouble(), KhronoUnit.MILLISECOND)
+    }
+
     companion object {
         val NEVER = Khrono(KhronoUnit.NEVER_CONSTANT, KhronoUnit.NEVER)
         val FOREVER = Khrono(KhronoUnit.FOREVER_CONSTANT, KhronoUnit.FOREVER)
