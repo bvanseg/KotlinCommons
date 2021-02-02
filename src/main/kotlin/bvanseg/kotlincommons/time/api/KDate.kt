@@ -7,15 +7,15 @@ import bvanseg.kotlincommons.util.comparable.clamp
  * @author Boston Vanseghi
  * @since 2.8.0
  */
-class KDate(
+open class KDate(
     d: Double = 0.0,
     mth: Int,
     yr: Double = 0.0
 ) {
-    val day: Khrono
-    val month: KMonth
-    val monthKhrono: Khrono
-    val year: Khrono
+    open val day: Khrono
+    open val month: KMonth
+    open val monthKhrono: Khrono
+    open val year: Khrono
 
     /**
      * @param d Number of days.
@@ -39,7 +39,7 @@ class KDate(
         this.year = yr.years + (mth / 13)
     }
 
-    private fun getMonthFromValue(value: Int): KMonth {
+    protected fun getMonthFromValue(value: Int): KMonth {
         val v = clamp(value - 1, 0, Int.MAX_VALUE)
         return KMonth.values()[v % 12]
     }
