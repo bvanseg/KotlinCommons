@@ -25,6 +25,7 @@ package bvanseg.kotlincommons.util.ratelimit
 
 import bvanseg.kotlincommons.io.logging.getLogger
 import bvanseg.kotlincommons.io.logging.trace
+import bvanseg.kotlincommons.time.api.Khrono
 import bvanseg.kotlincommons.util.HashCodeBuilder
 import java.util.concurrent.atomic.AtomicLong
 import java.util.concurrent.locks.ReentrantLock
@@ -38,8 +39,8 @@ import java.util.concurrent.locks.ReentrantLock
  */
 data class TokenBucket(
     val tokenLimit: Long,
-    val refillTime: Long,
-    val refillTimeOffset: Long = 0L,
+    val refillTime: Khrono,
+    val refillTimeOffset: Khrono = Khrono.EMPTY,
     private val initUpdate: Long = System.currentTimeMillis(),
     var currentTokenCount: AtomicLong = AtomicLong(tokenLimit),
     private val refreshStrategy: (TokenBucket) -> Unit = {

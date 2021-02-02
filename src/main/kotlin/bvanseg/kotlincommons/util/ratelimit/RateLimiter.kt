@@ -67,7 +67,7 @@ class RateLimiter constructor(
             if (!isRunning.get()) {
                 performer.stop()
             }
-        }.delay(initDelta).offsetMillis(tokenBucket.refillTimeOffset).execute(async = true)
+        }.delay(initDelta).offset(tokenBucket.refillTimeOffset).execute(async = true)
 
         // Used only for asynchronous tasks.
         GlobalScope.launch(Dispatchers.IO) {
@@ -125,10 +125,8 @@ class RateLimiter constructor(
         }
     }
 
-    fun calculateSleepTime(flag: Boolean): Long {
-        val snapshotMillis = System.currentTimeMillis() % tokenBucket.refillTime
-        return (tokenBucket.refillTime - snapshotMillis) + (if (flag) tokenBucket.refillTimeOffset else 0L)
-    }
+    fun calculateSleepTime(flag: Boolean): Long = tokenBucket.refillTime.nextInterval().toLong() +
+            (if (flag) tokenBucket.refillTimeOffset.toLong() else 0L)
 
     /**
      * Submits an asynchronous task to the [RateLimiter] to be executed once a token is readily available.
