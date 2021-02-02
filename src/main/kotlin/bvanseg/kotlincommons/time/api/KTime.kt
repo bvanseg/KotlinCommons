@@ -7,7 +7,7 @@ package bvanseg.kotlincommons.time.api
 // TODO: Add support for AM/PM.
 // TODO: Add support for timezones.
 // TODO: Double-check whether or not negatives work.
-class KTime(
+open class KTime(
     hr: Double = 0.0,
     min: Double = 0.0,
     sec: Double = 0.0,
@@ -15,12 +15,12 @@ class KTime(
     micro: Double = 0.0,
     nano: Double = 0.0
 ) {
-    val nanosecond: Khrono
-    val microsecond: Khrono
-    val millisecond: Khrono
-    val second: Khrono
-    val minute: Khrono
-    val hour: Khrono
+    open val nanosecond: Khrono
+    open val microsecond: Khrono
+    open val millisecond: Khrono
+    open val second: Khrono
+    open val minute: Khrono
+    open val hour: Khrono
 
     init {
         val nanoLeftover = nano % KhronoUnit.NANOSECOND.max
@@ -60,6 +60,10 @@ class KTime(
 
         val hourLeftover = hourTotal % KhronoUnit.HOUR.max
         hour = Khrono(hourLeftover, KhronoUnit.HOUR)
+    }
+
+    protected fun assignFields() {
+
     }
 
     val asNanos: Double by lazy { Khrono.combineAll(KhronoUnit.NANOSECOND, hour, minute, second, millisecond, microsecond, nanosecond).value }
