@@ -64,6 +64,8 @@ open class KhronoDate(
 
     fun toMutable(): MutableKhronoDate = MutableKhronoDate(day.value, month.monthValue, year.value)
 
+    fun daysUntil(date: KhronoDate): Double = date.asDays - this.asDays
+
     companion object {
         fun now(): KhronoDate = LocalDate.now().run {
             KhronoDate(
