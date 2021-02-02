@@ -64,4 +64,10 @@ open class KhronoDateTime(open val date: KhronoDate, open val time: KhronoTime) 
         time.second.value.toInt(),
         time.millisecond.toNanos().toInt() + time.microsecond.toNanos().toInt() + time.nanosecond.value.toInt()
     )
+
+    override fun toString(): String = "$date-$time"
+
+    companion object {
+        fun now(): KhronoDateTime = LocalDateTime.now().toKhronoDateTime()
+    }
 }
