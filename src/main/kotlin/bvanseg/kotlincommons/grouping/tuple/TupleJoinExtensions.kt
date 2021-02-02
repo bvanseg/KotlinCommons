@@ -29,7 +29,7 @@ package bvanseg.kotlincommons.grouping.tuple
  * @author Boston Vanseghi
  * @since 2.7.0
  */
-infix fun <A, B, C> Pair<A, B>.to(that: C): Triple<A, B, C> = Triple(this.first, this.second, that)
+infix fun <A, B, C> Pair<A, B>.merge(that: C): Triple<A, B, C> = Triple(this.first, this.second, that)
 
 /**
  * Allows the concatenation of a [Pair] to another [Pair] to produce a [Quad].
@@ -37,7 +37,7 @@ infix fun <A, B, C> Pair<A, B>.to(that: C): Triple<A, B, C> = Triple(this.first,
  * @author Boston Vanseghi
  * @since 2.7.0
  */
-infix fun <A, B, C, D> Pair<A, B>.to(that: Pair<C, D>): Quad<A, B, C, D> =
+infix fun <A, B, C, D> Pair<A, B>.merge(that: Pair<C, D>): Quad<A, B, C, D> =
     Quad(this.first, this.second, that.first, that.second)
 
 /**
@@ -46,4 +46,4 @@ infix fun <A, B, C, D> Pair<A, B>.to(that: Pair<C, D>): Quad<A, B, C, D> =
  * @author Boston Vanseghi
  * @since 2.7.0
  */
-infix fun <A, B, C, D> Triple<A, B, C>.to(that: D): Quad<A, B, C, D> = Quad(this.first, this.second, this.third, that)
+infix fun <A, B, C, D> Triple<A, B, C>.merge(that: D): Quad<A, B, C, D> = Quad(this.first, this.second, this.third, that)
