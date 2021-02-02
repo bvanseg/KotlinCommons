@@ -23,7 +23,7 @@
  */
 package bvanseg.kotlincommons.io.net.http
 
-import bvanseg.kotlincommons.time.api.KTime
+import bvanseg.kotlincommons.time.api.Khrono
 import bvanseg.kotlincommons.util.any.delay
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -64,11 +64,11 @@ abstract class RestAction<T> {
     fun queue(): RestAction<T> = queueImpl()
     fun queue(callback: (T) -> Unit): RestAction<T> = queueImpl(callback)
 
-    fun queueAfter(delay: KTime) = GlobalScope.launch {
+    fun queueAfter(delay: Khrono) = GlobalScope.launch {
         delay(delay)
         queueImpl()
     }
-    fun queueAfter(delay: KTime, callback: (T) -> Unit) = GlobalScope.launch {
+    fun queueAfter(delay: Khrono, callback: (T) -> Unit) = GlobalScope.launch {
         delay(delay)
         queueImpl(callback)
     }

@@ -1,6 +1,6 @@
 package bvanseg.kotlincommons.util.concurrent
 
-import bvanseg.kotlincommons.time.api.KTime
+import bvanseg.kotlincommons.time.api.Khrono
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withTimeoutOrNull
 import java.util.concurrent.locks.ReentrantLock
@@ -42,7 +42,7 @@ class KCountDownLatch(initialCount: Int) {
 
     fun getCount() = lock.withLock { count.toLong() }
 
-    suspend fun await(time: KTime): Boolean = withTimeoutOrNull(time.toMillis().toLong()) { await() } != null
+    suspend fun await(time: Khrono): Boolean = withTimeoutOrNull(time.toMillis().toLong()) { await() } != null
 
     suspend fun await() {
         var locked = true

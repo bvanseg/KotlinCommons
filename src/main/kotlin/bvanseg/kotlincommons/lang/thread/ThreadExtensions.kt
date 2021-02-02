@@ -1,5 +1,5 @@
 package bvanseg.kotlincommons.lang.thread
 
-import bvanseg.kotlincommons.time.api.KTime
+import bvanseg.kotlincommons.time.api.Khrono
 
-fun Thread.sleep(time: KTime) = Thread.sleep(time.toMillis().toLong())
+fun Thread.sleep(time: Khrono) = Thread.sleep(time.toMillis().toLong())

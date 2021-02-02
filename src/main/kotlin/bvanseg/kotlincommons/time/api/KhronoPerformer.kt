@@ -11,7 +11,7 @@ import kotlinx.coroutines.delay
 
 /**
  *
- * @param frequency The [KTime] unit representing how often the performer should execute.
+ * @param frequency The [Khrono] unit representing how often the performer should execute.
  * @param action The action to perform every [frequency].
  * @param counterDrift Whether or not the performer should avoid drifting. Because every [action] has some performance
  * overhead to execute, the time at which the action executes is offset by the previous execution's timelapse. To avoid
@@ -25,7 +25,7 @@ import kotlinx.coroutines.delay
  * @author Boston Vanseghi
  * @since 2.7.0
  */
-class KTimePerformer(val frequency: KTime, val action: (KTimePerformer) -> Unit, val counterDrift: Boolean = false) {
+class KhronoPerformer(val frequency: Khrono, val action: (KhronoPerformer) -> Unit, val counterDrift: Boolean = false) {
 
     var offset: Long = -1L
     var timeDelay: Long = -1L
@@ -47,7 +47,7 @@ class KTimePerformer(val frequency: KTime, val action: (KTimePerformer) -> Unit,
      *
      * @param date The date for the time performer to start at.
      */
-    fun startAt(date: LocalDateTime): KTimePerformer {
+    fun startAt(date: LocalDateTime): KhronoPerformer {
         val odt = OffsetDateTime.now()
         val currentMillis = odt.toInstant().toEpochMilli()
         val millisToExecuteAt = date.toInstant(odt.offset).toEpochMilli()
@@ -68,7 +68,7 @@ class KTimePerformer(val frequency: KTime, val action: (KTimePerformer) -> Unit,
      *
      * @param time The amount of time by which to offset the current action.
      */
-    fun offset(time: KTime): KTimePerformer {
+    fun offset(time: Khrono): KhronoPerformer {
         offset = time.toMillis().toLong()
         return this
     }
@@ -80,15 +80,15 @@ class KTimePerformer(val frequency: KTime, val action: (KTimePerformer) -> Unit,
      *
      * @param time The amount of time by which to delay the performer.
      */
-    fun delay(time: KTime): KTimePerformer {
+    fun delay(time: Khrono): KhronoPerformer {
 
         timeDelay = time.toMillis().toLong()
         return this
     }
 
-    fun delayMillis(millis: Long): KTimePerformer = delay(millis.milliseconds)
+    fun delayMillis(millis: Long): KhronoPerformer = delay(millis.milliseconds)
 
-    fun onException(cb: (Throwable) -> Unit): KTimePerformer {
+    fun onException(cb: (Throwable) -> Unit): KhronoPerformer {
         exceptionCallback = cb
         return this
     }
@@ -101,7 +101,7 @@ class KTimePerformer(val frequency: KTime, val action: (KTimePerformer) -> Unit,
      * @throws IllegalStateException if the provided [count] is negative.
      */
     @Throws(IllegalStateException::class)
-    fun limit(count: Long): KTimePerformer {
+    fun limit(count: Long): KhronoPerformer {
 
         if (count < 0) {
             throw IllegalStateException("Given count can not be negative: $count.")
@@ -134,7 +134,7 @@ class KTimePerformer(val frequency: KTime, val action: (KTimePerformer) -> Unit,
             }
 
             try {
-                action(this@KTimePerformer)
+                action(this@KhronoPerformer)
                 timesExecuted++
             } catch (e: Exception) {
                 exceptionCallback(e)

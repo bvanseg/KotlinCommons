@@ -4,26 +4,26 @@ package bvanseg.kotlincommons.time.api.transformer
  * @author Boston Vanseghi
  * @since 2.7.0
  */
-import bvanseg.kotlincommons.time.api.KTimeUnit
+import bvanseg.kotlincommons.time.api.KhronoUnit
 
 object WeekTransformer : KTimeTransformer {
-    override fun transform(value: Double, unit: KTimeUnit): Double {
+    override fun transform(value: Double, unit: KhronoUnit): Double {
         return when (unit) {
-            KTimeUnit.NEVER -> KTimeUnit.NEVER_CONSTANT
-            KTimeUnit.NANOSECOND -> value * 1_000_000.0 * 1000 * 60 * 60 * 24 * 7
-            KTimeUnit.MICROSECOND -> value * 1_000.0 * 1000 * 60 * 60 * 24 * 7
-            KTimeUnit.MILLISECOND -> value * 1000.0 * 60 * 60 * 24 * 7
-            KTimeUnit.SECOND -> value * 60.0 * 60 * 24 * 7
-            KTimeUnit.MINUTE -> value * 60.0 * 24 * 7
-            KTimeUnit.HOUR -> value * 24 * 7
-            KTimeUnit.HALF_DAY -> value * 7 * 2
-            KTimeUnit.DAY -> value * 7
-            KTimeUnit.WEEK -> value
-            KTimeUnit.YEAR -> (value * 7) / 365.0
-            KTimeUnit.DECADE -> (value * 7) / (365.0 * 10)
-            KTimeUnit.CENTURY -> (value * 7) / (365.0 * 100)
-            KTimeUnit.MILLENNIUM -> (value * 7) / (365.0 * 1000)
-            KTimeUnit.FOREVER -> KTimeUnit.FOREVER_CONSTANT
+            KhronoUnit.NEVER -> KhronoUnit.NEVER_CONSTANT
+            KhronoUnit.NANOSECOND -> value * 1_000_000.0 * 1000 * 60 * 60 * 24 * 7
+            KhronoUnit.MICROSECOND -> value * 1_000.0 * 1000 * 60 * 60 * 24 * 7
+            KhronoUnit.MILLISECOND -> value * 1000.0 * 60 * 60 * 24 * 7
+            KhronoUnit.SECOND -> value * 60.0 * 60 * 24 * 7
+            KhronoUnit.MINUTE -> value * 60.0 * 24 * 7
+            KhronoUnit.HOUR -> value * 24 * 7
+            KhronoUnit.HALF_DAY -> value * 7 * 2
+            KhronoUnit.DAY -> value * 7
+            KhronoUnit.WEEK -> value
+            KhronoUnit.YEAR -> (value * 7) / 365.0
+            KhronoUnit.DECADE -> (value * 7) / (365.0 * 10)
+            KhronoUnit.CENTURY -> (value * 7) / (365.0 * 100)
+            KhronoUnit.MILLENNIUM -> (value * 7) / (365.0 * 1000)
+            KhronoUnit.FOREVER -> KhronoUnit.FOREVER_CONSTANT
         }
     }
 }

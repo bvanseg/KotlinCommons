@@ -19,10 +19,10 @@ class TestTimePlusMinus {
 
         // THEN
         assertEquals(61.0, oneMinuteOneSecond.value)
-        assertEquals(KTimeUnit.SECOND, oneMinuteOneSecond.unit)
+        assertEquals(KhronoUnit.SECOND, oneMinuteOneSecond.unit)
 
         assertEquals(61.0, oneMinuteOneSecondAlt.value)
-        assertEquals(KTimeUnit.SECOND, oneMinuteOneSecondAlt.unit)
+        assertEquals(KhronoUnit.SECOND, oneMinuteOneSecondAlt.unit)
 
         assertEquals(61.0, (60.seconds + 1.seconds).value)
         assertEquals(61.0, (1.seconds + 60.seconds).value)
@@ -62,7 +62,7 @@ class TestTimePlusMinus {
 
         // THEN
         assertEquals(59.0, oneMinuteOneSecond.value)
-        assertEquals(KTimeUnit.SECOND, oneMinuteOneSecond.unit)
+        assertEquals(KhronoUnit.SECOND, oneMinuteOneSecond.unit)
 
         assertEquals(59.0, (60.seconds - 1.seconds).value)
     }

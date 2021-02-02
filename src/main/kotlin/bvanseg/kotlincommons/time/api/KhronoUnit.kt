@@ -26,7 +26,7 @@ import java.time.temporal.ChronoUnit
  * @author Boston Vanseghi
  * @since 2.7.0
  */
-enum class KTimeUnit(val max: Long = 1) {
+enum class KhronoUnit(val max: Long = 1) {
     NEVER,
     NANOSECOND(1000),
     MICROSECOND(1000),
@@ -52,11 +52,11 @@ enum class KTimeUnit(val max: Long = 1) {
      * Converts a given value to the other unit.
      *
      * @param value The numerical value to convert to the given unit.
-     * @param unit The [KTimeUnit] to convert the [value] to.
+     * @param unit The [KhronoUnit] to convert the [value] to.
      *
      * @throws IllegalArgumentException If the given [value] is NaN, infinite, or negative.
      */
-    fun convertTo(value: Double, unit: KTimeUnit): Double {
+    fun convertTo(value: Double, unit: KhronoUnit): Double {
 
         // No need to transform that which is already 0. Saves processing time.
         if (value == 0.0) return 0.0
@@ -87,8 +87,8 @@ enum class KTimeUnit(val max: Long = 1) {
         }
     }
 
-    fun getSubUnit(): KTimeUnit = values().getOrNull(this.ordinal - 1) ?: NEVER
-    fun getSuperUnit(): KTimeUnit = values().getOrNull(this.ordinal + 1) ?: FOREVER
+    fun getSubUnit(): KhronoUnit = values().getOrNull(this.ordinal - 1) ?: NEVER
+    fun getSuperUnit(): KhronoUnit = values().getOrNull(this.ordinal + 1) ?: FOREVER
 
     fun toChronoUnit(): ChronoUnit? = when(this) {
         NEVER -> null
