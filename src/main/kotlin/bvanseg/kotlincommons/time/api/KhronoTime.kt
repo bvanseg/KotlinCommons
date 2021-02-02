@@ -213,6 +213,8 @@ open class KhronoTime(
         nanosecond.value.toInt() + microsecond.toNanos().toInt()
     )
 
+    fun toMutable(): MutableKhronoTime = MutableKhronoTime(hour.value, minute.value, second.value, millisecond.value, microsecond.value, nanosecond.value)
+
     companion object {
         fun now(): KhronoTime = LocalTime.now().run {
             KhronoTime(
