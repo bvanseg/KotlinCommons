@@ -113,6 +113,11 @@ open class KhronoDateTime(open val date: KhronoDate, open val time: KhronoTime):
     }
 
     companion object {
+        fun yesterday(): KhronoDateTime = now().toMutable().apply { day -= 1 }
         fun now(): KhronoDateTime = LocalDateTime.now().toKhronoDateTime()
+        fun tomorrow(): KhronoDateTime = now().toMutable().apply { day += 1 }
+
+        fun afternoon(): KhronoDateTime = KhronoDateTime(KhronoDate.now(), KhronoTime(hr = 12.0))
+        fun midnight(): KhronoDateTime = KhronoDateTime(KhronoDate.now(), KhronoTime())
     }
 }
