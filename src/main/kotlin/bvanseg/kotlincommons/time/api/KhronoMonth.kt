@@ -45,5 +45,8 @@ enum class KhronoMonth(val monthValue: Int, val days: Int) {
         }
     }
 
+    fun previousMonth(): KhronoMonth = values().getOrNull(this.ordinal - 1) ?: values()[values().size - 1]
+    fun nextMonth(): KhronoMonth = values().getOrNull(this.ordinal + 1) ?: values()[0]
+
     fun toKhrono(): Khrono = Khrono(getDaysUpTo(this).toDouble(), KhronoUnit.DAY)
 }
