@@ -93,6 +93,17 @@ open class KhronoDateTime(open val date: KhronoDate, open val time: KhronoTime):
 
     override fun toString(): String = "$date-$time"
 
+    override fun equals(other: Any?): Boolean {
+        if (other !is KhronoDateTime) {
+            return false
+        }
+
+        if (this.date != other.date) return false
+        if (this.time != other.time) return false
+
+        return true
+    }
+
     override fun compareTo(other: KhronoDateTime): Int = when {
         this.asNanos < other.asNanos -> -1
         this.asNanos > other.asNanos -> 1
