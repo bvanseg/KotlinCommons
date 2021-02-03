@@ -165,8 +165,8 @@ class MutableKhronoDate(
     }
 
     companion object {
-        fun yesterday(): MutableKhronoDate = KhronoDate.now().toMutable().apply { day -= 1 }
+        fun yesterday(): MutableKhronoDate = now().apply { day - 1 }
         fun now(): MutableKhronoDate = LocalDate.now().toMutableKhronoDate()
-        fun tomorrow(): MutableKhronoDate = KhronoDate.now().toMutable().apply { day += 1 }
+        fun tomorrow(): MutableKhronoDate = now().apply { day + 1 }
     }
 }

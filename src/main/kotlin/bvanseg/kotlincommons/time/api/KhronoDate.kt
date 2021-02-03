@@ -131,8 +131,8 @@ open class KhronoDate(
     operator fun plus(other: KhronoTime) = KhronoDateTime(this, other)
 
     companion object {
-        fun yesterday(): KhronoDate = now().toMutable().apply { day -= 1 }
+        fun yesterday(): KhronoDate = now().toMutable().apply { day - 1 }
         fun now(): KhronoDate = LocalDate.now().toKhronoDate()
-        fun tomorrow(): KhronoDate = now().toMutable().apply { day += 1 }
+        fun tomorrow(): KhronoDate = now().toMutable().apply { day + 1 }
     }
 }
