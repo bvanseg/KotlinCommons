@@ -91,6 +91,8 @@ open class KhronoDateTime(open val date: KhronoDate, open val time: KhronoTime):
     fun isAfter(lowerBound: KhronoDateTime): Boolean = this.asNanos > lowerBound.asNanos
     fun isAtOrAfter(lowerBound: KhronoDateTime): Boolean = this.asNanos >= lowerBound.asNanos
 
+    fun toMutable(): MutableKhronoDateTime = MutableKhronoDateTime(date.toMutable(), time.toMutable())
+
     override fun toString(): String = "$date-$time"
 
     override fun equals(other: Any?): Boolean {
