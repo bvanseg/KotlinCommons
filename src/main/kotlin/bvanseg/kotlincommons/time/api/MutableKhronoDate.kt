@@ -13,10 +13,10 @@ class MutableKhronoDate(
     mth: Int,
     yr: Double = 0.0
 ) : KhronoDate(d, mth, yr) {
-    override lateinit var day: Khrono
+    override lateinit var day: MutableKhrono
     override lateinit var month: KhronoMonth
-    override lateinit var monthKhrono: Khrono
-    override lateinit var year: Khrono
+    override lateinit var monthKhrono: MutableKhrono
+    override lateinit var year: MutableKhrono
 
     /**
      * @param d Number of days.
@@ -34,10 +34,10 @@ class MutableKhronoDate(
             currentMonth = getMonthFromValue(++runningMonthValue)
         }
 
-        this.day = day.days
+        this.day = day.days.toMutable()
         this.month = currentMonth
-        this.monthKhrono = month.toKhrono()
-        this.year = yr.years + (mth / 13)
+        this.monthKhrono = month.toKhrono().toMutable()
+        this.year = yr.years.toMutable() + (mth / 13)
     }
 
     // Because this type is mutable, we must override these and recalculate every getter in case day, month, or

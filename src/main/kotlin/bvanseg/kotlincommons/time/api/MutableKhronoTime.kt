@@ -14,51 +14,51 @@ class MutableKhronoTime(
     micro: Double = 0.0,
     nano: Double = 0.0
 ) : KhronoTime(hr, min, sec, millis, micro, nano) {
-    override lateinit var nanosecond: Khrono
-    override lateinit var microsecond: Khrono
-    override lateinit var millisecond: Khrono
-    override lateinit var second: Khrono
-    override lateinit var minute: Khrono
-    override lateinit var hour: Khrono
+    override lateinit var nanosecond: MutableKhrono
+    override lateinit var microsecond: MutableKhrono
+    override lateinit var millisecond: MutableKhrono
+    override lateinit var second: MutableKhrono
+    override lateinit var minute: MutableKhrono
+    override lateinit var hour: MutableKhrono
 
     init {
         val nanoLeftover = nano % KhronoUnit.NANOSECOND.max
         val nanoOverflow = (nano - nanoLeftover)
         val microFromNano = nanoOverflow / KhronoUnit.NANOSECOND.max
-        nanosecond = Khrono(nanoLeftover, KhronoUnit.NANOSECOND)
+        nanosecond = MutableKhrono(nanoLeftover, KhronoUnit.NANOSECOND)
 
         val microTotal = micro + microFromNano
 
         val microLeftover = microTotal % KhronoUnit.MICROSECOND.max
         val microOverflow = (microTotal - microLeftover)
         val millisFromMicro = microOverflow / KhronoUnit.MICROSECOND.max
-        microsecond = Khrono(microLeftover, KhronoUnit.MICROSECOND)
+        microsecond = MutableKhrono(microLeftover, KhronoUnit.MICROSECOND)
 
         val millisTotal = millis + millisFromMicro
 
         val millisLeftover = millisTotal % KhronoUnit.MILLISECOND.max
         val millisOverflow = (millisTotal - millisLeftover)
         val secFromMillis = millisOverflow / KhronoUnit.MILLISECOND.max
-        millisecond = Khrono(millisLeftover, KhronoUnit.MILLISECOND)
+        millisecond = MutableKhrono(millisLeftover, KhronoUnit.MILLISECOND)
 
         val secTotal = sec + secFromMillis
 
         val secLeftover = secTotal % KhronoUnit.SECOND.max
         val secOverflow = (secTotal - secLeftover)
         val minFromSec = secOverflow / KhronoUnit.SECOND.max
-        second = Khrono(secLeftover, KhronoUnit.SECOND)
+        second = MutableKhrono(secLeftover, KhronoUnit.SECOND)
 
         val minTotal = min + minFromSec
 
         val minLeftover = minTotal % KhronoUnit.MINUTE.max
         val minOverflow = (minTotal - minLeftover)
         val hourFromMin = minOverflow / KhronoUnit.MINUTE.max
-        minute = Khrono(minLeftover, KhronoUnit.MINUTE)
+        minute = MutableKhrono(minLeftover, KhronoUnit.MINUTE)
 
         val hourTotal = hr + hourFromMin
 
         val hourLeftover = hourTotal % KhronoUnit.HOUR.max
-        hour = Khrono(hourLeftover, KhronoUnit.HOUR)
+        hour = MutableKhrono(hourLeftover, KhronoUnit.HOUR)
     }
 
     override val asNanos: Double
