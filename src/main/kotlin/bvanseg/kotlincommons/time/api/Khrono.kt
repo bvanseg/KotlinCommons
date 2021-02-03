@@ -21,9 +21,12 @@ open class Khrono(open val value: Double, open val unit: KhronoUnit) {
     }
 
     override fun equals(other: Any?): Boolean {
-        if (other !is Khrono) return false
+        if (other !is Khrono) {
+            return false
+        }
+
         return if (this.unit == other.unit) {
-            this.unit == other.unit
+            this.value == other.value
         } else {
             val convertedValue = this.convertTo(other.unit)
             convertedValue == other.value
