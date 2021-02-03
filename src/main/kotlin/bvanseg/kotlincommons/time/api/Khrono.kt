@@ -64,6 +64,22 @@ open class Khrono(open val value: Double, open val unit: KhronoUnit) {
     fun toMutable() = MutableKhrono(value, unit)
 
     /**
+     * Gets the last interval of [this] [Khrono].
+     *
+     * An 'interval' is determined to be the last time at which [System.currentTimeMillis] % [this] == 0L.
+     * For example, consider a [Khrono] of 1 minute, which is 60,000 milliseconds. If we are 20 seconds into the current
+     * minute and call this function, then it will return 20 seconds as milliseconds, since that is the time of the start
+     * of the last minute interval.
+     *
+     * @return A [Khrono] containing the last interval time in [KhronoUnit.MILLISECOND]s.
+     */
+    fun lastInterval(): Khrono {
+        val thisAsMillis = this.toMillis().toLong()
+        val snapshotMillis = System.currentTimeMillis() % thisAsMillis
+        return Khrono(snapshotMillis.toDouble(), KhronoUnit.MILLISECOND)
+    }
+
+    /**
      * Gets the next interval of [this] [Khrono].
      *
      * An 'interval' is determined to be the next time at which [System.currentTimeMillis] % [this] == 0L.
