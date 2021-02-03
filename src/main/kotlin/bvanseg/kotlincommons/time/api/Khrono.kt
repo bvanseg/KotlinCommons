@@ -87,6 +87,6 @@ open class Khrono(open val value: Double, open val unit: KhronoUnit) {
 
         fun now(): Khrono = Khrono(System.currentTimeMillis().toDouble(), KhronoUnit.MILLISECOND)
 
-        fun combineAll(unit: KhronoUnit, vararg times: Khrono): Khrono = Khrono(times.sumByDouble { it.value }, unit)
+        fun combineAll(unit: KhronoUnit, vararg times: Khrono): Khrono = Khrono(times.sumByDouble { it.convertTo(unit) }, unit)
     }
 }
