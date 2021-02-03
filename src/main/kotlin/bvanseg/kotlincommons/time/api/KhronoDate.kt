@@ -2,6 +2,7 @@ package bvanseg.kotlincommons.time.api
 
 import bvanseg.kotlincommons.time.api.operator.minus
 import bvanseg.kotlincommons.time.api.operator.plus
+import bvanseg.kotlincommons.util.HashCodeBuilder
 import bvanseg.kotlincommons.util.comparable.clamp
 import java.time.LocalDate
 
@@ -80,6 +81,26 @@ open class KhronoDate(
         this.asMillis >= lowerBound.asMillis && this.asMillis <= upperBound.asMillis
 
     override fun toString(): String = "${month.monthValue}/${day.toLong()}/${year.toLong()}"
+
+    override fun equals(other: Any?): Boolean {
+        if (other !is KhronoDate) {
+            return false
+        }
+
+        if (this.day != other.day) return false
+        if (this.month != other.month) return false
+        if (this.monthKhrono != other.monthKhrono) return false
+        if (this.year != other.year) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int = HashCodeBuilder.builder(this::class)
+        .append(this.day)
+        .append(this.month)
+        .append(this.monthKhrono)
+        .append(this.year)
+        .hashCode()
 
     override fun compareTo(other: KhronoDate): Int = when {
         this.asNanos < other.asNanos -> -1
