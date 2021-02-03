@@ -6,7 +6,7 @@ import java.time.LocalDateTime
  * @author Boston Vanseghi
  * @since 2.8.0
  */
-open class KhronoDateTime(open val date: KhronoDate, open val time: KhronoTime) {
+open class KhronoDateTime(open val date: KhronoDate, open val time: KhronoTime): Comparable<KhronoDateTime> {
 
     constructor(
         day: Double,
@@ -86,6 +86,12 @@ open class KhronoDateTime(open val date: KhronoDate, open val time: KhronoTime) 
     )
 
     override fun toString(): String = "$date-$time"
+
+    override fun compareTo(other: KhronoDateTime): Int = when {
+        this.asNanos < other.asNanos -> -1
+        this.asNanos > other.asNanos -> 1
+        else -> 0
+    }
 
     companion object {
         fun now(): KhronoDateTime = LocalDateTime.now().toKhronoDateTime()
