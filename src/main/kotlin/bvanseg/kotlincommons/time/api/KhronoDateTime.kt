@@ -29,7 +29,7 @@ import java.time.LocalDateTime
  * @author Boston Vanseghi
  * @since 2.8.0
  */
-open class KhronoDateTime(open val date: KhronoDate, open val time: KhronoTime) : Comparable<KhronoDateTime> {
+open class KhronoDateTime(open val date: KhronoDate, open val time: KhronoTime) : KhronoType, Comparable<KhronoDateTime> {
 
     constructor(
         day: Double,
@@ -84,7 +84,7 @@ open class KhronoDateTime(open val date: KhronoDate, open val time: KhronoTime) 
     open val nanosecond: Khrono
         get() = time.nanosecond
 
-    open val asNanos: Double by lazy { date.asNanos + time.asNanos }
+    override val asNanos: Double by lazy { date.asNanos + time.asNanos }
     open val asMicros: Double by lazy { date.asMicros + time.asMicros }
     open val asMillis: Double by lazy { date.asMillis + time.asMillis }
     open val asSeconds: Double by lazy { date.asSeconds + time.asSeconds }
@@ -108,11 +108,11 @@ open class KhronoDateTime(open val date: KhronoDate, open val time: KhronoTime) 
         time.millisecond.toNanos().toInt() + time.microsecond.toNanos().toInt() + time.nanosecond.value.toInt()
     )
 
-    fun isBefore(lowerBound: KhronoDateTime): Boolean = this.asNanos < lowerBound.asNanos
-    fun isBeforeOrAt(lowerBound: KhronoDateTime): Boolean = this.asNanos <= lowerBound.asNanos
+    override fun isBefore(upperBound: KhronoType): Boolean = this.asNanos < upperBound.asNanos
+    override fun isBeforeOrAt(upperBound: KhronoType): Boolean = this.asNanos <= upperBound.asNanos
 
-    fun isAfter(lowerBound: KhronoDateTime): Boolean = this.asNanos > lowerBound.asNanos
-    fun isAtOrAfter(lowerBound: KhronoDateTime): Boolean = this.asNanos >= lowerBound.asNanos
+    override fun isAfter(lowerBound: KhronoType): Boolean = this.asNanos > lowerBound.asNanos
+    override fun isAtOrAfter(lowerBound: KhronoType): Boolean = this.asNanos >= lowerBound.asNanos
 
     fun toMutable(): MutableKhronoDateTime = MutableKhronoDateTime(date.toMutable(), time.toMutable())
 

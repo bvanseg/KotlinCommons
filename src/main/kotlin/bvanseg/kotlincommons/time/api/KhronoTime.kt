@@ -40,7 +40,7 @@ open class KhronoTime(
     millis: Double = 0.0,
     micro: Double = 0.0,
     nano: Double = 0.0
-) : Comparable<KhronoTime> {
+) : KhronoType, Comparable<KhronoTime> {
     open val nanosecond: Khrono
     open val microsecond: Khrono
     open val millisecond: Khrono
@@ -87,7 +87,7 @@ open class KhronoTime(
         hour = Khrono(hourTotal, KhronoUnit.HOUR)
     }
 
-    open val asNanos: Double by lazy {
+    override val asNanos: Double by lazy {
         Khrono.combineAll(
             KhronoUnit.NANOSECOND,
             hour,
@@ -259,14 +259,11 @@ open class KhronoTime(
     fun minutesUntil(time: KhronoTime): Double = time.asMinutes - this.asMinutes
     fun hoursUntil(time: KhronoTime): Double = time.asHours - this.asHours
 
-    fun isBefore(upperBound: KhronoTime): Boolean = this.asNanos < upperBound.asNanos
-    fun isBeforeOrAt(upperBound: KhronoTime): Boolean = this.asNanos <= upperBound.asNanos
+    override fun isBefore(upperBound: KhronoType): Boolean = this.asNanos < upperBound.asNanos
+    override fun isBeforeOrAt(upperBound: KhronoType): Boolean = this.asNanos <= upperBound.asNanos
 
-    fun isAfter(lowerBound: KhronoTime): Boolean = this.asNanos > lowerBound.asNanos
-    fun isAtOrAfter(lowerBound: KhronoTime): Boolean = this.asNanos >= lowerBound.asNanos
-
-    fun isBetween(lowerBound: KhronoTime, upperBound: KhronoTime): Boolean =
-        this.asNanos >= lowerBound.asNanos && this.asNanos <= upperBound.asNanos
+    override fun isAfter(lowerBound: KhronoType): Boolean = this.asNanos > lowerBound.asNanos
+    override fun isAtOrAfter(lowerBound: KhronoType): Boolean = this.asNanos >= lowerBound.asNanos
 
     override fun toString(): String =
         "${hour.toLong()}:${minute.toLong()}:${second.toLong()}.${millisecond.toLong()}.${
@@ -297,6 +294,12 @@ open class KhronoTime(
         .append(this.hour)
         .hashCode()
 
+    override fun compareTo(other: KhronoTime): Int = when {
+        this.asNanos < other.asNanos -> -1
+        this.asNanos > other.asNanos -> 1
+        else -> 0
+    }
+
     // OPERATORS
     operator fun plus(other: KhronoDate) = KhronoDateTime(other, this)
 
@@ -305,11 +308,5 @@ open class KhronoTime(
 
         val midnight: KhronoTime = KhronoTime(hr = 0.0)
         val afternoon: KhronoTime = KhronoTime(hr = 12.0)
-    }
-
-    override fun compareTo(other: KhronoTime): Int = when {
-        this.asNanos < other.asNanos -> -1
-        this.asNanos > other.asNanos -> 1
-        else -> 0
     }
 }

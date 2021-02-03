@@ -35,7 +35,7 @@ open class KhronoDate(
     d: Double = 0.0,
     mth: Int,
     yr: Double = 0.0
-) : Comparable<KhronoDate> {
+) : KhronoType, Comparable<KhronoDate> {
     open val day: Khrono
     open val month: KhronoMonth
     open val monthKhrono: Khrono
@@ -68,7 +68,7 @@ open class KhronoDate(
         return KhronoMonth.values()[v % 12]
     }
 
-    open val asNanos: Double by lazy { Khrono.combineAll(KhronoUnit.NANOSECOND, day, monthKhrono, year).value }
+    override val asNanos: Double by lazy { Khrono.combineAll(KhronoUnit.NANOSECOND, day, monthKhrono, year).value }
     open val asMicros: Double by lazy { Khrono.combineAll(KhronoUnit.MICROSECOND, day, monthKhrono, year).value }
     open val asMillis: Double by lazy { Khrono.combineAll(KhronoUnit.MILLISECOND, day, monthKhrono, year).value }
     open val asSeconds: Double by lazy { Khrono.combineAll(KhronoUnit.SECOND, day, monthKhrono, year).value }
@@ -92,14 +92,11 @@ open class KhronoDate(
     fun daysUntil(date: KhronoDate): Double = date.asDays - this.asDays
     fun daysSince(date: KhronoDate): Double = this.asDays - date.asDays
 
-    fun isBefore(upperBound: KhronoDate): Boolean = this.asNanos < upperBound.asNanos
-    fun isBeforeOrAt(upperBound: KhronoDate): Boolean = this.asNanos <= upperBound.asNanos
+    override fun isBefore(upperBound: KhronoType): Boolean = this.asNanos < upperBound.asNanos
+    override fun isBeforeOrAt(upperBound: KhronoType): Boolean = this.asNanos <= upperBound.asNanos
 
-    fun isAfter(lowerBound: KhronoDate): Boolean = this.asNanos > lowerBound.asNanos
-    fun isAtOrAfter(lowerBound: KhronoDate): Boolean = this.asNanos >= lowerBound.asNanos
-
-    fun isBetween(lowerBound: KhronoDate, upperBound: KhronoDate): Boolean =
-        this.asMillis >= lowerBound.asMillis && this.asMillis <= upperBound.asMillis
+    override fun isAfter(lowerBound: KhronoType): Boolean = this.asNanos > lowerBound.asNanos
+    override fun isAtOrAfter(lowerBound: KhronoType): Boolean = this.asNanos >= lowerBound.asNanos
 
     override fun toString(): String = "${month.monthValue}/${day.toLong()}/${year.toLong()}"
 
