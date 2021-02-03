@@ -1,5 +1,6 @@
 package bvanseg.kotlincommons.time.api
 
+import bvanseg.kotlincommons.util.HashCodeBuilder
 import java.time.LocalTime
 
 /**
@@ -246,6 +247,30 @@ open class KhronoTime(
 
     override fun toString(): String =
         "${hour.toLong()}:${minute.toLong()}:${second.toLong()}.${millisecond.toLong()}.${microsecond.toNanos().toLong() + nanosecond.toLong()}"
+
+    override fun equals(other: Any?): Boolean {
+        if (other !is KhronoTime) {
+            return false
+        }
+
+        if (this.nanosecond != other.nanosecond) return false
+        if (this.microsecond != other.microsecond) return false
+        if (this.millisecond != other.millisecond) return false
+        if (this.second != other.second) return false
+        if (this.minute != other.minute) return false
+        if (this.hour != other.hour) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int = HashCodeBuilder.builder(this::class)
+        .append(this.nanosecond)
+        .append(this.microsecond)
+        .append(this.millisecond)
+        .append(this.second)
+        .append(this.minute)
+        .append(this.hour)
+        .hashCode()
 
     companion object {
         fun now(): KhronoTime = LocalTime.now().toKhronoTime()
