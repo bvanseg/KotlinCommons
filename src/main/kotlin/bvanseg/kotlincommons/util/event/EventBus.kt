@@ -168,14 +168,22 @@ class EventBus {
         events[event::class.java]?.let { internalEvents ->
             internalEvents.forEach { internalEvent ->
                 logger.debug("Firing event {} with object {}", internalEvent, event)
-                internalEvent.invoke(event)
+                try {
+                    internalEvent.invoke(event)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
             }
 
             // Walk up the superclasses and fire those, as well.
             for (superClass in event::class.superclasses) {
                 events[superClass.java]?.let { superClassInternalEvents ->
                     superClassInternalEvents.forEach { internalEvent ->
-                        internalEvent.invoke(event)
+                        try {
+                            internalEvent.invoke(event)
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
                     }
                 }
             }
@@ -183,13 +191,17 @@ class EventBus {
 
         callbackListeners.computeIfPresent(eventClass) { _, value ->
             value.forEach { callbackEvent ->
-                ((callbackEvent as CallbackEvent<Any>).invoke(event))
+                (callbackEvent as CallbackEvent<Any>).invoke(event)
 
                 // Walk up the superclasses and fire those, as well.
                 for (superClass in event::class.superclasses) {
                     callbackListeners.computeIfPresent(superClass.java) { _, v ->
                         v.forEach { superCallbackEvent ->
-                            ((superCallbackEvent as CallbackEvent<Any>).invoke(event))
+                            try {
+                                (superCallbackEvent as CallbackEvent<Any>).invoke(event)
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                            }
                         }
                         null
                     }
@@ -200,13 +212,21 @@ class EventBus {
 
         persistentCallbackListeners.computeIfPresent(eventClass) { _, value ->
             value.forEach { callbackEvent ->
-                ((callbackEvent as CallbackEvent<Any>).invoke(event))
+                try {
+                    (callbackEvent as CallbackEvent<Any>).invoke(event)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
 
                 // Walk up the superclasses and fire those, as well.
                 for (superClass in event::class.superclasses) {
                     persistentCallbackListeners.computeIfPresent(superClass.java) { _, v ->
                         v.forEach { superCallbackEvent ->
-                            ((superCallbackEvent as CallbackEvent<Any>).invoke(event))
+                            try {
+                                (superCallbackEvent as CallbackEvent<Any>).invoke(event)
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                            }
                         }
                         null
                     }
@@ -228,13 +248,21 @@ class EventBus {
                 val parameterClass = param.type.getKClass().java
 
                 if (event::class.java == parameterClass) {
-                    internalEvent.invoke(event)
+                    try {
+                        internalEvent.invoke(event)
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
                 }
 
                 // Walk up the superclasses and fire those, as well.
                 for (superClass in event::class.superclasses) {
                     if (parameterClass == superClass.java) {
-                        internalEvent.invoke(event)
+                        try {
+                            internalEvent.invoke(event)
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
                     }
                 }
             }
