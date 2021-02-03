@@ -235,6 +235,9 @@ open class KhronoTime(
     fun minutesUntil(time: KhronoTime): Double = time.asMinutes - this.asMinutes
     fun hoursUntil(time: KhronoTime): Double = time.asHours - this.asHours
 
+    fun isBetween(lowerBound: KhronoTime, upperBound: KhronoTime): Boolean =
+        this.asNanos >= lowerBound.asNanos && this.asNanos <= upperBound.asNanos
+
     override fun toString(): String =
         "${hour.toLong()}:${minute.toLong()}:${second.toLong()}.${millisecond.toLong()}.${microsecond.toLong() * nanosecond.toLong()}"
 
