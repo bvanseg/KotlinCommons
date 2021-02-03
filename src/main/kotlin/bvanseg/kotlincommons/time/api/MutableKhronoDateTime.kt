@@ -45,24 +45,24 @@ class MutableKhronoDateTime(override val date: MutableKhronoDate, override val t
         MutableKhronoTime(hour, minute, second, millisecond, microsecond, nanosecond)
     )
 
-    override val day: Khrono
+    override val day: MutableKhrono
         get() = date.day
-    override val month: Khrono
+    override val month: MutableKhrono
         get() = date.monthKhrono
-    override val year: Khrono
+    override val year: MutableKhrono
         get() = date.year
 
-    override val hour: Khrono
+    override val hour: MutableKhrono
         get() = time.hour
-    override val minute: Khrono
+    override val minute: MutableKhrono
         get() = time.minute
-    override val second: Khrono
+    override val second: MutableKhrono
         get() = time.second
-    override val millisecond: Khrono
+    override val millisecond: MutableKhrono
         get() = time.millisecond
-    override val microsecond: Khrono
+    override val microsecond: MutableKhrono
         get() = time.microsecond
-    override val nanosecond: Khrono
+    override val nanosecond: MutableKhrono
         get() = time.nanosecond
 
     override val asNanos: Double
