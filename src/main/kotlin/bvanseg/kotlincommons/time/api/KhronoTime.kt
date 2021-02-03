@@ -239,7 +239,7 @@ open class KhronoTime(
         this.asNanos >= lowerBound.asNanos && this.asNanos <= upperBound.asNanos
 
     override fun toString(): String =
-        "${hour.toLong()}:${minute.toLong()}:${second.toLong()}.${millisecond.toLong()}.${microsecond.toLong() * nanosecond.toLong()}"
+        "${hour.toLong()}:${minute.toLong()}:${second.toLong()}.${millisecond.toLong()}.${microsecond.toNanos().toLong() + nanosecond.toLong()}"
 
     companion object {
         fun now(): KhronoTime = LocalTime.now().toKhronoTime()
