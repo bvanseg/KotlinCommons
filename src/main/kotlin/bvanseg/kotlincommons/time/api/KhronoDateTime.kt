@@ -23,6 +23,7 @@
  */
 package bvanseg.kotlincommons.time.api
 
+import bvanseg.kotlincommons.util.HashCodeBuilder
 import java.time.LocalDateTime
 
 /**
@@ -128,6 +129,11 @@ open class KhronoDateTime(open val date: KhronoDate, open val time: KhronoTime) 
 
         return true
     }
+
+    override fun hashCode(): Int = HashCodeBuilder.builder(this::class)
+        .append(date)
+        .append(time)
+        .hashCode()
 
     override fun compareTo(other: KhronoDateTime): Int = when {
         this.asNanos < other.asNanos -> -1
