@@ -23,8 +23,6 @@
  */
 package bvanseg.kotlincommons.graphic
 
-import bvanseg.kotlincommons.grouping.tuple.MutableQuad
-import bvanseg.kotlincommons.grouping.tuple.MutableTriple
 import bvanseg.kotlincommons.grouping.tuple.Quad
 import bvanseg.kotlincommons.util.comparable.clamp
 import java.io.Serializable
