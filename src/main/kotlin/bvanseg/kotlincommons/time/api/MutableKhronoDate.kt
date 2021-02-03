@@ -69,9 +69,37 @@ class MutableKhronoDate(
     override val asMillenniums: Double
         get() = Khrono.combineAll(KhronoUnit.MILLENNIUM, day, monthKhrono, year).value
 
+    fun handleOverflow() {
+        when {
+            // Handle case where days are negative.
+            day.value <= 0.0 -> {
+                while (day.value <= 0) {
+                    month = month.previousMonth()
+                    monthKhrono.value = month.monthValue.toDouble()
+                    day += month.days
+
+                    if (month == KhronoMonth.DECEMBER) {
+                        year -= 1
+                    }
+                }
+            }
+            day.value > month.days -> {
+                while (day.value > month.days) {
+                    day -= month.days
+                    month = month.nextMonth()
+                    monthKhrono.value = month.monthValue.toDouble()
+
+                    if (month == KhronoMonth.JANUARY) {
+                        year += 1
+                    }
+                }
+            }
+        }
+    }
+
     companion object {
-        fun yesterday(): MutableKhronoDate = KhronoDate.now().toMutable().apply { day -= 1 }
+        fun yesterday(): MutableKhronoDate = KhronoDate.now().toMutable().apply { day -= 1 }.apply { handleOverflow() }
         fun now(): MutableKhronoDate = LocalDate.now().toMutableKhronoDate()
-        fun tomorrow(): MutableKhronoDate = KhronoDate.now().toMutable().apply { day += 1 }
+        fun tomorrow(): MutableKhronoDate = KhronoDate.now().toMutable().apply { day += 1 }.apply { handleOverflow() }
     }
 }
