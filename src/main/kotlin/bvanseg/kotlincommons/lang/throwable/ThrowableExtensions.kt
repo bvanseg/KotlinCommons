@@ -46,4 +46,18 @@ fun Throwable.printToString(): String = StringWriter().use { sw ->
  * @author bright_spark
  * @since 2.2.5
  */
-fun Throwable.analyse(rootPackage: String) = ExceptionAnalysis(this, rootPackage)
+fun Throwable.analyze(rootPackage: String) = ExceptionAnalysis(this, rootPackage)
+
+/**
+ * @author Boston Vanseghi
+ * @since 2.8.0
+ */
+fun Throwable.rootCause(): Throwable {
+    var root: Throwable = this
+
+    while (root.cause != null) {
+        root = root.cause!!
+    }
+
+    return root
+}
