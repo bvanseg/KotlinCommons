@@ -223,6 +223,15 @@ class MutableKhronoTime(
         hour.onChange = hourCallback
     }
 
+    fun clear() {
+        nanosecond.value = 0.0
+        microsecond.value = 0.0
+        millisecond.value = 0.0
+        second.value = 0.0
+        minute.value = 0.0
+        hour.value = 0.0
+    }
+
     companion object {
         fun now(): MutableKhronoTime = LocalTime.now().toMutableKhronoTime()
         val midnight: KhronoTime = KhronoTime(hr = 24.0)
