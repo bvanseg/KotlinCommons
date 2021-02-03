@@ -1,5 +1,7 @@
 package bvanseg.kotlincommons.time.api
 
+import java.time.LocalDateTime
+
 /**
  * @author Boston Vanseghi
  * @since 2.8.0
@@ -43,6 +45,26 @@ class MutableKhronoDateTime(override val date: MutableKhronoDate, override val t
         MutableKhronoTime(hour, minute, second, millisecond, microsecond, nanosecond)
     )
 
+    override val day: Khrono
+        get() = date.day
+    override val month: Khrono
+        get() = date.monthKhrono
+    override val year: Khrono
+        get() = date.year
+
+    override val hour: Khrono
+        get() = time.hour
+    override val minute: Khrono
+        get() = time.minute
+    override val second: Khrono
+        get() = time.second
+    override val millisecond: Khrono
+        get() = time.millisecond
+    override val microsecond: Khrono
+        get() = time.microsecond
+    override val nanosecond: Khrono
+        get() = time.nanosecond
+
     override val asNanos: Double
         get() = date.asNanos + time.asNanos
     override val asMicros: Double
@@ -69,4 +91,8 @@ class MutableKhronoDateTime(override val date: MutableKhronoDate, override val t
         get() = date.asCenturies + time.asCenturies
     override val asMillenniums: Double
         get() = date.asMillenniums + time.asMillenniums
+
+    companion object {
+        fun now(): MutableKhronoDateTime = LocalDateTime.now().toMutableKhronoDateTime()
+    }
 }

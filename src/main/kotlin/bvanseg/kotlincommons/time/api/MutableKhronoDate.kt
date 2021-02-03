@@ -1,6 +1,7 @@
 package bvanseg.kotlincommons.time.api
 
 import bvanseg.kotlincommons.time.api.operator.plus
+import java.time.LocalDate
 
 /**
  * @author Boston Vanseghi
@@ -66,4 +67,8 @@ class MutableKhronoDate(
         get() = Khrono.combineAll(KhronoUnit.CENTURY, day, monthKhrono, year).value
     override val asMillenniums: Double
         get() = Khrono.combineAll(KhronoUnit.MILLENNIUM, day, monthKhrono, year).value
+
+    companion object {
+        fun now(): MutableKhronoDate = LocalDate.now().toMutableKhronoDate()
+    }
 }

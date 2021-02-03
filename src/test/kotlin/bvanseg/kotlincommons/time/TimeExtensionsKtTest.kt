@@ -31,15 +31,4 @@ internal class TimeExtensionsKtTest {
             arguments(Duration.ofMillis(9030500), true, true, "2h, 30m, 30s, 500ms")
         )
     }
-
-    @ParameterizedTest
-    @MethodSource
-    fun durationFormat(duration: Duration, millis: Boolean, shorthand: Boolean, expected: String) {
-        // Given
-        // When
-        val result = duration.format(millis, shorthand)
-
-        // Then
-        assertEquals(expected, result)
-    }
 }

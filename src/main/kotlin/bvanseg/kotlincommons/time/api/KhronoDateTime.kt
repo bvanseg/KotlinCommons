@@ -41,6 +41,26 @@ open class KhronoDateTime(open val date: KhronoDate, open val time: KhronoTime) 
         KhronoTime(hour, minute, second, millisecond, microsecond, nanosecond)
     )
 
+    open val day: Khrono
+        get() = date.day
+    open val month: Khrono
+        get() = date.monthKhrono
+    open val year: Khrono
+        get() = date.year
+
+    open val hour: Khrono
+        get() = time.hour
+    open val minute: Khrono
+        get() = time.minute
+    open val second: Khrono
+        get() = time.second
+    open val millisecond: Khrono
+        get() = time.millisecond
+    open val microsecond: Khrono
+        get() = time.microsecond
+    open val nanosecond: Khrono
+        get() = time.nanosecond
+
     open val asNanos: Double by lazy { date.asNanos + time.asNanos }
     open val asMicros: Double by lazy { date.asMicros + time.asMicros }
     open val asMillis: Double by lazy { date.asMillis + time.asMillis }

@@ -1,5 +1,7 @@
 package bvanseg.kotlincommons.time.api
 
+import java.time.LocalTime
+
 /**
  * @author Boston Vanseghi
  * @since 2.8.0
@@ -117,4 +119,8 @@ class MutableKhronoTime(
             microsecond,
             nanosecond
         ).value
+
+    companion object {
+        fun now(): MutableKhronoTime = LocalTime.now().toMutableKhronoTime()
+    }
 }
