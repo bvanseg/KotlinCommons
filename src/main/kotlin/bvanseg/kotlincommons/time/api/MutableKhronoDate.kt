@@ -1,5 +1,6 @@
 package bvanseg.kotlincommons.time.api
 
+import bvanseg.kotlincommons.time.api.operator.minus
 import bvanseg.kotlincommons.time.api.operator.plus
 import java.time.LocalDate
 
@@ -69,6 +70,8 @@ class MutableKhronoDate(
         get() = Khrono.combineAll(KhronoUnit.MILLENNIUM, day, monthKhrono, year).value
 
     companion object {
+        fun yesterday(): MutableKhronoDate = KhronoDate.now().toMutable().apply { day -= 1 }
         fun now(): MutableKhronoDate = LocalDate.now().toMutableKhronoDate()
+        fun tomorrow(): MutableKhronoDate = KhronoDate.now().toMutable().apply { day += 1 }
     }
 }
