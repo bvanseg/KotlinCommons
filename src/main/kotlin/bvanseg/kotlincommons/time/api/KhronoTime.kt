@@ -16,7 +16,7 @@ open class KhronoTime(
     millis: Double = 0.0,
     micro: Double = 0.0,
     nano: Double = 0.0
-) {
+): Comparable<KhronoTime> {
     open val nanosecond: Khrono
     open val microsecond: Khrono
     open val millisecond: Khrono
@@ -246,5 +246,11 @@ open class KhronoTime(
 
         val midnight: KhronoTime = KhronoTime(hr = 24.0)
         val afternoon: KhronoTime = KhronoTime(hr = 12.0)
+    }
+
+    override fun compareTo(other: KhronoTime): Int = when {
+        this.asNanos < other.asNanos -> -1
+        this.asNanos > other.asNanos -> 1
+        else -> 0
     }
 }
