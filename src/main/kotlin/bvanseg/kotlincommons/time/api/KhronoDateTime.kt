@@ -85,6 +85,12 @@ open class KhronoDateTime(open val date: KhronoDate, open val time: KhronoTime):
         time.millisecond.toNanos().toInt() + time.microsecond.toNanos().toInt() + time.nanosecond.value.toInt()
     )
 
+    fun isBefore(lowerBound: KhronoDateTime): Boolean = this.asNanos < lowerBound.asNanos
+    fun isBeforeOrAt(lowerBound: KhronoDateTime): Boolean = this.asNanos <= lowerBound.asNanos
+
+    fun isAfter(lowerBound: KhronoDateTime): Boolean = this.asNanos > lowerBound.asNanos
+    fun isAtOrAfter(lowerBound: KhronoDateTime): Boolean = this.asNanos >= lowerBound.asNanos
+
     override fun toString(): String = "$date-$time"
 
     override fun compareTo(other: KhronoDateTime): Int = when {
