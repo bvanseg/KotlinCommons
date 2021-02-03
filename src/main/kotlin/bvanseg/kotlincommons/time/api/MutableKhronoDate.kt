@@ -13,10 +13,42 @@ class MutableKhronoDate(
     mth: Int,
     yr: Double = 0.0
 ) : KhronoDate(d, mth, yr) {
-    override lateinit var day: MutableKhrono
-    override lateinit var month: KhronoMonth
-    override lateinit var monthKhrono: MutableKhrono
-    override lateinit var year: MutableKhrono
+
+    override var day: MutableKhrono = MutableKhrono.EMPTY
+        set(value) {
+            value.onChange = {
+                updateCalculations()
+                handleOverflow()
+            }
+            field = value
+            updateCalculations()
+            handleOverflow()
+        }
+
+    override var month: KhronoMonth = KhronoMonth.JANUARY
+        private set
+
+    override var monthKhrono: MutableKhrono = MutableKhrono.EMPTY
+        set(value) {
+            value.onChange = {
+                updateCalculations()
+                handleOverflow()
+            }
+            field = value
+            updateCalculations()
+            handleOverflow()
+        }
+
+    override var year: MutableKhrono = MutableKhrono.EMPTY
+        set(value) {
+            value.onChange = {
+                updateCalculations()
+                handleOverflow()
+            }
+            field = value
+            updateCalculations()
+            handleOverflow()
+        }
 
     /**
      * @param d Number of days.
@@ -40,36 +72,50 @@ class MutableKhronoDate(
         this.year = yr.years.toMutable() + (mth / 13)
     }
 
-    // Because this type is mutable, we must override these and recalculate every getter in case day, month, or
-    // year khronos change their values.
-    override val asNanos: Double
-        get() = Khrono.combineAll(KhronoUnit.NANOSECOND, day, monthKhrono, year).value
-    override val asMicros: Double
-        get() = Khrono.combineAll(KhronoUnit.MICROSECOND, day, monthKhrono, year).value
-    override val asMillis: Double
-        get() = Khrono.combineAll(KhronoUnit.MILLISECOND, day, monthKhrono, year).value
-    override val asSeconds: Double
-        get() = Khrono.combineAll(KhronoUnit.SECOND, day, monthKhrono, year).value
-    override val asMinutes: Double
-        get() = Khrono.combineAll(KhronoUnit.MINUTE, day, monthKhrono, year).value
-    override val asHours: Double
-        get() = Khrono.combineAll(KhronoUnit.HOUR, day, monthKhrono, year).value
-    override val asHalfDays: Double
-        get() = Khrono.combineAll(KhronoUnit.HALF_DAY, day, monthKhrono, year).value
-    override val asDays: Double
-        get() = Khrono.combineAll(KhronoUnit.DAY, day, monthKhrono, year).value
-    override val asWeeks: Double
-        get() = Khrono.combineAll(KhronoUnit.WEEK, day, monthKhrono, year).value
-    override val asYears: Double
-        get() = Khrono.combineAll(KhronoUnit.YEAR, day, monthKhrono, year).value
-    override val asDecades: Double
-        get() = Khrono.combineAll(KhronoUnit.DECADE, day, monthKhrono, year).value
-    override val asCenturies: Double
-        get() = Khrono.combineAll(KhronoUnit.CENTURY, day, monthKhrono, year).value
-    override val asMillenniums: Double
-        get() = Khrono.combineAll(KhronoUnit.MILLENNIUM, day, monthKhrono, year).value
+    override var asNanos: Double = Khrono.combineAll(KhronoUnit.NANOSECOND, day, monthKhrono, year).value
+        private set
+    override var asMicros: Double = Khrono.combineAll(KhronoUnit.MICROSECOND, day, monthKhrono, year).value
+        private set
+    override var asMillis: Double = Khrono.combineAll(KhronoUnit.MILLISECOND, day, monthKhrono, year).value
+        private set
+    override var asSeconds: Double = Khrono.combineAll(KhronoUnit.SECOND, day, monthKhrono, year).value
+        private set
+    override var asMinutes: Double = Khrono.combineAll(KhronoUnit.MINUTE, day, monthKhrono, year).value
+        private set
+    override var asHours: Double = Khrono.combineAll(KhronoUnit.HOUR, day, monthKhrono, year).value
+        private set
+    override var asHalfDays: Double = Khrono.combineAll(KhronoUnit.HALF_DAY, day, monthKhrono, year).value
+        private set
+    override var asDays: Double = Khrono.combineAll(KhronoUnit.DAY, day, monthKhrono, year).value
+        private set
+    override var asWeeks: Double = Khrono.combineAll(KhronoUnit.WEEK, day, monthKhrono, year).value
+        private set
+    override var asYears: Double = Khrono.combineAll(KhronoUnit.YEAR, day, monthKhrono, year).value
+        private set
+    override var asDecades: Double = Khrono.combineAll(KhronoUnit.DECADE, day, monthKhrono, year).value
+        private set
+    override var asCenturies: Double = Khrono.combineAll(KhronoUnit.CENTURY, day, monthKhrono, year).value
+        private set
+    override var asMillenniums: Double = Khrono.combineAll(KhronoUnit.MILLENNIUM, day, monthKhrono, year).value
+        private set
 
-    fun handleOverflow() {
+    private fun updateCalculations() {
+        asNanos = Khrono.combineAll(KhronoUnit.NANOSECOND, day, monthKhrono, year).value
+        asMicros = Khrono.combineAll(KhronoUnit.MICROSECOND, day, monthKhrono, year).value
+        asMillis = Khrono.combineAll(KhronoUnit.MILLISECOND, day, monthKhrono, year).value
+        asSeconds = Khrono.combineAll(KhronoUnit.SECOND, day, monthKhrono, year).value
+        asMinutes = Khrono.combineAll(KhronoUnit.MINUTE, day, monthKhrono, year).value
+        asHours = Khrono.combineAll(KhronoUnit.HOUR, day, monthKhrono, year).value
+        asHalfDays = Khrono.combineAll(KhronoUnit.HALF_DAY, day, monthKhrono, year).value
+        asDays = Khrono.combineAll(KhronoUnit.DAY, day, monthKhrono, year).value
+        asWeeks = Khrono.combineAll(KhronoUnit.WEEK, day, monthKhrono, year).value
+        asYears = Khrono.combineAll(KhronoUnit.YEAR, day, monthKhrono, year).value
+        asDecades = Khrono.combineAll(KhronoUnit.DECADE, day, monthKhrono, year).value
+        asCenturies = Khrono.combineAll(KhronoUnit.CENTURY, day, monthKhrono, year).value
+        asMillenniums = Khrono.combineAll(KhronoUnit.MILLENNIUM, day, monthKhrono, year).value
+    }
+
+    private fun handleOverflow() {
         when {
             // Handle case where days are negative.
             day.value <= 0.0 -> {
@@ -98,8 +144,8 @@ class MutableKhronoDate(
     }
 
     companion object {
-        fun yesterday(): MutableKhronoDate = KhronoDate.now().toMutable().apply { day -= 1 }.apply { handleOverflow() }
+        fun yesterday(): MutableKhronoDate = KhronoDate.now().toMutable().apply { day -= 1 }
         fun now(): MutableKhronoDate = LocalDate.now().toMutableKhronoDate()
-        fun tomorrow(): MutableKhronoDate = KhronoDate.now().toMutable().apply { day += 1 }.apply { handleOverflow() }
+        fun tomorrow(): MutableKhronoDate = KhronoDate.now().toMutable().apply { day += 1 }
     }
 }

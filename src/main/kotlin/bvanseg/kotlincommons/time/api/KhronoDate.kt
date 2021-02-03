@@ -64,8 +64,8 @@ open class KhronoDate(
 
     fun toMutable(): MutableKhronoDate = MutableKhronoDate(day.value, month.monthValue, year.value)
 
-    fun dayBefore(): KhronoDate = toMutable().apply { day -= 1 }.apply { handleOverflow() }
-    fun dayAfter(): KhronoDate = toMutable().apply { day += 1 }.apply { handleOverflow() }
+    fun dayBefore(): KhronoDate = toMutable().apply { day -= 1 }
+    fun dayAfter(): KhronoDate = toMutable().apply { day += 1 }
 
     fun daysUntil(date: KhronoDate): Double = date.asDays - this.asDays
     fun daysSince(date: KhronoDate): Double = this.asDays - date.asDays
@@ -81,8 +81,8 @@ open class KhronoDate(
     }
 
     companion object {
-        fun yesterday(): KhronoDate = now().toMutable().apply { day -= 1 }.apply { handleOverflow() }
+        fun yesterday(): KhronoDate = now().toMutable().apply { day -= 1 }
         fun now(): KhronoDate = LocalDate.now().toKhronoDate()
-        fun tomorrow(): KhronoDate = now().toMutable().apply { day += 1 }.apply { handleOverflow() }
+        fun tomorrow(): KhronoDate = now().toMutable().apply { day += 1 }
     }
 }

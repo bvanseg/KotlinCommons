@@ -4,7 +4,28 @@ package bvanseg.kotlincommons.time.api
  * @author Boston Vanseghi
  * @since 2.8.0
  */
-data class MutableKhrono(override var value: Double, override var unit: KhronoUnit) : Khrono(value, unit) {
+class MutableKhrono(value: Double, unit: KhronoUnit) : Khrono(value, unit) {
+
+    var onChange: (() -> Unit)? = null
+    var onValueChange: ((oldValue: Double, newValue: Double) -> Unit)? = null
+    var onUnitChange: ((oldValue: KhronoUnit, newValue: KhronoUnit) -> Unit)? = null
+
+    override var value: Double = value
+        set(value) {
+            val oldValue = field
+            field = value
+            onValueChange?.invoke(oldValue, value)
+            onChange?.invoke()
+        }
+
+    override var unit: KhronoUnit = unit
+        set(value) {
+            val oldValue = field
+            field = value
+            onUnitChange?.invoke(oldValue, value)
+            onChange?.invoke()
+        }
+
     override fun toNever(): MutableKhrono = super.toNever().toMutable()
     override fun toNanos(): MutableKhrono = super.toNanos().toMutable()
     override fun toMicros(): MutableKhrono = super.toMicros().toMutable()
@@ -20,4 +41,8 @@ data class MutableKhrono(override var value: Double, override var unit: KhronoUn
     override fun toCenturies(): MutableKhrono = super.toCenturies().toMutable()
     override fun toMillenniums(): MutableKhrono = super.toMillenniums().toMutable()
     override fun toForever(): MutableKhrono = super.toForever().toMutable()
+
+    companion object {
+        val EMPTY = MutableKhrono(0.0, KhronoUnit.MILLISECOND)
+    }
 }
