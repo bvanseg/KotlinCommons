@@ -69,6 +69,13 @@ open class KhronoDate(
 
     fun daysUntil(date: KhronoDate): Double = date.asDays - this.asDays
     fun daysSince(date: KhronoDate): Double = this.asDays - date.asDays
+
+    fun isBefore(upperBound: KhronoDate): Boolean = this.asNanos < upperBound.asNanos
+    fun isBeforeOrAt(upperBound: KhronoDate): Boolean = this.asNanos <= upperBound.asNanos
+
+    fun isAfter(lowerBound: KhronoDate): Boolean = this.asNanos > lowerBound.asNanos
+    fun isAtOrAfter(lowerBound: KhronoDate): Boolean = this.asNanos >= lowerBound.asNanos
+
     fun isBetween(lowerBound: KhronoDate, upperBound: KhronoDate): Boolean =
         this.asMillis >= lowerBound.asMillis && this.asMillis <= upperBound.asMillis
 

@@ -235,6 +235,12 @@ open class KhronoTime(
     fun minutesUntil(time: KhronoTime): Double = time.asMinutes - this.asMinutes
     fun hoursUntil(time: KhronoTime): Double = time.asHours - this.asHours
 
+    fun isBefore(upperBound: KhronoTime): Boolean = this.asNanos < upperBound.asNanos
+    fun isBeforeOrAt(upperBound: KhronoTime): Boolean = this.asNanos <= upperBound.asNanos
+
+    fun isAfter(lowerBound: KhronoTime): Boolean = this.asNanos > lowerBound.asNanos
+    fun isAtOrAfter(lowerBound: KhronoTime): Boolean = this.asNanos >= lowerBound.asNanos
+
     fun isBetween(lowerBound: KhronoTime, upperBound: KhronoTime): Boolean =
         this.asNanos >= lowerBound.asNanos && this.asNanos <= upperBound.asNanos
 
