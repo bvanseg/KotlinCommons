@@ -83,15 +83,17 @@ class RateLimiter constructor(
                             tokenBucket.currentTokenCount,
                             tokenBucket.tokenLimit
                         )
-                        try {
-                            callback()
-                            logger.trace(
-                                "Finished executing queued submission: TokenBucket ({}/{}).",
-                                tokenBucket.currentTokenCount,
-                                tokenBucket.tokenLimit
-                            )
-                        } catch (e: Exception) {
-                            exceptionStrategy(e)
+                        GlobalScope.launch {
+                            try {
+                                callback()
+                                logger.trace(
+                                    "Finished executing queued submission: TokenBucket ({}/{}).",
+                                    tokenBucket.currentTokenCount,
+                                    tokenBucket.tokenLimit
+                                )
+                            } catch (e: Exception) {
+                                exceptionStrategy(e)
+                            }
                         }
                     } else {
                         rateLimiter.asyncDeque.offerFirst(next)
