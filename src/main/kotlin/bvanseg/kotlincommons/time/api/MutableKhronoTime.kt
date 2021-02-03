@@ -234,7 +234,7 @@ class MutableKhronoTime(
 
     companion object {
         fun now(): MutableKhronoTime = LocalTime.now().toMutableKhronoTime()
-        val midnight: KhronoTime = KhronoTime(hr = 24.0)
+        val midnight: KhronoTime = KhronoTime(hr = 0.0)
         val afternoon: KhronoTime = KhronoTime(hr = 12.0)
     }
 }
