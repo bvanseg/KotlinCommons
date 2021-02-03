@@ -13,7 +13,7 @@ open class KhronoDate(
     d: Double = 0.0,
     mth: Int,
     yr: Double = 0.0
-) {
+): Comparable<KhronoDate> {
     open val day: Khrono
     open val month: KhronoMonth
     open val monthKhrono: Khrono
@@ -73,6 +73,12 @@ open class KhronoDate(
         this.asMillis >= lowerBound.asMillis && this.asMillis <= upperBound.asMillis
 
     override fun toString(): String = "${month.monthValue}/${day.toLong()}/${year.toLong()}"
+
+    override fun compareTo(other: KhronoDate): Int = when {
+        this.asNanos < other.asNanos -> -1
+        this.asNanos > other.asNanos -> 1
+        else -> 0
+    }
 
     companion object {
         fun yesterday(): KhronoDate = now().toMutable().apply { day -= 1 }
