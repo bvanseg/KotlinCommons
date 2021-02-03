@@ -1,7 +1,5 @@
 package bvanseg.kotlincommons.time.api
 
-import bvanseg.kotlincommons.time.api.operator.minus
-import bvanseg.kotlincommons.time.api.operator.plus
 import bvanseg.kotlincommons.util.project.Experimental
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -12,16 +10,16 @@ class TestTimePlusMinus {
     @Test
     fun testKTimePlus() {
         // GIVEN
-        val oneMinute: MutableKhrono = 1.minutes.toMutable()
-        val oneSecond: MutableKhrono = 1.seconds.toMutable()
+        val oneMinute: Khrono = 1.minutes
+        val oneSecond: Khrono = 1.seconds
 
         // WHEN
-        val oneMinuteOneSecond: MutableKhrono = oneMinute + oneSecond
-        val oneMinuteOneSecondAlt: MutableKhrono = oneSecond + oneMinute
+        val oneMinuteOneSecond: Khrono = oneMinute + oneSecond
+        val oneMinuteOneSecondAlt: Khrono = oneSecond + oneMinute
 
         // THEN
-        assertEquals(61.0, oneMinuteOneSecond.value)
-        assertEquals(KhronoUnit.SECOND, oneMinuteOneSecond.unit)
+        assertEquals(1.0166666666666666, oneMinuteOneSecond.value)
+        assertEquals(KhronoUnit.MINUTE, oneMinuteOneSecond.unit)
 
         assertEquals(61.0, oneMinuteOneSecondAlt.value)
         assertEquals(KhronoUnit.SECOND, oneMinuteOneSecondAlt.unit)
@@ -63,8 +61,8 @@ class TestTimePlusMinus {
         val oneMinuteOneSecond: MutableKhrono = oneMinute - oneSecond
 
         // THEN
-        assertEquals(59.0, oneMinuteOneSecond.value)
-        assertEquals(KhronoUnit.SECOND, oneMinuteOneSecond.unit)
+        assertEquals(0.9833333333333333, oneMinuteOneSecond.value)
+        assertEquals(KhronoUnit.MINUTE, oneMinuteOneSecond.unit)
 
         assertEquals(59.0, (60.seconds - 1.seconds).value)
     }

@@ -272,6 +272,9 @@ open class KhronoTime(
         .append(this.hour)
         .hashCode()
 
+    // OPERATORS
+    operator fun plus(other: KhronoDate) = KhronoDateTime(other, this)
+
     companion object {
         fun now(): KhronoTime = LocalTime.now().toKhronoTime()
 

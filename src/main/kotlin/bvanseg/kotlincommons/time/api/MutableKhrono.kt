@@ -42,6 +42,14 @@ class MutableKhrono(value: Double, unit: KhronoUnit) : Khrono(value, unit) {
     override fun toMillenniums(): MutableKhrono = super.toMillenniums().toMutable()
     override fun toForever(): MutableKhrono = super.toForever().toMutable()
 
+    override operator fun inc(): MutableKhrono = this.apply { this.value += 1 }
+    override operator fun plus(other: Number): MutableKhrono = this.apply { this.value += other.toDouble() }
+    override operator fun plus(other: Khrono): MutableKhrono = this.apply { this.value += other.convertTo(this.unit) }
+
+    override operator fun dec(): MutableKhrono = this.apply { this.value -= 1 }
+    override operator fun minus(other: Number) = this.apply { this.value -= other.toDouble() }
+    override operator fun minus(other: Khrono): MutableKhrono = this.apply { this.value -= other.convertTo(this.unit) }
+
     companion object {
         val EMPTY = MutableKhrono(0.0, KhronoUnit.MILLISECOND)
     }

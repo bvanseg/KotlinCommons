@@ -1,7 +1,6 @@
 package bvanseg.kotlincommons.time.api
 
 import java.time.LocalTime
-import bvanseg.kotlincommons.time.api.operator.plusAssign
 
 /**
  * @author Boston Vanseghi

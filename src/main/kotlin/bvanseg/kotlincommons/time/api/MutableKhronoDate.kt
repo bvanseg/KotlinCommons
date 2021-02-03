@@ -1,7 +1,5 @@
 package bvanseg.kotlincommons.time.api
 
-import bvanseg.kotlincommons.time.api.operator.minus
-import bvanseg.kotlincommons.time.api.operator.plus
 import java.time.LocalDate
 
 /**

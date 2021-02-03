@@ -1,7 +1,5 @@
 package bvanseg.kotlincommons.time.api
 
-import bvanseg.kotlincommons.time.api.operator.minus
-import bvanseg.kotlincommons.time.api.operator.plus
 import bvanseg.kotlincommons.util.HashCodeBuilder
 import bvanseg.kotlincommons.util.comparable.clamp
 import java.time.LocalDate
@@ -107,6 +105,10 @@ open class KhronoDate(
         this.asNanos > other.asNanos -> 1
         else -> 0
     }
+
+    // OPERATORS
+
+    operator fun plus(other: KhronoTime) = KhronoDateTime(this, other)
 
     companion object {
         fun yesterday(): KhronoDate = now().toMutable().apply { day -= 1 }

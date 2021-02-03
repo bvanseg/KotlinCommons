@@ -98,6 +98,42 @@ open class Khrono(open val value: Double, open val unit: KhronoUnit) {
         return Khrono((thisAsMillis - snapshotMillis).toDouble(), KhronoUnit.MILLISECOND)
     }
 
+    // INFIX
+    infix fun into(unit: KhronoUnit): Khrono {
+        val newValue = this.unit.convertTo(this.value, unit)
+        return Khrono(newValue, unit)
+    }
+
+    // OPERATORS
+    open operator fun inc(): Khrono = Khrono(this.value + 1, this.unit)
+    open operator fun plus(other: Number): Khrono = Khrono(this.value + other.toDouble(), this.unit)
+    open operator fun plus(other: Khrono): Khrono = Khrono(this.value + other.convertTo(this.unit), this.unit)
+
+    open operator fun dec(): Khrono = Khrono(this.value - 1, this.unit)
+    open operator fun minus(other: Number): Khrono = Khrono(this.value - other.toDouble(), this.unit)
+    open operator fun minus(other: Khrono): Khrono = Khrono(this.value - other.convertTo(this.unit), this.unit)
+
+    operator fun compareTo(other: Number): Int {
+        val otherValue = other.toDouble()
+        return when {
+            this.value == otherValue -> 0
+            this.value > otherValue -> 1
+            this.value < otherValue -> -1
+            else -> -1
+        }
+    }
+    operator fun compareTo(other: Khrono): Int {
+        val equalUnitValue = this.convertTo(other.unit)
+        return when {
+            equalUnitValue == other.value -> 0
+            equalUnitValue > other.value -> 1
+            equalUnitValue < other.value -> -1
+            else -> -1
+        }
+    }
+
+    open operator fun rangeTo(other: Khrono): Khrono = other - this
+
     companion object {
         val NEVER = Khrono(KhronoUnit.NEVER_CONSTANT, KhronoUnit.NEVER)
         val FOREVER = Khrono(KhronoUnit.FOREVER_CONSTANT, KhronoUnit.FOREVER)
