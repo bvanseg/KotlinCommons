@@ -37,6 +37,7 @@ import bvanseg.kotlincommons.time.api.transformer.SecondTransformer
 import bvanseg.kotlincommons.time.api.transformer.WeekTransformer
 import bvanseg.kotlincommons.time.api.transformer.YearTransformer
 import java.time.temporal.ChronoUnit
+import java.util.concurrent.TimeUnit
 
 /**
  *
@@ -112,6 +113,17 @@ enum class KhronoUnit(val max: Double = 1.0, val calendarUnit: Double = 1.0) {
 
     fun getSubUnit(): KhronoUnit = values().getOrNull(this.ordinal - 1) ?: NEVER
     fun getSuperUnit(): KhronoUnit = values().getOrNull(this.ordinal + 1) ?: FOREVER
+
+    fun toTimeUnit(): TimeUnit? = when(this) {
+        NANOSECOND -> TimeUnit.NANOSECONDS
+        MICROSECOND -> TimeUnit.MICROSECONDS
+        MILLISECOND -> TimeUnit.MILLISECONDS
+        SECOND -> TimeUnit.SECONDS
+        MINUTE -> TimeUnit.MINUTES
+        HOUR -> TimeUnit.HOURS
+        DAY -> TimeUnit.DAYS
+        else -> null
+    }
 
     fun toChronoUnit(): ChronoUnit? = when (this) {
         NEVER -> null
