@@ -27,6 +27,8 @@ import bvanseg.kotlincommons.lang.string.ToStringBuilder
 import bvanseg.kotlincommons.util.HashCodeBuilder
 import java.time.Duration
 import java.time.temporal.ChronoUnit
+import kotlin.math.roundToInt
+import kotlin.math.roundToLong
 
 /**
  * Represents a measurement of time, given a value and the unit representing that value.
@@ -79,7 +81,9 @@ open class Khrono(open val value: Double, open val unit: KhronoUnit) {
     fun toByte(): Byte = value.toInt().toByte()
     fun toShort(): Short = value.toInt().toShort()
     fun toInt(): Int = value.toInt()
+    fun roundToInt(): Int = value.roundToInt()
     fun toLong(): Long = value.toLong()
+    fun roundToLong(): Long = value.roundToLong()
     fun toFloat(): Float = value.toFloat()
     fun toDouble(): Double = value
 
