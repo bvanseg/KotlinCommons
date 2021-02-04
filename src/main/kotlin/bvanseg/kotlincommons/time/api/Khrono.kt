@@ -125,6 +125,13 @@ open class Khrono(open val value: Double, open val unit: KhronoUnit) {
         return Khrono((thisAsMillis - snapshotMillis).toDouble(), KhronoUnit.MILLISECOND)
     }
 
+    /**
+     * Determines if the current [Khrono] has a value that can be reasonably acted upon.
+     *
+     * @return True if the current [Khrono] has value, false otherwise.
+     */
+    fun hasValue(): Boolean = this.value > 0.0 && this.unit != KhronoUnit.NEVER && this.unit != KhronoUnit.FOREVER
+
     // INFIX
     infix fun into(unit: KhronoUnit): Khrono {
         val newValue = this.unit.convertTo(this.value, unit)
