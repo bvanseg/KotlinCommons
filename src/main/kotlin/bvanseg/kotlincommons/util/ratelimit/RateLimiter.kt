@@ -24,6 +24,7 @@
 package bvanseg.kotlincommons.util.ratelimit
 
 import bvanseg.kotlincommons.io.logging.getLogger
+import bvanseg.kotlincommons.time.api.Khrono
 import bvanseg.kotlincommons.time.api.milliseconds
 import bvanseg.kotlincommons.time.api.performer.every
 import bvanseg.kotlincommons.util.event.EventBus
@@ -55,7 +56,7 @@ class RateLimiter constructor(
     }
 
     var cycleStrategy: (RateLimiter) -> Unit = { rateLimiter ->
-        val initDelta = calculateSleepTime(false).milliseconds
+        val initDelta = calculateSleepTime(false)
 
         every(tokenBucket.refillTime, counterDrift = true) { performer ->
             val preRefillEvent = BucketRefillEvent.PRE(this@RateLimiter)
@@ -127,8 +128,15 @@ class RateLimiter constructor(
         }
     }
 
-    fun calculateSleepTime(flag: Boolean): Long = tokenBucket.refillTime.nextInterval().toLong() +
-            (if (flag) tokenBucket.refillTimeOffset.toLong() else 0L)
+    /**
+     * Calculates the time to sleep until the next refill interval.
+     *
+     * @param flag True or false if the calculated sleep time should include the refill time offset.
+     *
+     * @return A [Khrono] of the amount of time to sleep as milliseconds.
+     */
+    fun calculateSleepTime(flag: Boolean): Khrono = tokenBucket.refillTime.nextInterval().toMillis() +
+            (if (flag) tokenBucket.refillTimeOffset.toMillis() else Khrono.EMPTY)
 
     /**
      * Submits an asynchronous task to the [RateLimiter] to be executed once a token is readily available.
