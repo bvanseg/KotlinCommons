@@ -156,6 +156,8 @@ class RateLimiter constructor(
      *
      * @param consume The amount of tokens to consume for the given task. Defaults to 1.
      * @param callback The callback to execute once a token is readily available.
+     *
+     * @return The result returned from the invoked [callback].
      */
     fun <R> submitBlocking(consume: Long = 1, callback: () -> R): R {
         submitBlocking(consume)
@@ -201,7 +203,7 @@ class RateLimiter constructor(
     }
 
     /**
-     * Starts the [RateLimiter].
+     * Starts the [RateLimiter]. If the [RateLimiter] is already running, the function will return prematurely.
      */
     fun start() {
         if (isRunning.getAndSet(true)) {

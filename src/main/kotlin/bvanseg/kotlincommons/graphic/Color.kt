@@ -35,12 +35,21 @@ import kotlin.math.round
  * @author Boston Vanseghi
  * @since 2.0.2
  */
-// TODO: Document.
 class Color : Serializable {
 
+    /**
+     * The values of the [Color] separated into red, green and blue and stored in a [Triple].
+     */
     lateinit var rgb: Triple<Int, Int, Int>
+
+    /**
+     * The values of the [Color] separated into red, green, blue and alpha and stored in a [Triple].
+     */
     lateinit var rgba: Quad<Int, Int, Int, Int>
 
+    /**
+     * The hue of the [Color]. Calculated on access.
+     */
     val hue: Int
         get() {
             val r = red / 255f
@@ -58,6 +67,9 @@ class Color : Serializable {
             }
         }
 
+    /**
+     * The luminance of the [Color]. Calculated on access.
+     */
     val luminance: Int
         get() {
             val r = red / 255f
@@ -70,6 +82,9 @@ class Color : Serializable {
             return round(((max + min) / 2f) * 100f).toInt()
         }
 
+    /**
+     * The saturation of the [Color]. Calculated on access.
+     */
     val saturation: Int
         get() {
             val r = red / 255f
@@ -86,9 +101,16 @@ class Color : Serializable {
             }
         }
 
+    /**
+     * The hue, saturation and luminance of the [Color].
+     */
     lateinit var hsl: Triple<Int, Int, Int>
     lateinit var hsla: Quad<Int, Int, Int, Int>
 
+    /**
+     * The backing color integer for the [Color]. Setting this recalculates all values to be representative of the
+     * set value.
+     */
     var color: Int = 0
         set(value) {
             field = value
@@ -99,24 +121,36 @@ class Color : Serializable {
             hsla = Quad(hue, saturation, luminance, alpha)
         }
 
+    /**
+     * The backing alpha integer of the [Color]. Setting this recalculates the [color].
+     */
     var alpha: Int
         get() = (color shr 24) and 0xFF
         set(value) {
             setColor(alpha = clamp(value, 0, 255))
         }
 
+    /**
+     * The backing red integer of the [Color]. Setting this recalculates the [color].
+     */
     var red: Int
         get() = (color shr 16) and 0xFF
         set(value) {
             setColor(red = clamp(value, 0, 255))
         }
 
+    /**
+     * The backing green integer of the [Color]. Setting this recalculates the [color].
+     */
     var green: Int
         get() = (color shr 8) and 0xFF
         set(value) {
             setColor(green = clamp(value, 0, 255))
         }
 
+    /**
+     * The backing blue integer of the [Color]. Setting this recalculates the [color].
+     */
     var blue: Int
         get() = color and 0xFF
         set(value) {
@@ -147,7 +181,11 @@ class Color : Serializable {
         )).toInt() shl 24)
     }
 
-    private fun setColor(red: Int = this.red, blue: Int = this.blue, green: Int = this.green, alpha: Int = this.alpha) {
+    /**
+     * Sets the colors for the given [red], [green], and [blue] values. Setting these values will also impact [color]'s
+     * value.
+     */
+    private fun setColor(red: Int = this.red, green: Int = this.green, blue: Int = this.blue, alpha: Int = this.alpha) {
         color = 0 or (red shl 16) or (green shl 8) or blue or (alpha shl 24)
     }
 
@@ -165,21 +203,42 @@ class Color : Serializable {
         red = (red * (1 - shadeFactor)).toInt()
         green = (green * (1 - shadeFactor)).toInt()
         blue = (blue * (1 - shadeFactor)).toInt()
-        setColor(red, blue, green)
+        setColor(red = red, green = green, blue = blue)
     }
 
+    /**
+     * Applies shading to the [Color]'s [red] component.
+     *
+     * @param shadeFactor - A factor to shade the [red] component by. Should have a value between 0 and 1.
+     *
+     * @return The shaded [Color].
+     */
     fun shadeRed(shadeFactor: Float): Color = this.apply {
         var red: Int = (color shr 16) and 0xFF
         red = (red * (1 - shadeFactor)).toInt()
         setColor(red = red)
     }
 
+    /**
+     * Applies shading to the [Color]'s [green] component.
+     *
+     * @param shadeFactor - A factor to shade the [green] component by. Should have a value between 0 and 1.
+     *
+     * @return The shaded [Color].
+     */
     fun shadeGreen(shadeFactor: Float): Color = this.apply {
         var green: Int = (color shr 8) and 0xFF
         green = (green * (1 - shadeFactor)).toInt()
         setColor(green = green)
     }
 
+    /**
+     * Applies shading to the [Color]'s [blue] component.
+     *
+     * @param shadeFactor - A factor to shade the [blue] component by. Should have a value between 0 and 1.
+     *
+     * @return The shaded [Color].
+     */
     fun shadeBlue(shadeFactor: Float): Color = this.apply {
         var blue: Int = color and 0xFF
         blue = (blue * (1 - shadeFactor)).toInt()
@@ -200,21 +259,42 @@ class Color : Serializable {
         red = (red * tintFactor).toInt()
         green = (green * tintFactor).toInt()
         blue = (blue * tintFactor).toInt()
-        setColor(red, green, blue)
+        setColor(red = red, green = green, blue = blue)
     }
 
+    /**
+     * Applies a tint to the [Color]'s [red] component.
+     *
+     * @param tintFactor - A factor to tint the [red] component by. Should have a value between 0 and 1.
+     *
+     * @return The tinted [Color].
+     */
     fun tintRed(tintFactor: Float): Color = this.apply {
         var red: Int = (color shr 16) and 0xFF
         red = (red * tintFactor).toInt()
         setColor(red = red)
     }
 
+    /**
+     * Applies a tint to the [Color]'s [green] component.
+     *
+     * @param tintFactor - A factor to tint the [green] component by. Should have a value between 0 and 1.
+     *
+     * @return The tinted [Color].
+     */
     fun tintGreen(tintFactor: Float): Color = this.apply {
         var green: Int = (color shr 8) and 0xFF
         green = (green * tintFactor).toInt()
         setColor(green = green)
     }
 
+    /**
+     * Applies a tint to the [Color]'s [blue] component.
+     *
+     * @param tintFactor - A factor to tint the [blue] component by. Should have a value between 0 and 1.
+     *
+     * @return The tinted [Color].
+     */
     fun tintBlue(tintFactor: Float): Color = this.apply {
         var blue: Int = color and 0xFF
         blue = (blue * tintFactor).toInt()
