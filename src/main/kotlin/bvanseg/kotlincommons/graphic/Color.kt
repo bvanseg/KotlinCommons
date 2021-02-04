@@ -324,6 +324,9 @@ class Color : Serializable {
 
         /** NOTEWORTHY COLORS **/
         val BLURPLE by lazy { Color(0x7289DA) } // Discord
+        val FACEBOOK by lazy { Color(0x3B5998) } // Facebook
+        val REDDIT by lazy { Color(0xFF4500) } // Reddit
+        val TWITTER by lazy { Color(0x1DA1F2) } // Twitter
 
         /** BROWSER-COMPLIANT COLORS **/
         val ALICE_BLUE by lazy { Color(0xF0F8FF) }
