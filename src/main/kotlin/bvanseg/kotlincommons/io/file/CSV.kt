@@ -57,6 +57,9 @@ class CSV(fileName: String, vararg options: OpenOption) : AutoCloseable {
         private val regex: Regex = Regex("(?=[A-Z])")
     }
 
+    var rowCount: Long = 0L
+        private set
+
     /**
      * NIO Buffered Writer for quick writing.
      */
@@ -192,6 +195,7 @@ class CSV(fileName: String, vararg options: OpenOption) : AutoCloseable {
         builder.append("\n")
         writer.append(builder.toString())
         builder.setLength(0)
+        rowCount++
 
         if (flush) {
             flush()
