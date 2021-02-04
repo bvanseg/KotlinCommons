@@ -60,12 +60,6 @@ class EventBus {
 
     var isEnabled = true
 
-    @Suppress("EXPERIMENTAL_API_USAGE")
-    @Deprecated("Deprecated due to instability of channels in Kotlin, will be removed in KC 2.8.1.")
-    val eventChannel: BroadcastChannel<Any> by lazy {
-        BroadcastChannel(Channel.BUFFERED)
-    }
-
     /**
      * A collection of listener objects.
      */
@@ -234,8 +228,6 @@ class EventBus {
             }
             null
         }
-
-        eventChannel.sendBlocking(event)
     }
 
     fun fireForListener(listener: Any, event: Any) = fireForListener(listener::class.java, event)

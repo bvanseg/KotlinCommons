@@ -1,10 +1,5 @@
 package bvanseg.kotlincommons.util.event
 
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 class EventListenerTest {
@@ -34,21 +29,5 @@ class EventListenerTest {
         if (!flag1 || !flag2) {
             assert(false)
         }
-    }
-
-    @Test
-    fun testEventChannelFiring() = runBlocking {
-        GlobalScope.launch {
-            delay(2000L)
-            EventBus.DEFAULT.fire("Hello, world!")
-        }
-
-        val sub = EventBus.DEFAULT.eventChannel.openSubscription()
-
-        val message = sub.receive()
-
-        assertEquals("Hello, world!", message)
-
-        sub.cancel()
     }
 }
