@@ -43,7 +43,7 @@ data class TokenBucket(
     val refillTimeOffset: Khrono = Khrono.EMPTY,
     private val initUpdate: Long = System.currentTimeMillis(),
     var currentTokenCount: AtomicLong = AtomicLong(tokenLimit),
-    private val refreshStrategy: (TokenBucket) -> Unit = {
+    private val refillStrategy: (TokenBucket) -> Unit = {
         it.currentTokenCount.set(tokenLimit)
     }
 ) {
@@ -62,9 +62,9 @@ data class TokenBucket(
             logger.trace { "Preparing to enter lock in TokenBucket#refill... " }
             lock.lock()
             if (currentTokenCount.get() < tokenLimit) {
-                logger.debug("Refreshing tokens: TokenBucket ({}/{}).", currentTokenCount, tokenLimit)
-                refreshStrategy(this)
-                logger.debug("Finished refreshing tokens: TokenBucket ({}/{}).", currentTokenCount, tokenLimit)
+                logger.debug("Refilling tokens: TokenBucket ({}/{}).", currentTokenCount, tokenLimit)
+                refillStrategy(this)
+                logger.debug("Finished refilling tokens: TokenBucket ({}/{}).", currentTokenCount, tokenLimit)
                 lastUpdate = System.currentTimeMillis()
             } else {
                 logger.trace { "Token bucket is full, $currentTokenCount/$tokenLimit" }
