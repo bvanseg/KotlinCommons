@@ -58,7 +58,22 @@ class EventBus {
         private val logger = getLogger()
     }
 
+    /**
+     * Used to prevent the [EventBus] from firing events.
+     */
     var isEnabled = true
+
+    /**
+     * Used to lock the [EventBus] and prevent further event listener additions/removals.
+     *
+     * WARNING: Once the event bus is locked, it can not be unlocked through normal access.
+     */
+    var isLocked = false
+        private set
+
+    fun lock() {
+        isLocked = true
+    }
 
     /**
      * A collection of listener objects.
@@ -86,6 +101,8 @@ class EventBus {
     private val events: ConcurrentHashMap<Class<*>, MutableList<InternalEvent>> = ConcurrentHashMap()
 
     fun addListener(listener: Any) {
+        if (isLocked) return
+
         listener::class.memberFunctions.filter { it.findAnnotation<SubscribeEvent>() != null }.forEach { function ->
 
             if (!function.isAccessible) {
@@ -132,6 +149,8 @@ class EventBus {
      * @param callback The callback to execute upon receiving the target event.
      */
     inline fun <reified T : Any> on(persist: Boolean = false, noinline callback: (T) -> Unit) {
+        if (isLocked) return
+
         val callbackClass = T::class.java
 
         if (persist) {
@@ -144,9 +163,13 @@ class EventBus {
     /**
      * Removes the given [listener] object.
      */
-    fun removeListener(listener: Any) = synchronized(listeners) {
-        listeners.remove(listener)
-        listenerEvents.remove(listener::class.java)
+    fun removeListener(listener: Any){
+        if (isLocked) return
+
+        synchronized(listeners) {
+            listeners.remove(listener)
+            listenerEvents.remove(listener::class.java)
+        }
     }
 
     /**
@@ -270,6 +293,7 @@ class EventBus {
      * @return A [kotlinx.coroutines.Job] of the scheduled event fire, which can be cancelled.
      */
     fun scheduleFire(event: Any, delay: Khrono) = GlobalScope.launch {
+        if (!isEnabled) return@launch
         delay(delay)
         this@EventBus.fire(event)
     }
@@ -280,6 +304,7 @@ class EventBus {
      * @param T The type of event to await. Superclasses of specific events are also acceptable to await.
      */
     inline fun <reified T : Any> awaitThreadEvent() {
+        if (!isEnabled) return
         val latch = CountDownLatch(1)
 
         this.on<T> {
@@ -296,6 +321,7 @@ class EventBus {
      * @param T The type of event to await. Superclasses of specific events are also acceptable to await.
      */
     suspend inline fun <reified T : Any> awaitCoroutineEvent() {
+        if (!isEnabled) return
         val latch = KCountDownLatch(1)
 
         this.on<T> {
@@ -309,6 +335,8 @@ class EventBus {
      * Removes all listeners and clears all internal events.
      */
     fun reset() {
+        if (isLocked) return
+
         synchronized(listeners) {
             listeners.clear()
         }
