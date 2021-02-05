@@ -307,6 +307,7 @@ open class KhronoTime(
     operator fun plus(other: KhronoDate) = KhronoDateTime(other, this)
 
     companion object {
+        fun parseISO8601(iso8601Format: String): KhronoTime = Duration.parse(iso8601Format).toKhronoTime()
         fun now(): KhronoTime = LocalTime.now().toKhronoTime()
 
         val midnight: KhronoTime = KhronoTime(hr = 0.0)
