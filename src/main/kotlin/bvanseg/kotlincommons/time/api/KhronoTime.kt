@@ -24,6 +24,7 @@
 package bvanseg.kotlincommons.time.api
 
 import bvanseg.kotlincommons.util.HashCodeBuilder
+import java.time.Duration
 import java.time.LocalTime
 
 /**
@@ -264,6 +265,8 @@ open class KhronoTime(
 
     override fun isAfter(lowerBound: KhronoType): Boolean = this.asNanos > lowerBound.asNanos
     override fun isAtOrAfter(lowerBound: KhronoType): Boolean = this.asNanos >= lowerBound.asNanos
+
+    fun toDuration(): Duration = Duration.ofNanos(this.asNanos.toLong())
 
     override fun toString(): String =
         "${hour.toLong()}:${minute.toLong()}:${second.toLong()}.${millisecond.toLong()}.${
