@@ -180,6 +180,21 @@ class RateLimiter constructor(
     }
 
     /**
+     * Submits a task to the [RateLimiter] to be executed once a token is readily available.
+     * This function differs from its [submitBlocking] counterparts in the fact that it will not block the thread if it
+     * fails to consume a token. Instead, it will return null which can be useful if the user want's to send an error
+     * upon the consumption failing.
+     *
+     * @param consume The amount of tokens to consume for the given task. Defaults to 1.
+     * @param callback The callback to execute if token consumption succeeds.
+     *
+     * @return The value returned by [callback] if token consumption succeeds, otherwise returns null.
+     */
+    fun <R> attemptSubmit(consume: Long = 1, callback: () -> R): R? = if (tokenBucket.tryConsume(consume)) {
+        callback()
+    } else null
+
+    /**
      * Validates whether or not the given [consume] amount is viable.
      *
      * @param consume The consume amount trying to be used.
