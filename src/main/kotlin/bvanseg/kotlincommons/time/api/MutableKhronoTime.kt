@@ -23,6 +23,7 @@
  */
 package bvanseg.kotlincommons.time.api
 
+import java.time.Duration
 import java.time.LocalTime
 
 /**
@@ -255,6 +256,7 @@ class MutableKhronoTime(
     }
 
     companion object {
+        fun parseISO8601(iso8601Format: String): MutableKhronoTime = Duration.parse(iso8601Format).toMutableKhronoTime()
         fun now(): MutableKhronoTime = LocalTime.now().toMutableKhronoTime()
         val midnight: KhronoTime = KhronoTime(hr = 0.0)
         val afternoon: KhronoTime = KhronoTime(hr = 12.0)
