@@ -267,6 +267,7 @@ open class KhronoTime(
     override fun isAtOrAfter(lowerBound: KhronoType): Boolean = this.asNanos >= lowerBound.asNanos
 
     fun toDuration(): Duration = Duration.ofNanos(this.asNanos.toLong())
+    fun toISO8601String(): String = toDuration().toString()
 
     override fun toString(): String =
         "${hour.toLong()}:${minute.toLong()}:${second.toLong()}.${millisecond.toLong()}.${
