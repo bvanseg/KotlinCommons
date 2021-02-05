@@ -23,9 +23,13 @@
  */
 package bvanseg.kotlincommons.time.api
 
+import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
+
+fun Duration.toKhronoTime(): KhronoTime = KhronoTime(nano = this.nano.toDouble())
+fun Duration.toMutableKhronoTime(): MutableKhronoTime = MutableKhronoTime(nano = this.nano.toDouble())
 
 fun LocalDate.toKhronoDate(): KhronoDate = this.run {
     KhronoDate(
