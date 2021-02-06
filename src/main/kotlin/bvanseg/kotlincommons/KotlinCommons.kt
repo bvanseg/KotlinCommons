@@ -25,6 +25,7 @@ package bvanseg.kotlincommons
 
 import bvanseg.kotlincommons.io.logging.getLogger
 import bvanseg.kotlincommons.util.project.Version
+import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import java.net.http.HttpClient
 import java.util.Random
@@ -80,6 +81,7 @@ object KotlinCommons {
      * A default instance of fasterXML's Jackson Object Mapper.
      */
     val KC_JACKSON_OBJECT_MAPPER = jacksonObjectMapper()
+        .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
 
     val KC_THREAD_ATTRIBUTE_MAP = ConcurrentHashMap<Long, ConcurrentHashMap<String, ThreadLocal<*>>>()
 }
