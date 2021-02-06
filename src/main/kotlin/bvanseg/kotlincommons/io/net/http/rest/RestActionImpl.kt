@@ -26,6 +26,7 @@ package bvanseg.kotlincommons.io.net.http.rest
 import bvanseg.kotlincommons.KotlinCommons
 import bvanseg.kotlincommons.io.logging.getLogger
 import com.fasterxml.jackson.core.type.TypeReference
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
@@ -52,7 +53,8 @@ open class RestActionImpl<T>(
     private val request: HttpRequest,
     private val type: Class<T>,
     private val typeReference: TypeReference<T>,
-    private val client: HttpClient = KotlinCommons.KC_HTTP_CLIENT
+    private val client: HttpClient = KotlinCommons.KC_HTTP_CLIENT,
+    private val mapper: ObjectMapper = KotlinCommons.KC_JACKSON_OBJECT_MAPPER
 ) : RestAction<T>() {
 
     companion object {
@@ -122,7 +124,7 @@ open class RestActionImpl<T>(
                 val strBody = response.body() as String
 
                 if (strBody.isNotEmpty()) {
-                    callback(KotlinCommons.KC_JACKSON_OBJECT_MAPPER.readValue(strBody, typeReference))
+                    callback(mapper.readValue(strBody, typeReference))
                 } else if (type == Optional::class.java) {
                     // If the type needed is a String, the body itself can be returned as a String.
                     callback(Optional.empty<Any>() as T)
@@ -163,7 +165,7 @@ open class RestActionImpl<T>(
             val strBody = response.body() as String
 
             if (strBody.isNotEmpty()) {
-                return KotlinCommons.KC_JACKSON_OBJECT_MAPPER.readValue(strBody, typeReference)
+                return mapper.readValue(strBody, typeReference)
             } else if (type == Optional::class.java) {
                 // If the type needed is a String, the body itself can be returned as a String.
                 return Optional.empty<Any>() as T
