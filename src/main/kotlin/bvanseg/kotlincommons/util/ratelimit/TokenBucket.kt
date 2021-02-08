@@ -61,14 +61,10 @@ data class TokenBucket(
         try {
             logger.trace { "Preparing to enter lock in TokenBucket#refill... " }
             lock.lock()
-            if (currentTokenCount.get() < tokenLimit) {
-                logger.debug("Refilling tokens: TokenBucket ({}/{}).", currentTokenCount, tokenLimit)
-                refillStrategy(this)
-                logger.debug("Finished refilling tokens: TokenBucket ({}/{}).", currentTokenCount, tokenLimit)
-                lastUpdate = System.currentTimeMillis()
-            } else {
-                logger.trace { "Token bucket is full, $currentTokenCount/$tokenLimit" }
-            }
+            logger.debug("Refilling tokens: TokenBucket ({}/{}).", currentTokenCount, tokenLimit)
+            refillStrategy(this)
+            logger.debug("Finished refilling tokens: TokenBucket ({}/{}).", currentTokenCount, tokenLimit)
+            lastUpdate = System.currentTimeMillis()
         } finally {
             lock.unlock()
             logger.trace { "Successfully left lock in TokenBucket#refill!" }
