@@ -53,8 +53,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <kotlin.version>1.4.21</kotlin.version>
-        <kotlinx.version>1.4.1</kotlinx.version>
+        <kotlin.version>1.4.30</kotlin.version>
+        <kotlinx.version>1.4.2</kotlinx.version>
         <slf4j.version>2.0.0-alpha1</slf4j.version>
         <junit.version>5.0.0</junit.version>
         <junit.jupiter.version>5.1.0</junit.jupiter.version>
