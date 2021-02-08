@@ -30,13 +30,16 @@ import bvanseg.kotlincommons.util.fp.Kind2
  * @author Alex Couch
  * @since 2.4.0
  */
+@Deprecated("To be removed in KotlinCommons 2.9.0")
 class ForEitherOf
 
 // TODO: Move to type alias file.
+@Deprecated("To be removed in KotlinCommons 2.9.0")
 typealias EitherOf<A, B> = Kind2<ForEitherOf, A, B>
 
 // TODO: Move to Either extensions file.
 @Suppress("UNCHECKED_CAST")
+@Deprecated("To be removed in KotlinCommons 2.9.0")
 fun <A, B> EitherOf<A, B>.fix() = this as Either<A, B>
 
 /**
@@ -46,8 +49,11 @@ fun <A, B> EitherOf<A, B>.fix() = this as Either<A, B>
  * }
  */
 // TODO: Document.
+@Deprecated("To be removed in KotlinCommons 2.9.0")
 sealed class Either<out L, out R> : EitherOf<L, R> {
+    @Deprecated("To be removed in KotlinCommons 2.9.0")
     data class Left<out L>(val value: L) : Either<L, Nothing>()
+    @Deprecated("To be removed in KotlinCommons 2.9.0")
     class Right<out R>(val value: R) : Either<Nothing, R>()
 
     val isLeft get() = this is Left<L>
@@ -84,9 +90,12 @@ sealed class Either<out L, out R> : EitherOf<L, R> {
         fold({ this }, { callback(it) })
 }
 
+@Deprecated("To be removed in KotlinCommons 2.9.0")
 fun <T> T.left() = Either.Left(this)
+@Deprecated("To be removed in KotlinCommons 2.9.0")
 fun <T> T.right() = Either.Right(this)
 
+@Deprecated("To be removed in KotlinCommons 2.9.0")
 fun <L, R, T> Either<L, R>.flatMap(callback: (L) -> Either<T, R>): Either<T, R> =
     fix().let {
         when (this) {

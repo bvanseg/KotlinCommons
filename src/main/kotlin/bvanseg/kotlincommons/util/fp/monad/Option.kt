@@ -40,6 +40,7 @@ package bvanseg.kotlincommons.util.fp.monad
  * @author Alex Couch
  * @since 2.4.0
  */
+@Deprecated("To be removed in KotlinCommons 2.9.0")
 sealed class Option<T> {
     data class Some<T>(val t: T) : Option<T>()
     class None<T> : Option<T>() {
@@ -72,5 +73,8 @@ sealed class Option<T> {
         }
 }
 
+@Deprecated("To be removed in KotlinCommons 2.9.0")
 fun <T> T.some() = Option.Some(this)
+
+@Deprecated("To be removed in KotlinCommons 2.9.0")
 fun <T> none() = Option.None<T>()

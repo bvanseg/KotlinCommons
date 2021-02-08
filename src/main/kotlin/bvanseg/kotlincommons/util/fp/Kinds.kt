@@ -27,22 +27,26 @@ package bvanseg.kotlincommons.util.fp
  * @author Alex Couch
  * @since 2.4.0
  */
+@Deprecated("To be removed in KotlinCommons 2.9.0")
 interface Kind<out F, out A>
 
 /**
  * @author Alex Couch
  * @since 2.4.0
  */
+@Deprecated("To be removed in KotlinCommons 2.9.0")
 typealias Kind2<F, A, B> = Kind<Kind<F, A>, B>
 
 /**
  * @author Alex Couch
  * @since 2.4.0
  */
+@Deprecated("To be removed in KotlinCommons 2.9.0")
 typealias Kind3<F, A, B, C> = Kind<Kind2<F, A, B>, C>
 
 /**
  * @author Alex Couch
  * @since 2.4.0
  */
+@Deprecated("To be removed in KotlinCommons 2.9.0")
 typealias Kind4<F, A, B, C, D> = Kind<Kind3<F, A, B, C>, D>
