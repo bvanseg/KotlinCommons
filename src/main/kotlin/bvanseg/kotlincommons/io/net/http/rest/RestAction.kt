@@ -23,6 +23,7 @@
  */
 package bvanseg.kotlincommons.io.net.http.rest
 
+import bvanseg.kotlincommons.io.logging.getLogger
 import bvanseg.kotlincommons.time.api.Khrono
 import bvanseg.kotlincommons.util.any.delay
 import kotlinx.coroutines.GlobalScope
@@ -39,9 +40,16 @@ import java.util.concurrent.CompletableFuture
  * @since 2.3.0
  */
 abstract class RestAction<T> {
+
+    companion object {
+        private val logger = getLogger()
+    }
+
     protected var successCallback: ((HttpResponse<*>) -> Unit)? = null
     protected var errorCallback: ((HttpResponse<*>) -> Unit)? = null
-    protected var exceptionCallback: ((HttpResponse<*>?, Throwable) -> Unit)? = null
+    protected var exceptionCallback: ((HttpResponse<*>?, Throwable) -> Unit)? = { _, throwable ->
+        logger.error("An exception has occurred while executing a RestAction", throwable)
+    }
 
     var future: CompletableFuture<out HttpResponse<*>>? = null
         protected set

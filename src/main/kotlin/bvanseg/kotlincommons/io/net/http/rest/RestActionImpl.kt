@@ -71,12 +71,6 @@ open class RestActionImpl<T>(
         else -> HttpResponse.BodyHandlers.ofString()
     }
 
-    init {
-        this.exceptionCallback = { _, throwable ->
-            logger.error("An exception has occurred while executing a RestAction", throwable)
-        }
-    }
-
     override fun queueImpl(): RestActionImpl<T> {
         future = client.sendAsync(request, HttpResponse.BodyHandlers.discarding()).whenComplete { response, throwable ->
             throwable?.let { e ->
