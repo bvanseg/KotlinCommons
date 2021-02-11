@@ -62,7 +62,7 @@ open class RestActionImpl<S>(
 
         val logger = getLogger()
 
-        inline operator fun <reified S : Any> invoke(request: HttpRequest): RestActionImpl<S> {
+        inline operator fun <reified S> invoke(request: HttpRequest): RestActionImpl<S> {
             return RestActionImpl(request, S::class.java, jacksonTypeRef())
         }
     }
