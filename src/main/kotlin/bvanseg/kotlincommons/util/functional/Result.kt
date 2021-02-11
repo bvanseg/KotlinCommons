@@ -25,13 +25,13 @@ sealed class Result<out F, out S> {
     fun failure(): Option<F> = if (isFailure) Option.Some((this as Failure<F>).value) else Option.None
     fun success(): Option<S> = if (isSuccess) Option.Some((this as Success<S>).value) else Option.None
 
-    fun <T, U> map(failure: (F) -> T, success: (S) -> U): Result<T, U> = when {
+    inline fun <T, U> map(crossinline failure: (F) -> T, crossinline success: (S) -> U): Result<T, U> = when {
         isFailure -> Failure(failure((this as Failure<F>).value))
         isSuccess -> Success(success((this as Success<S>).value))
         else -> throw IllegalStateException("Result is neither failure nor success!")
     }
 
-    fun <C> mapFailure(initial: C, failure: (initial: C, value: F) -> C): Failure<C> = Failure(
+    inline fun <C> mapFailure(initial: C, crossinline failure: (initial: C, value: F) -> C): Failure<C> = Failure(
         when {
             isFailure -> failure(initial, (this as Failure<F>).value)
             isSuccess -> initial
@@ -39,7 +39,7 @@ sealed class Result<out F, out S> {
         }
     )
 
-    fun <C> mapSuccess(initial: C, success: (initial: C, value: S) -> C): Success<C> = Success(
+    inline fun <C> mapSuccess(initial: C, crossinline success: (initial: C, value: S) -> C): Success<C> = Success(
         when {
             isFailure -> initial
             isSuccess -> success(initial, (this as Success<S>).value)
