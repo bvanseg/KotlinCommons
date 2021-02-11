@@ -37,5 +37,6 @@ interface KhronoType {
     fun isAfter(lowerBound: KhronoType): Boolean
     fun isAtOrAfter(lowerBound: KhronoType): Boolean
 
-    fun isBetween(lowerBound: KhronoType, upperBound: KhronoType): Boolean = isAtOrAfter(lowerBound) && isBeforeOrAt(upperBound)
+    fun isBetween(lowerBound: KhronoType, upperBound: KhronoType): Boolean =
+        isAtOrAfter(lowerBound) && isBeforeOrAt(upperBound)
 }

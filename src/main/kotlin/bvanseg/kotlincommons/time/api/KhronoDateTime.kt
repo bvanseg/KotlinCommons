@@ -30,7 +30,8 @@ import java.time.LocalDateTime
  * @author Boston Vanseghi
  * @since 2.8.0
  */
-open class KhronoDateTime(open val date: KhronoDate, open val time: KhronoTime) : KhronoType, Comparable<KhronoDateTime> {
+open class KhronoDateTime(open val date: KhronoDate, open val time: KhronoTime) : KhronoType,
+    Comparable<KhronoDateTime> {
 
     constructor(
         day: Double,

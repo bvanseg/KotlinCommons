@@ -6,11 +6,11 @@ package bvanseg.kotlincommons.util.functional
  */
 sealed class Option<out T> {
 
-    data class Some<out T>(val value: T): Option<T>() {
+    data class Some<out T>(val value: T) : Option<T>() {
         override fun toString(): String = value.toString()
     }
 
-    object None: Option<Nothing>() {
+    object None : Option<Nothing>() {
         override fun toString(): String = "None"
     }
 

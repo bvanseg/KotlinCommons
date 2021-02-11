@@ -6,11 +6,11 @@ package bvanseg.kotlincommons.util.functional
  */
 sealed class Either<out L, out R> {
 
-    data class Left<L>(val value: L): Either<L, Nothing>() {
+    data class Left<L>(val value: L) : Either<L, Nothing>() {
         override fun toString(): String = value.toString()
     }
 
-    data class Right<R>(val value: R): Either<Nothing, R>() {
+    data class Right<R>(val value: R) : Either<Nothing, R>() {
         override fun toString(): String = value.toString()
     }
 
@@ -29,17 +29,21 @@ sealed class Either<out L, out R> {
         else -> throw IllegalStateException("Either is neither left nor right!")
     }
 
-    fun <C> mapLeft(initial: C, left: (initial: C, value: L) -> C): Left<C> = Left(when {
-        isLeft -> left(initial, (this as Left<L>).value)
-        isRight -> initial
-        else -> throw IllegalStateException("Either is neither left nor right!")
-    })
+    fun <C> mapLeft(initial: C, left: (initial: C, value: L) -> C): Left<C> = Left(
+        when {
+            isLeft -> left(initial, (this as Left<L>).value)
+            isRight -> initial
+            else -> throw IllegalStateException("Either is neither left nor right!")
+        }
+    )
 
-    fun <C> mapRight(initial: C, right: (initial: C, value: R) -> C): Right<C> = Right(when {
-        isLeft -> initial
-        isRight -> right(initial, (this as Right<R>).value)
-        else -> throw IllegalStateException("Either is neither left nor right!")
-    })
+    fun <C> mapRight(initial: C, right: (initial: C, value: R) -> C): Right<C> = Right(
+        when {
+            isLeft -> initial
+            isRight -> right(initial, (this as Right<R>).value)
+            else -> throw IllegalStateException("Either is neither left nor right!")
+        }
+    )
 
     fun flip(): Either<R, L> = when {
         isLeft -> Right((this as Left<L>).value)

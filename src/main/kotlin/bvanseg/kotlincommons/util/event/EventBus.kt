@@ -29,9 +29,6 @@ import bvanseg.kotlincommons.time.api.Khrono
 import bvanseg.kotlincommons.util.any.delay
 import bvanseg.kotlincommons.util.concurrent.KCountDownLatch
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.channels.BroadcastChannel
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.channels.sendBlocking
 import kotlinx.coroutines.launch
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.CountDownLatch
@@ -163,7 +160,7 @@ class EventBus {
     /**
      * Removes the given [listener] object.
      */
-    fun removeListener(listener: Any){
+    fun removeListener(listener: Any) {
         if (isLocked) return
 
         synchronized(listeners) {

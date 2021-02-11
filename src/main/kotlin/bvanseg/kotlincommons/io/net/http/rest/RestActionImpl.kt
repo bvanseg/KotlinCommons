@@ -25,6 +25,7 @@ package bvanseg.kotlincommons.io.net.http.rest
 
 import bvanseg.kotlincommons.KotlinCommons
 import bvanseg.kotlincommons.io.logging.getLogger
+import bvanseg.kotlincommons.util.functional.Result
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
@@ -49,20 +50,20 @@ import java.util.*
  * @since 2.3.0
  */
 @Suppress("UNCHECKED_CAST")
-open class RestActionImpl<T>(
+open class RestActionImpl<S>(
     private val request: HttpRequest,
-    private val type: Class<T>,
-    private val typeReference: TypeReference<T>,
+    private val type: Class<S>,
+    private val typeReference: TypeReference<S>,
     private val client: HttpClient = KotlinCommons.KC_HTTP_CLIENT,
     private val mapper: ObjectMapper = KotlinCommons.KC_JACKSON_OBJECT_MAPPER
-) : RestAction<T>() {
+) : RestAction<RestActionFailure, S>() {
 
     companion object {
 
         val logger = getLogger()
 
-        inline operator fun <reified T : Any> invoke(request: HttpRequest): RestActionImpl<T> {
-            return RestActionImpl(request, T::class.java, jacksonTypeRef())
+        inline operator fun <reified S : Any> invoke(request: HttpRequest): RestActionImpl<S> {
+            return RestActionImpl(request, S::class.java, jacksonTypeRef())
         }
     }
 
@@ -71,35 +72,18 @@ open class RestActionImpl<T>(
         else -> HttpResponse.BodyHandlers.ofString()
     }
 
-    override fun queueImpl(): RestActionImpl<T> {
-        future = client.sendAsync(request, HttpResponse.BodyHandlers.discarding()).whenComplete { response, throwable ->
-            throwable?.let { e ->
-                exceptionCallback?.invoke(response, e)
-                return@whenComplete
-            }
-
-            if (response.statusCode() in 400..599) {
-                errorCallback?.invoke(response)
-            } else {
-                successCallback?.invoke(response)
-            }
-        }
-
-        return this
-    }
-
-    override fun queueImpl(callback: (T) -> Unit): RestActionImpl<T> {
+    override fun queueImpl(callback: (Result<RestActionFailure, S>) -> Unit): RestActionImpl<S> {
         future = client.sendAsync(request, bodyHandlerType).whenComplete { response, throwable ->
             try {
 
                 throwable?.let { e ->
-                    exceptionCallback?.invoke(response, e)
+                    callback(Result.Failure(RestActionFailure(httpResponse = response, throwable = e)))
                     return@whenComplete
                 }
 
                 // Invoked no matter what.
                 if (response.statusCode() in 400..599) {
-                    errorCallback?.invoke(response)
+                    callback(Result.Failure(RestActionFailure(httpResponse = response)))
                 } else {
                     successCallback?.invoke(response)
                 }
@@ -107,67 +91,68 @@ open class RestActionImpl<T>(
                 // Fine to invoke whether or not the body is empty.
                 if (type == HttpResponse::class.java) {
                     // If the type needed is an HttpResponse, the response itself can be used in the queue callback.
-                    callback(response as T)
+                    callback(Result.Success(response as S))
                     return@whenComplete
                 } else if (type == String::class.java || type == ByteArray::class.java) {
                     // If the type needed is a String, the body itself can be returned as a String.
-                    callback(response.body() as T)
+                    callback(Result.Success(response.body() as S))
                     return@whenComplete
                 }
 
                 val strBody = response.body() as String
 
                 if (strBody.isNotEmpty()) {
-                    callback(mapper.readValue(strBody, typeReference))
+                    callback(Result.Success(mapper.readValue(strBody, typeReference)))
                 } else if (type == Optional::class.java) {
                     // If the type needed is a String, the body itself can be returned as a String.
-                    callback(Optional.empty<Any>() as T)
+                    callback(Result.Success(Optional.empty<Any>() as S))
                 }
             } catch (e: Exception) {
-                exceptionCallback?.invoke(response, e)
+                callback(Result.Failure(RestActionFailure(httpResponse = response, throwable = e)))
             }
         }
 
         return this
     }
 
-    override fun completeImpl(): T? {
+    override fun completeImpl(): Result<RestActionFailure, S> {
         val response = try {
             client.send(request, bodyHandlerType)
         } catch (e: Exception) {
-            exceptionCallback?.invoke(null, e)
-            return null
+            return Result.Failure(RestActionFailure(throwable = e))
         }
 
         // Invoked no matter what.
         if (response.statusCode() in 400..599) {
-            errorCallback?.invoke(response)
+            return Result.Failure(RestActionFailure(httpResponse = response))
         } else {
             successCallback?.invoke(response)
         }
+
+        lateinit var result: Result.Failure<Throwable>
 
         try {
             // Fine to invoke whether or not the body is empty.
             if (type == HttpResponse::class.java) {
                 // If the type needed is an HttpResponse, the response itself can be used in the queue callback.
-                return response as T
+                return Result.Success(response as S)
             } else if (type == String::class.java || type == ByteArray::class.java) {
                 // If the type needed is a String, the body itself can be returned as a String.
-                return response.body() as T
+                return Result.Success(response.body() as S)
             }
 
             val strBody = response.body() as String
 
             if (strBody.isNotEmpty()) {
-                return mapper.readValue(strBody, typeReference)
+                return Result.Success(mapper.readValue(strBody, typeReference))
             } else if (type == Optional::class.java) {
                 // If the type needed is a String, the body itself can be returned as a String.
-                return Optional.empty<Any>() as T
+                return Result.Success(Optional.empty<Any>() as S)
             }
         } catch (e: Exception) {
-            exceptionCallback?.invoke(response, e)
+            return Result.Failure(RestActionFailure(httpResponse = response, throwable = e))
         }
 
-        return null
+        return Result.Failure(RestActionFailure(httpResponse = response))
     }
 }

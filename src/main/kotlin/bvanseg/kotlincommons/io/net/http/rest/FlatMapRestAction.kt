@@ -23,24 +23,21 @@
  */
 package bvanseg.kotlincommons.io.net.http.rest
 
+import bvanseg.kotlincommons.util.functional.Result
+
 /**
  * An expansion of [RestAction] that allows for chaining [RestAction] queues.
  *
  * @author Boston Vanseghi
  * @since 2.3.0
  */
-class FlatMapRestAction<T, O>(val callback: (T?) -> RestAction<O>, private val parent: RestAction<T>) :
-    RestAction<O>() {
+class FlatMapRestAction<F, S, O>(
+    val callback: (Result<F, S>) -> RestAction<F, O>,
+    private val parent: RestAction<F, S>
+) :
+    RestAction<F, O>() {
 
-    override fun queueImpl(): FlatMapRestAction<T, O> {
-        parent.queue {
-            callback(it)
-        }
-
-        return this
-    }
-
-    override fun queueImpl(callback: (O) -> Unit): FlatMapRestAction<T, O> {
+    override fun queueImpl(callback: (Result<F, O>) -> Unit): FlatMapRestAction<F, S, O> {
         parent.queue {
             val resultAction = this.callback(it)
             resultAction.queue { result ->
@@ -51,7 +48,7 @@ class FlatMapRestAction<T, O>(val callback: (T?) -> RestAction<O>, private val p
         return this
     }
 
-    override fun completeImpl(): O? {
+    override fun completeImpl(): Result<F, O> {
         val value = parent.complete()
         return callback(value).complete()
     }

@@ -120,7 +120,9 @@ class MutableKhronoDateTime(override val date: MutableKhronoDate, override val t
         fun now(): MutableKhronoDateTime = LocalDateTime.now().toMutableKhronoDateTime()
         fun tomorrow(): MutableKhronoDateTime = now().apply { day + 1 }
 
-        fun afternoon(): MutableKhronoDateTime = MutableKhronoDateTime(MutableKhronoDate.now(), MutableKhronoTime(hr = 12.0))
+        fun afternoon(): MutableKhronoDateTime =
+            MutableKhronoDateTime(MutableKhronoDate.now(), MutableKhronoTime(hr = 12.0))
+
         fun midnight(): MutableKhronoDateTime = MutableKhronoDateTime(MutableKhronoDate.now(), MutableKhronoTime())
     }
 }

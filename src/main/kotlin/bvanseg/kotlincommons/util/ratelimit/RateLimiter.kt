@@ -25,7 +25,6 @@ package bvanseg.kotlincommons.util.ratelimit
 
 import bvanseg.kotlincommons.io.logging.getLogger
 import bvanseg.kotlincommons.time.api.Khrono
-import bvanseg.kotlincommons.time.api.milliseconds
 import bvanseg.kotlincommons.time.api.performer.every
 import bvanseg.kotlincommons.util.event.EventBus
 import bvanseg.kotlincommons.util.ratelimit.event.BucketRefillEvent

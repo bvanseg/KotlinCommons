@@ -114,7 +114,7 @@ enum class KhronoUnit(val max: Double = 1.0, val calendarUnit: Double = 1.0) {
     fun getSubUnit(): KhronoUnit = values().getOrNull(this.ordinal - 1) ?: NEVER
     fun getSuperUnit(): KhronoUnit = values().getOrNull(this.ordinal + 1) ?: FOREVER
 
-    fun toTimeUnit(): TimeUnit? = when(this) {
+    fun toTimeUnit(): TimeUnit? = when (this) {
         NANOSECOND -> TimeUnit.NANOSECONDS
         MICROSECOND -> TimeUnit.MICROSECONDS
         MILLISECOND -> TimeUnit.MILLISECONDS

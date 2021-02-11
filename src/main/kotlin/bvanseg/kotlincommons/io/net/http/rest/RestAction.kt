@@ -26,6 +26,7 @@ package bvanseg.kotlincommons.io.net.http.rest
 import bvanseg.kotlincommons.io.logging.getLogger
 import bvanseg.kotlincommons.time.api.Khrono
 import bvanseg.kotlincommons.util.any.delay
+import bvanseg.kotlincommons.util.functional.Result
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.net.http.HttpResponse
@@ -39,45 +40,31 @@ import java.util.concurrent.CompletableFuture
  * @author Boston Vanseghi
  * @since 2.3.0
  */
-abstract class RestAction<T> {
+abstract class RestAction<F, S> {
 
     companion object {
         private val logger = getLogger()
     }
 
     protected var successCallback: ((HttpResponse<*>) -> Unit)? = null
-    protected var errorCallback: ((HttpResponse<*>) -> Unit)? = null
-    protected var exceptionCallback: ((HttpResponse<*>?, Throwable) -> Unit)? = { _, throwable ->
-        logger.error("An exception has occurred while executing a RestAction", throwable)
-    }
 
     var future: CompletableFuture<out HttpResponse<*>>? = null
         protected set
 
-    open fun onSuccess(callback: (HttpResponse<*>) -> Unit): RestAction<T> {
+    open fun onSuccess(callback: (HttpResponse<*>) -> Unit): RestAction<F, S> {
         successCallback = callback
         return this
     }
 
-    open fun onError(callback: (HttpResponse<*>) -> Unit): RestAction<T> {
-        errorCallback = callback
-        return this
-    }
-
-    open fun onException(callback: (HttpResponse<*>?, Throwable) -> Unit): RestAction<T> {
-        exceptionCallback = callback
-        return this
-    }
-
-    fun queue(): RestAction<T> = queueImpl()
-    fun queue(callback: (T) -> Unit): RestAction<T> = queueImpl(callback)
+    fun queue(): RestAction<F, S> = queueImpl()
+    fun queue(callback: (Result<F, S>) -> Unit): RestAction<F, S> = queueImpl(callback)
 
     fun queueAfter(delay: Khrono) = GlobalScope.launch {
         delay(delay)
         queueImpl()
     }
 
-    fun queueAfter(delay: Khrono, callback: (T) -> Unit) = GlobalScope.launch {
+    fun queueAfter(delay: Khrono, callback: (Result<F, S>) -> Unit) = GlobalScope.launch {
         delay(delay)
         queueImpl(callback)
     }
@@ -87,16 +74,16 @@ abstract class RestAction<T> {
         return future
     }
 
-    fun submit(callback: (T) -> Unit): CompletableFuture<out HttpResponse<*>>? {
+    fun submit(callback: (Result<F, S>) -> Unit): CompletableFuture<out HttpResponse<*>>? {
         queueImpl(callback)
         return future
     }
 
     fun complete() = completeImpl()
 
-    protected abstract fun queueImpl(): RestAction<T>
-    protected abstract fun queueImpl(callback: (T) -> Unit): RestAction<T>
-    protected abstract fun completeImpl(): T?
+    protected abstract fun queueImpl(callback: (Result<F, S>) -> Unit = {}): RestAction<F, S>
+    protected abstract fun completeImpl(): Result<F, S>
 
-    fun <O> flatMap(callback: (T?) -> RestAction<O>): FlatMapRestAction<T, O> = FlatMapRestAction(callback, this)
+    fun <O> flatMap(callback: (Result<F, S>) -> RestAction<F, O>): FlatMapRestAction<F, S, O> =
+        FlatMapRestAction(callback, this)
 }
