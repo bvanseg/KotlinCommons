@@ -56,8 +56,9 @@ class KCHttpRequest {
         return op as T
     }
 
-    fun get(block: GET.() -> Unit): GET {
+    fun get(target: String, block: GET.() -> Unit): GET {
         val op = GET()
+        op.target = target
         op.block()
 
         requestBuilder.apply { requestBuilder.GET() }
