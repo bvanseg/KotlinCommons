@@ -10,9 +10,7 @@ class TestKCHttpRequest {
     fun testHeaderParameterBlock() {
         // Given
         val r = httpRequest {
-            get {
-                target = "http://www.google.com/search"
-
+            get("http://www.google.com/search") {
                 headers {
                     addHeader("foo", "bar")
                 }
@@ -33,9 +31,7 @@ class TestKCHttpRequest {
     fun testHeaderParameterBlockMapVersion() {
         // Given
         val r = httpRequest {
-            get {
-                target = "http://www.google.com/search"
-
+            get("http://www.google.com/search") {
                 headers {
                     addHeader("foo", "bar")
                 }

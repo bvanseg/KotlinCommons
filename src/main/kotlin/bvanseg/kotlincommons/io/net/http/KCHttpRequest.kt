@@ -56,7 +56,7 @@ class KCHttpRequest {
         return op as T
     }
 
-    fun get(target: String, block: GET.() -> Unit): GET {
+    fun get(target: String, block: GET.() -> Unit = {}): GET {
         val op = GET()
         op.target = target
         op.block()
@@ -66,8 +66,9 @@ class KCHttpRequest {
         return crud(op)
     }
 
-    fun delete(block: DELETE.() -> Unit): DELETE {
+    fun delete(target: String, block: DELETE.() -> Unit = {}): DELETE {
         val op = DELETE()
+        op.target = target
         op.block()
 
         requestBuilder.apply { requestBuilder.DELETE() }
@@ -75,8 +76,9 @@ class KCHttpRequest {
         return crud(op)
     }
 
-    fun post(block: POST.() -> Unit): POST {
+    fun post(target: String, block: POST.() -> Unit = {}): POST {
         val op = POST()
+        op.target = target
         op.block()
 
         requestBuilder.apply { requestBuilder.POST(op.publisher) }
@@ -84,8 +86,9 @@ class KCHttpRequest {
         return crud(op)
     }
 
-    fun put(block: PUT.() -> Unit): PUT {
+    fun put(target: String, block: PUT.() -> Unit = {}): PUT {
         val op = PUT()
+        op.target = target
         op.block()
 
         requestBuilder.apply { requestBuilder.PUT(op.publisher) }
@@ -93,8 +96,9 @@ class KCHttpRequest {
         return crud(op)
     }
 
-    fun patch(block: PATCH.() -> Unit): PATCH {
+    fun patch(target: String, block: PATCH.() -> Unit = {}): PATCH {
         val op = PATCH()
+        op.target = target
         op.block()
 
         requestBuilder.apply { requestBuilder.PATCH(op.publisher) }
