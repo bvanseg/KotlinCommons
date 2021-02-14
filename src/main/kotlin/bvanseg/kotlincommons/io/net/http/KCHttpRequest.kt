@@ -76,9 +76,10 @@ class KCHttpRequest {
         return crud(op)
     }
 
-    fun post(target: String, block: POST.() -> Unit = {}): POST {
+    fun post(target: String, publisher: HttpRequest.BodyPublisher, block: POST.() -> Unit = {}): POST {
         val op = POST()
         op.target = target
+        op.publisher = publisher
         op.block()
 
         requestBuilder.apply { requestBuilder.POST(op.publisher) }
