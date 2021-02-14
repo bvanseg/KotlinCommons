@@ -49,14 +49,13 @@ import java.util.Optional
  * @author Boston Vanseghi
  * @since 2.3.0
  */
-@Suppress("UNCHECKED_CAST")
 open class RestActionImpl<S>(
-    private val request: HttpRequest,
-    private val type: Class<S>,
+    override val request: HttpRequest,
+    override val type: Class<S>,
     private val typeReference: TypeReference<S>,
-    private val client: HttpClient = KotlinCommons.KC_HTTP_CLIENT,
+    override val client: HttpClient = KotlinCommons.KC_HTTP_CLIENT,
     private val mapper: ObjectMapper = KotlinCommons.KC_JACKSON_OBJECT_MAPPER
-) : RestAction<RestActionFailure, S>() {
+) : RestAction<RestActionFailure, S>(request, type, client) {
 
     companion object {
 
@@ -67,67 +66,7 @@ open class RestActionImpl<S>(
         }
     }
 
-    private val bodyHandlerType = when (type) {
-        ByteArray::class.java -> HttpResponse.BodyHandlers.ofByteArray()
-        else -> HttpResponse.BodyHandlers.ofString()
-    }
-
-    override fun queueImpl(callback: (Result<RestActionFailure, S>) -> Unit): RestActionImpl<S> {
-        future = client.sendAsync(request, bodyHandlerType).whenComplete { response, throwable ->
-            try {
-                throwable?.let { e ->
-                    val failure = constructFailure(response = response, throwable = e)
-                    failureCallback?.invoke(failure)
-                    callback(Result.Failure(failure))
-                    return@whenComplete
-                }
-
-                if (response.statusCode() in 400..599) {
-                    val failure = constructFailure(response = response)
-                    failureCallback?.invoke(failure)
-                    callback(Result.Failure(failure))
-                    return@whenComplete
-                }
-
-                val successObject = transformBody(response)
-                successCallback?.invoke(successObject)
-                callback(Result.Success(successObject))
-            } catch (e: Exception) {
-                val failure = constructFailure(response = response, throwable = e)
-                failureCallback?.invoke(failure)
-                callback(Result.Failure(failure))
-            }
-        }
-
-        return this
-    }
-
-    override fun completeImpl(): Result<RestActionFailure, S> {
-        val response = try {
-            client.send(request, bodyHandlerType)
-        } catch (e: Exception) {
-            val failure = constructFailure(throwable = e)
-            failureCallback?.invoke(failure)
-            return Result.Failure(failure)
-        }
-
-        if (response.statusCode() in 400..599) {
-            val failure = constructFailure(response = response)
-            failureCallback?.invoke(failure)
-            return Result.Failure(failure)
-        }
-
-        return try {
-            val successObject = transformBody(response)
-            successCallback?.invoke(successObject)
-            Result.Success(successObject)
-        } catch (e: Exception) {
-            val failure = constructFailure(response = response, throwable = e)
-            failureCallback?.invoke(failure)
-            Result.Failure(failure)
-        }
-    }
-
+    @Suppress("UNCHECKED_CAST")
     override fun transformBody(response: HttpResponse<*>): S {
         // Fine to invoke whether or not the body is empty.
         if (type == HttpResponse::class.java) {

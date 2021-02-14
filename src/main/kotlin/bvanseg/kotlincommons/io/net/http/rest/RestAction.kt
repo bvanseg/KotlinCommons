@@ -23,12 +23,16 @@
  */
 package bvanseg.kotlincommons.io.net.http.rest
 
+import bvanseg.kotlincommons.KotlinCommons
 import bvanseg.kotlincommons.io.logging.getLogger
 import bvanseg.kotlincommons.time.api.Khrono
 import bvanseg.kotlincommons.util.any.delay
 import bvanseg.kotlincommons.util.functional.Result
+import com.fasterxml.jackson.core.type.TypeReference
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.net.http.HttpClient
+import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 import java.util.concurrent.CompletableFuture
 
@@ -41,7 +45,15 @@ import java.util.concurrent.CompletableFuture
  * @author Boston Vanseghi
  * @since 2.3.0
  */
-abstract class RestAction<F, S> {
+abstract class RestAction<F, S>(
+    open val request: HttpRequest,
+    open val type: Class<S>,
+    open val client: HttpClient = KotlinCommons.KC_HTTP_CLIENT,
+    private val bodyHandlerType: HttpResponse.BodyHandler<*> = when (type) {
+        ByteArray::class.java -> HttpResponse.BodyHandlers.ofByteArray()
+        else -> HttpResponse.BodyHandlers.ofString()
+    }
+) {
 
     companion object {
         private val logger = getLogger()
@@ -74,11 +86,64 @@ abstract class RestAction<F, S> {
 
     fun complete(): Result<F, S> = completeImpl()
 
-    protected abstract fun queueImpl(callback: (Result<F, S>) -> Unit = {}): RestAction<F, S>
-    protected abstract fun completeImpl(): Result<F, S>
+    open protected fun queueImpl(callback: (Result<F, S>) -> Unit = {}): RestAction<F, S> {
+        future = client.sendAsync(request, bodyHandlerType).whenComplete { response, throwable ->
+            try {
+                throwable?.let { e ->
+                    val failure = constructFailure(response = response, throwable = e)
+                    failureCallback?.invoke(failure)
+                    callback(Result.Failure(failure))
+                    return@whenComplete
+                }
 
-    fun <O> flatMap(callback: (Result<F, S>) -> RestAction<F, O>): FlatMapRestAction<F, S, O> =
-        FlatMapRestAction(callback, this)
+                if (response.statusCode() in 400..599) {
+                    val failure = constructFailure(response = response)
+                    failureCallback?.invoke(failure)
+                    callback(Result.Failure(failure))
+                    return@whenComplete
+                }
+
+                val successObject = transformBody(response)
+                successCallback?.invoke(successObject)
+                callback(Result.Success(successObject))
+            } catch (e: Exception) {
+                val failure = constructFailure(response = response, throwable = e)
+                failureCallback?.invoke(failure)
+                callback(Result.Failure(failure))
+            }
+        }
+
+        return this
+    }
+
+    open protected fun completeImpl(): Result<F, S> {
+        val response = try {
+            client.send(request, bodyHandlerType)
+        } catch (e: Exception) {
+            val failure = constructFailure(throwable = e)
+            failureCallback?.invoke(failure)
+            return Result.Failure(failure)
+        }
+
+        if (response.statusCode() in 400..599) {
+            val failure = constructFailure(response = response)
+            failureCallback?.invoke(failure)
+            return Result.Failure(failure)
+        }
+
+        return try {
+            val successObject = transformBody(response)
+            successCallback?.invoke(successObject)
+            Result.Success(successObject)
+        } catch (e: Exception) {
+            val failure = constructFailure(response = response, throwable = e)
+            failureCallback?.invoke(failure)
+            Result.Failure(failure)
+        }
+    }
+
+    inline fun <reified O> flatMap(noinline callback: (Result<F, S>) -> RestAction<F, O>): FlatMapRestAction<F, S, O> =
+        FlatMapRestAction(callback, O::class.java, this)
 
     /**
      * Transforms the body from the [response] into the successful [S] type.

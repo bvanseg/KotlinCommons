@@ -34,8 +34,9 @@ import java.net.http.HttpResponse
  */
 class FlatMapRestAction<F, S, O>(
     val callback: (Result<F, S>) -> RestAction<F, O>,
+    override val type: Class<O>,
     private val parent: RestAction<F, S>
-) : RestAction<F, O>() {
+) : RestAction<F, O>(parent.request, type, parent.client) {
 
     override fun queueImpl(callback: (Result<F, O>) -> Unit): FlatMapRestAction<F, S, O> {
         parent.queue {
