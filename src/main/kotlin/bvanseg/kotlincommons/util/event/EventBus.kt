@@ -145,7 +145,7 @@ class EventBus {
      * @param persist Whether or not the given [callback] should persist as an event handler.
      * @param callback The callback to execute upon receiving the target event.
      */
-    inline fun <reified T : Any> on(persist: Boolean = false, noinline callback: (T) -> Unit) {
+    inline fun <reified T> on(persist: Boolean = false, noinline callback: (T) -> Unit) {
         if (isLocked) return
 
         val callbackClass = T::class.java
@@ -300,15 +300,19 @@ class EventBus {
      *
      * @param T The type of event to await. Superclasses of specific events are also acceptable to await.
      */
-    inline fun <reified T : Any> awaitThreadEvent() {
-        if (!isEnabled) return
+    inline fun <reified T> awaitThreadEvent(): T? {
+        if (!isEnabled) return null
         val latch = CountDownLatch(1)
 
+        var event: T? = null
+
         this.on<T> {
+            event = it
             latch.countDown()
         }
 
         latch.await()
+        return event
     }
 
     /**
@@ -317,15 +321,19 @@ class EventBus {
      *
      * @param T The type of event to await. Superclasses of specific events are also acceptable to await.
      */
-    suspend inline fun <reified T : Any> awaitCoroutineEvent() {
-        if (!isEnabled) return
+    suspend inline fun <reified T> awaitCoroutineEvent(): T? {
+        if (!isEnabled) return null
         val latch = KCountDownLatch(1)
 
+        var event: T? = null
+
         this.on<T> {
+            event = it
             latch.countDown()
         }
 
         latch.await()
+        return event
     }
 
     /**
