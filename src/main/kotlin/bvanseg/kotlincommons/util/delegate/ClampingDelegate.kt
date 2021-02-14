@@ -23,35 +23,26 @@
  */
 package bvanseg.kotlincommons.util.delegate
 
-import bvanseg.kotlincommons.time.api.Khrono
+import bvanseg.kotlincommons.util.comparable.clamp
+import kotlin.reflect.KProperty
 
 /**
- * @author Boston Vanseghi
- * @since 2.8.0
- */
-fun <T> nullableCache(cacheTime: Khrono, initialValue: T? = null) = cache(cacheTime, initialValue, null)
-
-/**
- * @author Boston Vanseghi
- * @since 2.8.0
- */
-fun <T> cache(cacheTime: Khrono, initialValue: T, resetValue: T) = CacheDelegate(cacheTime, initialValue, resetValue)
-
-/**
- * @author Boston Vanseghi
- * @since 2.8.0
- */
-fun <T> cache(cacheTime: Khrono, initialValue: T, callback: () -> T) =
-    CacheCallbackDelegate(cacheTime, initialValue, callback)
-
-/**
- * @author Boston Vanseghi
- * @since 2.8.0
- */
-fun <T> cache(cacheTime: Khrono, callback: () -> T) = CacheCallbackDelegate(cacheTime, callback(), callback)
-
-/**
+ * A delegator class that clamps a value as it is set.
+ *
+ * @param value The initial value to clamp.
+ * @param lowerBound The lower boundary for value. This bound is exclusive.
+ * @param upperBound The upper boundary for value. This bound is exclusive.
+ *
  * @author Boston Vanseghi
  * @since 2.9.1
  */
-fun <T: Comparable<T>> clamping(value: T, lowerBound: T, upperBound: T) = ClampingDelegate(value, lowerBound, upperBound)
+class ClampingDelegate<T: Comparable<T>>(value: T, private val lowerBound: T, private val upperBound: T) {
+
+    private var clampedValue: T = clamp(value, lowerBound, upperBound)
+
+    operator fun setValue(thisRef: Any?, property: KProperty<*>, newValue: T) {
+        clampedValue = clamp(newValue, lowerBound, upperBound)
+    }
+
+    operator fun getValue(thisRef: Any?, property: KProperty<*>): T = clampedValue
+}
