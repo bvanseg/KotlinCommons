@@ -47,12 +47,18 @@ abstract class RestAction<F, S> {
         private val logger = getLogger()
     }
 
-    protected var successCallback: ((HttpResponse<*>) -> Unit)? = null
-
     var future: CompletableFuture<out HttpResponse<*>>? = null
         protected set
 
-    open fun onSuccess(callback: (HttpResponse<*>) -> Unit): RestAction<F, S> {
+    protected var failureCallback: ((F) -> Unit)? = null
+    protected var successCallback: ((S) -> Unit)? = null
+
+    open fun onFailure(callback: (F) -> Unit): RestAction<F, S> {
+        failureCallback = callback
+        return this
+    }
+
+    open fun onSuccess(callback: (S) -> Unit): RestAction<F, S> {
         successCallback = callback
         return this
     }

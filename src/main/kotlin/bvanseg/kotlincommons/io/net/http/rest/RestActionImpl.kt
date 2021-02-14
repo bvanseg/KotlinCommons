@@ -76,20 +76,26 @@ open class RestActionImpl<S>(
         future = client.sendAsync(request, bodyHandlerType).whenComplete { response, throwable ->
             try {
                 throwable?.let { e ->
-                    callback(Result.Failure(RestActionFailure(httpResponse = response, throwable = e)))
+                    val failure = RestActionFailure(httpResponse = response, throwable = e)
+                    failureCallback?.invoke(failure)
+                    callback(Result.Failure(failure))
                     return@whenComplete
                 }
 
-                // Invoked no matter what.
                 if (response.statusCode() in 400..599) {
-                    callback(Result.Failure(RestActionFailure(httpResponse = response)))
-                } else {
-                    successCallback?.invoke(response)
+                    val failure = RestActionFailure(httpResponse = response)
+                    failureCallback?.invoke(failure)
+                    callback(Result.Failure(failure))
+                    return@whenComplete
                 }
 
-                callback(Result.Success(transformBody(response)))
+                val successObject = transformBody(response)
+                successCallback?.invoke(successObject)
+                callback(Result.Success(successObject))
             } catch (e: Exception) {
-                callback(Result.Failure(RestActionFailure(httpResponse = response, throwable = e)))
+                val failure = RestActionFailure(httpResponse = response, throwable = e)
+                failureCallback?.invoke(failure)
+                callback(Result.Failure(failure))
             }
         }
 
@@ -100,20 +106,25 @@ open class RestActionImpl<S>(
         val response = try {
             client.send(request, bodyHandlerType)
         } catch (e: Exception) {
-            return Result.Failure(RestActionFailure(throwable = e))
+            val failure = RestActionFailure(throwable = e)
+            failureCallback?.invoke(failure)
+            return Result.Failure(failure)
         }
 
-        // Invoked no matter what.
         if (response.statusCode() in 400..599) {
-            return Result.Failure(RestActionFailure(httpResponse = response))
-        } else {
-            successCallback?.invoke(response)
+            val failure = RestActionFailure(httpResponse = response)
+            failureCallback?.invoke(failure)
+            return Result.Failure(failure)
         }
 
         return try {
-            Result.Success(transformBody(response))
+            val successObject = transformBody(response)
+            successCallback?.invoke(successObject)
+            Result.Success(successObject)
         } catch (e: Exception) {
-            Result.Failure(RestActionFailure(httpResponse = response, throwable = e))
+            val failure = RestActionFailure(httpResponse = response, throwable = e)
+            failureCallback?.invoke(failure)
+            Result.Failure(failure)
         }
     }
 
