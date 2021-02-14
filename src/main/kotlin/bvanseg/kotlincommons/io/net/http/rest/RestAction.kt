@@ -73,4 +73,13 @@ abstract class RestAction<F, S> {
 
     fun <O> flatMap(callback: (Result<F, S>) -> RestAction<F, O>): FlatMapRestAction<F, S, O> =
         FlatMapRestAction(callback, this)
+
+    /**
+     * Transforms the body from the [response] into the successful [S] type.
+     *
+     * @param response The [HttpResponse] to derive the [S] object from.
+     *
+     * @return An object of type [S].
+     */
+    protected abstract fun transformBody(response: HttpResponse<*>) : S
 }

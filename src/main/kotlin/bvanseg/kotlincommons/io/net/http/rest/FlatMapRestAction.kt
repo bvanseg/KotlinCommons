@@ -24,6 +24,7 @@
 package bvanseg.kotlincommons.io.net.http.rest
 
 import bvanseg.kotlincommons.util.functional.Result
+import java.net.http.HttpResponse
 
 /**
  * An expansion of [RestAction] that allows for chaining [RestAction] queues.
@@ -34,8 +35,7 @@ import bvanseg.kotlincommons.util.functional.Result
 class FlatMapRestAction<F, S, O>(
     val callback: (Result<F, S>) -> RestAction<F, O>,
     private val parent: RestAction<F, S>
-) :
-    RestAction<F, O>() {
+) : RestAction<F, O>() {
 
     override fun queueImpl(callback: (Result<F, O>) -> Unit): FlatMapRestAction<F, S, O> {
         parent.queue {
@@ -52,4 +52,7 @@ class FlatMapRestAction<F, S, O>(
         val value = parent.complete()
         return callback(value).complete()
     }
+
+    // A flatmap rest action should never do transformations, only the parent and resultant rest actions it handles.
+    override fun transformBody(response: HttpResponse<*>): O = throw UnsupportedOperationException()
 }

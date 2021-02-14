@@ -32,7 +32,7 @@ import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
-import java.util.*
+import java.util.Optional
 
 /**
  * An implementation of the [RestAction] class inspired by JDA (Java Discord REST-API Wrapper).
@@ -75,7 +75,6 @@ open class RestActionImpl<S>(
     override fun queueImpl(callback: (Result<RestActionFailure, S>) -> Unit): RestActionImpl<S> {
         future = client.sendAsync(request, bodyHandlerType).whenComplete { response, throwable ->
             try {
-
                 throwable?.let { e ->
                     callback(Result.Failure(RestActionFailure(httpResponse = response, throwable = e)))
                     return@whenComplete
@@ -88,25 +87,7 @@ open class RestActionImpl<S>(
                     successCallback?.invoke(response)
                 }
 
-                // Fine to invoke whether or not the body is empty.
-                if (type == HttpResponse::class.java) {
-                    // If the type needed is an HttpResponse, the response itself can be used in the queue callback.
-                    callback(Result.Success(response as S))
-                    return@whenComplete
-                } else if (type == String::class.java || type == ByteArray::class.java) {
-                    // If the type needed is a String, the body itself can be returned as a String.
-                    callback(Result.Success(response.body() as S))
-                    return@whenComplete
-                }
-
-                val strBody = response.body() as String
-
-                if (strBody.isNotEmpty()) {
-                    callback(Result.Success(mapper.readValue(strBody, typeReference)))
-                } else if (type == Optional::class.java) {
-                    // If the type needed is a String, the body itself can be returned as a String.
-                    callback(Result.Success(Optional.empty<Any>() as S))
-                }
+                callback(Result.Success(transformBody(response)))
             } catch (e: Exception) {
                 callback(Result.Failure(RestActionFailure(httpResponse = response, throwable = e)))
             }
@@ -129,28 +110,32 @@ open class RestActionImpl<S>(
             successCallback?.invoke(response)
         }
 
-        try {
-            // Fine to invoke whether or not the body is empty.
-            if (type == HttpResponse::class.java) {
-                // If the type needed is an HttpResponse, the response itself can be used in the queue callback.
-                return Result.Success(response as S)
-            } else if (type == String::class.java || type == ByteArray::class.java) {
-                // If the type needed is a String, the body itself can be returned as a String.
-                return Result.Success(response.body() as S)
-            }
-
-            val strBody = response.body() as String
-
-            if (strBody.isNotEmpty()) {
-                return Result.Success(mapper.readValue(strBody, typeReference))
-            } else if (type == Optional::class.java) {
-                // If the type needed is a String, the body itself can be returned as a String.
-                return Result.Success(Optional.empty<Any>() as S)
-            }
+        return try {
+            Result.Success(transformBody(response))
         } catch (e: Exception) {
-            return Result.Failure(RestActionFailure(httpResponse = response, throwable = e))
+            Result.Failure(RestActionFailure(httpResponse = response, throwable = e))
+        }
+    }
+
+    override fun transformBody(response: HttpResponse<*>): S {
+        // Fine to invoke whether or not the body is empty.
+        if (type == HttpResponse::class.java) {
+            // If the type needed is an HttpResponse, the response itself can be used in the queue callback.
+            return response as S
+        } else if (type == String::class.java || type == ByteArray::class.java) {
+            // If the type needed is a String, the body itself can be returned as a String.
+            return response.body() as S
         }
 
-        return Result.Failure(RestActionFailure(httpResponse = response))
+        val strBody = response.body() as String
+
+        if (strBody.isNotEmpty()) {
+            return mapper.readValue(strBody, typeReference)
+        } else if (type == Optional::class.java) {
+            // If the type needed is a String, the body itself can be returned as a String.
+            return Optional.empty<Any>() as S
+        }
+
+        throw IllegalStateException("Response body is empty and can not be parsed as type $type.")
     }
 }
