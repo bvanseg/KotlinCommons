@@ -129,8 +129,6 @@ open class RestActionImpl<S>(
             successCallback?.invoke(response)
         }
 
-        lateinit var result: Result.Failure<Throwable>
-
         try {
             // Fine to invoke whether or not the body is empty.
             if (type == HttpResponse::class.java) {
