@@ -57,30 +57,16 @@ abstract class RestAction<F, S> {
         return this
     }
 
-    fun queue(): RestAction<F, S> = queueImpl()
-    fun queue(callback: (Result<F, S>) -> Unit): RestAction<F, S> = queueImpl(callback)
+    fun queue(callback: (Result<F, S>) -> Unit = {}): RestAction<F, S> = queueImpl(callback)
 
-    fun queueAfter(delay: Khrono) = GlobalScope.launch {
-        delay(delay)
-        queueImpl()
-    }
-
-    fun queueAfter(delay: Khrono, callback: (Result<F, S>) -> Unit) = GlobalScope.launch {
+    fun queueAfter(delay: Khrono, callback: (Result<F, S>) -> Unit = {}) = GlobalScope.launch {
         delay(delay)
         queueImpl(callback)
     }
 
-    fun submit(): CompletableFuture<out HttpResponse<*>>? {
-        queueImpl()
-        return future
-    }
+    fun submit(callback: (Result<F, S>) -> Unit = {}): CompletableFuture<out HttpResponse<*>>? = queueImpl(callback).future
 
-    fun submit(callback: (Result<F, S>) -> Unit): CompletableFuture<out HttpResponse<*>>? {
-        queueImpl(callback)
-        return future
-    }
-
-    fun complete() = completeImpl()
+    fun complete(): Result<F, S> = completeImpl()
 
     protected abstract fun queueImpl(callback: (Result<F, S>) -> Unit = {}): RestAction<F, S>
     protected abstract fun completeImpl(): Result<F, S>
