@@ -35,7 +35,8 @@ import java.util.concurrent.CompletableFuture
 /**
  * A simple interface that outlines a model of handling RESTful requests.
  *
- * [T] - The type of model to perform the REST action on.
+ * [F] - The type to use in representing errors/exceptions/failures.
+ * [S] - The type to transform the returned HttpResponse body into.
  *
  * @author Boston Vanseghi
  * @since 2.3.0
