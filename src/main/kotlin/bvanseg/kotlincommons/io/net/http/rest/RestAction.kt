@@ -88,4 +88,6 @@ abstract class RestAction<F, S> {
      * @return An object of type [S].
      */
     protected abstract fun transformBody(response: HttpResponse<*>) : S
+
+    protected abstract fun constructFailure(response: HttpResponse<*>? = null, throwable: Throwable? = null): F
 }

@@ -76,14 +76,14 @@ open class RestActionImpl<S>(
         future = client.sendAsync(request, bodyHandlerType).whenComplete { response, throwable ->
             try {
                 throwable?.let { e ->
-                    val failure = RestActionFailure(httpResponse = response, throwable = e)
+                    val failure = constructFailure(response = response, throwable = e)
                     failureCallback?.invoke(failure)
                     callback(Result.Failure(failure))
                     return@whenComplete
                 }
 
                 if (response.statusCode() in 400..599) {
-                    val failure = RestActionFailure(httpResponse = response)
+                    val failure = constructFailure(response = response)
                     failureCallback?.invoke(failure)
                     callback(Result.Failure(failure))
                     return@whenComplete
@@ -93,7 +93,7 @@ open class RestActionImpl<S>(
                 successCallback?.invoke(successObject)
                 callback(Result.Success(successObject))
             } catch (e: Exception) {
-                val failure = RestActionFailure(httpResponse = response, throwable = e)
+                val failure = constructFailure(response = response, throwable = e)
                 failureCallback?.invoke(failure)
                 callback(Result.Failure(failure))
             }
@@ -106,13 +106,13 @@ open class RestActionImpl<S>(
         val response = try {
             client.send(request, bodyHandlerType)
         } catch (e: Exception) {
-            val failure = RestActionFailure(throwable = e)
+            val failure = constructFailure(throwable = e)
             failureCallback?.invoke(failure)
             return Result.Failure(failure)
         }
 
         if (response.statusCode() in 400..599) {
-            val failure = RestActionFailure(httpResponse = response)
+            val failure = constructFailure(response = response)
             failureCallback?.invoke(failure)
             return Result.Failure(failure)
         }
@@ -122,7 +122,7 @@ open class RestActionImpl<S>(
             successCallback?.invoke(successObject)
             Result.Success(successObject)
         } catch (e: Exception) {
-            val failure = RestActionFailure(httpResponse = response, throwable = e)
+            val failure = constructFailure(response = response, throwable = e)
             failureCallback?.invoke(failure)
             Result.Failure(failure)
         }
@@ -149,4 +149,7 @@ open class RestActionImpl<S>(
 
         throw IllegalStateException("Response body is empty and can not be parsed as type $type.")
     }
+
+    override fun constructFailure(response: HttpResponse<*>?, throwable: Throwable?): RestActionFailure =
+        RestActionFailure(httpResponse = response, throwable = throwable)
 }
