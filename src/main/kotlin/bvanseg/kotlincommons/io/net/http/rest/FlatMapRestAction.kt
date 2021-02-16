@@ -33,7 +33,7 @@ import java.net.http.HttpResponse
  * @since 2.3.0
  */
 class FlatMapRestAction<F, S, O>(
-    val callback: (Result<F, S>) -> RestAction<F, O>,
+    val callback: (Result<F, S>) -> RestAction<F, O>?,
     override val type: Class<O>,
     private val parent: RestAction<F, S>
 ) : RestAction<F, O>(parent.request, type, parent.client) {
@@ -41,8 +41,15 @@ class FlatMapRestAction<F, S, O>(
     override fun queueImpl(callback: (Result<F, O>) -> Unit): FlatMapRestAction<F, S, O> {
         parent.queue {
             val resultAction = this.callback(it)
-            resultAction.queue { result ->
-                callback(result)
+            // If the parent was unsuccessful, short-circuit the flatmap and return the failing parent result.
+            // If the parent was successful, proceed with the callback rest action. If the provided rest action was null,
+            // short-circuit the flatmap and return a failure.
+            if (it.isSuccess) {
+                resultAction?.queue { result ->
+                    callback(result)
+                } ?: callback(Result.Failure(parent.constructFailure()))
+            } else {
+                callback(it as Result.Failure<F>)
             }
         }
 
@@ -51,13 +58,18 @@ class FlatMapRestAction<F, S, O>(
 
     override fun completeImpl(): Result<F, O> {
         val value = parent.complete()
-        return callback(value).complete()
+        // If the parent was unsuccessful, short-circuit the flatmap and return the failing parent result.
+        // If the parent was successful, proceed with the callback rest action. If the provided rest action was null,
+        // short-circuit the flatmap and return a failure.
+        return if (value.isSuccess) {
+            callback(value)?.complete() ?: Result.Failure(parent.constructFailure())
+        } else {
+            (value as Result.Failure<F>)
+        }
     }
 
     // A flatmap rest action should never do transformations.
     override fun transformBody(response: HttpResponse<*>): O = throw UnsupportedOperationException()
 
-    // A flatmap rest action should never construct failures.
-    override fun constructFailure(response: HttpResponse<*>?, throwable: Throwable?): F =
-        throw UnsupportedOperationException()
+    override fun constructFailure(response: HttpResponse<*>?, throwable: Throwable?): F = parent.constructFailure(response, throwable)
 }

@@ -86,7 +86,7 @@ abstract class RestAction<F, S>(
 
     fun complete(): Result<F, S> = completeImpl()
 
-    open protected fun queueImpl(callback: (Result<F, S>) -> Unit = {}): RestAction<F, S> {
+    protected open fun queueImpl(callback: (Result<F, S>) -> Unit = {}): RestAction<F, S> {
         future = client.sendAsync(request, bodyHandlerType).whenComplete { response, throwable ->
             try {
                 throwable?.let { e ->
@@ -116,7 +116,7 @@ abstract class RestAction<F, S>(
         return this
     }
 
-    open protected fun completeImpl(): Result<F, S> {
+    protected open fun completeImpl(): Result<F, S> {
         val response = try {
             client.send(request, bodyHandlerType)
         } catch (e: Exception) {
@@ -142,7 +142,7 @@ abstract class RestAction<F, S>(
         }
     }
 
-    inline fun <reified O> flatMap(noinline callback: (Result<F, S>) -> RestAction<F, O>): FlatMapRestAction<F, S, O> =
+    inline fun <reified O> flatMap(noinline callback: (Result<F, S>) -> RestAction<F, O>?): FlatMapRestAction<F, S, O> =
         FlatMapRestAction(callback, O::class.java, this)
 
     /**
@@ -154,5 +154,5 @@ abstract class RestAction<F, S>(
      */
     protected abstract fun transformBody(response: HttpResponse<*>) : S
 
-    protected abstract fun constructFailure(response: HttpResponse<*>? = null, throwable: Throwable? = null): F
+    abstract fun constructFailure(response: HttpResponse<*>? = null, throwable: Throwable? = null): F
 }
