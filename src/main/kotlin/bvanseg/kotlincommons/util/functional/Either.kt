@@ -45,6 +45,20 @@ sealed class Either<out L, out R> {
         }
     )
 
+    inline fun ifLeft(callback: (L) -> Unit): Either<L, R> {
+        if (isLeft) {
+            callback(this.left().unwrap())
+        }
+        return this
+    }
+
+    inline fun ifRight(callback: (R) -> Unit): Either<L, R> {
+        if (isRight) {
+            callback(this.right().unwrap())
+        }
+        return this
+    }
+
     fun flip(): Either<R, L> = when {
         isLeft -> Right((this as Left<L>).value)
         isRight -> Left((this as Right<R>).value)

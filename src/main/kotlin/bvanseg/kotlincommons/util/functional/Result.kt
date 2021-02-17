@@ -47,6 +47,20 @@ sealed class Result<out F, out S> {
         }
     )
 
+    inline fun ifFailure(callback: (F) -> Unit): Result<F, S> {
+        if (isFailure) {
+            callback(this.failure().unwrap())
+        }
+        return this
+    }
+
+    inline fun ifSuccess(callback: (S) -> Unit): Result<F, S> {
+        if (isSuccess) {
+            callback(this.success().unwrap())
+        }
+        return this
+    }
+
     fun flip(): Result<S, F> = when {
         isFailure -> Success((this as Failure<F>).value)
         isSuccess -> Failure((this as Success<S>).value)
