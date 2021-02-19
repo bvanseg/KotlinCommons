@@ -87,30 +87,36 @@ abstract class RestAction<F, S>(
     fun complete(): Result<F, S> = completeImpl()
 
     protected open fun queueImpl(callback: (Result<F, S>) -> Unit = {}): RestAction<F, S> {
-        future = client.sendAsync(request, bodyHandlerType).whenComplete { response, throwable ->
-            try {
-                throwable?.let { e ->
+        try {
+            future = client.sendAsync(request, bodyHandlerType).whenComplete { response, throwable ->
+                try {
+                    throwable?.let { e ->
+                        val failure = constructFailure(response = response, throwable = e)
+                        failureCallback?.invoke(failure)
+                        callback(Result.Failure(failure))
+                        return@whenComplete
+                    }
+
+                    if (response.statusCode() in 400..599) {
+                        val failure = constructFailure(response = response)
+                        failureCallback?.invoke(failure)
+                        callback(Result.Failure(failure))
+                        return@whenComplete
+                    }
+
+                    val successObject = transformBody(response)
+                    successCallback?.invoke(successObject)
+                    callback(Result.Success(successObject))
+                } catch (e: Exception) {
                     val failure = constructFailure(response = response, throwable = e)
                     failureCallback?.invoke(failure)
                     callback(Result.Failure(failure))
-                    return@whenComplete
                 }
-
-                if (response.statusCode() in 400..599) {
-                    val failure = constructFailure(response = response)
-                    failureCallback?.invoke(failure)
-                    callback(Result.Failure(failure))
-                    return@whenComplete
-                }
-
-                val successObject = transformBody(response)
-                successCallback?.invoke(successObject)
-                callback(Result.Success(successObject))
-            } catch (e: Exception) {
-                val failure = constructFailure(response = response, throwable = e)
-                failureCallback?.invoke(failure)
-                callback(Result.Failure(failure))
             }
+        } catch(e: Exception) {
+            val failure = constructFailure(throwable = e)
+            failureCallback?.invoke(failure)
+            callback(Result.Failure(failure))
         }
 
         return this
