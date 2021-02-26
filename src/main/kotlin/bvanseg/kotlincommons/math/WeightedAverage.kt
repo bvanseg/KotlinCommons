@@ -27,7 +27,13 @@ package bvanseg.kotlincommons.math
  * @author Jacob Glickman
  * @since 2.7.0
  */
-class WeightedAverage(var totalValue: Double = 0.0, private var totalWeight: Int = 0) {
+class WeightedAverage(totalValue: Double = 0.0, totalWeight: Int = 0) {
+
+    var totalValue = totalValue
+        private set
+
+    var totalWeight = totalWeight
+        private set
 
     /**
      * Adds the given [value] and [weight] to the [WeightedAverage], increasing the [totalValue] and the [totalWeight].
@@ -36,7 +42,7 @@ class WeightedAverage(var totalValue: Double = 0.0, private var totalWeight: Int
      * @param weight The weight to weigh this specific value at.
      */
     fun add(value: Double, weight: Int) {
-        this.totalValue += (value * weight)
+        totalValue += (value * weight)
         totalWeight += weight
     }
 
@@ -52,5 +58,5 @@ class WeightedAverage(var totalValue: Double = 0.0, private var totalWeight: Int
      *
      * @return A copy of the current [WeightedAverage].
      */
-    fun copy(): WeightedAverage = WeightedAverage(this.totalValue, this.totalWeight)
+    fun copy(): WeightedAverage = WeightedAverage(totalValue, totalWeight)
 }

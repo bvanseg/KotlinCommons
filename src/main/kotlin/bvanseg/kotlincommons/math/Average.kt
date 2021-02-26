@@ -43,7 +43,7 @@ class Average(total: Double = 0.0, count: Int = 0) {
      * @param value The value to add to the [Average].
      */
     fun add(value: Double) {
-        this.total += value
+        total += value
         count++
     }
 
