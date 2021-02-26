@@ -29,7 +29,13 @@ package bvanseg.kotlincommons.math
  * @author Boston Vanseghi
  * @since 2.2.5
  */
-class Average(var total: Double = 0.0, private var count: Int = 0) {
+class Average(total: Double = 0.0, count: Int = 0) {
+
+    var total = total
+        private set
+
+    var count = count
+        private set
 
     /**
      * Adds the given [value] to the [Average], increasing the [total] and the [count].
@@ -53,5 +59,5 @@ class Average(var total: Double = 0.0, private var count: Int = 0) {
      *
      * @return A copy of the current [Average].
      */
-    fun copy(): Average = Average(this.total, this.count)
+    fun copy(): Average = Average(total, count)
 }
