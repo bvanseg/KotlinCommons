@@ -61,8 +61,12 @@ open class RestActionImpl<S>(
 
         val logger = getLogger()
 
-        inline operator fun <reified S> invoke(request: HttpRequest): RestActionImpl<S> {
-            return RestActionImpl(request, S::class.java, jacksonTypeRef())
+        inline operator fun <reified S> invoke(
+            request: HttpRequest,
+            client: HttpClient = KotlinCommons.KC_HTTP_CLIENT,
+            mapper: ObjectMapper = KotlinCommons.KC_JACKSON_OBJECT_MAPPER
+        ): RestActionImpl<S> {
+            return RestActionImpl(request, S::class.java, jacksonTypeRef(), client = client, mapper = mapper)
         }
     }
 
