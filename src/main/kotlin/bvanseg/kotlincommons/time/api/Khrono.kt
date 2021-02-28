@@ -41,7 +41,7 @@ open class Khrono(open val value: Double, open val unit: KhronoUnit) {
 
     init {
         Checks.isFinite(value)
-        Checks.isPositive(value)
+        Checks.isWholeNumber(value)
     }
 
     override fun equals(other: Any?): Boolean {
@@ -58,8 +58,7 @@ open class Khrono(open val value: Double, open val unit: KhronoUnit) {
     }
 
     override fun hashCode(): Int = HashCodeBuilder.builder(this::class).append(value).append(unit).hashCode()
-    override fun toString(): String =
-        ToStringBuilder.builder(this::class).append("value", value).append("unit", unit).toString()
+    override fun toString(): String = "$value${unit.code}"
 
     open fun toNever(): Khrono = Khrono(KhronoUnit.NEVER_CONSTANT, KhronoUnit.NEVER)
     open fun toNanos(): Khrono = Khrono(unit.convertTo(value, KhronoUnit.NANOSECOND), KhronoUnit.NANOSECOND)
