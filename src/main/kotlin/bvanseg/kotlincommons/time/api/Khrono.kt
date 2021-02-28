@@ -169,10 +169,10 @@ open class Khrono(open val value: Double, open val unit: KhronoUnit) {
     open operator fun rangeTo(other: Khrono): Khrono = other - this
 
     companion object {
-        val NEVER = Khrono(KhronoUnit.NEVER_CONSTANT, KhronoUnit.NEVER)
-        val FOREVER = Khrono(KhronoUnit.FOREVER_CONSTANT, KhronoUnit.FOREVER)
+        val NEVER: Khrono = Khrono(KhronoUnit.NEVER_CONSTANT, KhronoUnit.NEVER)
+        val FOREVER: Khrono = Khrono(KhronoUnit.FOREVER_CONSTANT, KhronoUnit.FOREVER)
 
-        val EMPTY = Khrono(0.0, KhronoUnit.MILLISECOND)
+        val EMPTY: Khrono = Khrono(0.0, KhronoUnit.MILLISECOND)
 
         val KHRONO_REGEX = Regex("^([0-9]+)(\\.[0-9]+)?([a-zA-Z]+)$")
 
