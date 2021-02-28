@@ -23,6 +23,7 @@
  */
 package bvanseg.kotlincommons.time.api
 
+import bvanseg.kotlincommons.lang.checks.Checks
 import bvanseg.kotlincommons.lang.string.ToStringBuilder
 import bvanseg.kotlincommons.util.HashCodeBuilder
 import java.time.Duration
@@ -39,10 +40,8 @@ import kotlin.math.roundToLong
 open class Khrono(open val value: Double, open val unit: KhronoUnit) {
 
     init {
-        when {
-            value.isNaN() -> throw IllegalStateException("Expected a valid time value but got $value instead.")
-            value.isInfinite() -> throw IllegalStateException("Expected a finite value but got $value instead.")
-        }
+        Checks.isFinite(value)
+        Checks.isPositive(value)
     }
 
     override fun equals(other: Any?): Boolean {
