@@ -74,7 +74,14 @@ class MutableKhrono(value: Double, unit: KhronoUnit) : Khrono(value, unit) {
     override operator fun minus(other: Khrono): MutableKhrono = this.apply { this.value -= other.convertTo(this.unit) }
 
     companion object {
+        val NEVER = Khrono.NEVER.toMutable()
+        val FOREVER = Khrono.FOREVER.toMutable()
+
         val EMPTY = Khrono.EMPTY.toMutable()
+
+        fun now(): MutableKhrono = Khrono.now().toMutable()
+
+        fun combineAll(unit: KhronoUnit, vararg times: Khrono): MutableKhrono = Khrono.combineAll(unit, *times).toMutable()
 
         fun parse(input: String): MutableKhrono = Khrono.parse(input).toMutable()
     }
