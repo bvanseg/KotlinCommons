@@ -40,9 +40,11 @@ class ClampingDelegate<T: Comparable<T>>(value: T, private val lowerBound: T, pr
 
     private var clampedValue: T = clamp(value, lowerBound, upperBound)
 
+    @Synchronized
     operator fun setValue(thisRef: Any?, property: KProperty<*>, newValue: T) {
         clampedValue = clamp(newValue, lowerBound, upperBound)
     }
 
+    @Synchronized
     operator fun getValue(thisRef: Any?, property: KProperty<*>): T = clampedValue
 }

@@ -42,12 +42,14 @@ class CacheCallbackDelegate<T>(val khrono: Khrono, initialValue: T, private val 
     private var cachedValue: T = initialValue
     private var expireTime = System.currentTimeMillis() + khrono.toMillis().toLong()
 
-    operator fun setValue(thisRef: Any?, property: KProperty<*>, newValue: T) = synchronized(this) {
+    @Synchronized
+    operator fun setValue(thisRef: Any?, property: KProperty<*>, newValue: T) {
         expireTime = System.currentTimeMillis() + khrono.toMillis().toLong()
         cachedValue = newValue
     }
 
-    operator fun getValue(thisRef: Any?, property: KProperty<*>): T = synchronized(this) {
+    @Synchronized
+    operator fun getValue(thisRef: Any?, property: KProperty<*>): T {
         if (System.currentTimeMillis() > expireTime) {
             cachedValue = callback()
         }
