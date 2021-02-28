@@ -50,22 +50,22 @@ import java.util.concurrent.TimeUnit
  * @author Boston Vanseghi
  * @since 2.7.0
  */
-enum class KhronoUnit(val max: Double = 1.0, val calendarUnit: Double = 1.0) {
-    NEVER,
-    NANOSECOND(1000.0),
-    MICROSECOND(1000.0),
-    MILLISECOND(1000.0),
-    SECOND(60.0),
-    MINUTE(60.0),
-    HOUR(24.0),
-    HALF_DAY(2.0, calendarUnit = 23.933333333333333333 / 2.0), // Calendar unit relative to hours
-    DAY(7.0, calendarUnit = 23.933333333333333333), // Calendar unit relative to hours
-    WEEK(3.999999999999912, calendarUnit = 7.609212479166666666666), // Calendar unit relative to days
-    YEAR(10.0, calendarUnit = 365.242199), // Calendar unit relative to days
-    DECADE(10.0, calendarUnit = 10 * YEAR.calendarUnit),
-    CENTURY(10.0, calendarUnit = 100 * YEAR.calendarUnit),
-    MILLENNIUM(calendarUnit = 1000 * YEAR.calendarUnit),
-    FOREVER;
+enum class KhronoUnit(val code: String, val max: Double = 1.0, val calendarUnit: Double = 1.0) {
+    NEVER("nvr"),
+    NANOSECOND("nan", 1000.0),
+    MICROSECOND("mic", 1000.0),
+    MILLISECOND("mil", 1000.0),
+    SECOND("sec", 60.0),
+    MINUTE("min", 60.0),
+    HOUR("hr", 24.0),
+    HALF_DAY("hd",2.0, calendarUnit = 23.933333333333333333 / 2.0), // Calendar unit relative to hours
+    DAY("dy", 7.0, calendarUnit = 23.933333333333333333), // Calendar unit relative to hours
+    WEEK("wk", 3.999999999999912, calendarUnit = 7.609212479166666666666), // Calendar unit relative to days
+    YEAR("yr", 10.0, calendarUnit = 365.242199), // Calendar unit relative to days
+    DECADE("dec", 10.0, calendarUnit = 10 * YEAR.calendarUnit),
+    CENTURY("cnt", 10.0, calendarUnit = 100 * YEAR.calendarUnit),
+    MILLENNIUM("mln", calendarUnit = 1000 * YEAR.calendarUnit),
+    FOREVER("fvr");
 
     companion object {
         const val NEVER_CONSTANT = Double.MIN_VALUE
@@ -141,5 +141,24 @@ enum class KhronoUnit(val max: Double = 1.0, val calendarUnit: Double = 1.0) {
         CENTURY -> ChronoUnit.CENTURIES
         MILLENNIUM -> ChronoUnit.MILLENNIA
         FOREVER -> ChronoUnit.FOREVER
+    }
+
+    fun fromCode(code: String): KhronoUnit = when (code.toLowerCase()) {
+        NEVER.code -> NEVER
+        NANOSECOND.code -> NANOSECOND
+        MICROSECOND.code -> MICROSECOND
+        MILLISECOND.code -> MILLISECOND
+        SECOND.code -> SECOND
+        MINUTE.code -> MINUTE
+        HOUR.code -> HOUR
+        HALF_DAY.code -> HALF_DAY
+        DAY.code -> DAY
+        WEEK.code -> WEEK
+        YEAR.code -> YEAR
+        DECADE.code -> DECADE
+        CENTURY.code -> CENTURY
+        MILLENNIUM.code -> MILLENNIUM
+        FOREVER.code -> FOREVER
+        else -> throw IllegalArgumentException("Code '$code' is not a valid khrono unit code!")
     }
 }
