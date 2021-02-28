@@ -23,47 +23,28 @@
  */
 package bvanseg.kotlincommons.util.delegate
 
-import bvanseg.kotlincommons.time.api.Khrono
+import kotlin.reflect.KProperty
 
 /**
- * @author Boston Vanseghi
- * @since 2.8.0
- */
-fun <T> nullableCache(cacheTime: Khrono, initialValue: T? = null) = cache(cacheTime, initialValue, null)
-
-/**
- * @author Boston Vanseghi
- * @since 2.8.0
- */
-fun <T> cache(cacheTime: Khrono, initialValue: T, resetValue: T) = CacheDelegate(cacheTime, initialValue, resetValue)
-
-/**
- * @author Boston Vanseghi
- * @since 2.8.0
- */
-fun <T> cache(cacheTime: Khrono, initialValue: T, callback: () -> T) =
-    CacheCallbackDelegate(cacheTime, initialValue, callback)
-
-/**
- * @author Boston Vanseghi
- * @since 2.8.0
- */
-fun <T> cache(cacheTime: Khrono, callback: () -> T) = CacheCallbackDelegate(cacheTime, callback(), callback)
-
-/**
- * @author Boston Vanseghi
- * @since 2.9.1
- */
-fun <T: Comparable<T>> clamping(value: T, lowerBound: T, upperBound: T) = ClampingDelegate(value, lowerBound, upperBound)
-
-/**
+ * A delegate that accepts only the highest value fed to its setter.
+ *
  * @author Boston Vanseghi
  * @since 2.9.7
  */
-fun <T: Comparable<T>> greatest(value: T) = GreatestDelegate(value)
+class GreatestDelegate<T: Comparable<T>>(var value: T?) {
 
-/**
- * @author Boston Vanseghi
- * @since 2.9.7
- */
-fun <T: Comparable<T>> least(value: T? = null) = LeastDelegate(value)
+    @Synchronized
+    operator fun setValue(thisRef: Any?, property: KProperty<*>, newValue: T?) {
+        if (value == null) {
+            value = newValue
+        } else if (newValue != null) {
+            val v = value ?: return
+            if (newValue > v) {
+                value = newValue
+            }
+        }
+    }
+
+    @Synchronized
+    operator fun getValue(thisRef: Any?, property: KProperty<*>): T? = value
+}
