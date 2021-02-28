@@ -37,19 +37,19 @@ import kotlin.reflect.KProperty
  * @author Boston Vanseghi
  * @since 2.8.0
  */
-class CacheDelegate<T>(val khrono: Khrono, initialValue: T, private val resetValue: T) {
+open class CacheDelegate<T>(val khrono: Khrono, initialValue: T, private val resetValue: T, private val precise: Boolean = false) {
 
-    private var cachedValue: T = initialValue
-    private var expireTime = System.currentTimeMillis() + khrono.toMillis().toLong()
+    protected var cachedValue: T = initialValue
+    protected var expireTime = System.currentTimeMillis() + khrono.toMillis().toLong()
 
     @Synchronized
-    operator fun setValue(thisRef: Any?, property: KProperty<*>, newValue: T) {
-        expireTime = System.currentTimeMillis() + khrono.toMillis().toLong()
+    open operator fun setValue(thisRef: Any?, property: KProperty<*>, newValue: T) {
+        expireTime = System.currentTimeMillis() + (if (precise) khrono.nextInterval() else khrono).toMillis().toLong()
         cachedValue = newValue
     }
 
     @Synchronized
-    operator fun getValue(thisRef: Any?, property: KProperty<*>): T {
+    open operator fun getValue(thisRef: Any?, property: KProperty<*>): T {
         if (System.currentTimeMillis() > expireTime) {
             cachedValue = resetValue
         }
