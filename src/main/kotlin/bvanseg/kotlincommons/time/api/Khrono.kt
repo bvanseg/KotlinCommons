@@ -28,6 +28,7 @@ import bvanseg.kotlincommons.lang.string.ToStringBuilder
 import bvanseg.kotlincommons.util.HashCodeBuilder
 import java.time.Duration
 import java.time.temporal.ChronoUnit
+import java.util.regex.Pattern
 import kotlin.math.roundToInt
 import kotlin.math.roundToLong
 
@@ -173,9 +174,19 @@ open class Khrono(open val value: Double, open val unit: KhronoUnit) {
 
         val EMPTY = Khrono(0.0, KhronoUnit.MILLISECOND)
 
+        val KHRONO_REGEX = Regex("^([0-9]+)(\\.[0-9]+)?([a-zA-Z]+)$")
+
         fun now(): Khrono = Khrono(System.currentTimeMillis().toDouble(), KhronoUnit.MILLISECOND)
 
         fun combineAll(unit: KhronoUnit, vararg times: Khrono): Khrono =
             Khrono(times.sumByDouble { it.convertTo(unit) }, unit)
+
+        fun parse(input: String): Khrono {
+            val groups = KHRONO_REGEX.matchEntire(input)!!.groupValues
+            val lastIndex = groups.size - 1
+            val unit = KhronoUnit.fromCode(groups[lastIndex])
+            val number = (groups[lastIndex - 2] + groups[lastIndex - 1]).toDouble()
+            return Khrono(number, unit)
+        }
     }
 }

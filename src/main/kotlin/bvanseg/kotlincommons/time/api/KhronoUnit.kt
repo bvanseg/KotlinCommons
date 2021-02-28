@@ -70,6 +70,25 @@ enum class KhronoUnit(val code: String, val max: Double = 1.0, val calendarUnit:
     companion object {
         const val NEVER_CONSTANT = Double.MIN_VALUE
         const val FOREVER_CONSTANT = Double.MAX_VALUE
+
+        fun fromCode(code: String): KhronoUnit = when (code.toLowerCase()) {
+            NEVER.code -> NEVER
+            NANOSECOND.code -> NANOSECOND
+            MICROSECOND.code -> MICROSECOND
+            MILLISECOND.code -> MILLISECOND
+            SECOND.code -> SECOND
+            MINUTE.code -> MINUTE
+            HOUR.code -> HOUR
+            HALF_DAY.code -> HALF_DAY
+            DAY.code -> DAY
+            WEEK.code -> WEEK
+            YEAR.code -> YEAR
+            DECADE.code -> DECADE
+            CENTURY.code -> CENTURY
+            MILLENNIUM.code -> MILLENNIUM
+            FOREVER.code -> FOREVER
+            else -> throw IllegalArgumentException("Code '$code' is not a valid khrono unit code!")
+        }
     }
 
     /**
@@ -141,24 +160,5 @@ enum class KhronoUnit(val code: String, val max: Double = 1.0, val calendarUnit:
         CENTURY -> ChronoUnit.CENTURIES
         MILLENNIUM -> ChronoUnit.MILLENNIA
         FOREVER -> ChronoUnit.FOREVER
-    }
-
-    fun fromCode(code: String): KhronoUnit = when (code.toLowerCase()) {
-        NEVER.code -> NEVER
-        NANOSECOND.code -> NANOSECOND
-        MICROSECOND.code -> MICROSECOND
-        MILLISECOND.code -> MILLISECOND
-        SECOND.code -> SECOND
-        MINUTE.code -> MINUTE
-        HOUR.code -> HOUR
-        HALF_DAY.code -> HALF_DAY
-        DAY.code -> DAY
-        WEEK.code -> WEEK
-        YEAR.code -> YEAR
-        DECADE.code -> DECADE
-        CENTURY.code -> CENTURY
-        MILLENNIUM.code -> MILLENNIUM
-        FOREVER.code -> FOREVER
-        else -> throw IllegalArgumentException("Code '$code' is not a valid khrono unit code!")
     }
 }
