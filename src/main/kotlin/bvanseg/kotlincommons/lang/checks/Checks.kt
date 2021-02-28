@@ -3,6 +3,7 @@ package bvanseg.kotlincommons.lang.checks
 import bvanseg.kotlincommons.math.isNegative
 import bvanseg.kotlincommons.math.isPositive
 import kotlin.jvm.Throws
+import kotlin.reflect.KClass
 
 /**
  * Utility object that performs short common checks.
@@ -13,7 +14,27 @@ import kotlin.jvm.Throws
 object Checks {
 
     @Throws(CheckException::class)
-    fun notNull(obj: Any?, paramName: String? = null): Unit = if (obj == null) {
+    fun isCompanion(obj: Any?, paramName: String? = null): Unit = if (obj == null || !obj::class.isCompanion) {
+        throw CheckException("${paramName ?: "Value"} is not a companion object.")
+    } else Unit
+
+    @Throws(CheckException::class)
+    fun isDataClass(obj: KClass<*>?, paramName: String? = null): Unit = if (obj == null || !obj.isData) {
+        throw CheckException("${paramName ?: "Value"} is not a data class.")
+    } else Unit
+
+    @Throws(CheckException::class)
+    fun isInstanceOfDataClass(obj: Any?, paramName: String? = null): Unit = if (obj == null || !obj::class.isData) {
+        throw CheckException("${paramName ?: "Value"} is not an instance of a data class.")
+    } else Unit
+
+    @Throws(CheckException::class)
+    fun isNull(obj: Any?, paramName: String? = null): Unit = if (obj != null) {
+        throw CheckException("${paramName ?: "Value"} was not null.")
+    } else Unit
+
+    @Throws(CheckException::class)
+    fun isNotNull(obj: Any?, paramName: String? = null): Unit = if (obj == null) {
         throw CheckException("${paramName ?: "Value"} was null.")
     } else Unit
 
