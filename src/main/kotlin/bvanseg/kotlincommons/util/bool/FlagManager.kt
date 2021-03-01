@@ -24,6 +24,7 @@
 package bvanseg.kotlincommons.util.bool
 
 import bvanseg.kotlincommons.grouping.collection.DualHashMap
+import bvanseg.kotlincommons.lang.checks.Checks
 import java.math.BigInteger
 import java.util.EnumSet
 
@@ -86,8 +87,7 @@ class FlagManager<T : Enum<T>>(private val enumClass: Class<T>) {
      * @return An [Enum] value from its corresponding offset.
      */
     fun getValue(offset: Long): Enum<T>? {
-        if (offset < 0)
-            throw IndexOutOfBoundsException("Offset can not be negative: $offset")
+        Checks.isWholeNumber(offset, "offset")
 
         return offsetsToEnumValues[offset] // Can't assert here, offset might be something absurd.
     }

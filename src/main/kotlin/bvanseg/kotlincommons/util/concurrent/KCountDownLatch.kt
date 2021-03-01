@@ -23,6 +23,7 @@
  */
 package bvanseg.kotlincommons.util.concurrent
 
+import bvanseg.kotlincommons.lang.checks.Checks
 import bvanseg.kotlincommons.time.api.Khrono
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withTimeoutOrNull
@@ -44,9 +45,7 @@ class KCountDownLatch(initialCount: Int) {
     private val lock = ReentrantLock()
 
     init {
-        if (initialCount < 0) {
-            throw IllegalArgumentException("Initial count must be greater than or equal to 0!")
-        }
+        Checks.isWholeNumber(initialCount, "initialCount")
     }
 
     fun countDown() {

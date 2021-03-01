@@ -23,6 +23,7 @@
  */
 package bvanseg.kotlincommons.time.api
 
+import bvanseg.kotlincommons.lang.checks.Checks
 import bvanseg.kotlincommons.time.api.transformer.CenturyTransformer
 import bvanseg.kotlincommons.time.api.transformer.DayTransformer
 import bvanseg.kotlincommons.time.api.transformer.DecadeTransformer
@@ -104,12 +105,8 @@ enum class KhronoUnit(val code: String, val max: Double = 1.0, val calendarUnit:
         // No need to transform that which is already 0. Saves processing time.
         if (value == 0.0) return 0.0
 
-        // Handle edge cases of the given value.
-        when {
-            value.isNaN() -> throw IllegalArgumentException("Expected a valid time value but got $value instead.")
-            value.isInfinite() -> throw IllegalArgumentException("Expected a finite value but got $value instead.")
-            value < 0 -> throw IllegalArgumentException("Time value can not be negative: $value.")
-        }
+        Checks.isFinite(value)
+        Checks.isWholeNumber(value)
 
         return when (this) {
             NEVER -> NEVER_CONSTANT

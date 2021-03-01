@@ -23,6 +23,7 @@
  */
 package bvanseg.kotlincommons.time.api.performer
 
+import bvanseg.kotlincommons.lang.checks.Checks
 import bvanseg.kotlincommons.time.api.Khrono
 import bvanseg.kotlincommons.time.api.KhronoTime
 import bvanseg.kotlincommons.time.api.milliseconds
@@ -140,16 +141,9 @@ class KhronoPerformer(val frequency: Khrono, val action: (KhronoPerformer) -> Un
      * Adds a limit to how many times the performer executes. By default, performers execute forever.
      *
      * @param count The number of times the performer will execute before stopping.
-     *
-     * @throws IllegalStateException if the provided [count] is negative.
      */
-    @Throws(IllegalStateException::class)
     fun limit(count: Long): KhronoPerformer {
-
-        if (count < 0) {
-            throw IllegalStateException("Given count can not be negative: $count.")
-        }
-
+        Checks.isWholeNumber(count, "count")
         limit = count
         return this
     }
