@@ -23,7 +23,7 @@
  */
 package bvanseg.kotlincommons.time.api.performer
 
-import bvanseg.kotlincommons.lang.checks.Checks
+import bvanseg.kotlincommons.lang.check.Checks
 import bvanseg.kotlincommons.time.api.Khrono
 import bvanseg.kotlincommons.time.api.KhronoTime
 import bvanseg.kotlincommons.time.api.milliseconds
@@ -143,7 +143,7 @@ class KhronoPerformer(val frequency: Khrono, val action: (KhronoPerformer) -> Un
      * @param count The number of times the performer will execute before stopping.
      */
     fun limit(count: Long): KhronoPerformer {
-        Checks.isWholeNumber(count, "count")
+        Checks.isWholeNumber.check(count, "count")
         limit = count
         return this
     }

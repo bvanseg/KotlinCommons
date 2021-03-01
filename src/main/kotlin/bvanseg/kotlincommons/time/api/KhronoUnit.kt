@@ -23,7 +23,8 @@
  */
 package bvanseg.kotlincommons.time.api
 
-import bvanseg.kotlincommons.lang.checks.Checks
+import bvanseg.kotlincommons.lang.check.Check
+import bvanseg.kotlincommons.lang.check.Checks
 import bvanseg.kotlincommons.time.api.transformer.CenturyTransformer
 import bvanseg.kotlincommons.time.api.transformer.DayTransformer
 import bvanseg.kotlincommons.time.api.transformer.DecadeTransformer
@@ -105,8 +106,7 @@ enum class KhronoUnit(val code: String, val max: Double = 1.0, val calendarUnit:
         // No need to transform that which is already 0. Saves processing time.
         if (value == 0.0) return 0.0
 
-        Checks.isFinite(value)
-        Checks.isWholeNumber(value)
+        Check.all(value, "value", Checks.isFinite, Checks.isWholeNumber)
 
         return when (this) {
             NEVER -> NEVER_CONSTANT

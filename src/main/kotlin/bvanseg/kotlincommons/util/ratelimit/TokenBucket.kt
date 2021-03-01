@@ -25,7 +25,7 @@ package bvanseg.kotlincommons.util.ratelimit
 
 import bvanseg.kotlincommons.io.logging.getLogger
 import bvanseg.kotlincommons.io.logging.trace
-import bvanseg.kotlincommons.lang.checks.Checks
+import bvanseg.kotlincommons.lang.check.Checks
 import bvanseg.kotlincommons.time.api.Khrono
 import bvanseg.kotlincommons.util.HashCodeBuilder
 import java.util.concurrent.atomic.AtomicLong
@@ -78,7 +78,7 @@ data class TokenBucket(
     fun isNotEmpty(): Boolean = currentTokenCount.get() > 0L
 
     fun tryConsume(amount: Long = 1): Boolean {
-        Checks.isWholeNumber(amount, "amount")
+        Checks.isWholeNumber.check(amount, "amount")
 
         try {
             logger.trace { "Preparing to enter lock in TokenBucket#tryConsume..." }

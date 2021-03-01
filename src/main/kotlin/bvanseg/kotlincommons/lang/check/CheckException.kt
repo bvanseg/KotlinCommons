@@ -1,4 +1,4 @@
-package bvanseg.kotlincommons.lang.checks
+package bvanseg.kotlincommons.lang.check
 
 /**
  * @author Boston Vanseghi

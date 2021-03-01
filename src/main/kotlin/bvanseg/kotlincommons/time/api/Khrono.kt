@@ -23,12 +23,11 @@
  */
 package bvanseg.kotlincommons.time.api
 
-import bvanseg.kotlincommons.lang.checks.Checks
-import bvanseg.kotlincommons.lang.string.ToStringBuilder
+import bvanseg.kotlincommons.lang.check.Check
+import bvanseg.kotlincommons.lang.check.Checks
 import bvanseg.kotlincommons.util.HashCodeBuilder
 import java.time.Duration
 import java.time.temporal.ChronoUnit
-import java.util.regex.Pattern
 import kotlin.math.roundToInt
 import kotlin.math.roundToLong
 
@@ -41,8 +40,7 @@ import kotlin.math.roundToLong
 open class Khrono(open val value: Double, open val unit: KhronoUnit) {
 
     init {
-        Checks.isFinite(value)
-        Checks.isWholeNumber(value)
+        Check.all(value, "value", Checks.isFinite, Checks.isWholeNumber)
     }
 
     override fun equals(other: Any?): Boolean {

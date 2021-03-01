@@ -1,6 +1,7 @@
 package bvanseg.kotlincommons.lang.string
 
-import bvanseg.kotlincommons.lang.checks.Checks
+import bvanseg.kotlincommons.lang.check.Check
+import bvanseg.kotlincommons.lang.check.Checks
 import bvanseg.kotlincommons.util.delegate.clamping
 
 /**
@@ -35,10 +36,8 @@ class ProgressBar(
      * @return The bar as a [String] generated from the [currentProgress] progress and the [maxProgress].
      */
     fun getBarFor(currentProgress: Double, maxProgress: Double): String {
-        Checks.isFinite(currentProgress, "currentProgress")
-        Checks.isWholeNumber(currentProgress, "currentProgress")
-        Checks.isFinite(maxProgress, "maxProgress")
-        Checks.isPositive(maxProgress, "maxProgress")
+        Check.all(currentProgress, "currentProgress", Checks.isFinite, Checks.isWholeNumber)
+        Check.all(maxProgress, "maxProgress", Checks.isFinite, Checks.isPositive)
 
         val builder = StringBuilder()
         builder.append(head)
