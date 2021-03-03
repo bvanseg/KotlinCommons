@@ -32,7 +32,7 @@ import bvanseg.kotlincommons.util.command.InternalCommand
  * @author Boston Vanseghi
  * @since 2.1.0
  */
-abstract class Gear(val name: String) {
+open class Gear(val name: String) {
 
     val commands = ArrayList<InternalCommand>()
     lateinit var commandManager: CommandManager<*>
