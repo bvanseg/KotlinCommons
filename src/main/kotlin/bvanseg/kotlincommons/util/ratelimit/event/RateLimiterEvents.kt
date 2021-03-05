@@ -29,14 +29,18 @@ import bvanseg.kotlincommons.util.ratelimit.RateLimiter
  * @author Boston Vanseghi
  * @since 2.7.0
  */
+@Deprecated("To be removed in KotlinCommons 2.10.0")
 open class RateLimiterEvent constructor(val rateLimiter: RateLimiter)
 
 /**
  * @author Boston Vanseghi
  * @since 2.7.0
  */
+@Deprecated("To be removed in KotlinCommons 2.10.0")
 open class BucketRefillEvent(rateLimiter: RateLimiter) : RateLimiterEvent(rateLimiter) {
+    @Deprecated("To be removed in KotlinCommons 2.10.0")
     class PRE(rateLimiter: RateLimiter) : BucketRefillEvent(rateLimiter)
+    @Deprecated("To be removed in KotlinCommons 2.10.0")
     class POST(rateLimiter: RateLimiter) : BucketRefillEvent(rateLimiter)
 }
 
@@ -44,13 +48,17 @@ open class BucketRefillEvent(rateLimiter: RateLimiter) : RateLimiterEvent(rateLi
  * @author Boston Vanseghi
  * @since 2.7.0
  */
+@Deprecated("To be removed in KotlinCommons 2.10.0")
 open class BucketEmptyEvent(rateLimiter: RateLimiter) : RateLimiterEvent(rateLimiter)
 
 /**
  * @author Boston Vanseghi
  * @since 2.7.0
  */
+@Deprecated("To be removed in KotlinCommons 2.10.0")
 open class RateLimiterShutdownEvent(rateLimiter: RateLimiter) : RateLimiterEvent(rateLimiter) {
+    @Deprecated("To be removed in KotlinCommons 2.10.0")
     class PRE(rateLimiter: RateLimiter) : RateLimiterShutdownEvent(rateLimiter)
+    @Deprecated("To be removed in KotlinCommons 2.10.0")
     class POST(rateLimiter: RateLimiter) : RateLimiterShutdownEvent(rateLimiter)
 }
