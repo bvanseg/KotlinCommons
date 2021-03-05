@@ -38,6 +38,7 @@ import java.util.concurrent.locks.ReentrantLock
  * @author Jacob Glickman (https://github.com/jhg023)[https://github.com/jhg023]
  * @since 2.3.4
  */
+@Deprecated("To be removed in KotlinCommons 2.10.0")
 data class TokenBucket(
     val tokenLimit: Long,
     val refillTime: Khrono,
