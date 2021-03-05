@@ -29,7 +29,7 @@ object Checks {
     val isNegative by lazy { Check.create<Number> { it.isNegative() } }
     val isEven by lazy { Check.create<Number> { it.isEven() } }
     val isOdd by lazy { Check.create<Number> { it.isOdd() } }
-    val isWholeNumber by lazy { Check.create<Number> { it.toDouble() < 0 } }
+    val isWholeNumber by lazy { Check.create<Number> { it.toDouble() >= 0 } }
     val isFinite by lazy { Check.create<Double> { it.isFinite() } }
     val isInfinite by lazy { Check.create<Double> { it.isInfinite() } }
     val isNaN by lazy { Check.create<Double> { it.isNaN() } }
