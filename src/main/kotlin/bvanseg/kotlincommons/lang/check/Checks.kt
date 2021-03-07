@@ -33,4 +33,7 @@ object Checks {
     val isFinite by lazy { Check.create<Double> { it.isFinite() } }
     val isInfinite by lazy { Check.create<Double> { it.isInfinite() } }
     val isNaN by lazy { Check.create<Double> { it.isNaN() } }
+
+    val notBlank by lazy { Check.create<String>("Check failed for %s: '%s' is blank.") { it.isNotBlank() } }
+    val noWhitespace by lazy { Check.create<String>("Check failed for %s: '%s' contains whitespace.") { !it.contains(" ") } }
 }

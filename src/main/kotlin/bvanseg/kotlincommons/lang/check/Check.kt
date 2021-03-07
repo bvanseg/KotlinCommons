@@ -9,7 +9,7 @@ import kotlin.jvm.Throws
 class Check<in T> private constructor(private val checkMessage: String, private val checkCallback: (T) -> Boolean) {
 
     companion object {
-        fun <T> create(checkMessage: String = "Check failed for %s: %s", checkCallback: (T) -> Boolean): Check<T> = Check(checkMessage, checkCallback)
+        fun <T> create(checkMessage: String = "Check failed for %s: '%s'", checkCallback: (T) -> Boolean): Check<T> = Check(checkMessage, checkCallback)
 
         fun <T> all(value: T, valueName: String, vararg checks: Check<T>) {
             checks.forEach { it.check(value, valueName) }
