@@ -5,6 +5,7 @@ import bvanseg.kotlincommons.lang.command.context.CommandContext
 import bvanseg.kotlincommons.lang.command.context.DefaultCommandContext
 import bvanseg.kotlincommons.lang.command.dsl.DSLCommand
 import bvanseg.kotlincommons.lang.command.transformer.Transformer
+import bvanseg.kotlincommons.lang.command.transformer.impl.BigDecimalTransformer
 import bvanseg.kotlincommons.lang.command.transformer.impl.BigIntegerTransformer
 import bvanseg.kotlincommons.lang.command.transformer.impl.BooleanTransformer
 import bvanseg.kotlincommons.lang.command.transformer.impl.ByteTransformer
@@ -43,6 +44,7 @@ class CommandDispatcher(private val prefix: String) {
         registerTransformer(FloatTransformer)
         registerTransformer(DoubleTransformer)
 
+        registerTransformer(BigDecimalTransformer)
         registerTransformer(BigIntegerTransformer)
         registerTransformer(ColorTransformer)
 
