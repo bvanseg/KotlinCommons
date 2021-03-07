@@ -14,6 +14,7 @@ import bvanseg.kotlincommons.lang.command.transformer.impl.IntTransformer
 import bvanseg.kotlincommons.lang.command.transformer.impl.KhronoUnitTransformer
 import bvanseg.kotlincommons.lang.command.transformer.impl.LongTransformer
 import bvanseg.kotlincommons.lang.command.transformer.impl.ShortTransformer
+import bvanseg.kotlincommons.lang.command.transformer.impl.TimeUnitTransformer
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.ConcurrentMap
 import kotlin.reflect.KClass
@@ -40,6 +41,7 @@ class CommandDispatcher(private val prefix: String) {
         registerTransformer(DoubleTransformer)
 
         registerTransformer(KhronoUnitTransformer)
+        registerTransformer(TimeUnitTransformer)
     }
 
     fun execute(input: String, commandContext: CommandContext = DefaultCommandContext(this)) = execute(prefix, input, commandContext)
