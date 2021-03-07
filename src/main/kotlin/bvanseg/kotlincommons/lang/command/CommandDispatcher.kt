@@ -11,6 +11,7 @@ import bvanseg.kotlincommons.lang.command.transformer.impl.CharTransformer
 import bvanseg.kotlincommons.lang.command.transformer.impl.DoubleTransformer
 import bvanseg.kotlincommons.lang.command.transformer.impl.FloatTransformer
 import bvanseg.kotlincommons.lang.command.transformer.impl.IntTransformer
+import bvanseg.kotlincommons.lang.command.transformer.impl.KhronoUnitTransformer
 import bvanseg.kotlincommons.lang.command.transformer.impl.LongTransformer
 import bvanseg.kotlincommons.lang.command.transformer.impl.ShortTransformer
 import java.util.concurrent.ConcurrentHashMap
@@ -29,13 +30,16 @@ class CommandDispatcher(private val prefix: String) {
     init {
         registerTransformer(CharTransformer)
         registerTransformer(BooleanTransformer)
-        registerTransformer(ByteTransformer)
+
         registerTransformer(ByteTransformer)
         registerTransformer(ShortTransformer)
         registerTransformer(IntTransformer)
         registerTransformer(LongTransformer)
+
         registerTransformer(FloatTransformer)
         registerTransformer(DoubleTransformer)
+
+        registerTransformer(KhronoUnitTransformer)
     }
 
     fun execute(input: String, commandContext: CommandContext = DefaultCommandContext(this)) = execute(prefix, input, commandContext)
