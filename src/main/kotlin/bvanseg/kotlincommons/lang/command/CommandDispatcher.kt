@@ -38,7 +38,9 @@ class CommandDispatcher(private val prefix: String) {
         registerTransformer(DoubleTransformer)
     }
 
-    fun execute(input: String, commandContext: CommandContext = DefaultCommandContext(this)): Any? {
+    fun execute(input: String, commandContext: CommandContext = DefaultCommandContext(this)) = execute(prefix, input, commandContext)
+
+    fun execute(prefix: String, input: String, commandContext: CommandContext = DefaultCommandContext(this)): Any? {
         if (input.isBlank()) return null
         if (!input.startsWith(prefix)) return null
         val trimmedInput = input.trim()
