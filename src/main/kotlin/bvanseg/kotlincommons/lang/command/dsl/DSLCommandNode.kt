@@ -72,9 +72,7 @@ abstract class DSLCommandNode {
         return argument
     }
 
-    fun executes(block: (CommandContext) -> Unit): DSLCommandExecutor<Unit> = executesAndReturns<Unit>(block)
-
-    inline fun <reified T> executesAndReturns(noinline block: (CommandContext) -> T): DSLCommandExecutor<T> {
+    inline fun <reified T> executes(noinline block: (CommandContext) -> T): DSLCommandExecutor<T> {
         if (executor != null) {
             throw DuplicateExecutorException("Executor already exists on level!")
         }
