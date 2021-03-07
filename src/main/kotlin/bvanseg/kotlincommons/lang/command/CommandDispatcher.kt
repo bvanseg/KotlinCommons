@@ -8,6 +8,7 @@ import bvanseg.kotlincommons.lang.command.transformer.Transformer
 import bvanseg.kotlincommons.lang.command.transformer.impl.BooleanTransformer
 import bvanseg.kotlincommons.lang.command.transformer.impl.ByteTransformer
 import bvanseg.kotlincommons.lang.command.transformer.impl.CharTransformer
+import bvanseg.kotlincommons.lang.command.transformer.impl.ChronoUnitTransformer
 import bvanseg.kotlincommons.lang.command.transformer.impl.DoubleTransformer
 import bvanseg.kotlincommons.lang.command.transformer.impl.FloatTransformer
 import bvanseg.kotlincommons.lang.command.transformer.impl.IntTransformer
@@ -40,6 +41,7 @@ class CommandDispatcher(private val prefix: String) {
         registerTransformer(FloatTransformer)
         registerTransformer(DoubleTransformer)
 
+        registerTransformer(ChronoUnitTransformer)
         registerTransformer(KhronoUnitTransformer)
         registerTransformer(TimeUnitTransformer)
     }
