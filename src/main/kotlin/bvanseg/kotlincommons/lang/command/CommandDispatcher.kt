@@ -57,7 +57,7 @@ class CommandDispatcher(private val prefix: String) {
         commandContext.splitRawInput = parts
         commandContext.splitArguments = arguments
 
-        val commandArguments = CommandArguments(this)
+        val commandArguments = CommandArguments(this, command)
         commandArguments.parse(arguments)
 
         return command.run(commandArguments, commandContext)
