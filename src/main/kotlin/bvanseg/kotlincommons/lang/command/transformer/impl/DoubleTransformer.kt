@@ -1,13 +1,11 @@
 package bvanseg.kotlincommons.lang.command.transformer.impl
 
-import bvanseg.kotlincommons.lang.command.transformer.Transformer
+import bvanseg.kotlincommons.lang.command.transformer.DecimalTransformer
 
 /**
  * @author Boston Vanseghi
  * @since 2.10.0
  */
-object DoubleTransformer: Transformer<Double>(Double::class) {
-    private val REGEX = Regex("^[+-]?([0-9]*[.])?[0-9]+$")
-    override fun matches(input: String): Boolean = input.matches(REGEX)
-    override fun parse(input: String): Double = input.toDouble()
+object DoubleTransformer: DecimalTransformer(Double::class) {
+    override fun parse(input: String): Double = super.parse(input).toDouble()
 }
