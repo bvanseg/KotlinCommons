@@ -15,6 +15,9 @@ class DSLCommand(val name: String, val aliases: List<String> = listOf()): DSLCom
     var categories: SimpleCategoryNode? = null
         private set
 
+    val usages: MutableList<String> = mutableListOf()
+    val examples: MutableList<String> = mutableListOf()
+
     fun addToCategory(category: String, vararg subcategories: String) {
         val rootCategory = SimpleCategoryNode(category.toLowerCase())
         categories = rootCategory
