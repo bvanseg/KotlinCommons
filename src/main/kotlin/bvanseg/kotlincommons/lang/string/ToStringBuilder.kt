@@ -40,14 +40,25 @@ class ToStringBuilder private constructor() {
     fun append(string: String): ToStringBuilder = this.apply { data.append(string) }
 
     @Suppress("IMPLICIT_CAST_TO_ANY")
-    fun <T : Any> append(field: String, value: T): ToStringBuilder = this.apply {
-        val con = when (value::class) {
+    fun <T> append(field: String, value: T): ToStringBuilder = this.apply {
+        if (value == null) {
+            if (elements == 0)
+                data.append("$field=null")
+            else
+                data.append(", $field=null")
+
+            elements++
+
+            return@apply
+        }
+
+        val con = when (val valueType: KClass<out Any> = (value as Any)::class) {
             String::class -> "\"${value as String}\""
             Map::class -> (value as Map<*, *>).entries.joinToString(", ")
             else -> {
                 when {
-                    value::class.java.isEnum -> value::class.java.enumConstants[(value as Enum<*>).ordinal]
-                    value::class.java.isArray -> "[${(value as Array<*>).joinToString(", ")}]"
+                    valueType.java.isEnum -> valueType.java.enumConstants[(value as Enum<*>).ordinal]
+                    valueType.java.isArray -> "[${(value as Array<*>).joinToString(", ")}]"
                     else -> value.toString()
                 }
             }
