@@ -1,6 +1,7 @@
 package bvanseg.kotlincommons.lang.command.dsl
 
 import bvanseg.kotlincommons.lang.command.argument.CommandArguments
+import bvanseg.kotlincommons.lang.command.category.SimpleCategoryNode
 import bvanseg.kotlincommons.lang.command.context.CommandContext
 import bvanseg.kotlincommons.lang.command.validator.Validator
 
@@ -10,6 +11,22 @@ import bvanseg.kotlincommons.lang.command.validator.Validator
  */
 class DSLCommand(val name: String, val aliases: List<String> = listOf()): DSLCommandNode() {
     var description: String = ""
+
+    var categories: SimpleCategoryNode? = null
+        private set
+
+    fun addToCategory(category: String, vararg subcategories: String) {
+        val rootCategory = SimpleCategoryNode(category.toLowerCase())
+        categories = rootCategory
+
+        var current = rootCategory
+
+        for (subcategory in subcategories) {
+            val newCategoryNode = SimpleCategoryNode(subcategory)
+            current.next = newCategoryNode
+            current = newCategoryNode
+        }
+    }
 
     fun run(arguments: CommandArguments, context: CommandContext): Any? {
         var currentLevel: DSLCommandNode = this

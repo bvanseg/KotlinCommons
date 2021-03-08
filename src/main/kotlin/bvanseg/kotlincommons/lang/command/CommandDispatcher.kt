@@ -1,6 +1,8 @@
 package bvanseg.kotlincommons.lang.command
 
 import bvanseg.kotlincommons.lang.command.argument.CommandArguments
+import bvanseg.kotlincommons.lang.command.category.CategoryTreeNode
+import bvanseg.kotlincommons.lang.command.category.SimpleCategoryNode
 import bvanseg.kotlincommons.lang.command.context.CommandContext
 import bvanseg.kotlincommons.lang.command.context.DefaultCommandContext
 import bvanseg.kotlincommons.lang.command.dsl.DSLCommand
@@ -31,6 +33,8 @@ import kotlin.reflect.KClass
 class CommandDispatcher(private val prefix: String) {
 
     private val commands: ConcurrentMap<String, DSLCommand> = ConcurrentHashMap()
+    val categories: CategoryTreeNode = CategoryTreeNode("")
+
     val transformers: ConcurrentMap<KClass<*>, Transformer<*>> = ConcurrentHashMap()
 
     init {
@@ -85,6 +89,24 @@ class CommandDispatcher(private val prefix: String) {
         command.aliases.forEach { alias ->
             commands.putIfAbsent(alias, command)
         }
+
+        var currentDispatcherCategoryNode: CategoryTreeNode? = this.categories
+        var currentCommandCategoryNode: SimpleCategoryNode? = command.categories
+
+        if (currentCommandCategoryNode != null) {
+            this.categories.populateChain(currentCommandCategoryNode)
+
+            // Add to root.
+            currentDispatcherCategoryNode!!.commands.add(command)
+
+            while (currentCommandCategoryNode != null) {
+                currentDispatcherCategoryNode = currentDispatcherCategoryNode!!.subcategories.find { it.category == currentCommandCategoryNode?.category }!!
+
+                currentDispatcherCategoryNode.commands.add(command)
+                currentCommandCategoryNode = currentCommandCategoryNode.next
+            }
+        }
     }
+
     fun registerTransformer(transformer: Transformer<*>) = transformers.putIfAbsent(transformer.type, transformer)
 }
