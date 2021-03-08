@@ -6,4 +6,4 @@ import kotlin.reflect.KClass
  * @author Boston Vanseghi
  * @since 2.10.0
  */
-abstract class DSLKey<T: Any>(val name: String, val type: KClass<T>)
+class DSLArgumentKey<T: Any>(val argument: DSLCommandArgument<T>, name: String, type: KClass<T>): DSLKey<T>(name, type)

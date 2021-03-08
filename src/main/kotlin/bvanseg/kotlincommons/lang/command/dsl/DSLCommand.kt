@@ -10,7 +10,6 @@ import bvanseg.kotlincommons.lang.command.validator.Validator
  * @since 2.10.0
  */
 class DSLCommand(val name: String, val aliases: List<String> = listOf()): DSLCommandNode() {
-    var description: String = ""
 
     var categories: SimpleCategoryNode? = null
         private set

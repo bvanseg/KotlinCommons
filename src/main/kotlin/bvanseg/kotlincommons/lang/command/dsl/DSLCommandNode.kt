@@ -13,11 +13,13 @@ import java.lang.RuntimeException
  * @since 2.10.0
  */
 abstract class DSLCommandNode {
+    var description: String = ""
+
     val literals: MutableList<DSLCommandLiteral> = mutableListOf()
     val arguments: MutableList<DSLCommandArgument<*>> = mutableListOf()
     var executor: DSLCommandExecutor<*>? = null
 
-    fun literal(literalValue: String, vararg extraLiteralValues: String, block: DSLCommandLiteral.(DSLKey<String>) -> Unit) {
+    fun literal(literalValue: String, vararg extraLiteralValues: String, block: DSLCommandLiteral.(DSLLiteralKey) -> Unit) {
         Check.all(literalValue, "literal", Checks.notBlank, Checks.noWhitespace)
         extraLiteralValues.forEach { Check.all(it, "literal", Checks.notBlank, Checks.noWhitespace) }
 
@@ -44,18 +46,18 @@ abstract class DSLCommandNode {
         }
 
         val literal = DSLCommandLiteral(this, literalValue)
-        block.invoke(literal, DSLKey(literalValue, String::class))
+        block.invoke(literal, DSLLiteralKey(literal, literalValue))
         literals.add(literal)
 
 
         for (extraLiteralValue in extraLiteralValues) {
             val extraLiteral = DSLCommandLiteral(this, extraLiteralValue)
-            block.invoke(extraLiteral, DSLKey(extraLiteralValue, String::class))
+            block.invoke(extraLiteral, DSLLiteralKey(extraLiteral, extraLiteralValue))
             literals.add(extraLiteral)
         }
     }
 
-    inline fun <reified T: Any> argument(name: String, block: DSLCommandArgument<T>.(DSLKey<T>) -> Unit): DSLCommandArgument<T> {
+    inline fun <reified T: Any> argument(name: String, block: DSLCommandArgument<T>.(DSLArgumentKey<T>) -> Unit): DSLCommandArgument<T> {
         Check.all(name, "argument", Checks.notBlank, Checks.noWhitespace)
 
         val argumentType = T::class
@@ -67,7 +69,7 @@ abstract class DSLCommandNode {
         }
 
         val argument = DSLCommandArgument(this, name, argumentType)
-        block.invoke(argument, DSLKey(name, argumentType))
+        block.invoke(argument, DSLArgumentKey(argument, name, argumentType))
         arguments.add(argument)
         return argument
     }
