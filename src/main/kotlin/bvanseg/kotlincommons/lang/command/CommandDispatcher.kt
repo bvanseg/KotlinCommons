@@ -33,7 +33,7 @@ import kotlin.reflect.KClass
 class CommandDispatcher(private val prefix: String) {
 
     private val commands: ConcurrentMap<String, DSLCommand> = ConcurrentHashMap()
-    val categories: CategoryTreeNode = CategoryTreeNode("")
+    val categories: CategoryTreeNode = CategoryTreeNode(null, "")
 
     val transformers: ConcurrentMap<KClass<*>, Transformer<*>> = ConcurrentHashMap()
 
