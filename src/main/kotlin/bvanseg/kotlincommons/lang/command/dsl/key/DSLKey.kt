@@ -1,4 +1,4 @@
-package bvanseg.kotlincommons.lang.command.dsl
+package bvanseg.kotlincommons.lang.command.dsl.key
 
 import kotlin.reflect.KClass
 

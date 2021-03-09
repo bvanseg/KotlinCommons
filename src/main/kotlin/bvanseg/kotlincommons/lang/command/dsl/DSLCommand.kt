@@ -4,6 +4,8 @@ import bvanseg.kotlincommons.lang.command.CommandProperties
 import bvanseg.kotlincommons.lang.command.argument.CommandArguments
 import bvanseg.kotlincommons.lang.command.category.SimpleCategoryNode
 import bvanseg.kotlincommons.lang.command.context.CommandContext
+import bvanseg.kotlincommons.lang.command.dsl.key.DSLFlagKey
+import bvanseg.kotlincommons.lang.command.dsl.node.DSLCommandNode
 import bvanseg.kotlincommons.lang.command.validator.Validator
 
 /**

@@ -4,7 +4,7 @@ import bvanseg.kotlincommons.grouping.collection.linkedListOf
 import bvanseg.kotlincommons.lang.command.CommandDispatcher
 import bvanseg.kotlincommons.lang.command.CommandProperties
 import bvanseg.kotlincommons.lang.command.dsl.DSLCommand
-import bvanseg.kotlincommons.lang.command.dsl.DSLCommandNode
+import bvanseg.kotlincommons.lang.command.dsl.node.DSLCommandNode
 import bvanseg.kotlincommons.lang.command.token.SubTokenType
 import bvanseg.kotlincommons.lang.command.token.Token
 import bvanseg.kotlincommons.lang.command.token.TokenType

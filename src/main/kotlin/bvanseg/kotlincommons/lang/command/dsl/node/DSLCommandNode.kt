@@ -1,4 +1,4 @@
-package bvanseg.kotlincommons.lang.command.dsl
+package bvanseg.kotlincommons.lang.command.dsl.node
 
 import bvanseg.kotlincommons.lang.check.Check
 import bvanseg.kotlincommons.lang.check.Checks
@@ -6,7 +6,8 @@ import bvanseg.kotlincommons.lang.command.DuplicateArgumentTypeException
 import bvanseg.kotlincommons.lang.command.DuplicateExecutorException
 import bvanseg.kotlincommons.lang.command.DuplicateLiteralException
 import bvanseg.kotlincommons.lang.command.context.CommandContext
-import java.lang.RuntimeException
+import bvanseg.kotlincommons.lang.command.dsl.key.DSLArgumentKey
+import bvanseg.kotlincommons.lang.command.dsl.key.DSLLiteralKey
 
 /**
  * @author Boston Vanseghi

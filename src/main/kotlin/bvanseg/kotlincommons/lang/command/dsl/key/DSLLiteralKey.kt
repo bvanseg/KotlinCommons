@@ -1,4 +1,6 @@
-package bvanseg.kotlincommons.lang.command.dsl
+package bvanseg.kotlincommons.lang.command.dsl.key
+
+import bvanseg.kotlincommons.lang.command.dsl.node.DSLCommandLiteral
 
 /**
  * @author Boston Vanseghi

@@ -1,8 +1,8 @@
 package bvanseg.kotlincommons.lang.command.context
 
 import bvanseg.kotlincommons.lang.command.CommandDispatcher
-import bvanseg.kotlincommons.lang.command.dsl.DSLFlagKey
-import bvanseg.kotlincommons.lang.command.dsl.DSLKey
+import bvanseg.kotlincommons.lang.command.dsl.key.DSLFlagKey
+import bvanseg.kotlincommons.lang.command.dsl.key.DSLKey
 import bvanseg.kotlincommons.lang.command.token.Token
 
 /**
