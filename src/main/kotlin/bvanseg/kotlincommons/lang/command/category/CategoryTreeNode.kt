@@ -1,5 +1,6 @@
 package bvanseg.kotlincommons.lang.command.category
 
+import bvanseg.kotlincommons.lang.command.CommandProperties
 import bvanseg.kotlincommons.lang.command.dsl.DSLCommand
 import bvanseg.kotlincommons.lang.string.ToStringBuilder
 
@@ -13,7 +14,7 @@ data class CategoryTreeNode(
     val subcategories: MutableList<CategoryTreeNode> = mutableListOf()
 ) {
 
-    val commands: MutableList<DSLCommand> = mutableListOf()
+    val commands: MutableList<DSLCommand<out CommandProperties>> = mutableListOf()
 
     val fullPath: String by lazy {
         val list = mutableListOf<String>()

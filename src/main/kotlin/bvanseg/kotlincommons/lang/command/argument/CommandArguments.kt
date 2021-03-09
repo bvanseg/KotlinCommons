@@ -2,6 +2,7 @@ package bvanseg.kotlincommons.lang.command.argument
 
 import bvanseg.kotlincommons.grouping.collection.linkedListOf
 import bvanseg.kotlincommons.lang.command.CommandDispatcher
+import bvanseg.kotlincommons.lang.command.CommandProperties
 import bvanseg.kotlincommons.lang.command.dsl.DSLCommand
 import bvanseg.kotlincommons.lang.command.dsl.DSLCommandNode
 import java.util.LinkedList
@@ -11,7 +12,7 @@ import kotlin.reflect.KClass
  * @author Boston Vanseghi
  * @since 2.10.0
  */
-class CommandArguments(private val dispatcher: CommandDispatcher, private val command: DSLCommand) {
+class CommandArguments(private val dispatcher: CommandDispatcher, private val command: DSLCommand<out CommandProperties>) {
 
     private val arguments: LinkedList<CommandArgument<*>> = linkedListOf()
 

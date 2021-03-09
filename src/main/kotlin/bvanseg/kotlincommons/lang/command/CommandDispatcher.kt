@@ -32,7 +32,7 @@ import kotlin.reflect.KClass
  */
 class CommandDispatcher(private val prefix: String) {
 
-    private val commands: ConcurrentMap<String, DSLCommand> = ConcurrentHashMap()
+    private val commands: ConcurrentMap<String, DSLCommand<out CommandProperties>> = ConcurrentHashMap()
     val categories: CategoryTreeNode = CategoryTreeNode(null, "")
 
     val transformers: ConcurrentMap<KClass<*>, Transformer<*>> = ConcurrentHashMap()
@@ -84,7 +84,7 @@ class CommandDispatcher(private val prefix: String) {
         return command.run(commandArguments, commandContext)
     }
 
-    fun registerCommand(command: DSLCommand) {
+    fun registerCommand(command: DSLCommand<out CommandProperties>) {
         commands.putIfAbsent(command.name, command)
         command.aliases.forEach { alias ->
             commands.putIfAbsent(alias, command)

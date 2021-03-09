@@ -1,5 +1,6 @@
 package bvanseg.kotlincommons.lang.command.dsl
 
+import bvanseg.kotlincommons.lang.command.CommandProperties
 import bvanseg.kotlincommons.lang.command.argument.CommandArguments
 import bvanseg.kotlincommons.lang.command.category.SimpleCategoryNode
 import bvanseg.kotlincommons.lang.command.context.CommandContext
@@ -9,10 +10,12 @@ import bvanseg.kotlincommons.lang.command.validator.Validator
  * @author Boston Vanseghi
  * @since 2.10.0
  */
-class DSLCommand(val name: String, val aliases: List<String> = listOf()): DSLCommandNode() {
+class DSLCommand<T: CommandProperties>(val name: String, val aliases: List<String> = listOf()): DSLCommandNode() {
 
     var categories: SimpleCategoryNode? = null
         private set
+
+    lateinit var properties: T
 
     val usages: MutableList<String> = mutableListOf()
     val examples: MutableList<String> = mutableListOf()
@@ -85,5 +88,5 @@ class DSLCommand(val name: String, val aliases: List<String> = listOf()): DSLCom
         "DSL command blocks can not be nested!", level = DeprecationLevel.ERROR,
         replaceWith = ReplaceWith("error(\"...\")")
     )
-    fun command(name: String, vararg aliases: String, commandCallback: DSLCommand.() -> Unit): DSLCommand = error("...")
+    fun command(name: String, vararg aliases: String, commandCallback: DSLCommand<T>.() -> Unit): DSLCommand<T> = error("...")
 }
