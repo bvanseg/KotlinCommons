@@ -2,6 +2,7 @@ package bvanseg.kotlincommons.lang.command.context
 
 import bvanseg.kotlincommons.lang.command.CommandDispatcher
 import bvanseg.kotlincommons.lang.command.dsl.DSLKey
+import bvanseg.kotlincommons.lang.command.token.Token
 
 /**
  * @author Boston Vanseghi
@@ -11,7 +12,7 @@ abstract class CommandContext(val dispatcher: CommandDispatcher) {
 
     lateinit var rawInput: String
     lateinit var splitRawInput: List<String>
-    lateinit var splitArguments: List<String>
+    lateinit var tokenizedArguments: List<Token>
 
     private val argumentMap: HashMap<String, Any> = hashMapOf()
 

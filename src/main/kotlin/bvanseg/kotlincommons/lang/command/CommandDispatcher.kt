@@ -81,13 +81,13 @@ class CommandDispatcher(private val prefix: String) {
         if (hasArguments) {
             val arguments = parts[1]
             val tokenParser = TokenParser(arguments)
-            commandContext.splitArguments = tokenParser.getAllTokens()
+            commandContext.tokenizedArguments = tokenParser.getAllTokens()
         } else {
-            commandContext.splitArguments = emptyList()
+            commandContext.tokenizedArguments = emptyList()
         }
 
         val commandArguments = CommandArguments(this, command)
-        commandArguments.parse(commandContext.splitArguments)
+        commandArguments.parse(commandContext.tokenizedArguments)
 
         return command.run(commandArguments, commandContext)
     }

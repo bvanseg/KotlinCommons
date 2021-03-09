@@ -10,9 +10,9 @@ class TokenParser internal constructor(private val input: String) {
     fun next(): Char = input[position++]
     fun peek(): Char? = if (position < input.length) input[position] else null
 
-    fun peekToken(): String? = if (position < input.length) nextToken(true) else null
+    fun peekToken(): Token? = if (position < input.length) nextToken(true) else null
 
-    fun nextToken(rewind: Boolean = false): String {
+    fun nextToken(rewind: Boolean = false): Token {
         val currentPosition = position
 
         // Skip to start of next token.
@@ -20,9 +20,14 @@ class TokenParser internal constructor(private val input: String) {
 
         val sb: StringBuilder = StringBuilder()
 
+        var tokenType: TokenType = TokenType.SINGLE_STRING
+
         while (position < input.length) {
             when (val next = next()) {
-                '"' -> while (peek() != '"' && peek() != null) { sb.append(next()) }
+                '"' -> {
+                    tokenType = TokenType.MULTI_STRING
+                    while (peek() != '"' && peek() != null) { sb.append(next()) }
+                }
                 ' ' -> break
                 else -> sb.append(next)
             }
@@ -32,11 +37,11 @@ class TokenParser internal constructor(private val input: String) {
             position = currentPosition
         }
 
-        return sb.toString()
+        return Token(sb.toString(), tokenType)
     }
 
-    fun getAllTokens(): List<String> {
-        val tokens = mutableListOf<String>()
+    fun getAllTokens(): List<Token> {
+        val tokens = mutableListOf<Token>()
         while (peekToken() != null) { tokens.add(nextToken()) }
         return tokens
     }
