@@ -1,5 +1,6 @@
 package bvanseg.kotlincommons.lang.command.transformer.impl
 
+import bvanseg.kotlincommons.lang.command.token.buffer.ArgumentTokenBuffer
 import bvanseg.kotlincommons.lang.command.transformer.DecimalTransformer
 
 /**
@@ -7,5 +8,5 @@ import bvanseg.kotlincommons.lang.command.transformer.DecimalTransformer
  * @since 2.10.0
  */
 object FloatTransformer: DecimalTransformer(Float::class) {
-    override fun parse(input: String): Float = super.parse(input).toFloat()
+    override fun parse(buffer: ArgumentTokenBuffer): Float = super.parse(buffer).toFloat()
 }

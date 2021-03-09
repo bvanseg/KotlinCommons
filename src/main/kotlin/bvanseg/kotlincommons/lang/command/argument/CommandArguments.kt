@@ -5,7 +5,8 @@ import bvanseg.kotlincommons.lang.command.CommandDispatcher
 import bvanseg.kotlincommons.lang.command.CommandProperties
 import bvanseg.kotlincommons.lang.command.dsl.DSLCommand
 import bvanseg.kotlincommons.lang.command.dsl.node.DSLCommandNode
-import bvanseg.kotlincommons.lang.command.token.SubTokenType
+import bvanseg.kotlincommons.lang.command.token.buffer.ArgumentTokenBuffer
+import bvanseg.kotlincommons.lang.command.token.buffer.FlagTokenBuffer
 import bvanseg.kotlincommons.lang.command.token.Token
 import bvanseg.kotlincommons.lang.command.token.TokenType
 import java.util.LinkedList
@@ -36,17 +37,16 @@ class CommandArguments(private val dispatcher: CommandDispatcher, private val co
      * @param tokens The list of tokens to parse as more defined types.
      */
     fun parse(tokens: List<Token>) {
-        tokens.forEach { token ->
-            // The current arguments to match the raw argument up against.
-            when (token.tokenType.subTokenType) {
-                SubTokenType.ARGUMENT -> parseArgument(token)
-                SubTokenType.FLAG -> parseFlag(token)
-            }
-        }
+        val argumentTokenBuffer = ArgumentTokenBuffer(tokens)
+        val flagTokenBuffer = FlagTokenBuffer(tokens)
+
+        while (argumentTokenBuffer.isNotEmpty()) { parseArgument(argumentTokenBuffer) }
+        while (flagTokenBuffer.isNotEmpty()) { parseFlag(flagTokenBuffer.next()) }
+
         current = command // Reset the position for a re-parse if necessary.
     }
 
-    private fun parseArgument(token: Token) {
+    private fun parseArgument(tokenBuffer: ArgumentTokenBuffer) {
         val currentArguments = current.arguments
 
         // We only want the transformers relevant to the current level of arguments.
@@ -62,26 +62,36 @@ class CommandArguments(private val dispatcher: CommandDispatcher, private val co
 
         // For all potential transformers, test them.
         for ((type, transformer) in transformersForArguments) {
-            if (transformer.matches(token.value)) {
-                val transformedArgument = transformer.parse(token.value)
-                val commandArgument = CommandArgument(transformedArgument, token.value, type)
+            if (transformer.matches(tokenBuffer)) {
+                val transformedArgument = transformer.parse(tokenBuffer)
+                val commandArgument = CommandArgument(transformedArgument, type)
                 arguments.add(commandArgument)
                 acceptedType = type
                 foundTransformer = true
+                break
             }
         }
 
         if (!foundTransformer) {
             acceptedType = String::class
-            arguments.add(CommandArgument(token.value, token.value, String::class))
-        }
+            val token = tokenBuffer.next()
+            arguments.add(CommandArgument(token.value, String::class))
 
-        // We attempt to use the accepted type to move deeper into the tree and on to the next level.
-        // Literals take priority, so check literals first.
-        val literal = current.literals.find { it.literalValue == token.value }
+            val literal = current.literals.find { it.literalValue == token.value }
 
-        if (literal != null) {
-            current = literal
+            if (literal != null) {
+                current = literal
+            } else {
+                // If a suitable literal was unable to be found using the accepted type, then attempt to find the next level
+                // in the current set of arguments by the argument type.
+                val potentialNextNode = current.arguments.find { it.type == acceptedType }
+
+                if (potentialNextNode != null) {
+                    current = potentialNextNode
+                } else {
+                    throw IllegalArgumentException("Could not find suitable argument or literal for token value '${token.value}'!")
+                }
+            }
         } else {
             // If a suitable literal was unable to be found using the accepted type, then attempt to find the next level
             // in the current set of arguments by the argument type.
@@ -90,7 +100,7 @@ class CommandArguments(private val dispatcher: CommandDispatcher, private val co
             if (potentialNextNode != null) {
                 current = potentialNextNode
             } else {
-                throw IllegalArgumentException("Could not find suitable argument or literal for raw argument '$token'!")
+                throw IllegalArgumentException("Could not find suitable argument for type '$acceptedType'!")
             }
         }
     }

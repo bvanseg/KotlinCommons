@@ -1,5 +1,6 @@
 package bvanseg.kotlincommons.lang.command.transformer.impl
 
+import bvanseg.kotlincommons.lang.command.token.buffer.ArgumentTokenBuffer
 import bvanseg.kotlincommons.lang.command.transformer.DecimalTransformer
 
 /**
@@ -7,5 +8,5 @@ import bvanseg.kotlincommons.lang.command.transformer.DecimalTransformer
  * @since 2.10.0
  */
 object DoubleTransformer: DecimalTransformer(Double::class) {
-    override fun parse(input: String): Double = super.parse(input).toDouble()
+    override fun parse(buffer: ArgumentTokenBuffer): Double = super.parse(buffer).toDouble()
 }

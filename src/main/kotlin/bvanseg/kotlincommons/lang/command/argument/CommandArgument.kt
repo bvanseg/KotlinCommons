@@ -6,4 +6,4 @@ import kotlin.reflect.KClass
  * @author Boston Vanseghi
  * @since 2.10.0
  */
-class CommandArgument<T: Any>(val value: T, val rawValue: String, val type: KClass<*>)
+class CommandArgument<T: Any>(val value: T, val type: KClass<*>)

@@ -45,12 +45,14 @@ class DSLCommand<T: CommandProperties>(val name: String, val aliases: List<Strin
 
             // LITERAL HANDLING
 
-            val literal = currentLevel.literals.find { it.literalValue.equals(commandArg.rawValue, true) }
+            if (commandArg.type == String::class) {
+                val literal = currentLevel.literals.find { it.literalValue.equals(commandArg.value as String, true) }
 
-            if (literal != null) {
-                currentLevel = literal
-                context.setArgument(literal.literalValue, literal.literalValue)
-                continue
+                if (literal != null) {
+                    currentLevel = literal
+                    context.setArgument(literal.literalValue, literal.literalValue)
+                    continue
+                }
             }
 
             // ARGUMENT HANDLING

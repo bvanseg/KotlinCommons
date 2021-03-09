@@ -1,5 +1,6 @@
 package bvanseg.kotlincommons.lang.command.transformer
 
+import bvanseg.kotlincommons.lang.command.token.buffer.ArgumentTokenBuffer
 import kotlin.reflect.KClass
 
 /**
@@ -10,10 +11,13 @@ abstract class DecimalTransformer internal constructor(type: KClass<out Number>)
 
     private val REGEX = Regex("^[+-]?([0-9]*[.])?[0-9]+$")
 
-    override fun matches(input: String): Boolean = input.matches(REGEX) || input.equals("pi", true) || input.equals("e", true)
+    override fun matches(buffer: ArgumentTokenBuffer): Boolean {
+        val token = buffer.peek() ?: return false
+        val input = token.value
+        return input.matches(REGEX) || input.equals("pi", true) || input.equals("e", true)
+    }
 
-    override fun parse(input: String): Number = input
-        .replace("pi", Math.PI.toString(), true)
+    override fun parse(buffer: ArgumentTokenBuffer): Number = buffer.next().value.replace("pi", Math.PI.toString(), true)
         .replace("e", Math.E.toString(), true)
         .toDouble()
 }
