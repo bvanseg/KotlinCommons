@@ -20,6 +20,8 @@ class DSLCommand<T: CommandProperties>(val name: String, val aliases: List<Strin
     val usages: MutableList<String> = mutableListOf()
     val examples: MutableList<String> = mutableListOf()
 
+    fun createFlagKey(name: String, vararg names: String): DSLFlagKey = DSLFlagKey(name, names.toList())
+
     fun addToCategory(category: String, vararg subcategories: String) {
         val rootCategory = SimpleCategoryNode(category.toLowerCase())
         categories = rootCategory
@@ -36,7 +38,7 @@ class DSLCommand<T: CommandProperties>(val name: String, val aliases: List<Strin
     fun run(arguments: CommandArguments, context: CommandContext): Any? {
         var currentLevel: DSLCommandNode = this
 
-        while (arguments.isNotEmpty()) {
+        while (arguments.hasArgument()) {
             val commandArg = arguments.nextArgument()
 
             // LITERAL HANDLING
@@ -45,7 +47,7 @@ class DSLCommand<T: CommandProperties>(val name: String, val aliases: List<Strin
 
             if (literal != null) {
                 currentLevel = literal
-                context.set(literal.literalValue, literal.literalValue)
+                context.setArgument(literal.literalValue, literal.literalValue)
                 continue
             }
 
@@ -67,12 +69,18 @@ class DSLCommand<T: CommandProperties>(val name: String, val aliases: List<Strin
                 }
 
                 if (argument.type == String::class) {
-                    context.set(argument.name, commandArg.value.toString())
+                    context.setArgument(argument.name, commandArg.value.toString())
                 } else {
-                    context.set(argument.name, commandArg.value)
+                    context.setArgument(argument.name, commandArg.value)
                 }
                 continue
             }
+        }
+
+        // FLAG HANDLING
+        while (arguments.hasFlag()) {
+            val commandFlag = arguments.nextFlag()
+            context.addFlag(commandFlag.rawValue)
         }
 
         // EMPTY/FINISHED ARGUMENTS HANDLING

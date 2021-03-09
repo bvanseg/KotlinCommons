@@ -1,6 +1,7 @@
 package bvanseg.kotlincommons.lang.command.context
 
 import bvanseg.kotlincommons.lang.command.CommandDispatcher
+import bvanseg.kotlincommons.lang.command.dsl.DSLFlagKey
 import bvanseg.kotlincommons.lang.command.dsl.DSLKey
 import bvanseg.kotlincommons.lang.command.token.Token
 
@@ -15,7 +16,19 @@ abstract class CommandContext(val dispatcher: CommandDispatcher) {
     lateinit var tokenizedArguments: List<Token>
 
     private val argumentMap: HashMap<String, Any> = hashMapOf()
+    private val flagSet: HashSet<String> = hashSetOf()
 
-    fun <T: Any> get(key: DSLKey<T>): T = argumentMap[key.name] as T
-    fun set(name: String, value: Any) = argumentMap.putIfAbsent(name, value)
+    fun <T: Any> getArgument(key: DSLKey<T>): T = argumentMap[key.name] as T
+    fun setArgument(name: String, value: Any) = argumentMap.putIfAbsent(name, value)
+
+    fun hasFlag(key: DSLFlagKey): Boolean {
+        if (flagSet.contains(key.name)) return true
+        for (name in key.names) {
+            if (flagSet.contains(name)) {
+                return true
+            }
+        }
+        return false
+    }
+    fun addFlag(name: String) = flagSet.add(name)
 }

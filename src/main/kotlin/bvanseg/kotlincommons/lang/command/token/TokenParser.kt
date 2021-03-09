@@ -28,6 +28,13 @@ class TokenParser internal constructor(private val input: String) {
                     tokenType = TokenType.MULTI_STRING
                     while (peek() != '"' && peek() != null) { sb.append(next()) }
                 }
+                '-' -> {
+                    tokenType = if (peek() == '-') {
+                        next() // Consume the extra dash token
+                        TokenType.LONG_FLAG
+                    } else TokenType.SHORT_FLAG
+                    while (peek() != ' ' && peek() != null) { sb.append(next()) }
+                }
                 ' ' -> break
                 else -> sb.append(next)
             }
