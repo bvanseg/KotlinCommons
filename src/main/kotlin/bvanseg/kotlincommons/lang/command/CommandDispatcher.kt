@@ -6,6 +6,7 @@ import bvanseg.kotlincommons.lang.command.category.SimpleCategoryNode
 import bvanseg.kotlincommons.lang.command.context.CommandContext
 import bvanseg.kotlincommons.lang.command.context.DefaultCommandContext
 import bvanseg.kotlincommons.lang.command.dsl.DSLCommand
+import bvanseg.kotlincommons.lang.command.token.TokenParser
 import bvanseg.kotlincommons.lang.command.transformer.Transformer
 import bvanseg.kotlincommons.lang.command.transformer.impl.BigDecimalTransformer
 import bvanseg.kotlincommons.lang.command.transformer.impl.BigIntegerTransformer
@@ -66,20 +67,27 @@ class CommandDispatcher(private val prefix: String) {
         if (!input.startsWith(prefix)) return null
         val trimmedInput = input.trim()
 
-        val parts = trimmedInput.split(" ")
+        val parts = trimmedInput.split(" ", limit = 2)
         val commandReference = parts[0]
         val commandName = commandReference.substring(prefix.length, commandReference.length)
-        val arguments = parts.subList(1, parts.size)
 
         val command = commands[commandName] ?: return null
 
-        // Initialize command context
+        val hasArguments = parts.size > 1
+
         commandContext.rawInput = input
         commandContext.splitRawInput = parts
-        commandContext.splitArguments = arguments
+
+        if (hasArguments) {
+            val arguments = parts[1]
+            val tokenParser = TokenParser(arguments)
+            commandContext.splitArguments = tokenParser.getAllTokens()
+        } else {
+            commandContext.splitArguments = emptyList()
+        }
 
         val commandArguments = CommandArguments(this, command)
-        commandArguments.parse(arguments)
+        commandArguments.parse(commandContext.splitArguments)
 
         return command.run(commandArguments, commandContext)
     }
