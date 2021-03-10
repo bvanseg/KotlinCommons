@@ -50,7 +50,7 @@ class CommandArguments(private val dispatcher: CommandDispatcher, private val co
         val currentArguments = current.arguments
 
         // We only want the transformers relevant to the current level of arguments.
-        val acceptedArgumentTypes = currentArguments.map { it.type }
+        val acceptedArgumentTypes = currentArguments.filter { it.type != String::class }.map { it.type }
         val transformersForArguments = dispatcher.transformers.filter { (type, _) ->
             acceptedArgumentTypes.contains(type)
         }

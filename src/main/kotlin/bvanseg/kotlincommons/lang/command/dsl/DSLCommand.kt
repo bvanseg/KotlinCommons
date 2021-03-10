@@ -45,17 +45,13 @@ class DSLCommand<T: CommandProperties>(val name: String, val aliases: List<Strin
 
             // ARGUMENT HANDLING
 
-            val argument = currentLevel.arguments.find { it.type == commandArg.type || it.type == String::class }
+            val argument = currentLevel.arguments.find { it.type == commandArg.type }
 
             if (argument != null) {
                 currentLevel = argument
 
                 if (argument.type == commandArg.type &&
                     argument.validators.any { !(it as Validator<Any>).validate(commandArg.value) }) {
-                    // TODO: Do something meaningful here.
-                    return null
-                } else if (argument.type == String::class &&
-                    argument.validators.any { !(it as Validator<String>).validate(commandArg.value.toString()) }) {
                     // TODO: Do something meaningful here.
                     return null
                 }
