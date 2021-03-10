@@ -27,6 +27,7 @@ class TokenParser internal constructor(private val input: String) {
                 '"' -> {
                     tokenType = TokenType.MULTI_STRING
                     while (peek() != '"' && peek() != null) { sb.append(next()) }
+                    if (peek() == '"') next()
                 }
                 '-' -> {
                     tokenType = if (peek() == '-') {
