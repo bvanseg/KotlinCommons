@@ -1,6 +1,7 @@
 package bvanseg.kotlincommons.lang.command
 
 import bvanseg.kotlincommons.lang.command.argument.CommandArguments
+import bvanseg.kotlincommons.lang.command.category.CommandCategory
 import bvanseg.kotlincommons.lang.command.context.CommandContext
 import bvanseg.kotlincommons.lang.command.context.DefaultCommandContext
 import bvanseg.kotlincommons.lang.command.dsl.DSLCommand
@@ -31,8 +32,12 @@ import kotlin.reflect.KClass
  */
 class CommandDispatcher(private val prefix: String) {
 
+    companion object {
+        val ROOT_CATEGORY = CommandCategory("Root", "*")
+    }
+
     private val commands: ConcurrentMap<String, DSLCommand<out CommandProperties>> = ConcurrentHashMap()
-    private val categories: ConcurrentMap<String, MutableList<DSLCommand<out CommandProperties>>> = ConcurrentHashMap()
+    private val categories: ConcurrentMap<CommandCategory, MutableList<DSLCommand<out CommandProperties>>> = ConcurrentHashMap()
 
     val transformers: ConcurrentMap<KClass<*>, Transformer<*>> = ConcurrentHashMap()
 
@@ -91,10 +96,10 @@ class CommandDispatcher(private val prefix: String) {
     }
 
     fun getCommandByName(name: String): DSLCommand<out CommandProperties>? = commands[name]
-    fun getCommandsByCategory(category: String): List<DSLCommand<out CommandProperties>> = categories[category] ?: emptyList()
+    fun getCommandsByCategoryPath(path: String): List<DSLCommand<out CommandProperties>> = categories[CommandCategory("", path)] ?: emptyList()
 
-    fun getCategories(): Map<String, List<DSLCommand<out CommandProperties>>> = categories
-    fun getRootCategory(): List<DSLCommand<out CommandProperties>> = categories["*"] ?: emptyList()
+    fun getCategories(): Map<CommandCategory, List<DSLCommand<out CommandProperties>>> = categories
+    fun getRootCommands(): List<DSLCommand<out CommandProperties>> = categories[ROOT_CATEGORY] ?: emptyList()
 
     fun registerCommand(command: DSLCommand<out CommandProperties>) {
         commands.putIfAbsent(command.name, command)

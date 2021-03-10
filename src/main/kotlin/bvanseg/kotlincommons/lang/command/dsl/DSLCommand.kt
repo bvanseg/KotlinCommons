@@ -1,7 +1,9 @@
 package bvanseg.kotlincommons.lang.command.dsl
 
+import bvanseg.kotlincommons.lang.command.CommandDispatcher
 import bvanseg.kotlincommons.lang.command.CommandProperties
 import bvanseg.kotlincommons.lang.command.argument.CommandArguments
+import bvanseg.kotlincommons.lang.command.category.CommandCategory
 import bvanseg.kotlincommons.lang.command.context.CommandContext
 import bvanseg.kotlincommons.lang.command.dsl.key.DSLFlagKey
 import bvanseg.kotlincommons.lang.command.dsl.node.DSLCommandNode
@@ -14,7 +16,7 @@ import bvanseg.kotlincommons.lang.command.validator.Validator
  */
 class DSLCommand<T: CommandProperties>(val name: String, val aliases: List<String> = listOf()): DSLCommandNode() {
 
-    var category: String = "*"
+    var category: CommandCategory = CommandDispatcher.ROOT_CATEGORY
 
     lateinit var properties: T
 
@@ -22,10 +24,6 @@ class DSLCommand<T: CommandProperties>(val name: String, val aliases: List<Strin
     val examples: MutableList<String> = mutableListOf()
 
     fun createFlagKey(name: String, vararg names: String): DSLFlagKey = DSLFlagKey(name, names.toList())
-
-    fun setCategory(category: String, vararg subcategories: String) {
-        this.category = if (subcategories.isNotEmpty()) "$category.${subcategories.joinToString(".")}" else category
-    }
 
     fun run(arguments: CommandArguments, context: CommandContext): Any? {
         var currentLevel: DSLCommandNode = this
