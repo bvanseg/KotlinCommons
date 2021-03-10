@@ -5,6 +5,7 @@ import bvanseg.kotlincommons.lang.command.argument.CommandArguments
 import bvanseg.kotlincommons.lang.command.context.CommandContext
 import bvanseg.kotlincommons.lang.command.dsl.key.DSLFlagKey
 import bvanseg.kotlincommons.lang.command.dsl.node.DSLCommandNode
+import bvanseg.kotlincommons.lang.command.exception.MissingExecutorException
 import bvanseg.kotlincommons.lang.command.validator.Validator
 
 /**
@@ -81,7 +82,7 @@ class DSLCommand<T: CommandProperties>(val name: String, val aliases: List<Strin
         if (executor != null) {
             return executor.block.invoke(context)
         } else {
-            throw RuntimeException("Expected execute block but could not find any!")
+            throw MissingExecutorException("Expected execute block but could not find any!")
         }
     }
 
