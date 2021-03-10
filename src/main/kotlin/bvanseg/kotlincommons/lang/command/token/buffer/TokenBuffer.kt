@@ -19,4 +19,5 @@ open class TokenBuffer(tokens: List<Token>): PeekingTokenBuffer {
     override fun peek(n: Int): List<Token> = tokens.subList(0, n)
     override fun peekAll(): List<Token> = tokens
     fun next(): Token = tokens.removeFirst()
+    fun all(): List<Token> = tokens.toList().also { tokens.clear() }
 }
