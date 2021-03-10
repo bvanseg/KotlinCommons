@@ -7,7 +7,7 @@ import java.util.LinkedList
  * @author Boston Vanseghi
  * @since 2.10.0
  */
-open class TokenBuffer(tokens: List<Token>) {
+open class TokenBuffer(tokens: List<Token>): PeekingTokenBuffer {
     private val tokens: LinkedList<Token> = LinkedList(tokens)
 
     fun isNotEmpty(): Boolean = tokens.isNotEmpty()
@@ -15,8 +15,8 @@ open class TokenBuffer(tokens: List<Token>) {
     val tokenCount: Int
         get() = tokens.size
 
-    fun peek(): Token? = tokens.firstOrNull()
-    fun peek(n: Int): List<Token> = tokens.subList(0, n)
-    fun peekAll(): List<Token> = tokens
+    override fun peek(): Token? = tokens.firstOrNull()
+    override fun peek(n: Int): List<Token> = tokens.subList(0, n)
+    override fun peekAll(): List<Token> = tokens
     fun next(): Token = tokens.removeFirst()
 }
