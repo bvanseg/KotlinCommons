@@ -92,6 +92,8 @@ class CommandDispatcher(private val prefix: String) {
         return command.run(commandArguments, commandContext)
     }
 
+    fun getCommand(name: String): DSLCommand<out CommandProperties>? = commands[name]
+
     fun registerCommand(command: DSLCommand<out CommandProperties>) {
         commands.putIfAbsent(command.name, command)
         command.aliases.forEach { alias ->
