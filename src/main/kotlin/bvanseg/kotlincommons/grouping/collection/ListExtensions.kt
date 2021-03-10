@@ -33,4 +33,4 @@ package bvanseg.kotlincommons.grouping.collection
  * @author Boston Vanseghi
  * @since 2.0.1
  */
-fun <E> MutableCollection<E>.addAll(vararg elements: E): Boolean = this.addAll(*elements)
+fun <E> MutableCollection<E>.addAll(vararg elements: E): Boolean = this.addAll(elements)
