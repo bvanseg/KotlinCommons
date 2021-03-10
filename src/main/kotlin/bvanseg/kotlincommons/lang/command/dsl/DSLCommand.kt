@@ -2,7 +2,6 @@ package bvanseg.kotlincommons.lang.command.dsl
 
 import bvanseg.kotlincommons.lang.command.CommandProperties
 import bvanseg.kotlincommons.lang.command.argument.CommandArguments
-import bvanseg.kotlincommons.lang.command.category.SimpleCategoryNode
 import bvanseg.kotlincommons.lang.command.context.CommandContext
 import bvanseg.kotlincommons.lang.command.dsl.key.DSLFlagKey
 import bvanseg.kotlincommons.lang.command.dsl.node.DSLCommandNode
@@ -14,8 +13,7 @@ import bvanseg.kotlincommons.lang.command.validator.Validator
  */
 class DSLCommand<T: CommandProperties>(val name: String, val aliases: List<String> = listOf()): DSLCommandNode() {
 
-    var categories: SimpleCategoryNode? = null
-        private set
+    var category: String = "*"
 
     lateinit var properties: T
 
@@ -24,17 +22,8 @@ class DSLCommand<T: CommandProperties>(val name: String, val aliases: List<Strin
 
     fun createFlagKey(name: String, vararg names: String): DSLFlagKey = DSLFlagKey(name, names.toList())
 
-    fun addToCategory(category: String, vararg subcategories: String) {
-        val rootCategory = SimpleCategoryNode(category.toLowerCase())
-        categories = rootCategory
-
-        var current = rootCategory
-
-        for (subcategory in subcategories) {
-            val newCategoryNode = SimpleCategoryNode(subcategory)
-            current.next = newCategoryNode
-            current = newCategoryNode
-        }
+    fun setCategory(category: String, vararg subcategories: String) {
+        this.category = if (subcategories.isNotEmpty()) "$category.${subcategories.joinToString(".")}" else category
     }
 
     fun run(arguments: CommandArguments, context: CommandContext): Any? {

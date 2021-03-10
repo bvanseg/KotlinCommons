@@ -1,8 +1,6 @@
 package bvanseg.kotlincommons.lang.command
 
 import bvanseg.kotlincommons.lang.command.argument.CommandArguments
-import bvanseg.kotlincommons.lang.command.category.CategoryTreeNode
-import bvanseg.kotlincommons.lang.command.category.SimpleCategoryNode
 import bvanseg.kotlincommons.lang.command.context.CommandContext
 import bvanseg.kotlincommons.lang.command.context.DefaultCommandContext
 import bvanseg.kotlincommons.lang.command.dsl.DSLCommand
@@ -34,7 +32,7 @@ import kotlin.reflect.KClass
 class CommandDispatcher(private val prefix: String) {
 
     private val commands: ConcurrentMap<String, DSLCommand<out CommandProperties>> = ConcurrentHashMap()
-    val categories: CategoryTreeNode = CategoryTreeNode(null, "")
+    private val categories: ConcurrentMap<String, MutableList<DSLCommand<out CommandProperties>>> = ConcurrentHashMap()
 
     val transformers: ConcurrentMap<KClass<*>, Transformer<*>> = ConcurrentHashMap()
 
@@ -92,7 +90,11 @@ class CommandDispatcher(private val prefix: String) {
         return command.run(commandArguments, commandContext)
     }
 
-    fun getCommand(name: String): DSLCommand<out CommandProperties>? = commands[name]
+    fun getCommandByName(name: String): DSLCommand<out CommandProperties>? = commands[name]
+    fun getCommandsByCategory(category: String): List<DSLCommand<out CommandProperties>> = categories[category] ?: emptyList()
+
+    fun getCategories(): Map<String, List<DSLCommand<out CommandProperties>>> = categories
+    fun getRootCategory(): List<DSLCommand<out CommandProperties>> = categories["*"] ?: emptyList()
 
     fun registerCommand(command: DSLCommand<out CommandProperties>) {
         commands.putIfAbsent(command.name, command)
@@ -100,22 +102,7 @@ class CommandDispatcher(private val prefix: String) {
             commands.putIfAbsent(alias, command)
         }
 
-        var currentDispatcherCategoryNode: CategoryTreeNode? = this.categories
-        var currentCommandCategoryNode: SimpleCategoryNode? = command.categories
-
-        if (currentCommandCategoryNode != null) {
-            this.categories.populateChain(currentCommandCategoryNode)
-
-            // Add to root.
-            currentDispatcherCategoryNode!!.commands.add(command)
-
-            while (currentCommandCategoryNode != null) {
-                currentDispatcherCategoryNode = currentDispatcherCategoryNode!!.subcategories.find { it.category == currentCommandCategoryNode?.category }!!
-
-                currentDispatcherCategoryNode.commands.add(command)
-                currentCommandCategoryNode = currentCommandCategoryNode.next
-            }
-        }
+        categories.computeIfAbsent(command.category) { mutableListOf() }.add(command)
     }
 
     fun registerTransformer(transformer: Transformer<*>) = transformers.putIfAbsent(transformer.type, transformer)
