@@ -26,6 +26,7 @@ import bvanseg.kotlincommons.lang.command.transformer.impl.InstantTransformer
 import bvanseg.kotlincommons.lang.command.transformer.impl.LocalDateTimeTransformer
 import bvanseg.kotlincommons.lang.command.transformer.impl.LocalDateTransformer
 import bvanseg.kotlincommons.lang.command.transformer.impl.LocalTimeTransformer
+import bvanseg.kotlincommons.lang.command.transformer.impl.OffsetDateTimeTransformer
 import bvanseg.kotlincommons.lang.command.transformer.impl.TokenTransformer
 import bvanseg.kotlincommons.lang.command.transformer.impl.UUIDTransformer
 import java.util.concurrent.ConcurrentHashMap
@@ -67,6 +68,7 @@ class CommandDispatcher(private val prefix: String) {
         registerTransformer(LocalDateTimeTransformer)
         registerTransformer(LocalDateTransformer)
         registerTransformer(LocalTimeTransformer)
+        registerTransformer(OffsetDateTimeTransformer)
         registerTransformer(TokenTransformer)
         registerTransformer(UUIDTransformer)
 
