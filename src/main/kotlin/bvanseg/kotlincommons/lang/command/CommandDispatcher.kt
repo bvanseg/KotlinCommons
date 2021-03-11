@@ -67,7 +67,7 @@ import kotlin.reflect.KClass
  * @author Boston Vanseghi
  * @since 2.10.0
  */
-class CommandDispatcher(private val prefix: String) {
+class CommandDispatcher(val prefix: String) {
 
     companion object {
         val ROOT_CATEGORY = CommandCategory("Root", "*")
