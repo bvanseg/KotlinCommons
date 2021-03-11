@@ -13,3 +13,6 @@ class MissingExecutorException(message: String? = null): CommandException(messag
 
 // Literals
 class DuplicateLiteralException(message: String? = null): CommandException(message)
+
+// Transformers
+class TransformerException(message: String? = null): CommandException(message)
