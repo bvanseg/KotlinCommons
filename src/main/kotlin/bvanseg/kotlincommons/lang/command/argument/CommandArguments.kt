@@ -5,6 +5,8 @@ import bvanseg.kotlincommons.lang.command.CommandDispatcher
 import bvanseg.kotlincommons.lang.command.CommandProperties
 import bvanseg.kotlincommons.lang.command.dsl.DSLCommand
 import bvanseg.kotlincommons.lang.command.dsl.node.DSLCommandNode
+import bvanseg.kotlincommons.lang.command.exception.IllegalTokenTypeException
+import bvanseg.kotlincommons.lang.command.exception.MissingArgumentException
 import bvanseg.kotlincommons.lang.command.token.buffer.ArgumentTokenBuffer
 import bvanseg.kotlincommons.lang.command.token.buffer.FlagTokenBuffer
 import bvanseg.kotlincommons.lang.command.token.Token
@@ -90,7 +92,7 @@ class CommandArguments(private val dispatcher: CommandDispatcher, private val co
                 if (potentialNextNode != null) {
                     current = potentialNextNode
                 } else {
-                    throw IllegalArgumentException("Could not find suitable argument or literal for token value '${token.value}'!")
+                    throw MissingArgumentException("Could not find suitable argument or literal for token value '${token.value}'!")
                 }
             }
         } else {
@@ -101,7 +103,7 @@ class CommandArguments(private val dispatcher: CommandDispatcher, private val co
             if (potentialNextNode != null) {
                 current = potentialNextNode
             } else {
-                throw IllegalArgumentException("Could not find suitable argument for type '$acceptedType'!")
+                throw MissingArgumentException("Could not find suitable argument for type '$acceptedType'!")
             }
         }
     }
@@ -112,7 +114,7 @@ class CommandArguments(private val dispatcher: CommandDispatcher, private val co
                 flags.add(CommandFlag(it.toString()))
             }
             TokenType.LONG_FLAG -> flags.add(CommandFlag(token.value.substringAfter("--")))
-            else -> throw IllegalArgumentException("Expected token type to be a flag type but was actually '${token.tokenType}'")
+            else -> throw IllegalTokenTypeException("Expected token type to be a flag type but was actually '${token.tokenType}'")
         }
     }
 

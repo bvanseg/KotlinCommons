@@ -4,6 +4,8 @@ sealed class CommandException(message: String? = null): Exception(message)
 
 // Arguments
 class DuplicateArgumentTypeException(message: String? = null): CommandException(message)
+class IllegalTokenTypeException(message: String? = null): CommandException(message)
+class MissingArgumentException(message: String? = null): CommandException(message)
 
 // Executors
 class DuplicateExecutorException(message: String? = null): CommandException(message)
