@@ -1,9 +1,11 @@
 package bvanseg.kotlincommons.lang.command.validator
 
+import kotlin.reflect.KClass
+
 /**
  * @author Boston Vanseghi
  * @since 2.10.0
  */
-interface Validator<T: Any> {
-    fun validate(value: T): Boolean
+abstract class Validator<T: Any>(val type: KClass<T>) {
+    abstract fun validate(value: T): Boolean
 }
