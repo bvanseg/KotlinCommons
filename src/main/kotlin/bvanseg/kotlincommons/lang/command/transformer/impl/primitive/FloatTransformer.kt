@@ -23,13 +23,10 @@
  */
 package bvanseg.kotlincommons.lang.command.transformer.impl.primitive
 
-import bvanseg.kotlincommons.lang.command.token.buffer.ArgumentTokenBuffer
 import bvanseg.kotlincommons.lang.command.transformer.DecimalTransformer
 
 /**
  * @author Boston Vanseghi
  * @since 2.10.0
  */
-object FloatTransformer : DecimalTransformer(Float::class) {
-    override fun parse(buffer: ArgumentTokenBuffer): Float = super.parse(buffer).toFloat()
-}
+object FloatTransformer : DecimalTransformer<Float>(Float::class, Float.MIN_VALUE, Float.MAX_VALUE, { it.toFloat() })
