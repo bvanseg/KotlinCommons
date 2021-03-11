@@ -36,15 +36,15 @@ import kotlin.reflect.KClass
  */
 abstract class DecimalTransformer<T : Number>(
     type: KClass<T>,
-    min: T,
-    max: T,
+    min: BigDecimal,
+    max: BigDecimal,
     private val stringToNum: (String) -> T
 ) : Transformer<T>(type) {
     companion object {
         val REGEX = Regex("^[+-]?([0-9]*[.])?[0-9]+$")
     }
 
-    private val range: ClosedRange<BigDecimal> = min.toDouble().toBigDecimal()..max.toDouble().toBigDecimal()
+    private val range: ClosedRange<BigDecimal> = min..max
 
     override fun matches(buffer: PeekingTokenBuffer): Boolean =
         buffer.peek()?.value?.let { it.equals("pi", true) || it.equals("e", true) || it.matches(REGEX) } ?: false

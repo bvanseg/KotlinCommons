@@ -29,4 +29,9 @@ import bvanseg.kotlincommons.lang.command.transformer.DecimalTransformer
  * @author Boston Vanseghi
  * @since 2.10.0
  */
-object FloatTransformer : DecimalTransformer<Float>(Float::class, Float.MIN_VALUE, Float.MAX_VALUE, { it.toFloat() })
+object FloatTransformer : DecimalTransformer<Float>(
+	Float::class,
+	Float.MIN_VALUE.toBigDecimal(),
+	Float.MAX_VALUE.toBigDecimal(),
+	{ it.toFloat() }
+)

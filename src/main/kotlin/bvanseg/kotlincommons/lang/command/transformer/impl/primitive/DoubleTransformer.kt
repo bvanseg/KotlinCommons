@@ -31,7 +31,7 @@ import bvanseg.kotlincommons.lang.command.transformer.DecimalTransformer
  */
 object DoubleTransformer : DecimalTransformer<Double>(
 	Double::class,
-	Double.MIN_VALUE,
-	Double.MAX_VALUE,
+	Double.MIN_VALUE.toBigDecimal(),
+	Double.MAX_VALUE.toBigDecimal(),
 	{ it.toDouble() }
 )
