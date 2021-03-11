@@ -51,7 +51,11 @@ class DSLCommand<T : Any>(val name: String, val aliases: MutableList<String> = m
     val usages: MutableList<String> = mutableListOf()
     val examples: MutableList<String> = mutableListOf()
 
-    fun createFlagKey(name: String, vararg names: String): DSLFlagKey = DSLFlagKey(name, names.toList())
+    private val flagKeys: MutableList<DSLFlagKey> = mutableListOf()
+
+    fun createFlagKey(name: String, vararg names: String): DSLFlagKey = DSLFlagKey(name, names.toList()).also { flagKeys.add(it) }
+
+    fun getFlagKeys(): List<DSLFlagKey> = flagKeys
 
     fun run(arguments: CommandArguments, context: CommandContext): Any? {
         var currentLevel: DSLCommandNode = this
