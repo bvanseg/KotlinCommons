@@ -1,31 +1,31 @@
-package bvanseg.kotlincommons.lang.command.transformer.impl
+package bvanseg.kotlincommons.lang.command.transformer.impl.time
 
 import bvanseg.kotlincommons.lang.command.token.buffer.ArgumentTokenBuffer
 import bvanseg.kotlincommons.lang.command.token.buffer.PeekingTokenBuffer
 import bvanseg.kotlincommons.lang.command.transformer.Transformer
-import java.time.OffsetDateTime
+import bvanseg.kotlincommons.time.api.Khrono
 
 /**
  * @author Boston Vanseghi
  * @since 2.10.0
  */
-object OffsetDateTimeTransformer: Transformer<OffsetDateTime>(OffsetDateTime::class) {
+object KhronoTransformer: Transformer<Khrono>(Khrono::class) {
     override fun matches(buffer: PeekingTokenBuffer): Boolean = try {
         val text = buffer.peek()?.value
         if (text.equals("now", true)) {
             true
         } else {
-            OffsetDateTime.parse(text ?: "")
+            Khrono.parse(text ?: "")
             true
         }
     } catch(e: Exception) { false }
-    override fun parse(buffer: ArgumentTokenBuffer): OffsetDateTime {
+    override fun parse(buffer: ArgumentTokenBuffer): Khrono {
         val text = buffer.next().value
 
         return if (text.equals("now", true)) {
-            OffsetDateTime.now()
+            Khrono.now()
         } else {
-            OffsetDateTime.parse(text)
+            Khrono.parse(text)
         }
     }
 }

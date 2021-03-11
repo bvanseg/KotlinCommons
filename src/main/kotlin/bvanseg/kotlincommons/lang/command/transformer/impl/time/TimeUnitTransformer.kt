@@ -1,4 +1,4 @@
-package bvanseg.kotlincommons.lang.command.transformer.impl
+package bvanseg.kotlincommons.lang.command.transformer.impl.time
 
 import bvanseg.kotlincommons.grouping.enum.enumValueOfOrNull
 import bvanseg.kotlincommons.lang.command.token.buffer.ArgumentTokenBuffer

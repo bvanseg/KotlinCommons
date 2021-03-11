@@ -1,4 +1,4 @@
-package bvanseg.kotlincommons.lang.command.transformer.impl
+package bvanseg.kotlincommons.lang.command.transformer.impl.primitive
 
 import bvanseg.kotlincommons.lang.command.token.buffer.ArgumentTokenBuffer
 import bvanseg.kotlincommons.lang.command.transformer.DecimalTransformer
