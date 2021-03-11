@@ -58,7 +58,7 @@ abstract class DecimalTransformer<T : Number>(
         }
         val bigDeci = BigDecimal(text)
         if (bigDeci !in range) {
-            throw TransformerException("Value '$bigDeci' does not fall within the range of (${range.start.format()} to ${range.endInclusive.format()})")
+            throw TransformerException("Value '$bigDeci' does not fall within the range of (${range.start} to ${range.endInclusive})")
         }
         return stringToNum(text)
     }
