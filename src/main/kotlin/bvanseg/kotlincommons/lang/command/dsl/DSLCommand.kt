@@ -9,6 +9,7 @@ import bvanseg.kotlincommons.lang.command.dsl.key.DSLFlagKey
 import bvanseg.kotlincommons.lang.command.dsl.node.DSLCommandNode
 import bvanseg.kotlincommons.lang.command.exception.MissingArgumentException
 import bvanseg.kotlincommons.lang.command.exception.MissingExecutorException
+import bvanseg.kotlincommons.lang.command.validator.ValidationResult
 import bvanseg.kotlincommons.lang.command.validator.Validator
 
 /**
@@ -54,7 +55,7 @@ class DSLCommand<T: CommandProperties>(val name: String, val aliases: List<Strin
                     argument.validators.forEach {
                         val result = (it as Validator<Any>).validate(commandArg.value)
 
-                        if (!result) {
+                        if (result == ValidationResult.INVALID) {
                             return it
                         }
                     }

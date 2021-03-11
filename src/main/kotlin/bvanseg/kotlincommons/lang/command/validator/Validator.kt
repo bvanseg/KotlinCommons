@@ -7,5 +7,5 @@ import kotlin.reflect.KClass
  * @since 2.10.0
  */
 abstract class Validator<T: Any>(val type: KClass<T>) {
-    abstract fun validate(value: T): Boolean
+    abstract fun validate(value: T): ValidationResult
 }
