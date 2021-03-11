@@ -22,10 +22,11 @@ open class CommandContext(val dispatcher: CommandDispatcher) {
     fun <T: Any> getArgument(name: String): T = argumentMap[name] as T
     fun setArgument(name: String, value: Any) = argumentMap.putIfAbsent(name, value)
 
-    fun hasFlag(key: DSLFlagKey): Boolean {
-        if (flagSet.contains(key.name)) return true
-        for (name in key.names) {
-            if (flagSet.contains(name)) {
+    fun hasFlag(key: DSLFlagKey): Boolean = hasFlag(key.name, *key.names.toTypedArray())
+    fun hasFlag(name: String, vararg names: String): Boolean {
+        if (flagSet.contains(name)) return true
+        for (n in names) {
+            if (flagSet.contains(n)) {
                 return true
             }
         }
