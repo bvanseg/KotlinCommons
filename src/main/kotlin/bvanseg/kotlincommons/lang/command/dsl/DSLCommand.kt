@@ -53,7 +53,7 @@ class DSLCommand<T : Any>(val name: String, val aliases: MutableList<String> = m
 
     private val flagKeys: MutableList<DSLFlagKey> = mutableListOf()
 
-    fun createFlagKey(name: String, vararg names: String): DSLFlagKey = DSLFlagKey(name, names.toList()).also { flagKeys.add(it) }
+    fun createFlagKey(name: String, vararg names: String, description: String = ""): DSLFlagKey = DSLFlagKey(name, names.toList(), description).also { flagKeys.add(it) }
 
     fun getFlagKeys(): List<DSLFlagKey> = flagKeys
 
