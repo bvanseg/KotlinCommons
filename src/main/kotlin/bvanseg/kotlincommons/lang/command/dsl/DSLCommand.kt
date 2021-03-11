@@ -7,6 +7,7 @@ import bvanseg.kotlincommons.lang.command.category.CommandCategory
 import bvanseg.kotlincommons.lang.command.context.CommandContext
 import bvanseg.kotlincommons.lang.command.dsl.key.DSLFlagKey
 import bvanseg.kotlincommons.lang.command.dsl.node.DSLCommandNode
+import bvanseg.kotlincommons.lang.command.exception.MissingArgumentException
 import bvanseg.kotlincommons.lang.command.exception.MissingExecutorException
 import bvanseg.kotlincommons.lang.command.validator.Validator
 
@@ -62,7 +63,7 @@ class DSLCommand<T: CommandProperties>(val name: String, val aliases: List<Strin
                 }
                 continue
             } else {
-                // TODO: Handle
+                throw MissingArgumentException("Could not find valid argument type for input '$commandArgString' (type ${commandArg.type})")
             }
         }
 
