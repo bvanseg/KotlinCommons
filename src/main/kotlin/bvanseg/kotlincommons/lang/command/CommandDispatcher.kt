@@ -43,8 +43,8 @@ class CommandDispatcher(private val prefix: String) {
         val ROOT_CATEGORY = CommandCategory("Root", "*")
     }
 
-    private val commands: ConcurrentMap<String, DSLCommand<out CommandProperties>> = ConcurrentHashMap()
-    private val categories: ConcurrentMap<CommandCategory, MutableList<DSLCommand<out CommandProperties>>> = ConcurrentHashMap()
+    private val commands: ConcurrentMap<String, DSLCommand<out Any>> = ConcurrentHashMap()
+    private val categories: ConcurrentMap<CommandCategory, MutableList<DSLCommand<out Any>>> = ConcurrentHashMap()
 
     val transformers: ConcurrentMap<KClass<*>, Transformer<*>> = ConcurrentHashMap()
 
@@ -110,13 +110,13 @@ class CommandDispatcher(private val prefix: String) {
         return command.run(commandArguments, commandContext)
     }
 
-    fun getCommandByName(name: String): DSLCommand<out CommandProperties>? = commands[name]
-    fun getCommandsByCategoryPath(path: String): List<DSLCommand<out CommandProperties>> = categories[CommandCategory("", path)] ?: emptyList()
+    fun getCommandByName(name: String): DSLCommand<out Any>? = commands[name]
+    fun getCommandsByCategoryPath(path: String): List<DSLCommand<out Any>> = categories[CommandCategory("", path)] ?: emptyList()
 
-    fun getCategories(): Map<CommandCategory, List<DSLCommand<out CommandProperties>>> = categories
-    fun getRootCommands(): List<DSLCommand<out CommandProperties>> = categories[ROOT_CATEGORY] ?: emptyList()
+    fun getCategories(): Map<CommandCategory, List<DSLCommand<out Any>>> = categories
+    fun getRootCommands(): List<DSLCommand<out Any>> = categories[ROOT_CATEGORY] ?: emptyList()
 
-    fun registerCommand(command: DSLCommand<out CommandProperties>) {
+    fun registerCommand(command: DSLCommand<out Any>) {
         commands.putIfAbsent(command.name, command)
         command.aliases.forEach { alias ->
             commands.putIfAbsent(alias, command)

@@ -1,7 +1,6 @@
 package bvanseg.kotlincommons.lang.command.dsl
 
 import bvanseg.kotlincommons.lang.command.CommandDispatcher
-import bvanseg.kotlincommons.lang.command.CommandProperties
 import bvanseg.kotlincommons.lang.command.argument.CommandArguments
 import bvanseg.kotlincommons.lang.command.category.CommandCategory
 import bvanseg.kotlincommons.lang.command.context.CommandContext
@@ -16,7 +15,7 @@ import bvanseg.kotlincommons.lang.command.validator.Validator
  * @author Boston Vanseghi
  * @since 2.10.0
  */
-class DSLCommand<T: CommandProperties>(val name: String, val aliases: List<String> = listOf()): DSLCommandNode() {
+class DSLCommand<T: Any>(val name: String, val aliases: List<String> = listOf()): DSLCommandNode() {
 
     var category: CommandCategory = CommandDispatcher.ROOT_CATEGORY
 
