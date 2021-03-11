@@ -30,17 +30,16 @@ class DSLCommand<T: CommandProperties>(val name: String, val aliases: List<Strin
 
         while (arguments.hasArgument()) {
             val commandArg = arguments.nextArgument()
+            val commandArgString = commandArg.value.toString()
 
             // LITERAL HANDLING
 
-            if (commandArg.type == String::class) {
-                val literal = currentLevel.literals.find { it.literalValue.equals(commandArg.value as String, true) }
+            val literal = currentLevel.literals.find { it.literalValue.equals(commandArgString, true) }
 
-                if (literal != null) {
-                    currentLevel = literal
-                    context.setArgument(literal.literalValue, literal.literalValue)
-                    continue
-                }
+            if (literal != null) {
+                currentLevel = literal
+                context.setArgument(literal.literalValue, literal.literalValue)
+                continue
             }
 
             // ARGUMENT HANDLING
@@ -57,7 +56,7 @@ class DSLCommand<T: CommandProperties>(val name: String, val aliases: List<Strin
                 }
 
                 if (argument.type == String::class) {
-                    context.setArgument(argument.name, commandArg.value.toString())
+                    context.setArgument(argument.name, commandArgString)
                 } else {
                     context.setArgument(argument.name, commandArg.value)
                 }
