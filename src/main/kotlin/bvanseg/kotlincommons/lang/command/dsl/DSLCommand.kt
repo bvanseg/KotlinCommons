@@ -50,10 +50,14 @@ class DSLCommand<T: CommandProperties>(val name: String, val aliases: List<Strin
             if (argument != null) {
                 currentLevel = argument
 
-                if (argument.type == commandArg.type &&
-                    argument.validators.any { !(it as Validator<Any>).validate(commandArg.value) }) {
-                    // TODO: Do something meaningful here.
-                    return null
+                if (argument.type == commandArg.type) {
+                    argument.validators.forEach {
+                        val result = (it as Validator<Any>).validate(commandArg.value)
+
+                        if (!result) {
+                            return it
+                        }
+                    }
                 }
 
                 if (argument.type == String::class) {
