@@ -52,7 +52,7 @@ class ToStringBuilder private constructor() {
             return@apply
         }
 
-        val con = when (val valueType: KClass<out Any> = value::class) {
+        val con = when (val valueType: KClass<out Any> = (value as Any)::class) {
             String::class -> "\"${value as String}\""
             Map::class -> (value as Map<*, *>).entries.joinToString(", ")
             else -> {
