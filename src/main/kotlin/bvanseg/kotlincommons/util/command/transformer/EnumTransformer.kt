@@ -33,6 +33,7 @@ import kotlin.reflect.KClass
  * @author bright_spark
  * @since 2.1.0
  */
+@Deprecated("Scheduled for removal in KotlinCommons 2.10.0")
 open class EnumTransformer<T : Enum<*>>(type: KClass<T>) : Transformer<T>(type) {
     private val values = type.java.enumConstants
 

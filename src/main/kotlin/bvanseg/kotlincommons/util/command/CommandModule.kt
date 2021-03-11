@@ -36,6 +36,7 @@ import kotlin.reflect.full.isSubclassOf
  * @author Boston Vanseghi
  * @since 2.1.0
  */
+@Deprecated("Scheduled for removal in KotlinCommons 2.10.0")
 class CommandModule(val tag: String, val manager: CommandManager<*>) {
 
     val commands: MutableList<InternalCommand> = mutableListOf()

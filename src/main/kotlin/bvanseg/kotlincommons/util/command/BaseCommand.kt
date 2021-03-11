@@ -23,6 +23,7 @@
  */
 package bvanseg.kotlincommons.util.command
 
+@Deprecated("Scheduled for removal in KotlinCommons 2.10.0")
 abstract class BaseCommand {
     var gear: String = ""
     var description: String = ""

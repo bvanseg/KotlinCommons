@@ -32,6 +32,7 @@ import bvanseg.kotlincommons.StringArray
  * @author Boston Vanseghi
  * @since 2.1.0
  */
+@Deprecated("Scheduled for removal in KotlinCommons 2.10.0")
 @Target(AnnotationTarget.FUNCTION)
 annotation class Command(
     /**

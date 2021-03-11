@@ -31,6 +31,7 @@ import bvanseg.kotlincommons.util.command.context.Context
  * @author Boston Vanseghi
  * @since 2.2.4
  */
+@Deprecated("Scheduled for removal in KotlinCommons 2.10.0")
 open class CommandException(override val message: String) : Exception(message)
 
 /**
@@ -39,6 +40,7 @@ open class CommandException(override val message: String) : Exception(message)
  * @author Boston Vanseghi
  * @since 2.2.4
  */
+@Deprecated("Scheduled for removal in KotlinCommons 2.10.0")
 open class ParameterException(override val message: String) : CommandException(message)
 
 /**
@@ -47,6 +49,7 @@ open class ParameterException(override val message: String) : CommandException(m
  * @author Boston Vanseghi
  * @since 2.2.4
  */
+@Deprecated("Scheduled for removal in KotlinCommons 2.10.0")
 open class TransformerException(override val message: String) : CommandException(message)
 
 /**
@@ -55,6 +58,7 @@ open class TransformerException(override val message: String) : CommandException
  * @author Boston Vanseghi
  * @since 2.7.0
  */
+@Deprecated("Scheduled for removal in KotlinCommons 2.10.0")
 open class ValidatorException(override val message: String) : CommandException(message)
 
 /**
@@ -63,6 +67,7 @@ open class ValidatorException(override val message: String) : CommandException(m
  * @author Boston Vanseghi
  * @since 2.2.4
  */
+@Deprecated("Scheduled for removal in KotlinCommons 2.10.0")
 class MissingParameterException(val parameters: List<String>, override val message: String) :
     ParameterException(message)
 
@@ -72,6 +77,7 @@ class MissingParameterException(val parameters: List<String>, override val messa
  * @author Boston Vanseghi
  * @since 2.2.4
  */
+@Deprecated("Scheduled for removal in KotlinCommons 2.10.0")
 class InvalidParameterException(override val message: String) : ParameterException(message)
 
 /**
@@ -80,6 +86,7 @@ class InvalidParameterException(override val message: String) : ParameterExcepti
  * @author Boston Vanseghi
  * @since 2.2.4
  */
+@Deprecated("Scheduled for removal in KotlinCommons 2.10.0")
 class UnknownParameterException(val ctx: Context, override val message: String) : ParameterException(message)
 
 /**
@@ -88,6 +95,7 @@ class UnknownParameterException(val ctx: Context, override val message: String) 
  * @author Boston Vanseghi
  * @since 2.2.4
  */
+@Deprecated("Scheduled for removal in KotlinCommons 2.10.0")
 class MissingTransformerException(val ctx: Context, override val message: String) : TransformerException(message)
 
 /**
@@ -96,6 +104,7 @@ class MissingTransformerException(val ctx: Context, override val message: String
  * @author Boston Vanseghi
  * @since 2.2.4
  */
+@Deprecated("Scheduled for removal in KotlinCommons 2.10.0")
 class TransformerParseException(val ctx: Context, override val message: String) : TransformerException(message)
 
 /**
@@ -104,6 +113,7 @@ class TransformerParseException(val ctx: Context, override val message: String) 
  * @author Boston Vanseghi
  * @since 2.2.4
  */
+@Deprecated("Scheduled for removal in KotlinCommons 2.10.0")
 class DuplicateTransformerException(override val message: String) : TransformerException(message)
 
 /**
@@ -112,6 +122,7 @@ class DuplicateTransformerException(override val message: String) : TransformerE
  * @author Boston Vanseghi
  * @since 2.7.0
  */
+@Deprecated("Scheduled for removal in KotlinCommons 2.10.0")
 class DuplicateValidatorException(override val message: String) : ValidatorException(message)
 
 /**
@@ -120,4 +131,5 @@ class DuplicateValidatorException(override val message: String) : ValidatorExcep
  * @author Boston Vanseghi
  * @since 2.2.4
  */
+@Deprecated("Scheduled for removal in KotlinCommons 2.10.0")
 class UnknownCommandException(override val message: String) : CommandException(message)

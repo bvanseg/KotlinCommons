@@ -32,6 +32,7 @@ import bvanseg.kotlincommons.util.command.InternalCommand
  * @author Boston Vanseghi
  * @since 2.1.0
  */
+@Deprecated("Scheduled for removal in KotlinCommons 2.10.0")
 open class Gear(val name: String) {
 
     val commands = ArrayList<InternalCommand>()

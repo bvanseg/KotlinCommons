@@ -30,4 +30,5 @@ package bvanseg.kotlincommons.util.command.context
  * @author Boston Vanseghi
  * @since 2.1.0
  */
+@Deprecated("Scheduled for removal in KotlinCommons 2.10.0")
 interface Context

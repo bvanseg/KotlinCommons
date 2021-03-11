@@ -35,6 +35,7 @@ import kotlin.reflect.KClass
  * @author Boston Vanseghi
  * @since 2.1.0
  */
+@Deprecated("Scheduled for removal in KotlinCommons 2.10.0")
 class Union<A : Any, B : Any>(
     commandManager: CommandManager<*>,
     context: Context,

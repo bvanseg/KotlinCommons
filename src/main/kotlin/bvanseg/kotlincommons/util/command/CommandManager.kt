@@ -84,6 +84,7 @@ import kotlin.reflect.full.memberFunctions
  * @author Boston Vanseghi
  * @since 2.1.0
  */
+@Deprecated("Scheduled for removal in KotlinCommons 2.10.0")
 class CommandManager<T : Any>(val prefix: String = "!") {
 
     companion object {
