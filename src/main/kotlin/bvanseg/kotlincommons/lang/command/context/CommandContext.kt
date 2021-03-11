@@ -18,7 +18,8 @@ open class CommandContext(val dispatcher: CommandDispatcher) {
     private val argumentMap: HashMap<String, Any> = hashMapOf()
     private val flagSet: HashSet<String> = hashSetOf()
 
-    fun <T: Any> getArgument(key: DSLKey<T>): T = argumentMap[key.name] as T
+    fun <T: Any> getArgument(key: DSLKey<T>): T = getArgument(key.name)
+    fun <T: Any> getArgument(name: String): T = argumentMap[name] as T
     fun setArgument(name: String, value: Any) = argumentMap.putIfAbsent(name, value)
 
     fun hasFlag(key: DSLFlagKey): Boolean {
