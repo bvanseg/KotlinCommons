@@ -29,7 +29,12 @@ import bvanseg.kotlincommons.lang.command.transformer.impl.time.LocalTimeTransfo
 import bvanseg.kotlincommons.lang.command.transformer.impl.time.OffsetDateTimeTransformer
 import bvanseg.kotlincommons.lang.command.transformer.impl.TokenTransformer
 import bvanseg.kotlincommons.lang.command.transformer.impl.UUIDTransformer
+import bvanseg.kotlincommons.lang.command.transformer.impl.primitive.UByteTransformer
+import bvanseg.kotlincommons.lang.command.transformer.impl.primitive.UIntTransformer
+import bvanseg.kotlincommons.lang.command.transformer.impl.primitive.ULongTransformer
+import bvanseg.kotlincommons.lang.command.transformer.impl.primitive.UShortTransformer
 import bvanseg.kotlincommons.lang.command.transformer.impl.time.DayOfWeekTransformer
+import bvanseg.kotlincommons.lang.command.transformer.impl.time.MonthTransformer
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.ConcurrentMap
 import kotlin.reflect.KClass
@@ -61,6 +66,11 @@ class CommandDispatcher(private val prefix: String) {
         registerTransformer(FloatTransformer)
         registerTransformer(DoubleTransformer)
 
+        registerTransformer(UByteTransformer)
+        registerTransformer(UShortTransformer)
+        registerTransformer(UIntTransformer)
+        registerTransformer(ULongTransformer)
+
         registerTransformer(ArgumentTokenBufferTransformer)
         registerTransformer(BigDecimalTransformer)
         registerTransformer(BigIntegerTransformer)
@@ -77,6 +87,7 @@ class CommandDispatcher(private val prefix: String) {
         registerTransformer(ChronoUnitTransformer)
         registerTransformer(DayOfWeekTransformer)
         registerTransformer(KhronoUnitTransformer)
+        registerTransformer(MonthTransformer)
         registerTransformer(TimeUnitTransformer)
     }
 
