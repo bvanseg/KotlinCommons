@@ -11,7 +11,7 @@ fun <T: Any> command(name: String, vararg aliases: String, commandCallback: DSLC
     Check.all(name, "command", Checks.notBlank, Checks.noWhitespace)
     aliases.forEach { Check.all(it, "alias", Checks.notBlank, Checks.noWhitespace) }
 
-    val dslCommand = DSLCommand<T>(name, aliases.toList())
+    val dslCommand = DSLCommand<T>(name, aliases.toMutableList())
     dslCommand.apply(commandCallback)
     return dslCommand
 }

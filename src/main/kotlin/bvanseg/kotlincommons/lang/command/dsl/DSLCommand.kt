@@ -18,7 +18,7 @@ import bvanseg.kotlincommons.lang.command.validator.Validator
  * @author Boston Vanseghi
  * @since 2.10.0
  */
-class DSLCommand<T: Any>(val name: String, val aliases: List<String> = listOf()): DSLCommandNode() {
+class DSLCommand<T: Any>(val name: String, val aliases: MutableList<String> = mutableListOf()): DSLCommandNode() {
 
     var exceptionCatcher: DSLCommandExceptionCatcher<*>? = null
 
