@@ -75,36 +75,17 @@ class CommandArguments(private val dispatcher: CommandDispatcher, private val co
             }
         }
 
-        if (!foundTransformer) {
+        current = if (!foundTransformer) {
             acceptedType = String::class
             val token = tokenBuffer.next()
             arguments.add(CommandArgument(token.value, String::class))
 
-            val literal = current.literals.find { it.literalValue == token.value }
-
-            if (literal != null) {
-                current = literal
-            } else {
-                // If a suitable literal was unable to be found using the accepted type, then attempt to find the next level
-                // in the current set of arguments by the argument type.
-                val potentialNextNode = current.arguments.find { it.type == acceptedType }
-
-                if (potentialNextNode != null) {
-                    current = potentialNextNode
-                } else {
-                    throw MissingArgumentException("Could not find suitable argument or literal for token value '${token.value}'!")
-                }
-            }
+            current.literals.find { it.literalValue == token.value }
+                ?: current.arguments.find { it.type == acceptedType }
+                ?: throw MissingArgumentException("Could not find suitable argument or literal for token value '${token.value}'!")
         } else {
-            // If a suitable literal was unable to be found using the accepted type, then attempt to find the next level
-            // in the current set of arguments by the argument type.
-            val potentialNextNode = current.arguments.find { it.type == acceptedType }
-
-            if (potentialNextNode != null) {
-                current = potentialNextNode
-            } else {
-                throw MissingArgumentException("Could not find suitable argument for type '$acceptedType'!")
-            }
+            current.arguments.find { it.type == acceptedType }
+                ?: throw MissingArgumentException("Could not find suitable argument for type '$acceptedType'!")
         }
     }
 
