@@ -9,6 +9,7 @@ import bvanseg.kotlincommons.lang.command.token.buffer.ArgumentTokenBuffer
 import bvanseg.kotlincommons.lang.command.token.buffer.FlagTokenBuffer
 import bvanseg.kotlincommons.lang.command.token.Token
 import bvanseg.kotlincommons.lang.command.token.TokenType
+import bvanseg.kotlincommons.lang.string.ToStringBuilder
 import java.util.LinkedList
 import kotlin.reflect.KClass
 
@@ -114,4 +115,9 @@ class CommandArguments(private val dispatcher: CommandDispatcher, private val co
             else -> throw IllegalArgumentException("Expected token type to be a flag type but was actually '${token.tokenType}'")
         }
     }
+
+    override fun toString(): String = ToStringBuilder.builder(this::class)
+        .append("arguments", arguments)
+        .append("flags", flags)
+        .toString()
 }
