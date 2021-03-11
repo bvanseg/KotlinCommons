@@ -31,7 +31,7 @@ import kotlin.reflect.KProperty
  * @author Boston Vanseghi
  * @since 2.9.7
  */
-class GreatestDelegate<T: Comparable<T>>(var value: T?) {
+class GreatestDelegate<T : Comparable<T>>(var value: T?) {
 
     @Synchronized
     operator fun setValue(thisRef: Any?, property: KProperty<*>, newValue: T?) {

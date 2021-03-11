@@ -81,7 +81,8 @@ class MutableKhrono(value: Double, unit: KhronoUnit) : Khrono(value, unit) {
 
         fun now(): MutableKhrono = Khrono.now().toMutable()
 
-        fun combineAll(unit: KhronoUnit, vararg times: Khrono): MutableKhrono = Khrono.combineAll(unit, *times).toMutable()
+        fun combineAll(unit: KhronoUnit, vararg times: Khrono): MutableKhrono =
+            Khrono.combineAll(unit, *times).toMutable()
 
         fun parse(input: String): MutableKhrono = Khrono.parse(input).toMutable()
     }

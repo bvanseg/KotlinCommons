@@ -29,4 +29,4 @@ import kotlin.reflect.KClass
  * @author Boston Vanseghi
  * @since 2.10.0
  */
-abstract class DSLKey<T: Any>(val name: String, val type: KClass<T>)
+abstract class DSLKey<T : Any>(val name: String, val type: KClass<T>)

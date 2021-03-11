@@ -54,7 +54,9 @@ class TokenParser internal constructor(private val input: String) {
             when {
                 next == '"' -> {
                     tokenType = TokenType.MULTI_STRING
-                    while (peek() != '"' && peek() != null) { sb.append(next()) }
+                    while (peek() != '"' && peek() != null) {
+                        sb.append(next())
+                    }
                     if (peek() == '"') next()
                 }
                 next == '-' && isStartingCharacter -> {
@@ -62,7 +64,9 @@ class TokenParser internal constructor(private val input: String) {
                         next() // Consume the extra dash token
                         TokenType.LONG_FLAG
                     } else TokenType.SHORT_FLAG
-                    while (peek() != ' ' && peek() != null) { sb.append(next()) }
+                    while (peek() != ' ' && peek() != null) {
+                        sb.append(next())
+                    }
                     // Avoid marking token as a flag if it resembles a number.
                     if (sb.matches(INTEGER_REGEX) || sb.matches(DECIMAL_REGEX)) {
                         sb.insert(0, next) // Re-insert the dash used that triggered flag processing.
@@ -84,7 +88,9 @@ class TokenParser internal constructor(private val input: String) {
 
     fun getAllTokens(): List<Token> {
         val tokens = mutableListOf<Token>()
-        while (peekToken() != null) { tokens.add(nextToken()) }
+        while (peekToken() != null) {
+            tokens.add(nextToken())
+        }
         return tokens
     }
 }

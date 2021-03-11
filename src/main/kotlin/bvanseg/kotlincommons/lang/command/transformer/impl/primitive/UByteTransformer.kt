@@ -35,7 +35,7 @@ import java.math.BigInteger
  * @since 2.10.0
  */
 @Suppress("EXPERIMENTAL_API_USAGE")
-object UByteTransformer: Transformer<UByte>(UByte::class) {
+object UByteTransformer : Transformer<UByte>(UByte::class) {
     private val REGEX = Regex("^[+]?\\d+\$")
     private val MIN = BigInteger.valueOf(0L)
     private val MAX = BigInteger((-1).toUByte().toString())

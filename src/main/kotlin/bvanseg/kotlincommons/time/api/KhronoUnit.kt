@@ -60,7 +60,7 @@ enum class KhronoUnit(val code: String, val max: Double = 1.0, val calendarUnit:
     SECOND("sec", 60.0),
     MINUTE("min", 60.0),
     HOUR("hr", 24.0),
-    HALF_DAY("hd",2.0, calendarUnit = 23.933333333333333333 / 2.0), // Calendar unit relative to hours
+    HALF_DAY("hd", 2.0, calendarUnit = 23.933333333333333333 / 2.0), // Calendar unit relative to hours
     DAY("dy", 7.0, calendarUnit = 23.933333333333333333), // Calendar unit relative to hours
     WEEK("wk", 3.999999999999912, calendarUnit = 7.609212479166666666666), // Calendar unit relative to days
     YEAR("yr", 10.0, calendarUnit = 365.242199), // Calendar unit relative to days

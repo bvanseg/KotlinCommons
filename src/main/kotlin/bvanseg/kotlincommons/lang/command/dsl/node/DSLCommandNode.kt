@@ -25,12 +25,12 @@ package bvanseg.kotlincommons.lang.command.dsl.node
 
 import bvanseg.kotlincommons.lang.check.Check
 import bvanseg.kotlincommons.lang.check.Checks
-import bvanseg.kotlincommons.lang.command.exception.DuplicateArgumentTypeException
-import bvanseg.kotlincommons.lang.command.exception.DuplicateExecutorException
-import bvanseg.kotlincommons.lang.command.exception.DuplicateLiteralException
 import bvanseg.kotlincommons.lang.command.context.CommandContext
 import bvanseg.kotlincommons.lang.command.dsl.key.DSLArgumentKey
 import bvanseg.kotlincommons.lang.command.dsl.key.DSLLiteralKey
+import bvanseg.kotlincommons.lang.command.exception.DuplicateArgumentTypeException
+import bvanseg.kotlincommons.lang.command.exception.DuplicateExecutorException
+import bvanseg.kotlincommons.lang.command.exception.DuplicateLiteralException
 
 /**
  * @author Boston Vanseghi
@@ -81,14 +81,21 @@ abstract class DSLCommandNode {
         }
     }
 
-    fun literal(literalValue: String, vararg extraLiteralValues: String, block: DSLCommandLiteral.(DSLLiteralKey) -> Unit) {
+    fun literal(
+        literalValue: String,
+        vararg extraLiteralValues: String,
+        block: DSLCommandLiteral.(DSLLiteralKey) -> Unit
+    ) {
         processLiteral(literalValue, block)
         for (extraLiteralValue in extraLiteralValues) {
             processLiteral(extraLiteralValue, block)
         }
     }
 
-    inline fun <reified T: Any> argument(name: String, block: DSLCommandArgument<T>.(DSLArgumentKey<T>) -> Unit): DSLCommandArgument<T> {
+    inline fun <reified T : Any> argument(
+        name: String,
+        block: DSLCommandArgument<T>.(DSLArgumentKey<T>) -> Unit
+    ): DSLCommandArgument<T> {
         Check.all(name, "argument", Checks.notBlank, Checks.noWhitespace)
 
         val argumentType = T::class
@@ -105,7 +112,7 @@ abstract class DSLCommandNode {
         return argument
     }
 
-    inline fun <reified T: Any, reified U: Any> arguments(
+    inline fun <reified T : Any, reified U : Any> arguments(
         arg1Name: String,
         arg2Name: String,
         block: DSLCommandArgument<U>.(DSLArgumentKey<T>, DSLArgumentKey<U>) -> Unit
@@ -128,14 +135,18 @@ abstract class DSLCommandNode {
         val argument1 = DSLCommandArgument(this, arg1Name, argument1Type)
         val argument2 = DSLCommandArgument(this, arg2Name, argument2Type)
 
-        block.invoke(argument2, DSLArgumentKey(argument1, arg1Name, argument1Type), DSLArgumentKey(argument2, arg2Name, argument2Type))
+        block.invoke(
+            argument2,
+            DSLArgumentKey(argument1, arg1Name, argument1Type),
+            DSLArgumentKey(argument2, arg2Name, argument2Type)
+        )
         arguments.add(argument1)
         argument1.arguments.add(argument2)
 
         return argument2
     }
 
-    inline fun <reified T: Any, reified U: Any, reified V: Any> arguments(
+    inline fun <reified T : Any, reified U : Any, reified V : Any> arguments(
         arg1Name: String,
         arg2Name: String,
         arg3Name: String,
@@ -165,10 +176,12 @@ abstract class DSLCommandNode {
         val argument2 = DSLCommandArgument(this, arg2Name, argument2Type)
         val argument3 = DSLCommandArgument(this, arg3Name, argument3Type)
 
-        block.invoke(argument3,
+        block.invoke(
+            argument3,
             DSLArgumentKey(argument1, arg1Name, argument1Type),
             DSLArgumentKey(argument2, arg2Name, argument2Type),
-            DSLArgumentKey(argument3, arg3Name, argument3Type))
+            DSLArgumentKey(argument3, arg3Name, argument3Type)
+        )
         arguments.add(argument1)
         argument1.arguments.add(argument2)
         argument2.arguments.add(argument3)
@@ -176,7 +189,7 @@ abstract class DSLCommandNode {
         return argument3
     }
 
-    inline fun <reified T: Any, reified U: Any, reified V: Any, reified W: Any> arguments(
+    inline fun <reified T : Any, reified U : Any, reified V : Any, reified W : Any> arguments(
         arg1Name: String,
         arg2Name: String,
         arg3Name: String,
@@ -213,11 +226,13 @@ abstract class DSLCommandNode {
         val argument3 = DSLCommandArgument(this, arg3Name, argument3Type)
         val argument4 = DSLCommandArgument(this, arg4Name, argument4Type)
 
-        block.invoke(argument4,
+        block.invoke(
+            argument4,
             DSLArgumentKey(argument1, arg1Name, argument1Type),
             DSLArgumentKey(argument2, arg2Name, argument2Type),
             DSLArgumentKey(argument3, arg3Name, argument3Type),
-            DSLArgumentKey(argument4, arg4Name, argument4Type))
+            DSLArgumentKey(argument4, arg4Name, argument4Type)
+        )
         arguments.add(argument1)
         argument1.arguments.add(argument2)
         argument2.arguments.add(argument3)

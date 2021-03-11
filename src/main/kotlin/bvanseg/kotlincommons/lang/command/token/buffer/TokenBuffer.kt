@@ -30,7 +30,7 @@ import java.util.LinkedList
  * @author Boston Vanseghi
  * @since 2.10.0
  */
-open class TokenBuffer(tokens: List<Token>): PeekingTokenBuffer {
+open class TokenBuffer(tokens: List<Token>) : PeekingTokenBuffer {
     private val tokens: LinkedList<Token> = LinkedList(tokens)
 
     fun isNotEmpty(): Boolean = tokens.isNotEmpty()

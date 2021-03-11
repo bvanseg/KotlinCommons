@@ -28,7 +28,6 @@ import bvanseg.kotlincommons.io.logging.getLogger
 import bvanseg.kotlincommons.time.api.Khrono
 import bvanseg.kotlincommons.util.any.delay
 import bvanseg.kotlincommons.util.functional.Result
-import com.fasterxml.jackson.core.type.TypeReference
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.net.http.HttpClient
@@ -82,7 +81,8 @@ abstract class RestAction<F, S>(
         queueImpl(callback)
     }
 
-    fun submit(callback: (Result<F, S>) -> Unit = {}): CompletableFuture<out HttpResponse<*>>? = queueImpl(callback).future
+    fun submit(callback: (Result<F, S>) -> Unit = {}): CompletableFuture<out HttpResponse<*>>? =
+        queueImpl(callback).future
 
     fun complete(): Result<F, S> = completeImpl()
 
@@ -113,7 +113,7 @@ abstract class RestAction<F, S>(
                     callback(Result.Failure(failure))
                 }
             }
-        } catch(e: Exception) {
+        } catch (e: Exception) {
             val failure = constructFailure(throwable = e)
             failureCallback?.invoke(failure)
             callback(Result.Failure(failure))
@@ -158,7 +158,7 @@ abstract class RestAction<F, S>(
      *
      * @return An object of type [S].
      */
-    protected abstract fun transformBody(response: HttpResponse<*>) : S
+    protected abstract fun transformBody(response: HttpResponse<*>): S
 
     abstract fun constructFailure(response: HttpResponse<*>? = null, throwable: Throwable? = null): F
 }

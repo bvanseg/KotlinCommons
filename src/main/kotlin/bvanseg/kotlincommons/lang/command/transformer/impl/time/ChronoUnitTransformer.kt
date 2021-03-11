@@ -30,4 +30,4 @@ import java.time.temporal.ChronoUnit
  * @author Boston Vanseghi
  * @since 2.10.0
  */
-object ChronoUnitTransformer: EnumTransformer<ChronoUnit>(ChronoUnit::class)
+object ChronoUnitTransformer : EnumTransformer<ChronoUnit>(ChronoUnit::class)

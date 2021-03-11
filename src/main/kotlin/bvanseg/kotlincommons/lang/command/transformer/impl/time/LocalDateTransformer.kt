@@ -32,7 +32,7 @@ import java.time.LocalDate
  * @author Boston Vanseghi
  * @since 2.10.0
  */
-object LocalDateTransformer: Transformer<LocalDate>(LocalDate::class) {
+object LocalDateTransformer : Transformer<LocalDate>(LocalDate::class) {
     override fun matches(buffer: PeekingTokenBuffer): Boolean = try {
         val text = buffer.peek()?.value
         if (text.equals("now", true)) {
@@ -41,7 +41,10 @@ object LocalDateTransformer: Transformer<LocalDate>(LocalDate::class) {
             LocalDate.parse(text ?: "")
             true
         }
-    } catch(e: Exception) { false }
+    } catch (e: Exception) {
+        false
+    }
+
     override fun parse(buffer: ArgumentTokenBuffer): LocalDate {
         val text = buffer.next().value
 

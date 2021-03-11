@@ -31,7 +31,7 @@ import kotlin.reflect.KClass
  * @author Boston Vanseghi
  * @since 2.10.0
  */
-abstract class Transformer<T: Any>(val type: KClass<out T>) {
+abstract class Transformer<T : Any>(val type: KClass<out T>) {
     abstract fun matches(buffer: PeekingTokenBuffer): Boolean
     abstract fun parse(buffer: ArgumentTokenBuffer): T
 }

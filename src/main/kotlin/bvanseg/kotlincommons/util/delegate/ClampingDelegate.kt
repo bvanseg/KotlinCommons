@@ -36,7 +36,7 @@ import kotlin.reflect.KProperty
  * @author Boston Vanseghi
  * @since 2.9.1
  */
-class ClampingDelegate<T: Comparable<T>>(value: T, private val lowerBound: T, private val upperBound: T) {
+class ClampingDelegate<T : Comparable<T>>(value: T, private val lowerBound: T, private val upperBound: T) {
 
     private var clampedValue: T = clamp(value, lowerBound, upperBound)
 

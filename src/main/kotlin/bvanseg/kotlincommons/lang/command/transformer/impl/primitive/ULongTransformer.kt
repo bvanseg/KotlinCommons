@@ -35,7 +35,7 @@ import java.math.BigInteger
  * @since 2.10.0
  */
 @Suppress("EXPERIMENTAL_API_USAGE")
-object ULongTransformer: Transformer<ULong>(ULong::class) {
+object ULongTransformer : Transformer<ULong>(ULong::class) {
     private val REGEX = Regex("^[+]?\\d+\$")
     private val MIN = BigInteger.valueOf(0L)
     private val MAX = BigInteger((-1).toULong().toString())

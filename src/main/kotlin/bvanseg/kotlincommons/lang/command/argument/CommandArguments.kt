@@ -29,10 +29,10 @@ import bvanseg.kotlincommons.lang.command.dsl.DSLCommand
 import bvanseg.kotlincommons.lang.command.dsl.node.DSLCommandNode
 import bvanseg.kotlincommons.lang.command.exception.IllegalTokenTypeException
 import bvanseg.kotlincommons.lang.command.exception.MissingArgumentException
-import bvanseg.kotlincommons.lang.command.token.buffer.ArgumentTokenBuffer
-import bvanseg.kotlincommons.lang.command.token.buffer.FlagTokenBuffer
 import bvanseg.kotlincommons.lang.command.token.Token
 import bvanseg.kotlincommons.lang.command.token.TokenType
+import bvanseg.kotlincommons.lang.command.token.buffer.ArgumentTokenBuffer
+import bvanseg.kotlincommons.lang.command.token.buffer.FlagTokenBuffer
 import bvanseg.kotlincommons.lang.string.ToStringBuilder
 import java.util.LinkedList
 import kotlin.reflect.KClass
@@ -65,8 +65,12 @@ class CommandArguments(private val dispatcher: CommandDispatcher, private val co
         val argumentTokenBuffer = ArgumentTokenBuffer(tokens)
         val flagTokenBuffer = FlagTokenBuffer(tokens)
 
-        while (argumentTokenBuffer.isNotEmpty()) { parseArgument(argumentTokenBuffer) }
-        while (flagTokenBuffer.isNotEmpty()) { parseFlag(flagTokenBuffer.next()) }
+        while (argumentTokenBuffer.isNotEmpty()) {
+            parseArgument(argumentTokenBuffer)
+        }
+        while (flagTokenBuffer.isNotEmpty()) {
+            parseFlag(flagTokenBuffer.next())
+        }
 
         current = command // Reset the position for a re-parse if necessary.
     }

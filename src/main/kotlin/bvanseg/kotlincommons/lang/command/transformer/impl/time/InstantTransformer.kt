@@ -32,7 +32,7 @@ import java.time.Instant
  * @author Boston Vanseghi
  * @since 2.10.0
  */
-object InstantTransformer: Transformer<Instant>(Instant::class) {
+object InstantTransformer : Transformer<Instant>(Instant::class) {
     override fun matches(buffer: PeekingTokenBuffer): Boolean = try {
         val text = buffer.peek()?.value
         if (text.equals("now", true)) {
@@ -41,7 +41,10 @@ object InstantTransformer: Transformer<Instant>(Instant::class) {
             Instant.parse(text ?: "")
             true
         }
-    } catch(e: Exception) { false }
+    } catch (e: Exception) {
+        false
+    }
+
     override fun parse(buffer: ArgumentTokenBuffer): Instant {
         val text = buffer.next().value
 

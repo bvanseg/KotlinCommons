@@ -71,5 +71,6 @@ class FlatMapRestAction<F, S, O>(
     // A flatmap rest action should never do transformations.
     override fun transformBody(response: HttpResponse<*>): O = throw UnsupportedOperationException()
 
-    override fun constructFailure(response: HttpResponse<*>?, throwable: Throwable?): F = parent.constructFailure(response, throwable)
+    override fun constructFailure(response: HttpResponse<*>?, throwable: Throwable?): F =
+        parent.constructFailure(response, throwable)
 }

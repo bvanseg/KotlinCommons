@@ -32,7 +32,7 @@ import bvanseg.kotlincommons.lang.command.transformer.Transformer
  * @author Boston Vanseghi
  * @since 2.10.0
  */
-object TokenTransformer: Transformer<Token>(Token::class) {
+object TokenTransformer : Transformer<Token>(Token::class) {
     override fun matches(buffer: PeekingTokenBuffer): Boolean = buffer.peek() != null
     override fun parse(buffer: ArgumentTokenBuffer): Token = buffer.next()
 }

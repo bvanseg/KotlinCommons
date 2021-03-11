@@ -37,7 +37,12 @@ import kotlin.reflect.KProperty
  * @author Boston Vanseghi
  * @since 2.8.0
  */
-class CacheCallbackDelegate<T>(khrono: Khrono, initialValue: T, private val callback: () -> T, precise: Boolean = false):
+class CacheCallbackDelegate<T>(
+    khrono: Khrono,
+    initialValue: T,
+    private val callback: () -> T,
+    precise: Boolean = false
+) :
     CacheDelegate<T>(khrono, initialValue, callback(), precise) {
 
     @Synchronized

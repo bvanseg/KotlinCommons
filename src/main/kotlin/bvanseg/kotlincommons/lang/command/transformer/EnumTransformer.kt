@@ -33,7 +33,7 @@ import kotlin.reflect.KClass
  * @author Boston Vanseghi
  * @since 2.10.0
  */
-abstract class EnumTransformer<E : Enum<E>>(type: KClass<E>): Transformer<E>(type) {
+abstract class EnumTransformer<E : Enum<E>>(type: KClass<E>) : Transformer<E>(type) {
     override fun matches(buffer: PeekingTokenBuffer): Boolean {
         val text = buffer.peek()?.value ?: return false
         val asInt = text.toIntOrNull()

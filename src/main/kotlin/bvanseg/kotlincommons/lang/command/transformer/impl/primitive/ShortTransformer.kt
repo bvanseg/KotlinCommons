@@ -34,7 +34,7 @@ import java.math.BigInteger
  * @author Boston Vanseghi
  * @since 2.10.0
  */
-object ShortTransformer: Transformer<Short>(Short::class) {
+object ShortTransformer : Transformer<Short>(Short::class) {
     private val REGEX = Regex("^[+-]?\\d+\$")
     private val MIN = BigInteger.valueOf(Short.MIN_VALUE.toLong())
     private val MAX = BigInteger.valueOf(Short.MAX_VALUE.toLong())

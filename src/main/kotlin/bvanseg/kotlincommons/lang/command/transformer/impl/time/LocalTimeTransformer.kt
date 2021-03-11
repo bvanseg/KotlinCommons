@@ -32,7 +32,7 @@ import java.time.LocalTime
  * @author Boston Vanseghi
  * @since 2.10.0
  */
-object LocalTimeTransformer: Transformer<LocalTime>(LocalTime::class) {
+object LocalTimeTransformer : Transformer<LocalTime>(LocalTime::class) {
     override fun matches(buffer: PeekingTokenBuffer): Boolean = try {
         val text = buffer.peek()?.value
         if (text.equals("now", true)) {
@@ -41,7 +41,10 @@ object LocalTimeTransformer: Transformer<LocalTime>(LocalTime::class) {
             LocalTime.parse(text ?: "")
             true
         }
-    } catch(e: Exception) { false }
+    } catch (e: Exception) {
+        false
+    }
+
     override fun parse(buffer: ArgumentTokenBuffer): LocalTime {
         val text = buffer.next().value
 

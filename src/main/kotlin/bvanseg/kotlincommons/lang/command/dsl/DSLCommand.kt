@@ -29,7 +29,6 @@ import bvanseg.kotlincommons.lang.command.category.CommandCategory
 import bvanseg.kotlincommons.lang.command.context.CommandContext
 import bvanseg.kotlincommons.lang.command.dsl.key.DSLFlagKey
 import bvanseg.kotlincommons.lang.command.dsl.node.DSLCommandExceptionCatcher
-import bvanseg.kotlincommons.lang.command.dsl.node.DSLCommandExecutor
 import bvanseg.kotlincommons.lang.command.dsl.node.DSLCommandNode
 import bvanseg.kotlincommons.lang.command.exception.DuplicateCatcherException
 import bvanseg.kotlincommons.lang.command.exception.MissingArgumentException
@@ -41,7 +40,7 @@ import bvanseg.kotlincommons.lang.command.validator.Validator
  * @author Boston Vanseghi
  * @since 2.10.0
  */
-class DSLCommand<T: Any>(val name: String, val aliases: MutableList<String> = mutableListOf()): DSLCommandNode() {
+class DSLCommand<T : Any>(val name: String, val aliases: MutableList<String> = mutableListOf()) : DSLCommandNode() {
 
     var exceptionCatcher: DSLCommandExceptionCatcher<*>? = null
 
@@ -131,5 +130,6 @@ class DSLCommand<T: Any>(val name: String, val aliases: MutableList<String> = mu
         "DSL command blocks can not be nested!", level = DeprecationLevel.ERROR,
         replaceWith = ReplaceWith("error(\"...\")")
     )
-    fun command(name: String, vararg aliases: String, commandCallback: DSLCommand<T>.() -> Unit): DSLCommand<T> = error("...")
+    fun command(name: String, vararg aliases: String, commandCallback: DSLCommand<T>.() -> Unit): DSLCommand<T> =
+        error("...")
 }

@@ -32,7 +32,7 @@ import bvanseg.kotlincommons.time.api.Khrono
  * @author Boston Vanseghi
  * @since 2.10.0
  */
-object KhronoTransformer: Transformer<Khrono>(Khrono::class) {
+object KhronoTransformer : Transformer<Khrono>(Khrono::class) {
     override fun matches(buffer: PeekingTokenBuffer): Boolean = try {
         val text = buffer.peek()?.value
         if (text.equals("now", true)) {
@@ -41,7 +41,10 @@ object KhronoTransformer: Transformer<Khrono>(Khrono::class) {
             Khrono.parse(text ?: "")
             true
         }
-    } catch(e: Exception) { false }
+    } catch (e: Exception) {
+        false
+    }
+
     override fun parse(buffer: ArgumentTokenBuffer): Khrono {
         val text = buffer.next().value
 

@@ -30,4 +30,4 @@ import bvanseg.kotlincommons.time.api.KhronoUnit
  * @author Boston Vanseghi
  * @since 2.10.0
  */
-object KhronoUnitTransformer: EnumTransformer<KhronoUnit>(KhronoUnit::class)
+object KhronoUnitTransformer : EnumTransformer<KhronoUnit>(KhronoUnit::class)

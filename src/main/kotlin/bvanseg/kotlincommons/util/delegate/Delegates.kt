@@ -54,16 +54,17 @@ fun <T> cache(cacheTime: Khrono, callback: () -> T) = CacheCallbackDelegate(cach
  * @author Boston Vanseghi
  * @since 2.9.1
  */
-fun <T: Comparable<T>> clamping(value: T, lowerBound: T, upperBound: T) = ClampingDelegate(value, lowerBound, upperBound)
+fun <T : Comparable<T>> clamping(value: T, lowerBound: T, upperBound: T) =
+    ClampingDelegate(value, lowerBound, upperBound)
 
 /**
  * @author Boston Vanseghi
  * @since 2.9.7
  */
-fun <T: Comparable<T>> greatest(value: T) = GreatestDelegate(value)
+fun <T : Comparable<T>> greatest(value: T) = GreatestDelegate(value)
 
 /**
  * @author Boston Vanseghi
  * @since 2.9.7
  */
-fun <T: Comparable<T>> least(value: T? = null) = LeastDelegate(value)
+fun <T : Comparable<T>> least(value: T? = null) = LeastDelegate(value)

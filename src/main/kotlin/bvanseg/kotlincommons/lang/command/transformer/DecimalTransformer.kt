@@ -33,10 +33,12 @@ import kotlin.reflect.KClass
  * @author Boston Vanseghi
  * @since 2.10.0
  */
-abstract class DecimalTransformer internal constructor(type: KClass<out Number>): Transformer<Number>(type) {
+abstract class DecimalTransformer internal constructor(type: KClass<out Number>) : Transformer<Number>(type) {
     private val REGEX = Regex("^[+-]?([0-9]*[.])?[0-9]+$")
-    private val MIN = if (type == Float::class) BigDecimal.valueOf(Float.MIN_VALUE.toDouble()) else BigDecimal.valueOf(Double.MIN_VALUE)
-    private val MAX = if (type == Float::class) BigDecimal.valueOf(Float.MAX_VALUE.toDouble()) else BigDecimal.valueOf(Double.MAX_VALUE)
+    private val MIN =
+        if (type == Float::class) BigDecimal.valueOf(Float.MIN_VALUE.toDouble()) else BigDecimal.valueOf(Double.MIN_VALUE)
+    private val MAX =
+        if (type == Float::class) BigDecimal.valueOf(Float.MAX_VALUE.toDouble()) else BigDecimal.valueOf(Double.MAX_VALUE)
 
     override fun matches(buffer: PeekingTokenBuffer): Boolean {
         val token = buffer.peek() ?: return false

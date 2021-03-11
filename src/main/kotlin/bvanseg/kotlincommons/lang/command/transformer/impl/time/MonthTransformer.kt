@@ -30,4 +30,4 @@ import java.time.Month
  * @author Boston Vanseghi
  * @since 2.10.0
  */
-object MonthTransformer: EnumTransformer<Month>(Month::class)
+object MonthTransformer : EnumTransformer<Month>(Month::class)

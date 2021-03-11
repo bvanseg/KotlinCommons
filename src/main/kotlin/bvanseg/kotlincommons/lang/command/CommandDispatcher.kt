@@ -29,35 +29,35 @@ import bvanseg.kotlincommons.lang.command.context.CommandContext
 import bvanseg.kotlincommons.lang.command.dsl.DSLCommand
 import bvanseg.kotlincommons.lang.command.token.TokenParser
 import bvanseg.kotlincommons.lang.command.transformer.Transformer
+import bvanseg.kotlincommons.lang.command.transformer.impl.ArgumentTokenBufferTransformer
 import bvanseg.kotlincommons.lang.command.transformer.impl.BigDecimalTransformer
 import bvanseg.kotlincommons.lang.command.transformer.impl.BigIntegerTransformer
+import bvanseg.kotlincommons.lang.command.transformer.impl.ColorTransformer
+import bvanseg.kotlincommons.lang.command.transformer.impl.TokenTransformer
+import bvanseg.kotlincommons.lang.command.transformer.impl.UUIDTransformer
 import bvanseg.kotlincommons.lang.command.transformer.impl.primitive.BooleanTransformer
 import bvanseg.kotlincommons.lang.command.transformer.impl.primitive.ByteTransformer
 import bvanseg.kotlincommons.lang.command.transformer.impl.primitive.CharTransformer
-import bvanseg.kotlincommons.lang.command.transformer.impl.time.ChronoUnitTransformer
-import bvanseg.kotlincommons.lang.command.transformer.impl.ColorTransformer
 import bvanseg.kotlincommons.lang.command.transformer.impl.primitive.DoubleTransformer
 import bvanseg.kotlincommons.lang.command.transformer.impl.primitive.FloatTransformer
 import bvanseg.kotlincommons.lang.command.transformer.impl.primitive.IntTransformer
-import bvanseg.kotlincommons.lang.command.transformer.impl.time.KhronoUnitTransformer
 import bvanseg.kotlincommons.lang.command.transformer.impl.primitive.LongTransformer
 import bvanseg.kotlincommons.lang.command.transformer.impl.primitive.ShortTransformer
-import bvanseg.kotlincommons.lang.command.transformer.impl.time.TimeUnitTransformer
-import bvanseg.kotlincommons.lang.command.transformer.impl.ArgumentTokenBufferTransformer
-import bvanseg.kotlincommons.lang.command.transformer.impl.time.InstantTransformer
-import bvanseg.kotlincommons.lang.command.transformer.impl.time.KhronoTransformer
-import bvanseg.kotlincommons.lang.command.transformer.impl.time.LocalDateTimeTransformer
-import bvanseg.kotlincommons.lang.command.transformer.impl.time.LocalDateTransformer
-import bvanseg.kotlincommons.lang.command.transformer.impl.time.LocalTimeTransformer
-import bvanseg.kotlincommons.lang.command.transformer.impl.time.OffsetDateTimeTransformer
-import bvanseg.kotlincommons.lang.command.transformer.impl.TokenTransformer
-import bvanseg.kotlincommons.lang.command.transformer.impl.UUIDTransformer
 import bvanseg.kotlincommons.lang.command.transformer.impl.primitive.UByteTransformer
 import bvanseg.kotlincommons.lang.command.transformer.impl.primitive.UIntTransformer
 import bvanseg.kotlincommons.lang.command.transformer.impl.primitive.ULongTransformer
 import bvanseg.kotlincommons.lang.command.transformer.impl.primitive.UShortTransformer
+import bvanseg.kotlincommons.lang.command.transformer.impl.time.ChronoUnitTransformer
 import bvanseg.kotlincommons.lang.command.transformer.impl.time.DayOfWeekTransformer
+import bvanseg.kotlincommons.lang.command.transformer.impl.time.InstantTransformer
+import bvanseg.kotlincommons.lang.command.transformer.impl.time.KhronoTransformer
+import bvanseg.kotlincommons.lang.command.transformer.impl.time.KhronoUnitTransformer
+import bvanseg.kotlincommons.lang.command.transformer.impl.time.LocalDateTimeTransformer
+import bvanseg.kotlincommons.lang.command.transformer.impl.time.LocalDateTransformer
+import bvanseg.kotlincommons.lang.command.transformer.impl.time.LocalTimeTransformer
 import bvanseg.kotlincommons.lang.command.transformer.impl.time.MonthTransformer
+import bvanseg.kotlincommons.lang.command.transformer.impl.time.OffsetDateTimeTransformer
+import bvanseg.kotlincommons.lang.command.transformer.impl.time.TimeUnitTransformer
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.ConcurrentMap
 import kotlin.reflect.KClass
@@ -114,7 +114,8 @@ class CommandDispatcher(private val prefix: String) {
         registerTransformer(TimeUnitTransformer)
     }
 
-    fun execute(input: String, commandContext: CommandContext = CommandContext(this)) = execute(prefix, input, commandContext)
+    fun execute(input: String, commandContext: CommandContext = CommandContext(this)) =
+        execute(prefix, input, commandContext)
 
     fun execute(prefix: String, input: String, commandContext: CommandContext = CommandContext(this)): Any? {
         if (input.isBlank()) return null
@@ -147,7 +148,8 @@ class CommandDispatcher(private val prefix: String) {
     }
 
     fun getCommandByName(name: String): DSLCommand<out Any>? = commands[name]
-    fun getCommandsByCategoryPath(path: String): List<DSLCommand<out Any>> = categories[CommandCategory("", path)] ?: emptyList()
+    fun getCommandsByCategoryPath(path: String): List<DSLCommand<out Any>> =
+        categories[CommandCategory("", path)] ?: emptyList()
 
     fun getCategories(): Map<CommandCategory, List<DSLCommand<out Any>>> = categories
     fun getRootCommands(): List<DSLCommand<out Any>> = categories[ROOT_CATEGORY] ?: emptyList()

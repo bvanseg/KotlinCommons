@@ -34,7 +34,7 @@ import java.math.BigInteger
  * @author Boston Vanseghi
  * @since 2.10.0
  */
-object ByteTransformer: Transformer<Byte>(Byte::class) {
+object ByteTransformer : Transformer<Byte>(Byte::class) {
     private val REGEX = Regex("^[+-]?\\d+\$")
     private val MIN = BigInteger.valueOf(Byte.MIN_VALUE.toLong())
     private val MAX = BigInteger.valueOf(Byte.MAX_VALUE.toLong())

@@ -29,4 +29,4 @@ import kotlin.reflect.KClass
  * @author Boston Vanseghi
  * @since 2.10.0
  */
-data class CommandArgument<T: Any>(val value: T, val type: KClass<*>)
+data class CommandArgument<T : Any>(val value: T, val type: KClass<*>)

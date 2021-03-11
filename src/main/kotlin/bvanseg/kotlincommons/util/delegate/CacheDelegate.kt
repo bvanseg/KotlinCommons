@@ -37,7 +37,12 @@ import kotlin.reflect.KProperty
  * @author Boston Vanseghi
  * @since 2.8.0
  */
-open class CacheDelegate<T>(val khrono: Khrono, initialValue: T, private val resetValue: T, private val precise: Boolean = false) {
+open class CacheDelegate<T>(
+    val khrono: Khrono,
+    initialValue: T,
+    private val resetValue: T,
+    private val precise: Boolean = false
+) {
 
     protected var cachedValue: T = initialValue
     protected var expireTime = System.currentTimeMillis() + khrono.toMillis().toLong()
