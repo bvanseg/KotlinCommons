@@ -3,7 +3,6 @@ package bvanseg.kotlincommons.lang.command
 import bvanseg.kotlincommons.lang.command.argument.CommandArguments
 import bvanseg.kotlincommons.lang.command.category.CommandCategory
 import bvanseg.kotlincommons.lang.command.context.CommandContext
-import bvanseg.kotlincommons.lang.command.context.DefaultCommandContext
 import bvanseg.kotlincommons.lang.command.dsl.DSLCommand
 import bvanseg.kotlincommons.lang.command.token.TokenParser
 import bvanseg.kotlincommons.lang.command.transformer.Transformer
@@ -79,9 +78,9 @@ class CommandDispatcher(private val prefix: String) {
         registerTransformer(TimeUnitTransformer)
     }
 
-    fun execute(input: String, commandContext: CommandContext = DefaultCommandContext(this)) = execute(prefix, input, commandContext)
+    fun execute(input: String, commandContext: CommandContext = CommandContext(this)) = execute(prefix, input, commandContext)
 
-    fun execute(prefix: String, input: String, commandContext: CommandContext = DefaultCommandContext(this)): Any? {
+    fun execute(prefix: String, input: String, commandContext: CommandContext = CommandContext(this)): Any? {
         if (input.isBlank()) return null
         if (!input.startsWith(prefix)) return null
         val trimmedInput = input.trim()

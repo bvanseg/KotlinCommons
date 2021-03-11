@@ -9,7 +9,7 @@ import bvanseg.kotlincommons.lang.command.token.Token
  * @author Boston Vanseghi
  * @since 2.10.0
  */
-abstract class CommandContext(val dispatcher: CommandDispatcher) {
+open class CommandContext(val dispatcher: CommandDispatcher) {
 
     lateinit var rawInput: String
     lateinit var splitRawInput: List<String>
