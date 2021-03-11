@@ -34,6 +34,7 @@ import bvanseg.kotlincommons.lang.command.transformer.impl.BigDecimalTransformer
 import bvanseg.kotlincommons.lang.command.transformer.impl.BigIntegerTransformer
 import bvanseg.kotlincommons.lang.command.transformer.impl.ColorTransformer
 import bvanseg.kotlincommons.lang.command.transformer.impl.TokenTransformer
+import bvanseg.kotlincommons.lang.command.transformer.impl.URLTransformer
 import bvanseg.kotlincommons.lang.command.transformer.impl.UUIDTransformer
 import bvanseg.kotlincommons.lang.command.transformer.impl.primitive.BooleanTransformer
 import bvanseg.kotlincommons.lang.command.transformer.impl.primitive.ByteTransformer
@@ -105,6 +106,7 @@ class CommandDispatcher(private val prefix: String) {
         registerTransformer(LocalTimeTransformer)
         registerTransformer(OffsetDateTimeTransformer)
         registerTransformer(TokenTransformer)
+        registerTransformer(URLTransformer)
         registerTransformer(UUIDTransformer)
 
         registerTransformer(ChronoUnitTransformer)
