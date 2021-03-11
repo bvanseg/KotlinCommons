@@ -31,9 +31,6 @@ import java.time.LocalTime
  * @author Boston Vanseghi
  * @since 2.8.0
  */
-// TODO: Add support for AM/PM.
-// TODO: Add support for timezones.
-// TODO: Double-check whether or not negatives work.
 open class KhronoTime(
     hr: Double = 0.0,
     min: Double = 0.0,
