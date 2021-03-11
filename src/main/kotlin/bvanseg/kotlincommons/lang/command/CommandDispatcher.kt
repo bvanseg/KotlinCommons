@@ -29,6 +29,7 @@ import bvanseg.kotlincommons.lang.command.transformer.impl.time.LocalTimeTransfo
 import bvanseg.kotlincommons.lang.command.transformer.impl.time.OffsetDateTimeTransformer
 import bvanseg.kotlincommons.lang.command.transformer.impl.TokenTransformer
 import bvanseg.kotlincommons.lang.command.transformer.impl.UUIDTransformer
+import bvanseg.kotlincommons.lang.command.transformer.impl.time.DayOfWeekTransformer
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.ConcurrentMap
 import kotlin.reflect.KClass
@@ -74,6 +75,7 @@ class CommandDispatcher(private val prefix: String) {
         registerTransformer(UUIDTransformer)
 
         registerTransformer(ChronoUnitTransformer)
+        registerTransformer(DayOfWeekTransformer)
         registerTransformer(KhronoUnitTransformer)
         registerTransformer(TimeUnitTransformer)
     }
