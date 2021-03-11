@@ -25,6 +25,7 @@ package bvanseg.kotlincommons.math
 
 import bvanseg.kotlincommons.graphic.Color
 import bvanseg.kotlincommons.util.project.Experimental
+import java.math.BigInteger
 import java.text.NumberFormat
 import kotlin.math.log10
 
@@ -143,3 +144,45 @@ inline fun <reified T> T.ifNegative(block: (T) -> Unit): T where T : Number, T :
         block(this)
     return this
 }
+
+/**
+ * Returns the value of this [UByte] as a [BigInteger].
+ *
+ * @return The value of this number as a BigInteger
+ *
+ * @author bright_spark
+ */
+@ExperimentalUnsignedTypes
+fun UByte.toBigInteger(): BigInteger = this.toLong().toBigInteger()
+
+/**
+ * Returns the value of this [UShort] as a [BigInteger].
+ *
+ * @return The value of this number as a BigInteger
+ *
+ * @author bright_spark
+ */
+@ExperimentalUnsignedTypes
+fun UShort.toBigInteger(): BigInteger = this.toLong().toBigInteger()
+
+/**
+ * Returns the value of this [UInt] as a [BigInteger].
+ *
+ * @return The value of this number as a BigInteger
+ *
+ * @author bright_spark
+ */
+@ExperimentalUnsignedTypes
+fun UInt.toBigInteger(): BigInteger = this.toLong().toBigInteger()
+
+/**
+ * Returns the value of this [ULong] as a [BigInteger].
+ * Unlike the similar methods for smaller types, this one will use [ULong.toString] to account for values larger than a
+ * [Long].
+ *
+ * @return The value of this number as a BigInteger
+ *
+ * @author bright_spark
+ */
+@ExperimentalUnsignedTypes
+fun ULong.toBigInteger(): BigInteger = this.toString().toBigInteger()

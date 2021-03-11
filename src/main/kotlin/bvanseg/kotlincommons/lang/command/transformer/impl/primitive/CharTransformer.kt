@@ -32,10 +32,7 @@ import bvanseg.kotlincommons.lang.command.transformer.Transformer
  * @since 2.10.0
  */
 object CharTransformer : Transformer<Char>(Char::class) {
-    override fun matches(buffer: PeekingTokenBuffer): Boolean {
-        val text = buffer.peek()?.value ?: return false
-        return text.length == 1
-    }
+    override fun matches(buffer: PeekingTokenBuffer): Boolean = buffer.peek()?.value?.length == 1
 
     override fun parse(buffer: ArgumentTokenBuffer): Char = buffer.next().value[0]
 }

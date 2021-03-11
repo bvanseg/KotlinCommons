@@ -36,15 +36,11 @@ import kotlin.reflect.KClass
 abstract class EnumTransformer<E : Enum<E>>(type: KClass<E>) : Transformer<E>(type) {
     override fun matches(buffer: PeekingTokenBuffer): Boolean {
         val text = buffer.peek()?.value ?: return false
-        val asInt = text.toIntOrNull()
-        if (asInt != null && type.getOrNull(asInt) != null) {
-            return true
-        }
-        return type.enumValueOfOrNull(buffer.peek()?.value ?: "", true) != null
+        text.toIntOrNull()?.let { type.getOrNull(it)?.let { return true } }
+        return type.enumValueOfOrNull(text, true) != null
     }
 
-    override fun parse(buffer: ArgumentTokenBuffer): E {
-        val nextTokenValue = buffer.next().value
-        return type.getOrNull(nextTokenValue.toIntOrNull() ?: -1) ?: type.enumValueOfOrNull(nextTokenValue, true)!!
+    override fun parse(buffer: ArgumentTokenBuffer): E = buffer.next().value.let { input ->
+        input.toIntOrNull()?.let { type.getOrNull(it) } ?: type.enumValueOfOrNull(input, true)!!
     }
 }
