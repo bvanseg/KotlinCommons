@@ -22,23 +22,26 @@ class TokenParser internal constructor(private val input: String) {
 
         var tokenType: TokenType = TokenType.SINGLE_STRING
 
+        var isStartingCharacter = true
         while (position < input.length) {
-            when (val next = next()) {
-                '"' -> {
+            val next = next()
+            when {
+                next == '"' -> {
                     tokenType = TokenType.MULTI_STRING
                     while (peek() != '"' && peek() != null) { sb.append(next()) }
                     if (peek() == '"') next()
                 }
-                '-' -> {
+                next == '-' && isStartingCharacter -> {
                     tokenType = if (peek() == '-') {
                         next() // Consume the extra dash token
                         TokenType.LONG_FLAG
                     } else TokenType.SHORT_FLAG
                     while (peek() != ' ' && peek() != null) { sb.append(next()) }
                 }
-                ' ' -> break
+                next == ' ' -> break
                 else -> sb.append(next)
             }
+            isStartingCharacter = false
         }
 
         if (rewind) {
