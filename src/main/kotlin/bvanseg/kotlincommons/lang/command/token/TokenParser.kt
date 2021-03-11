@@ -5,6 +5,9 @@ package bvanseg.kotlincommons.lang.command.token
  * @since 2.10.0
  */
 class TokenParser internal constructor(private val input: String) {
+    private val DECIMAL_REGEX = Regex("^[+-]?([0-9]*[.])?[0-9]+$")
+    private val INTEGER_REGEX = Regex("^[+-]?\\d+\$")
+
     private var position: Int = 0
 
     fun next(): Char = input[position++]
@@ -37,6 +40,11 @@ class TokenParser internal constructor(private val input: String) {
                         TokenType.LONG_FLAG
                     } else TokenType.SHORT_FLAG
                     while (peek() != ' ' && peek() != null) { sb.append(next()) }
+                    // Avoid marking token as a flag if it resembles a number.
+                    if (sb.matches(INTEGER_REGEX) || sb.matches(DECIMAL_REGEX)) {
+                        sb.insert(0, next) // Re-insert the dash used that triggered flag processing.
+                        tokenType = TokenType.SINGLE_STRING // Reset back to non-flag status.
+                    }
                 }
                 next == ' ' -> break
                 else -> sb.append(next)
