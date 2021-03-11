@@ -20,41 +20,48 @@ abstract class DSLCommandNode {
     val arguments: MutableList<DSLCommandArgument<*>> = mutableListOf()
     var executor: DSLCommandExecutor<*>? = null
 
-    fun literal(literalValue: String, vararg extraLiteralValues: String, block: DSLCommandLiteral.(DSLLiteralKey) -> Unit) {
+    private fun validateLiteralValue(literalValue: String) {
         Check.all(literalValue, "literal", Checks.notBlank, Checks.noWhitespace)
-        extraLiteralValues.forEach { Check.all(it, "literal", Checks.notBlank, Checks.noWhitespace) }
 
         literals.forEach { dslLiteral ->
             if (literalValue.equals(dslLiteral.literalValue, true)) {
                 throw DuplicateLiteralException("Duplicate literal: '$literalValue'")
             }
-
-            val duplicate = extraLiteralValues.find { it.equals(dslLiteral.literalValue, true) }
-
-            if (duplicate != null) {
-                throw DuplicateLiteralException("Duplicate literal: '$duplicate'")
-            }
         }
+    }
 
-        extraLiteralValues.forEach { extraLiteralValue ->
-            if (extraLiteralValue.equals(literalValue, true)) {
-                throw DuplicateLiteralException("Duplicate literal: '$extraLiteralValue'")
-            }
+    private fun processLiteral(literalValue: String, block: DSLCommandLiteral.(DSLLiteralKey) -> Unit) {
+        val spliterals = literalValue.split(" ")
 
-            if (extraLiteralValues.count { extraLiteralValue.equals(it, true) } > 1) {
-                throw DuplicateLiteralException("Duplicate literal: '$extraLiteralValue'")
+        // If multiple literals, handle as chain. Otherwise, handle as just one literal.
+        if (spliterals.size > 1) {
+            var currentLiterals: MutableList<DSLCommandLiteral> = literals
+            for (i in 0 until spliterals.size - 1) {
+                val soloLiteral = spliterals[i]
+                validateLiteralValue(soloLiteral)
+                val soloLiteralNode = DSLCommandLiteral(this, soloLiteral)
+                currentLiterals.add(soloLiteralNode)
+                currentLiterals = soloLiteralNode.literals
             }
+            // The last node in the chain is special because the last node gets the block applied to it
+            val lastLiteral = spliterals.last()
+            validateLiteralValue(lastLiteral)
+            val lastLiteralNode = DSLCommandLiteral(this, lastLiteral)
+            block.invoke(lastLiteralNode, DSLLiteralKey(lastLiteralNode, lastLiteral)) // block applied here
+            currentLiterals.add(lastLiteralNode)
+        } else {
+            val soloLiteral = spliterals.first()
+            validateLiteralValue(soloLiteral)
+            val soloLiteralNode = DSLCommandLiteral(this, soloLiteral)
+            block.invoke(soloLiteralNode, DSLLiteralKey(soloLiteralNode, soloLiteral))
+            literals.add(soloLiteralNode)
         }
+    }
 
-        val literal = DSLCommandLiteral(this, literalValue)
-        block.invoke(literal, DSLLiteralKey(literal, literalValue))
-        literals.add(literal)
-
-
+    fun literal(literalValue: String, vararg extraLiteralValues: String, block: DSLCommandLiteral.(DSLLiteralKey) -> Unit) {
+        processLiteral(literalValue, block)
         for (extraLiteralValue in extraLiteralValues) {
-            val extraLiteral = DSLCommandLiteral(this, extraLiteralValue)
-            block.invoke(extraLiteral, DSLLiteralKey(extraLiteral, extraLiteralValue))
-            literals.add(extraLiteral)
+            processLiteral(extraLiteralValue, block)
         }
     }
 
