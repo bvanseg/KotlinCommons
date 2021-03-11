@@ -62,6 +62,8 @@ class DSLCommand<T: CommandProperties>(val name: String, val aliases: List<Strin
                     context.setArgument(argument.name, commandArg.value)
                 }
                 continue
+            } else {
+                // TODO: Handle
             }
         }
 
