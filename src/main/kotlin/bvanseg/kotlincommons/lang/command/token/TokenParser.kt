@@ -36,13 +36,11 @@ class TokenParser internal constructor(private val input: String) {
         private val logger = getLogger()
     }
 
-    private val DECIMAL_REGEX = Regex("^[+-]?([0-9]*[.])?[0-9]+$")
-    private val INTEGER_REGEX = Regex("^[+-]?\\d+\$")
-
     private var position: Int = 0
 
     fun next(): Char = input[position++]
     fun peek(): Char? = if (position < input.length) input[position] else null
+    fun peekAt(n: Int): Char? = if (position + n < input.length) input[position + n] else null
     fun peek(n: Int): String? = if (position + n < input.length) input.substring(position, position + n) else null
 
     fun peekToken(): Token? = if (position < input.length) nextToken(true) else null
@@ -71,19 +69,56 @@ class TokenParser internal constructor(private val input: String) {
                 }
                 next == '-' && isStartingCharacter -> {
                     logger.trace { "[${if(rewind) "PEEK" else "NEXT"}] Attempting to tokenize potential command flag." }
-                    tokenType = if (peek() == '-') {
-                        next() // Consume the extra dash token
-                        TokenType.LONG_FLAG
-                    } else TokenType.SHORT_FLAG
-                    while (peek() != ' ' && peek() != null) {
-                        sb.append(next())
+                    val potentialLiteralBuilder = StringBuilder().append(next)
+
+                    if (peek() == '-') {
+                        potentialLiteralBuilder.append(next())
+                        tokenType = TokenType.LONG_FLAG
+                        if (peek()?.isLetter() != true) {
+                            logger.trace { "[${if(rewind) "PEEK" else "NEXT"}] Failed to parse long flag out of '$potentialLiteralBuilder'." }
+                            sb.clear()
+                            sb.append(potentialLiteralBuilder.toString())
+                            tokenType = TokenType.SINGLE_STRING
+                            break
+                        }
+                        while (peek()?.isLetter() == true) {
+                            val n = next()
+                            potentialLiteralBuilder.append(n)
+                            sb.append(n)
+                        }
+                        if (peek()?.isWhitespace() == false) {
+                            // Some non-letter interrupted flag parsing, treat as literal/argument.
+                            logger.trace { "[${if(rewind) "PEEK" else "NEXT"}] Failed to parse long flag out of '$potentialLiteralBuilder'." }
+                            sb.clear()
+                            sb.append(potentialLiteralBuilder.toString())
+                            tokenType = TokenType.SINGLE_STRING
+                            break
+                        }
+                    } else {
+                        tokenType = TokenType.SHORT_FLAG
+                        if (peek()?.isLetter() != true) {
+                            logger.trace { "[${if(rewind) "PEEK" else "NEXT"}] Failed to parse short flag out of '$potentialLiteralBuilder'." }
+                            sb.clear()
+                            sb.append(potentialLiteralBuilder.toString())
+                            tokenType = TokenType.SINGLE_STRING
+                            break
+                        }
+                        while (peek()?.isLetter() == true) {
+                            val n = next()
+                            potentialLiteralBuilder.append(n)
+                            sb.append(n)
+                        }
+                        if (peek()?.isWhitespace() == false) {
+                            // Some non-letter interrupted flag parsing, treat as literal/argument.
+                            logger.trace { "[${if(rewind) "PEEK" else "NEXT"}] Failed to parse short flag out of '$potentialLiteralBuilder'." }
+                            sb.clear()
+                            sb.append(potentialLiteralBuilder.toString())
+                            tokenType = TokenType.SINGLE_STRING
+                            break
+                        }
                     }
-                    // Avoid marking token as a flag if it resembles a number.
-                    if (sb.matches(INTEGER_REGEX) || sb.matches(DECIMAL_REGEX)) {
-                        logger.trace { "[${if(rewind) "PEEK" else "NEXT"}] Attempted flag tokenization failed: Token is negative number." }
-                        sb.insert(0, next) // Re-insert the dash used that triggered flag processing.
-                        tokenType = TokenType.SINGLE_STRING // Reset back to non-flag status.
-                    }
+                    logger.trace { "[${if(rewind) "PEEK" else "NEXT"}] Successfully parsed flag out of '$sb'." }
+                    break
                 }
                 next == ' ' -> break
                 else -> sb.append(next)
