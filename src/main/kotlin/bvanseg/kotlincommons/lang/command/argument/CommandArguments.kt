@@ -36,6 +36,7 @@ import bvanseg.kotlincommons.lang.command.token.buffer.FlagTokenBuffer
 import bvanseg.kotlincommons.lang.string.ToStringBuilder
 import java.util.LinkedList
 import kotlin.reflect.KClass
+import kotlin.reflect.full.isSubclassOf
 
 /**
  * @author Boston Vanseghi
@@ -109,7 +110,7 @@ class CommandArguments(private val dispatcher: CommandDispatcher, private val co
                 ?: current.arguments.find { it.type == acceptedType }
                 ?: throw MissingArgumentException("Could not find suitable argument or literal for token value '${token.value}'!")
         } else {
-            current.arguments.find { it.type == acceptedType }
+            current.arguments.find { it.type == acceptedType || acceptedType.isSubclassOf(it.type) }
                 ?: throw MissingArgumentException("Could not find suitable argument for type '$acceptedType'!")
         }
     }

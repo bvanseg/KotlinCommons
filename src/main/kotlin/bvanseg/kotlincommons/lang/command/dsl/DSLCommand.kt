@@ -35,6 +35,7 @@ import bvanseg.kotlincommons.lang.command.exception.MissingArgumentException
 import bvanseg.kotlincommons.lang.command.exception.MissingExecutorException
 import bvanseg.kotlincommons.lang.command.validator.ValidationResult
 import bvanseg.kotlincommons.lang.command.validator.Validator
+import kotlin.reflect.full.isSubclassOf
 
 /**
  * @author Boston Vanseghi
@@ -76,7 +77,7 @@ class DSLCommand<T : Any>(val name: String, val aliases: MutableList<String> = m
 
             // ARGUMENT HANDLING
 
-            val argument = currentLevel.arguments.find { it.type == commandArg.type }
+            val argument = currentLevel.arguments.find { it.type == commandArg.type || commandArg.type.isSubclassOf(it.type)}
 
             if (argument != null) {
                 currentLevel = argument
