@@ -23,11 +23,19 @@
  */
 package bvanseg.kotlincommons.lang.command.token
 
+import bvanseg.kotlincommons.io.logging.getLogger
+import bvanseg.kotlincommons.io.logging.trace
+
 /**
  * @author Boston Vanseghi
  * @since 2.10.0
  */
 class TokenParser internal constructor(private val input: String) {
+
+    companion object {
+        private val logger = getLogger()
+    }
+
     private val DECIMAL_REGEX = Regex("^[+-]?([0-9]*[.])?[0-9]+$")
     private val INTEGER_REGEX = Regex("^[+-]?\\d+\$")
 
@@ -54,6 +62,7 @@ class TokenParser internal constructor(private val input: String) {
             val next = next()
             when {
                 next == '"' -> {
+                    logger.trace { "[${if(rewind) "PEEK" else "NEXT"}] Attempting to tokenize potential multi-string argument." }
                     tokenType = TokenType.MULTI_STRING
                     while (peek(2) != "\" " && peek(2) != null) {
                         sb.append(next())
@@ -61,6 +70,7 @@ class TokenParser internal constructor(private val input: String) {
                     if (peek() == '"') next()
                 }
                 next == '-' && isStartingCharacter -> {
+                    logger.trace { "[${if(rewind) "PEEK" else "NEXT"}] Attempting to tokenize potential command flag." }
                     tokenType = if (peek() == '-') {
                         next() // Consume the extra dash token
                         TokenType.LONG_FLAG
@@ -70,6 +80,7 @@ class TokenParser internal constructor(private val input: String) {
                     }
                     // Avoid marking token as a flag if it resembles a number.
                     if (sb.matches(INTEGER_REGEX) || sb.matches(DECIMAL_REGEX)) {
+                        logger.trace { "[${if(rewind) "PEEK" else "NEXT"}] Attempted flag tokenization failed: Token is negative number." }
                         sb.insert(0, next) // Re-insert the dash used that triggered flag processing.
                         tokenType = TokenType.SINGLE_STRING // Reset back to non-flag status.
                     }

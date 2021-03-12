@@ -23,6 +23,8 @@
  */
 package bvanseg.kotlincommons.lang.command.dsl
 
+import bvanseg.kotlincommons.io.logging.debug
+import bvanseg.kotlincommons.io.logging.getLogger
 import bvanseg.kotlincommons.lang.command.CommandDispatcher
 import bvanseg.kotlincommons.lang.command.argument.CommandArguments
 import bvanseg.kotlincommons.lang.command.category.CommandCategory
@@ -43,6 +45,10 @@ import kotlin.reflect.full.isSubclassOf
  */
 class DSLCommand<T : Any>(val name: String, val aliases: MutableList<String> = mutableListOf()) : DSLCommandNode() {
 
+    companion object {
+        private val logger = getLogger()
+    }
+
     var exceptionCatcher: DSLCommandExceptionCatcher<*>? = null
 
     var category: CommandCategory = CommandDispatcher.ROOT_CATEGORY
@@ -61,6 +67,7 @@ class DSLCommand<T : Any>(val name: String, val aliases: MutableList<String> = m
     fun run(arguments: CommandArguments, context: CommandContext): Any? {
         var currentLevel: DSLCommandNode = this
 
+        logger.debug { "Preparing to descend into command argument tree with arguments $arguments" }
         while (arguments.hasArgument()) {
             val commandArg = arguments.nextArgument()
             val commandArgString = commandArg.value.toString()
@@ -72,6 +79,7 @@ class DSLCommand<T : Any>(val name: String, val aliases: MutableList<String> = m
             if (literal != null) {
                 currentLevel = literal
                 context.setArgument(literal.literalValue, literal.literalValue)
+                logger.debug { "Got literal '${literal.literalValue}!" }
                 continue
             }
 
@@ -87,6 +95,7 @@ class DSLCommand<T : Any>(val name: String, val aliases: MutableList<String> = m
                         val result = (it as Validator<Any>).validate(commandArg.value)
 
                         if (result == ValidationResult.INVALID) {
+                            logger.debug { "Command '$name' failed on validation step for validator '$it', aborting command execution!" }
                             return it
                         }
                     }
@@ -97,25 +106,35 @@ class DSLCommand<T : Any>(val name: String, val aliases: MutableList<String> = m
                 } else {
                     context.setArgument(argument.name, commandArg.value)
                 }
+                logger.debug { "Got argument '${argument.name}' of type '${argument.type}' with value '$commandArgString'!" }
                 continue
             } else {
                 throw MissingArgumentException("Could not find valid argument type for input '$commandArgString' (type ${commandArg.type})")
             }
         }
 
+        logger.debug { "Preparing to handle command flags with arguments $arguments" }
         // FLAG HANDLING
         while (arguments.hasFlag()) {
             val commandFlag = arguments.nextFlag()
             context.addFlag(commandFlag.rawValue)
+            logger.debug { "Got flag '${commandFlag.rawValue}'!" }
         }
 
         // EMPTY/FINISHED ARGUMENTS HANDLING
         val executor = currentLevel.executor
         return if (executor != null) {
-            try {
+            if (this.exceptionCatcher != null) {
+                try {
+                    logger.debug("Finalizing command run, preparing to execute with exception catcher!")
+                    executor.block.invoke(context)
+                } catch (e: Exception) {
+                    logger.error("An exception occurred while running a command. Delegating exception handling to exception catcher...")
+                    this.exceptionCatcher!!.block.invoke(context, e)
+                }
+            } else {
+                logger.debug("Finalizing command run, preparing to execute without exception catcher!")
                 executor.block.invoke(context)
-            } catch (e: Exception) {
-                this.exceptionCatcher?.block?.invoke(context, e)
             }
         } else {
             throw MissingExecutorException("Expected execute block but could not find any!")

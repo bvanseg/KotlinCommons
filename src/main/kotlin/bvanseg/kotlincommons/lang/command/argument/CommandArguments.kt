@@ -24,6 +24,9 @@
 package bvanseg.kotlincommons.lang.command.argument
 
 import bvanseg.kotlincommons.grouping.collection.linkedListOf
+import bvanseg.kotlincommons.io.logging.debug
+import bvanseg.kotlincommons.io.logging.getLogger
+import bvanseg.kotlincommons.io.logging.trace
 import bvanseg.kotlincommons.lang.command.CommandDispatcher
 import bvanseg.kotlincommons.lang.command.dsl.DSLCommand
 import bvanseg.kotlincommons.lang.command.dsl.node.DSLCommandNode
@@ -44,6 +47,10 @@ import kotlin.reflect.full.isSubclassOf
  */
 class CommandArguments(private val dispatcher: CommandDispatcher, private val command: DSLCommand<out Any>) {
 
+    companion object {
+        private val logger = getLogger()
+    }
+
     private val arguments: LinkedList<CommandArgument<*>> = linkedListOf()
     private val flags: LinkedList<CommandFlag> = linkedListOf()
 
@@ -63,6 +70,7 @@ class CommandArguments(private val dispatcher: CommandDispatcher, private val co
      * @param tokens The list of tokens to parse as more defined types.
      */
     fun parse(tokens: List<Token>) {
+        logger.debug { "Preparing to parse tokenized parameters to typed arguments: $tokens" }
         val argumentTokenBuffer = ArgumentTokenBuffer(tokens)
         val flagTokenBuffer = FlagTokenBuffer(tokens)
 
@@ -72,11 +80,12 @@ class CommandArguments(private val dispatcher: CommandDispatcher, private val co
         while (flagTokenBuffer.isNotEmpty()) {
             parseFlag(flagTokenBuffer.next())
         }
-
+        logger.debug("Finished parsing tokenized parameters, resetting current command tree level to root.")
         current = command // Reset the position for a re-parse if necessary.
     }
 
     private fun parseArgument(tokenBuffer: ArgumentTokenBuffer) {
+        logger.debug { "Preparing to parse token '${tokenBuffer.peek()}' from token buffer as an argument!" }
         val currentArguments = current.arguments
 
         // We only want the transformers relevant to the current level of arguments.
@@ -102,6 +111,7 @@ class CommandArguments(private val dispatcher: CommandDispatcher, private val co
         }
 
         current = if (!foundTransformer) {
+            logger.trace { "Failed to find a transformer in $transformersForArguments for token ${tokenBuffer.peek()}, falling back to String type..." }
             acceptedType = String::class
             val token = tokenBuffer.next()
             arguments.add(CommandArgument(token.value, String::class))
@@ -110,12 +120,14 @@ class CommandArguments(private val dispatcher: CommandDispatcher, private val co
                 ?: current.arguments.find { it.type == acceptedType }
                 ?: throw MissingArgumentException("Could not find suitable argument or literal for token value '${token.value}'!")
         } else {
+            logger.trace { "Successfully found matching transformer of type '$acceptedType' in $transformersForArguments!" }
             current.arguments.find { it.type == acceptedType || acceptedType.isSubclassOf(it.type) }
                 ?: throw MissingArgumentException("Could not find suitable argument for type '$acceptedType'!")
         }
     }
 
     private fun parseFlag(token: Token) {
+        logger.debug { "Preparing to parse token '$token' from token buffer as a flag!" }
         when (token.tokenType) {
             TokenType.SHORT_FLAG -> token.value.substringAfter("-").forEach {
                 flags.add(CommandFlag(it.toString()))

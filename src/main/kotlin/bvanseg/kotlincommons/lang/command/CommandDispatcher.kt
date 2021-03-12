@@ -23,7 +23,10 @@
  */
 package bvanseg.kotlincommons.lang.command
 
+import bvanseg.kotlincommons.io.logging.debug
 import bvanseg.kotlincommons.io.logging.getLogger
+import bvanseg.kotlincommons.io.logging.info
+import bvanseg.kotlincommons.io.logging.warn
 import bvanseg.kotlincommons.lang.command.argument.CommandArguments
 import bvanseg.kotlincommons.lang.command.category.CommandCategory
 import bvanseg.kotlincommons.lang.command.context.CommandContext
@@ -126,6 +129,7 @@ class CommandDispatcher(val prefix: String) {
         execute(prefix, input, commandContext)
 
     fun execute(prefix: String, input: String, commandContext: CommandContext = CommandContext(this)): Any? {
+        logger.info { "Executing command with input '$input'..." }
         if (input.isBlank()) return null
         if (!input.startsWith(prefix)) return null
         val trimmedInput = input.trim()
@@ -134,7 +138,12 @@ class CommandDispatcher(val prefix: String) {
         val commandReference = parts[0]
         val commandName = commandReference.substring(prefix.length, commandReference.length)
 
-        val command = commands[commandName] ?: return null
+        val command = commands[commandName]
+
+        if (command == null) {
+            logger.debug { "Attempted to execute input for command '$commandName' but no such command exists." }
+            return null
+        }
 
         val hasArguments = parts.size > 1
 
@@ -163,21 +172,32 @@ class CommandDispatcher(val prefix: String) {
     fun getRootCommands(): List<DSLCommand<out Any>> = categories[ROOT_CATEGORY] ?: emptyList()
 
     fun registerCommand(command: DSLCommand<out Any>) {
-        commands.putIfAbsent(command.name, command)
+        commands.compute(command.name) { _, cmd ->
+            if (cmd != null) {
+                logger.warn { "Attempting to register a command under name '${command.name}' but a command under that name already exists!" }
+            }
+            return@compute command
+        }
         command.aliases.forEach { alias ->
-            commands.putIfAbsent(alias, command)
+            commands.compute(alias) { _, aliasedCommand ->
+                if (aliasedCommand != null) {
+                    logger.warn { "Attempting to register a command with name '${command.name}' under alias '$alias' but a command under that alias already exists!" }
+                }
+                return@compute command
+            }
         }
 
         categories.computeIfAbsent(command.category) { mutableListOf() }.add(command)
+        logger.info { "Registered command with name '${command.name}' and aliases ${command.aliases.joinToString { "'$it'" }} under category path '${command.category.path}'." }
     }
 
     fun registerTransformer(transformer: Transformer<*>, overwrite: Boolean = false) = registerTransformer(transformer.type, transformer, overwrite)
     fun registerTransformer(type: KClass<*>, transformer: Transformer<*>, overwrite: Boolean = false) = transformers.compute(type) { _, value ->
         if (value != null && !overwrite) {
-            logger.warn("Attempted to register a transformer for type '$type' but it already exists! Set 'overwrite' to 'true' during registration to overwrite the existing transformer.")
+            logger.warn { "Attempted to register a transformer for type '$type' but it already exists! Set 'overwrite' to 'true' during registration to overwrite the existing transformer." }
             return@compute value
         }
-        logger.info("Registered transformer for type '$type'.")
+        logger.info { "Registered transformer for type '$type'." }
         transformer
     }
 }
