@@ -35,6 +35,7 @@ class TokenParser internal constructor(private val input: String) {
 
     fun next(): Char = input[position++]
     fun peek(): Char? = if (position < input.length) input[position] else null
+    fun peek(n: Int): String? = if (position + n < input.length) input.substring(position, position + n) else null
 
     fun peekToken(): Token? = if (position < input.length) nextToken(true) else null
 
@@ -54,7 +55,7 @@ class TokenParser internal constructor(private val input: String) {
             when {
                 next == '"' -> {
                     tokenType = TokenType.MULTI_STRING
-                    while (peek() != '"' && peek() != null) {
+                    while (peek(2) != "\" " && peek(2) != null) {
                         sb.append(next())
                     }
                     if (peek() == '"') next()
