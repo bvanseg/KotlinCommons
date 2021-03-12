@@ -26,19 +26,23 @@ package bvanseg.kotlincommons.lang.command.exception
 sealed class CommandException(message: String? = null) : Exception(message)
 
 // Arguments
-class DuplicateArgumentTypeException(message: String? = null) : CommandException(message)
-class IllegalTokenTypeException(message: String? = null) : CommandException(message)
-class MissingArgumentException(message: String? = null) : CommandException(message)
+open class ArgumentException(message: String? = null): CommandException(message)
+class DuplicateArgumentTypeException(message: String? = null) : ArgumentException(message)
+class IllegalTokenTypeException(message: String? = null) : ArgumentException(message)
+class MissingArgumentException(message: String? = null) : ArgumentException(message)
 
 // Executors
-class DuplicateExecutorException(message: String? = null) : CommandException(message)
-class MissingExecutorException(message: String? = null) : CommandException(message)
+open class ExecutorException(message: String? = null): CommandException(message)
+class DuplicateExecutorException(message: String? = null) : ExecutorException(message)
+class MissingExecutorException(message: String? = null) : ExecutorException(message)
 
 // Literals
-class DuplicateLiteralException(message: String? = null) : CommandException(message)
+open class LiteralException(message: String? = null): CommandException(message)
+class DuplicateLiteralException(message: String? = null) : LiteralException(message)
 
 // Exception Catchers
-class DuplicateCatcherException(message: String? = null) : CommandException(message)
+open class ExceptionCatcherException(message: String? = null): CommandException(message)
+class DuplicateCatcherException(message: String? = null) : ExceptionCatcherException(message)
 
 // Transformers
-class TransformerException(message: String? = null) : CommandException(message)
+open class TransformerException(message: String? = null) : CommandException(message)
