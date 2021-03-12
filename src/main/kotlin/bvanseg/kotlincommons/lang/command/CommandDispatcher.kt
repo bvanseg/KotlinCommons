@@ -23,6 +23,7 @@
  */
 package bvanseg.kotlincommons.lang.command
 
+import bvanseg.kotlincommons.io.logging.getLogger
 import bvanseg.kotlincommons.lang.command.argument.CommandArguments
 import bvanseg.kotlincommons.lang.command.category.CommandCategory
 import bvanseg.kotlincommons.lang.command.context.CommandContext
@@ -71,6 +72,8 @@ import kotlin.reflect.KClass
 class CommandDispatcher(val prefix: String) {
 
     companion object {
+        val logger = getLogger()
+
         val ROOT_CATEGORY = CommandCategory("Root", "*")
     }
 
@@ -168,6 +171,13 @@ class CommandDispatcher(val prefix: String) {
         categories.computeIfAbsent(command.category) { mutableListOf() }.add(command)
     }
 
-    fun registerTransformer(transformer: Transformer<*>) = registerTransformer(transformer.type, transformer)
-    fun registerTransformer(type: KClass<*>, transformer: Transformer<*>) = transformers.putIfAbsent(type, transformer)
+    fun registerTransformer(transformer: Transformer<*>, overwrite: Boolean = false) = registerTransformer(transformer.type, transformer, overwrite)
+    fun registerTransformer(type: KClass<*>, transformer: Transformer<*>, overwrite: Boolean = false) = transformers.compute(type) { _, value ->
+        if (value != null && !overwrite) {
+            logger.warn("Attempted to register a transformer for type '$type' but it already exists! Set 'overwrite' to 'true' during registration to overwrite the existing transformer.")
+            return@compute value
+        }
+        logger.info("Registered transformer for type '$type'.")
+        transformer
+    }
 }
