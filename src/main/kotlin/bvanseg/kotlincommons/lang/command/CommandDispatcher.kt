@@ -104,6 +104,7 @@ class CommandDispatcher(val prefix: String) {
         registerTransformer(LocalDateTimeTransformer)
         registerTransformer(LocalDateTransformer)
         registerTransformer(LocalTimeTransformer)
+        registerTransformer(Number::class, DoubleTransformer)
         registerTransformer(OffsetDateTimeTransformer)
         registerTransformer(TokenTransformer)
         registerTransformer(URLTransformer)
@@ -165,5 +166,6 @@ class CommandDispatcher(val prefix: String) {
         categories.computeIfAbsent(command.category) { mutableListOf() }.add(command)
     }
 
-    fun registerTransformer(transformer: Transformer<*>) = transformers.putIfAbsent(transformer.type, transformer)
+    fun registerTransformer(transformer: Transformer<*>) = registerTransformer(transformer.type, transformer)
+    fun registerTransformer(type: KClass<*>, transformer: Transformer<*>) = transformers.putIfAbsent(type, transformer)
 }
