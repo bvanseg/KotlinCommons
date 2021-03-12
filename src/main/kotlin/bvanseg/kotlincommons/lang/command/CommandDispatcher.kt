@@ -33,6 +33,7 @@ import bvanseg.kotlincommons.lang.command.transformer.impl.ArgumentTokenBufferTr
 import bvanseg.kotlincommons.lang.command.transformer.impl.BigDecimalTransformer
 import bvanseg.kotlincommons.lang.command.transformer.impl.BigIntegerTransformer
 import bvanseg.kotlincommons.lang.command.transformer.impl.ColorTransformer
+import bvanseg.kotlincommons.lang.command.transformer.impl.StringBuilderTransformer
 import bvanseg.kotlincommons.lang.command.transformer.impl.TokenTransformer
 import bvanseg.kotlincommons.lang.command.transformer.impl.URLTransformer
 import bvanseg.kotlincommons.lang.command.transformer.impl.UUIDTransformer
@@ -106,6 +107,7 @@ class CommandDispatcher(val prefix: String) {
         registerTransformer(LocalTimeTransformer)
         registerTransformer(Number::class, DoubleTransformer)
         registerTransformer(OffsetDateTimeTransformer)
+        registerTransformer(StringBuilderTransformer)
         registerTransformer(TokenTransformer)
         registerTransformer(URLTransformer)
         registerTransformer(UUIDTransformer)
