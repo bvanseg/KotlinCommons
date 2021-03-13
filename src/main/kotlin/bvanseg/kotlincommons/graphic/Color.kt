@@ -313,8 +313,43 @@ class Color : Serializable {
     override fun equals(other: Any?): Boolean = other is Color && this.color == other.color
     override fun hashCode() = color
 
+    override fun toString(): String = String.format("#%08X", this.color)
+
     @Suppress("unused")
     companion object {
+        val COLOR_REGEX = Regex("^(#|0x)([A-Z0-9]{2})([A-Z0-9]{2})([A-Z0-9]{2})([A-Z0-9]{2})?\$", RegexOption.IGNORE_CASE)
+
+        fun parse(input: String): Color {
+            val groups = COLOR_REGEX.matchEntire(input)!!.groupValues
+
+            var alphaGroup = "FF"
+            val redGroup: String
+            val greenGroup: String
+            val blueGroup: String
+
+            when (groups.size) {
+                5 -> {
+                    redGroup = groups[2]
+                    greenGroup = groups[3]
+                    blueGroup = groups[4]
+                }
+                6 -> {
+                    alphaGroup = groups[2]
+                    redGroup = groups[3]
+                    greenGroup = groups[4]
+                    blueGroup = groups[5]
+                }
+                else -> throw RuntimeException("Failed to parse color from input '$input'!")
+            }
+
+            return Color(
+                red = redGroup.toInt(16),
+                green = greenGroup.toInt(16),
+                blue = blueGroup.toInt(16),
+                alpha = alphaGroup.toInt(16)
+            )
+        }
+
         val BLACK by lazy { Color(0, 0, 0) }
         val WHITE by lazy { Color(0xFF, 0xFF, 0xFF) }
 
