@@ -30,7 +30,7 @@ import java.util.LinkedList
  * @author Boston Vanseghi
  * @since 2.10.0
  */
-open class TokenBuffer(tokens: List<Token>) : PeekingTokenBuffer {
+abstract class TokenBuffer(tokens: List<Token>) : PeekingTokenBuffer {
     private val tokens: LinkedList<Token> = LinkedList(tokens)
 
     fun isNotEmpty(): Boolean = tokens.isNotEmpty()
@@ -42,5 +42,10 @@ open class TokenBuffer(tokens: List<Token>) : PeekingTokenBuffer {
     override fun peek(n: Int): List<Token> = tokens.subList(0, n)
     override fun peekAll(): List<Token> = tokens
     fun next(): Token = tokens.removeFirst()
-    fun all(): List<Token> = tokens.toList().also { tokens.clear() }
+    fun all(): List<Token> = tokens.toList()
+
+    override fun equals(other: Any?): Boolean {
+        if (other !is TokenBuffer) return false
+        return this.tokens == other.tokens
+    }
 }
