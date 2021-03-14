@@ -23,10 +23,10 @@
  */
 package bvanseg.kotlincommons.lang.command.transformer
 
+import bvanseg.kotlincommons.lang.command.context.CommandContext
 import bvanseg.kotlincommons.lang.command.exception.TransformerException
 import bvanseg.kotlincommons.lang.command.token.buffer.ArgumentTokenBuffer
 import bvanseg.kotlincommons.lang.command.token.buffer.PeekingTokenBuffer
-import bvanseg.kotlincommons.math.format
 import java.math.BigDecimal
 import kotlin.reflect.KClass
 
@@ -46,10 +46,10 @@ abstract class DecimalTransformer<T : Number>(
 
     private val range: ClosedRange<BigDecimal> = min..max
 
-    override fun matches(buffer: PeekingTokenBuffer): Boolean =
+    override fun matches(buffer: PeekingTokenBuffer, context: CommandContext): Boolean =
         buffer.peek()?.value?.let { it.equals("pi", true) || it.equals("e", true) || it.matches(REGEX) } ?: false
 
-    override fun parse(buffer: ArgumentTokenBuffer): T {
+    override fun parse(buffer: ArgumentTokenBuffer, context: CommandContext): T {
         var text = buffer.next().value
         if (text.equals("pi", true)) {
             text = Math.PI.toString()

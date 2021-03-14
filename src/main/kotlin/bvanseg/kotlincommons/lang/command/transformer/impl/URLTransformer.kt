@@ -23,6 +23,7 @@
  */
 package bvanseg.kotlincommons.lang.command.transformer.impl
 
+import bvanseg.kotlincommons.lang.command.context.CommandContext
 import bvanseg.kotlincommons.lang.command.token.buffer.ArgumentTokenBuffer
 import bvanseg.kotlincommons.lang.command.token.buffer.PeekingTokenBuffer
 import bvanseg.kotlincommons.lang.command.transformer.Transformer
@@ -33,7 +34,11 @@ import java.net.URL
  * @since 2.10.0
  */
 object URLTransformer : Transformer<URL>(URL::class) {
-    private val REGEX = Regex("^[a-z]{2,5}://([a-zA-Z]{1,256}\\.)?([-a-zA-Z0-9@:%._+~#=]{1,256}.[a-z]{2,6})\\b([-a-zA-Z0-9@:%_+.~#?&/=]*)$")
-    override fun matches(buffer: PeekingTokenBuffer): Boolean = buffer.peek()?.value?.matches(REGEX) ?: false
-    override fun parse(buffer: ArgumentTokenBuffer): URL = URL(buffer.next().value)
+    private val REGEX =
+        Regex("^[a-z]{2,5}://([a-zA-Z]{1,256}\\.)?([-a-zA-Z0-9@:%._+~#=]{1,256}.[a-z]{2,6})\\b([-a-zA-Z0-9@:%_+.~#?&/=]*)$")
+
+    override fun matches(buffer: PeekingTokenBuffer, context: CommandContext): Boolean =
+        buffer.peek()?.value?.matches(REGEX) ?: false
+
+    override fun parse(buffer: ArgumentTokenBuffer, context: CommandContext): URL = URL(buffer.next().value)
 }

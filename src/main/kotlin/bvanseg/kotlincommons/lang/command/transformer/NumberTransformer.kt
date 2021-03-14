@@ -1,5 +1,6 @@
 package bvanseg.kotlincommons.lang.command.transformer
 
+import bvanseg.kotlincommons.lang.command.context.CommandContext
 import bvanseg.kotlincommons.lang.command.exception.TransformerException
 import bvanseg.kotlincommons.lang.command.token.buffer.ArgumentTokenBuffer
 import bvanseg.kotlincommons.lang.command.token.buffer.PeekingTokenBuffer
@@ -20,16 +21,17 @@ abstract class NumberTransformer<T : Any> : Transformer<T> {
 	private val stringToNum: (String) -> T
 
 	constructor(type: KClass<T>, min: Number, max: Number, stringToNum: (String) -> T) :
-		this(type, min.toLong().toBigInteger(), max.toLong().toBigInteger(), stringToNum)
+			this(type, min.toLong().toBigInteger(), max.toLong().toBigInteger(), stringToNum)
 
 	constructor(type: KClass<T>, min: BigInteger, max: BigInteger, stringToNum: (String) -> T) : super(type) {
 		range = min..max
 		this.stringToNum = stringToNum
 	}
 
-	override fun matches(buffer: PeekingTokenBuffer): Boolean = buffer.peek()?.value?.matches(REGEX) ?: false
+	override fun matches(buffer: PeekingTokenBuffer, context: CommandContext): Boolean =
+		buffer.peek()?.value?.matches(REGEX) ?: false
 
-	override fun parse(buffer: ArgumentTokenBuffer): T {
+	override fun parse(buffer: ArgumentTokenBuffer, context: CommandContext): T {
 		val text = buffer.next().value
 		val bigInt = text.toBigInteger()
 		if (bigInt !in range) {

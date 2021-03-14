@@ -158,7 +158,7 @@ class CommandDispatcher(val prefix: String) {
             commandContext.tokenizedArguments = emptyList()
         }
 
-        val commandArguments = CommandArguments(this, command)
+        val commandArguments = CommandArguments(this, command, commandContext)
         commandArguments.parse(commandContext.tokenizedArguments)
 
         return command.run(commandArguments, commandContext)

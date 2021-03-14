@@ -1,6 +1,8 @@
 package bvanseg.kotlincommons.lang.command.transformer.impl
 
 import bvanseg.kotlincommons.graphic.Color
+import bvanseg.kotlincommons.lang.command.CommandDispatcher
+import bvanseg.kotlincommons.lang.command.context.CommandContext
 import bvanseg.kotlincommons.lang.command.token.Token
 import bvanseg.kotlincommons.lang.command.token.TokenType
 import bvanseg.kotlincommons.lang.command.token.buffer.ArgumentTokenBuffer
@@ -17,6 +19,9 @@ import java.util.UUID
  */
 class TestCoreTransformers {
 
+    val dispatcher = CommandDispatcher("!")
+    val ctx = CommandContext(dispatcher)
+
     @Test
     fun testArgumentTokenBufferTransformer() {
         // GIVEN
@@ -27,8 +32,8 @@ class TestCoreTransformers {
         val buffer = ArgumentTokenBuffer(listOf(Token(input, TokenType.SINGLE_STRING)))
 
         // THEN
-        Assertions.assertTrue(transformer.matches(buffer))
-        Assertions.assertEquals(buffer, transformer.parse(buffer))
+        Assertions.assertTrue(transformer.matches(buffer, ctx))
+        Assertions.assertEquals(buffer, transformer.parse(buffer, ctx))
     }
 
     @Test
@@ -41,8 +46,8 @@ class TestCoreTransformers {
         val buffer = ArgumentTokenBuffer(listOf(Token(input.toString(), TokenType.SINGLE_STRING)))
 
         // THEN
-        Assertions.assertTrue(transformer.matches(buffer))
-        Assertions.assertEquals(input, transformer.parse(buffer))
+        Assertions.assertTrue(transformer.matches(buffer, ctx))
+        Assertions.assertEquals(input, transformer.parse(buffer, ctx))
     }
 
     @Test
@@ -55,8 +60,8 @@ class TestCoreTransformers {
         val buffer = ArgumentTokenBuffer(listOf(Token(input.toString(), TokenType.SINGLE_STRING)))
 
         // THEN
-        Assertions.assertTrue(transformer.matches(buffer))
-        Assertions.assertEquals(input, transformer.parse(buffer))
+        Assertions.assertTrue(transformer.matches(buffer, ctx))
+        Assertions.assertEquals(input, transformer.parse(buffer, ctx))
     }
 
     @Test
@@ -69,8 +74,8 @@ class TestCoreTransformers {
         val buffer = ArgumentTokenBuffer(listOf(Token(input.toString(), TokenType.SINGLE_STRING)))
 
         // THEN
-        Assertions.assertTrue(transformer.matches(buffer))
-        Assertions.assertEquals(input, transformer.parse(buffer))
+        Assertions.assertTrue(transformer.matches(buffer, ctx))
+        Assertions.assertEquals(input, transformer.parse(buffer, ctx))
     }
 
     @Test
@@ -83,8 +88,8 @@ class TestCoreTransformers {
         val buffer = ArgumentTokenBuffer(listOf(Token(input.toString(), TokenType.SINGLE_STRING)))
 
         // THEN
-        Assertions.assertTrue(transformer.matches(buffer))
-        Assertions.assertEquals(input.toString(), transformer.parse(buffer).toString())
+        Assertions.assertTrue(transformer.matches(buffer, ctx))
+        Assertions.assertEquals(input.toString(), transformer.parse(buffer, ctx).toString())
     }
 
     @Test
@@ -97,8 +102,8 @@ class TestCoreTransformers {
         val buffer = ArgumentTokenBuffer(listOf(input))
 
         // THEN
-        Assertions.assertTrue(transformer.matches(buffer))
-        Assertions.assertEquals(input, transformer.parse(buffer))
+        Assertions.assertTrue(transformer.matches(buffer, ctx))
+        Assertions.assertEquals(input, transformer.parse(buffer, ctx))
     }
 
     @Test
@@ -111,8 +116,8 @@ class TestCoreTransformers {
         val buffer = ArgumentTokenBuffer(listOf(Token(input.toString(), TokenType.SINGLE_STRING)))
 
         // THEN
-        Assertions.assertTrue(transformer.matches(buffer))
-        Assertions.assertEquals(input, transformer.parse(buffer))
+        Assertions.assertTrue(transformer.matches(buffer, ctx))
+        Assertions.assertEquals(input, transformer.parse(buffer, ctx))
     }
 
     @Test
@@ -125,7 +130,7 @@ class TestCoreTransformers {
         val buffer = ArgumentTokenBuffer(listOf(Token(input.toString(), TokenType.SINGLE_STRING)))
 
         // THEN
-        Assertions.assertTrue(transformer.matches(buffer))
-        Assertions.assertEquals(input, transformer.parse(buffer))
+        Assertions.assertTrue(transformer.matches(buffer, ctx))
+        Assertions.assertEquals(input, transformer.parse(buffer, ctx))
     }
 }

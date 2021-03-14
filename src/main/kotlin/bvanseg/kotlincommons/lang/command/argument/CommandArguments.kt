@@ -28,6 +28,7 @@ import bvanseg.kotlincommons.io.logging.debug
 import bvanseg.kotlincommons.io.logging.getLogger
 import bvanseg.kotlincommons.io.logging.trace
 import bvanseg.kotlincommons.lang.command.CommandDispatcher
+import bvanseg.kotlincommons.lang.command.context.CommandContext
 import bvanseg.kotlincommons.lang.command.dsl.DSLCommand
 import bvanseg.kotlincommons.lang.command.dsl.node.DSLCommandNode
 import bvanseg.kotlincommons.lang.command.exception.IllegalTokenTypeException
@@ -45,7 +46,11 @@ import kotlin.reflect.full.isSubclassOf
  * @author Boston Vanseghi
  * @since 2.10.0
  */
-class CommandArguments(private val dispatcher: CommandDispatcher, private val command: DSLCommand<out Any>) {
+class CommandArguments(
+    private val dispatcher: CommandDispatcher,
+    private val command: DSLCommand<out Any>,
+    private val context: CommandContext
+) {
 
     companion object {
         private val logger = getLogger()
@@ -100,8 +105,8 @@ class CommandArguments(private val dispatcher: CommandDispatcher, private val co
 
         // For all potential transformers, test them.
         for (transformer in transformersForArguments) {
-            if (transformer.matches(tokenBuffer)) {
-                val transformedArgument = transformer.parse(tokenBuffer)
+            if (transformer.matches(tokenBuffer, context)) {
+                val transformedArgument = transformer.parse(tokenBuffer, context)
                 val commandArgument = CommandArgument(transformedArgument, transformer.type)
                 arguments.add(commandArgument)
                 acceptedType = transformer.type

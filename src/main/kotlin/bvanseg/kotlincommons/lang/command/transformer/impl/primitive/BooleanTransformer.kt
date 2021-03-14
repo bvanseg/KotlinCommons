@@ -23,6 +23,7 @@
  */
 package bvanseg.kotlincommons.lang.command.transformer.impl.primitive
 
+import bvanseg.kotlincommons.lang.command.context.CommandContext
 import bvanseg.kotlincommons.lang.command.token.buffer.ArgumentTokenBuffer
 import bvanseg.kotlincommons.lang.command.token.buffer.PeekingTokenBuffer
 import bvanseg.kotlincommons.lang.command.transformer.Transformer
@@ -32,15 +33,16 @@ import bvanseg.kotlincommons.lang.command.transformer.Transformer
  * @since 2.10.0
  */
 object BooleanTransformer : Transformer<Boolean>(Boolean::class) {
-	private val TRUE = arrayOf("true", "yes")
+    private val TRUE = arrayOf("true", "yes")
     private val FALSE = arrayOf("false", "no")
 
     private fun isTrue(input: String): Boolean = TRUE.any { it.equals(input, true) }
 
     private fun isFalse(input: String): Boolean = FALSE.any { it.equals(input, true) }
 
-	override fun matches(buffer: PeekingTokenBuffer): Boolean =
-	    buffer.peek()?.value?.let { isTrue(it) || isFalse(it) } ?: false
+    override fun matches(buffer: PeekingTokenBuffer, context: CommandContext): Boolean =
+        buffer.peek()?.value?.let { isTrue(it) || isFalse(it) } ?: false
 
-	override fun parse(buffer: ArgumentTokenBuffer): Boolean = buffer.next().value.let { isTrue(it) }
+    override fun parse(buffer: ArgumentTokenBuffer, context: CommandContext): Boolean =
+        buffer.next().value.let { isTrue(it) }
 }

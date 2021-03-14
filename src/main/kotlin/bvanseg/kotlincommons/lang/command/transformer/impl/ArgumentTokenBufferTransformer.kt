@@ -23,6 +23,7 @@
  */
 package bvanseg.kotlincommons.lang.command.transformer.impl
 
+import bvanseg.kotlincommons.lang.command.context.CommandContext
 import bvanseg.kotlincommons.lang.command.token.buffer.ArgumentTokenBuffer
 import bvanseg.kotlincommons.lang.command.token.buffer.PeekingTokenBuffer
 import bvanseg.kotlincommons.lang.command.transformer.Transformer
@@ -32,6 +33,7 @@ import bvanseg.kotlincommons.lang.command.transformer.Transformer
  * @since 2.10.0
  */
 object ArgumentTokenBufferTransformer : Transformer<ArgumentTokenBuffer>(ArgumentTokenBuffer::class) {
-    override fun matches(buffer: PeekingTokenBuffer): Boolean = true
-    override fun parse(buffer: ArgumentTokenBuffer): ArgumentTokenBuffer = ArgumentTokenBuffer(buffer.all())
+    override fun matches(buffer: PeekingTokenBuffer, context: CommandContext): Boolean = true
+    override fun parse(buffer: ArgumentTokenBuffer, context: CommandContext): ArgumentTokenBuffer =
+        ArgumentTokenBuffer(buffer.all())
 }

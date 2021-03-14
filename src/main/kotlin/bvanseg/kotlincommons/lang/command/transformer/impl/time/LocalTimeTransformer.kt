@@ -23,6 +23,7 @@
  */
 package bvanseg.kotlincommons.lang.command.transformer.impl.time
 
+import bvanseg.kotlincommons.lang.command.context.CommandContext
 import bvanseg.kotlincommons.lang.command.token.buffer.ArgumentTokenBuffer
 import bvanseg.kotlincommons.lang.command.token.buffer.PeekingTokenBuffer
 import bvanseg.kotlincommons.lang.command.transformer.Transformer
@@ -33,7 +34,7 @@ import java.time.LocalTime
  * @since 2.10.0
  */
 object LocalTimeTransformer : Transformer<LocalTime>(LocalTime::class) {
-    override fun matches(buffer: PeekingTokenBuffer): Boolean = try {
+    override fun matches(buffer: PeekingTokenBuffer, context: CommandContext): Boolean = try {
         val text = buffer.peek()?.value
         if (text.equals("now", true)) {
             true
@@ -45,7 +46,7 @@ object LocalTimeTransformer : Transformer<LocalTime>(LocalTime::class) {
         false
     }
 
-    override fun parse(buffer: ArgumentTokenBuffer): LocalTime {
+    override fun parse(buffer: ArgumentTokenBuffer, context: CommandContext): LocalTime {
         val text = buffer.next().value
 
         return if (text.equals("now", true)) {

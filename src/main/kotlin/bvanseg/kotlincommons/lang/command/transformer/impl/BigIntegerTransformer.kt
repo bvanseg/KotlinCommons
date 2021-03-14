@@ -23,6 +23,7 @@
  */
 package bvanseg.kotlincommons.lang.command.transformer.impl
 
+import bvanseg.kotlincommons.lang.command.context.CommandContext
 import bvanseg.kotlincommons.lang.command.token.buffer.ArgumentTokenBuffer
 import bvanseg.kotlincommons.lang.command.token.buffer.PeekingTokenBuffer
 import bvanseg.kotlincommons.lang.command.transformer.NumberTransformer
@@ -34,7 +35,9 @@ import java.math.BigInteger
  * @since 2.10.0
  */
 object BigIntegerTransformer : Transformer<BigInteger>(BigInteger::class) {
-    override fun matches(buffer: PeekingTokenBuffer): Boolean =
+    override fun matches(buffer: PeekingTokenBuffer, context: CommandContext): Boolean =
         buffer.peek()?.value?.matches(NumberTransformer.REGEX) ?: false
-    override fun parse(buffer: ArgumentTokenBuffer): BigInteger = BigInteger(buffer.next().value)
+
+    override fun parse(buffer: ArgumentTokenBuffer, context: CommandContext): BigInteger =
+        BigInteger(buffer.next().value)
 }

@@ -24,6 +24,7 @@
 package bvanseg.kotlincommons.lang.command.transformer.impl
 
 import bvanseg.kotlincommons.graphic.Color
+import bvanseg.kotlincommons.lang.command.context.CommandContext
 import bvanseg.kotlincommons.lang.command.token.buffer.ArgumentTokenBuffer
 import bvanseg.kotlincommons.lang.command.token.buffer.PeekingTokenBuffer
 import bvanseg.kotlincommons.lang.command.transformer.Transformer
@@ -33,6 +34,8 @@ import bvanseg.kotlincommons.lang.command.transformer.Transformer
  * @since 2.10.0
  */
 object ColorTransformer : Transformer<Color>(Color::class) {
-    override fun matches(buffer: PeekingTokenBuffer): Boolean = buffer.peek()?.value?.matches(Color.COLOR_REGEX) ?: false
-    override fun parse(buffer: ArgumentTokenBuffer): Color = Color.parse(buffer.next().value)
+    override fun matches(buffer: PeekingTokenBuffer, context: CommandContext): Boolean =
+        buffer.peek()?.value?.matches(Color.COLOR_REGEX) ?: false
+
+    override fun parse(buffer: ArgumentTokenBuffer, context: CommandContext): Color = Color.parse(buffer.next().value)
 }

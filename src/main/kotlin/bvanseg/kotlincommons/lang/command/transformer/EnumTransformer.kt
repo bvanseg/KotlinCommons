@@ -25,6 +25,7 @@ package bvanseg.kotlincommons.lang.command.transformer
 
 import bvanseg.kotlincommons.grouping.enum.enumValueOfOrNull
 import bvanseg.kotlincommons.grouping.enum.getOrNull
+import bvanseg.kotlincommons.lang.command.context.CommandContext
 import bvanseg.kotlincommons.lang.command.token.buffer.ArgumentTokenBuffer
 import bvanseg.kotlincommons.lang.command.token.buffer.PeekingTokenBuffer
 import kotlin.reflect.KClass
@@ -34,13 +35,13 @@ import kotlin.reflect.KClass
  * @since 2.10.0
  */
 abstract class EnumTransformer<E : Enum<E>>(type: KClass<E>) : Transformer<E>(type) {
-    override fun matches(buffer: PeekingTokenBuffer): Boolean {
+    override fun matches(buffer: PeekingTokenBuffer, context: CommandContext): Boolean {
         val text = buffer.peek()?.value ?: return false
         text.toIntOrNull()?.let { type.getOrNull(it)?.let { return true } }
         return type.enumValueOfOrNull(text, true) != null
     }
 
-    override fun parse(buffer: ArgumentTokenBuffer): E = buffer.next().value.let { input ->
+    override fun parse(buffer: ArgumentTokenBuffer, context: CommandContext): E = buffer.next().value.let { input ->
         input.toIntOrNull()?.let { type.getOrNull(it) } ?: type.enumValueOfOrNull(input, true)!!
     }
 }

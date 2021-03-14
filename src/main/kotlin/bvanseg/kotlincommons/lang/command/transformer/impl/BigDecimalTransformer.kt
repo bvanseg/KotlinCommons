@@ -23,6 +23,7 @@
  */
 package bvanseg.kotlincommons.lang.command.transformer.impl
 
+import bvanseg.kotlincommons.lang.command.context.CommandContext
 import bvanseg.kotlincommons.lang.command.token.buffer.ArgumentTokenBuffer
 import bvanseg.kotlincommons.lang.command.token.buffer.PeekingTokenBuffer
 import bvanseg.kotlincommons.lang.command.transformer.DecimalTransformer
@@ -34,7 +35,9 @@ import java.math.BigDecimal
  * @since 2.10.0
  */
 object BigDecimalTransformer : Transformer<BigDecimal>(BigDecimal::class) {
-    override fun matches(buffer: PeekingTokenBuffer): Boolean =
+    override fun matches(buffer: PeekingTokenBuffer, context: CommandContext): Boolean =
         buffer.peek()?.value?.matches(DecimalTransformer.REGEX) ?: false
-    override fun parse(buffer: ArgumentTokenBuffer): BigDecimal = BigDecimal(buffer.next().value)
+
+    override fun parse(buffer: ArgumentTokenBuffer, context: CommandContext): BigDecimal =
+        BigDecimal(buffer.next().value)
 }
