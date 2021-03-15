@@ -31,6 +31,7 @@ import bvanseg.kotlincommons.lang.command.argument.CommandArguments
 import bvanseg.kotlincommons.lang.command.category.CommandCategory
 import bvanseg.kotlincommons.lang.command.context.CommandContext
 import bvanseg.kotlincommons.lang.command.dsl.DSLCommand
+import bvanseg.kotlincommons.lang.command.event.CommandFireEvent
 import bvanseg.kotlincommons.lang.command.token.TokenParser
 import bvanseg.kotlincommons.lang.command.transformer.Transformer
 import bvanseg.kotlincommons.lang.command.transformer.impl.ArgumentTokenBufferTransformer
@@ -64,6 +65,7 @@ import bvanseg.kotlincommons.lang.command.transformer.impl.time.LocalTimeTransfo
 import bvanseg.kotlincommons.lang.command.transformer.impl.time.MonthTransformer
 import bvanseg.kotlincommons.lang.command.transformer.impl.time.OffsetDateTimeTransformer
 import bvanseg.kotlincommons.lang.command.transformer.impl.time.TimeUnitTransformer
+import bvanseg.kotlincommons.util.event.EventBus
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.ConcurrentMap
 import kotlin.reflect.KClass
@@ -82,6 +84,8 @@ class CommandDispatcher(val prefix: String) {
 
     private val commands: ConcurrentMap<String, DSLCommand<out Any>> = ConcurrentHashMap()
     private val categories: ConcurrentMap<CommandCategory, MutableList<DSLCommand<out Any>>> = ConcurrentHashMap()
+
+    val eventBus = EventBus()
 
     val transformers: ConcurrentMap<KClass<*>, Transformer<*>> = ConcurrentHashMap()
 
@@ -161,7 +165,11 @@ class CommandDispatcher(val prefix: String) {
         val commandArguments = CommandArguments(this, command, commandContext)
         commandArguments.parse(commandContext.tokenizedArguments)
 
-        return command.run(commandArguments, commandContext)
+        eventBus.fire(CommandFireEvent.PRE(command, this))
+        val result = command.run(commandArguments, commandContext)
+        eventBus.fire(CommandFireEvent.POST(command, this))
+
+        return result
     }
 
     fun getCommandByName(name: String): DSLCommand<out Any>? = commands[name]
