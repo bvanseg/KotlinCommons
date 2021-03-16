@@ -25,9 +25,7 @@ package bvanseg.kotlincommons.lang.command.dsl
 
 import bvanseg.kotlincommons.io.logging.debug
 import bvanseg.kotlincommons.io.logging.getLogger
-import bvanseg.kotlincommons.lang.command.CommandDispatcher
 import bvanseg.kotlincommons.lang.command.argument.CommandArguments
-import bvanseg.kotlincommons.lang.command.category.CommandCategory
 import bvanseg.kotlincommons.lang.command.context.CommandContext
 import bvanseg.kotlincommons.lang.command.dsl.key.DSLFlagKey
 import bvanseg.kotlincommons.lang.command.dsl.node.DSLCommandExceptionCatcher
@@ -50,8 +48,6 @@ open class DSLCommand(val name: String, val aliases: MutableList<String> = mutab
     }
 
     var exceptionCatcher: DSLCommandExceptionCatcher<*>? = null
-
-    var category: CommandCategory = CommandDispatcher.ROOT_CATEGORY
 
     val usages: MutableList<String> = mutableListOf()
     val examples: MutableList<String> = mutableListOf()

@@ -28,7 +28,6 @@ import bvanseg.kotlincommons.io.logging.getLogger
 import bvanseg.kotlincommons.io.logging.info
 import bvanseg.kotlincommons.io.logging.warn
 import bvanseg.kotlincommons.lang.command.argument.CommandArguments
-import bvanseg.kotlincommons.lang.command.category.CommandCategory
 import bvanseg.kotlincommons.lang.command.context.CommandContext
 import bvanseg.kotlincommons.lang.command.dsl.DSLCommand
 import bvanseg.kotlincommons.lang.command.event.CommandFireEvent
@@ -78,12 +77,9 @@ class CommandDispatcher(val prefix: String) {
 
     companion object {
         val logger = getLogger()
-
-        val ROOT_CATEGORY = CommandCategory("Root", "*")
     }
 
     private val commands: ConcurrentMap<String, DSLCommand> = ConcurrentHashMap()
-    private val categories: ConcurrentMap<CommandCategory, MutableList<DSLCommand>> = ConcurrentHashMap()
 
     val eventBus = EventBus()
 
@@ -173,11 +169,6 @@ class CommandDispatcher(val prefix: String) {
     }
 
     fun getCommandByName(name: String): DSLCommand? = commands[name]
-    fun getCommandsByCategoryPath(path: String): List<DSLCommand> =
-        categories[CommandCategory("", path)] ?: emptyList()
-
-    fun getCategories(): Map<CommandCategory, List<DSLCommand>> = categories
-    fun getRootCommands(): List<DSLCommand> = categories[ROOT_CATEGORY] ?: emptyList()
 
     fun registerCommand(command: DSLCommand) {
         commands.compute(command.name) { _, cmd ->
@@ -194,9 +185,7 @@ class CommandDispatcher(val prefix: String) {
                 return@compute command
             }
         }
-
-        categories.computeIfAbsent(command.category) { mutableListOf() }.add(command)
-        logger.info { "Registered command with name '${command.name}' and aliases ${command.aliases.joinToString { "'$it'" }} under category path '${command.category.path}'." }
+        logger.info { "Registered command with name '${command.name}' and aliases ${command.aliases.joinToString { "'$it'" }}." }
     }
 
     fun registerTransformer(transformer: Transformer<*>, overwrite: Boolean = false) = registerTransformer(transformer.type, transformer, overwrite)
