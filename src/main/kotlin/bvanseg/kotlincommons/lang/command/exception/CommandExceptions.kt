@@ -32,17 +32,17 @@ class IllegalTokenTypeException(message: String? = null) : ArgumentException(mes
 class MissingArgumentException(message: String? = null) : ArgumentException(message)
 
 // Executors
-open class ExecutorException(message: String? = null): CommandException(message)
+sealed class ExecutorException(message: String? = null) : CommandException(message)
 class DuplicateExecutorException(message: String? = null) : ExecutorException(message)
 class MissingExecutorException(message: String? = null) : ExecutorException(message)
 
 // Literals
-open class LiteralException(message: String? = null): CommandException(message)
+sealed class LiteralException(message: String? = null) : CommandException(message)
 class DuplicateLiteralException(message: String? = null) : LiteralException(message)
 
 // Exception Catchers
-open class ExceptionCatcherException(message: String? = null): CommandException(message)
+sealed class ExceptionCatcherException(message: String? = null) : CommandException(message)
 class DuplicateCatcherException(message: String? = null) : ExceptionCatcherException(message)
 
 // Transformers
-open class TransformerException(message: String? = null) : CommandException(message)
+class TransformerException(message: String? = null) : CommandException(message)
