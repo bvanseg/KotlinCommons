@@ -43,7 +43,7 @@ import kotlin.reflect.full.isSubclassOf
  * @author Boston Vanseghi
  * @since 2.10.0
  */
-class DSLCommand(val name: String, val aliases: MutableList<String> = mutableListOf()) : DSLCommandNode() {
+open class DSLCommand(val name: String, val aliases: MutableList<String> = mutableListOf()) : DSLCommandNode() {
 
     companion object {
         private val logger = getLogger()
