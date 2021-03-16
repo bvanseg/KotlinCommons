@@ -30,7 +30,7 @@ import bvanseg.kotlincommons.lang.check.Checks
  * @author Boston Vanseghi
  * @since 2.10.0
  */
-fun <T : Any> command(name: String, vararg aliases: String, commandCallback: DSLCommand.() -> Unit): DSLCommand {
+fun command(name: String, vararg aliases: String, commandCallback: DSLCommand.() -> Unit): DSLCommand {
     Check.all(name, "command", Checks.notBlank, Checks.noWhitespace)
     aliases.forEach { Check.all(it, "alias", Checks.notBlank, Checks.noWhitespace) }
 
