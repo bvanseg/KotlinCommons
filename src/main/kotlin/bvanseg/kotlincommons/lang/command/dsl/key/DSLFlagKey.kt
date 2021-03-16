@@ -23,8 +23,12 @@
  */
 package bvanseg.kotlincommons.lang.command.dsl.key
 
+import bvanseg.kotlincommons.lang.command.context.CommandContext
+
 /**
  * @author Boston Vanseghi
  * @since 2.10.0
  */
-data class DSLFlagKey(val name: String, val names: List<String>, val description: String = "")
+data class DSLFlagKey(val name: String, val names: List<String>, val description: String = "") {
+    fun exists(context: CommandContext): Boolean = context.hasFlag(this)
+}
