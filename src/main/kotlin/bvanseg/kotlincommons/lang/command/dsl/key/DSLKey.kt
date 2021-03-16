@@ -22,11 +22,13 @@
  * SOFTWARE.
  */
 package bvanseg.kotlincommons.lang.command.dsl.key
-
+import bvanseg.kotlincommons.lang.command.context.CommandContext
 import kotlin.reflect.KClass
 
 /**
  * @author Boston Vanseghi
  * @since 2.10.0
  */
-abstract class DSLKey<T : Any>(val name: String, val type: KClass<T>)
+abstract class DSLKey<T : Any>(val name: String, val type: KClass<T>) {
+    fun get(context: CommandContext): T = context.getArgument(name)
+}
