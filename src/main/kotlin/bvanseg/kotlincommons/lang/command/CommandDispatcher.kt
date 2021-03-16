@@ -165,9 +165,9 @@ class CommandDispatcher(val prefix: String) {
         val commandArguments = CommandArguments(this, command, commandContext)
         commandArguments.parse(commandContext.tokenizedArguments)
 
-        eventBus.fire(CommandFireEvent.PRE(command, this))
+        eventBus.fire(CommandFireEvent.PRE(command, commandContext, this))
         val result = command.run(commandArguments, commandContext)
-        eventBus.fire(CommandFireEvent.POST(command, this))
+        eventBus.fire(CommandFireEvent.POST(command, commandContext, this))
 
         return result
     }
