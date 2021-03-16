@@ -127,14 +127,14 @@ class DSLCommand<T : Any>(val name: String, val aliases: MutableList<String> = m
             if (this.exceptionCatcher != null) {
                 try {
                     logger.debug("Finalizing command run, preparing to execute with exception catcher!")
-                    executor.block.invoke(context)
+                    executor.block(context)
                 } catch (e: Exception) {
                     logger.error("An exception occurred while running a command. Delegating exception handling to exception catcher...")
                     this.exceptionCatcher!!.block.invoke(context, e)
                 }
             } else {
                 logger.debug("Finalizing command run, preparing to execute without exception catcher!")
-                executor.block.invoke(context)
+                executor.block(context)
             }
         } else {
             throw MissingExecutorException("Expected execute block but could not find any!")

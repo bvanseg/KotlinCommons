@@ -41,7 +41,7 @@ abstract class DSLCommandNode {
 
     val literals: MutableList<DSLCommandLiteral> = mutableListOf()
     val arguments: MutableList<DSLCommandArgument<*>> = mutableListOf()
-    var executor: DSLCommandExecutor<*>? = null
+    var executor: DSLCommandExecutor<CommandContext>? = null
 
     private fun validateLiteralValue(literalValue: String) {
         Check.all(literalValue, "literal", Checks.notBlank, Checks.noWhitespace)
@@ -241,12 +241,12 @@ abstract class DSLCommandNode {
         return argument4
     }
 
-    fun <T> executes(block: (CommandContext) -> T): DSLCommandExecutor<T> {
+    fun <C : CommandContext> executes(block: (C) -> Any?): DSLCommandExecutor<C> {
         if (executor != null) {
             throw DuplicateExecutorException("Executor already exists on level!")
         }
         val executor = DSLCommandExecutor(this, block)
-        this.executor = executor
+        this.executor = executor as DSLCommandExecutor<CommandContext>
         return executor
     }
 }
