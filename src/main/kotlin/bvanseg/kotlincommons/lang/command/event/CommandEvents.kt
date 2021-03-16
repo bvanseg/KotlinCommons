@@ -13,7 +13,7 @@ sealed class CommandEvent(val dispatcher: CommandDispatcher)
  * @author Boston Vanseghi
  * @since 2.10.2
  */
-sealed class CommandFireEvent(val command: DSLCommand<*>, dispatcher: CommandDispatcher) : CommandEvent(dispatcher) {
-    class PRE(command: DSLCommand<*>, dispatcher: CommandDispatcher) : CommandFireEvent(command, dispatcher)
-    class POST(command: DSLCommand<*>, dispatcher: CommandDispatcher) : CommandFireEvent(command, dispatcher)
+sealed class CommandFireEvent(val command: DSLCommand, dispatcher: CommandDispatcher) : CommandEvent(dispatcher) {
+    class PRE(command: DSLCommand, dispatcher: CommandDispatcher) : CommandFireEvent(command, dispatcher)
+    class POST(command: DSLCommand, dispatcher: CommandDispatcher) : CommandFireEvent(command, dispatcher)
 }

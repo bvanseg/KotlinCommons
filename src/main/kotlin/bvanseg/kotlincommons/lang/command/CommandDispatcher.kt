@@ -82,8 +82,8 @@ class CommandDispatcher(val prefix: String) {
         val ROOT_CATEGORY = CommandCategory("Root", "*")
     }
 
-    private val commands: ConcurrentMap<String, DSLCommand<out Any>> = ConcurrentHashMap()
-    private val categories: ConcurrentMap<CommandCategory, MutableList<DSLCommand<out Any>>> = ConcurrentHashMap()
+    private val commands: ConcurrentMap<String, DSLCommand> = ConcurrentHashMap()
+    private val categories: ConcurrentMap<CommandCategory, MutableList<DSLCommand>> = ConcurrentHashMap()
 
     val eventBus = EventBus()
 
@@ -172,14 +172,14 @@ class CommandDispatcher(val prefix: String) {
         return result
     }
 
-    fun getCommandByName(name: String): DSLCommand<out Any>? = commands[name]
-    fun getCommandsByCategoryPath(path: String): List<DSLCommand<out Any>> =
+    fun getCommandByName(name: String): DSLCommand? = commands[name]
+    fun getCommandsByCategoryPath(path: String): List<DSLCommand> =
         categories[CommandCategory("", path)] ?: emptyList()
 
-    fun getCategories(): Map<CommandCategory, List<DSLCommand<out Any>>> = categories
-    fun getRootCommands(): List<DSLCommand<out Any>> = categories[ROOT_CATEGORY] ?: emptyList()
+    fun getCategories(): Map<CommandCategory, List<DSLCommand>> = categories
+    fun getRootCommands(): List<DSLCommand> = categories[ROOT_CATEGORY] ?: emptyList()
 
-    fun registerCommand(command: DSLCommand<out Any>) {
+    fun registerCommand(command: DSLCommand) {
         commands.compute(command.name) { _, cmd ->
             if (cmd != null) {
                 logger.warn { "Attempting to register a command under name '${command.name}' but a command under that name already exists!" }

@@ -43,7 +43,7 @@ import kotlin.reflect.full.isSubclassOf
  * @author Boston Vanseghi
  * @since 2.10.0
  */
-class DSLCommand<T : Any>(val name: String, val aliases: MutableList<String> = mutableListOf()) : DSLCommandNode() {
+class DSLCommand(val name: String, val aliases: MutableList<String> = mutableListOf()) : DSLCommandNode() {
 
     companion object {
         private val logger = getLogger()
@@ -52,8 +52,6 @@ class DSLCommand<T : Any>(val name: String, val aliases: MutableList<String> = m
     var exceptionCatcher: DSLCommandExceptionCatcher<*>? = null
 
     var category: CommandCategory = CommandDispatcher.ROOT_CATEGORY
-
-    lateinit var properties: T
 
     val usages: MutableList<String> = mutableListOf()
     val examples: MutableList<String> = mutableListOf()
@@ -154,6 +152,6 @@ class DSLCommand<T : Any>(val name: String, val aliases: MutableList<String> = m
         "DSL command blocks can not be nested!", level = DeprecationLevel.ERROR,
         replaceWith = ReplaceWith("error(\"...\")")
     )
-    fun command(name: String, vararg aliases: String, commandCallback: DSLCommand<T>.() -> Unit): DSLCommand<T> =
+    fun command(name: String, vararg aliases: String, commandCallback: DSLCommand.() -> Unit): DSLCommand =
         error("...")
 }

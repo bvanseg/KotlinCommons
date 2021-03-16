@@ -48,7 +48,7 @@ import kotlin.reflect.full.isSubclassOf
  */
 class CommandArguments(
     private val dispatcher: CommandDispatcher,
-    private val command: DSLCommand<out Any>,
+    private val command: DSLCommand,
     private val context: CommandContext
 ) {
 
