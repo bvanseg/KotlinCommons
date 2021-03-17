@@ -131,8 +131,8 @@ class CommandDispatcher(val prefix: String) {
 
     fun execute(prefix: String, input: String, commandContext: CommandContext = CommandContext(this)): Any? {
         logger.trace { "Executing command with input '$input'..." }
-        if (input.isBlank()) return null
-        if (!input.startsWith(prefix)) return null
+        if (input.isBlank()) return CommandDispatchResult.INVALID_INPUT
+        if (!input.startsWith(prefix)) return CommandDispatchResult.INVALID_INPUT
         val trimmedInput = input.trim()
 
         val parts = trimmedInput.split(" ", limit = 2)
@@ -143,7 +143,7 @@ class CommandDispatcher(val prefix: String) {
 
         if (command == null) {
             logger.debug { "Attempted to execute input for command '$commandName' but no such command exists." }
-            return null
+            return CommandDispatchResult.UNKNOWN_COMMAND
         }
 
         val hasArguments = parts.size > 1
@@ -162,7 +162,11 @@ class CommandDispatcher(val prefix: String) {
         val commandArguments = CommandArguments(this, command, commandContext)
         commandArguments.parse(commandContext.tokenizedArguments)
 
-        eventBus.fire(CommandFireEvent.PRE(command, commandContext, this))
+        val event = CommandFireEvent.PRE(command, commandContext, this)
+        eventBus.fire(event)
+        if (event.isCancelled) {
+            return CommandDispatchResult.COMMAND_FIRING_CANCELLED
+        }
         val result = command.run(commandArguments, commandContext)
         eventBus.fire(CommandFireEvent.POST(command, commandContext, this))
 
