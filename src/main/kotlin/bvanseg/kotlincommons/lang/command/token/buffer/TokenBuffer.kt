@@ -24,6 +24,7 @@
 package bvanseg.kotlincommons.lang.command.token.buffer
 
 import bvanseg.kotlincommons.lang.command.token.Token
+import bvanseg.kotlincommons.lang.string.ToStringBuilder
 import java.util.LinkedList
 
 /**
@@ -48,4 +49,6 @@ abstract class TokenBuffer(tokens: List<Token>) : PeekingTokenBuffer {
         if (other !is TokenBuffer) return false
         return this.tokens == other.tokens
     }
+
+    override fun toString(): String = ToStringBuilder.builder(this::class).append("tokens", tokens).toString()
 }
