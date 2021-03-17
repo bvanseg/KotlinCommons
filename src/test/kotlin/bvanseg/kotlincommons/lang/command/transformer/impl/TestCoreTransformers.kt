@@ -29,11 +29,14 @@ class TestCoreTransformers {
 
         // WHEN
         val input = "foo"
-        val buffer = ArgumentTokenBuffer(listOf(Token(input, TokenType.SINGLE_STRING)))
+        val token = Token(input, TokenType.SINGLE_STRING)
+        // This buffer's tokens will be consumed/cleared upon the transformer parsing the input.
+        val consumableBuffer = ArgumentTokenBuffer(listOf(token))
+        val buffer = ArgumentTokenBuffer(listOf(token))
 
         // THEN
-        Assertions.assertTrue(transformer.matches(buffer, ctx))
-        Assertions.assertEquals(buffer, transformer.parse(buffer, ctx))
+        Assertions.assertTrue(transformer.matches(consumableBuffer, ctx))
+        Assertions.assertEquals(buffer, transformer.parse(consumableBuffer, ctx))
     }
 
     @Test
