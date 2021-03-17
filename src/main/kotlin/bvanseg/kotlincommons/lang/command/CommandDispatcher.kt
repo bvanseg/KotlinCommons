@@ -26,6 +26,7 @@ package bvanseg.kotlincommons.lang.command
 import bvanseg.kotlincommons.io.logging.debug
 import bvanseg.kotlincommons.io.logging.getLogger
 import bvanseg.kotlincommons.io.logging.info
+import bvanseg.kotlincommons.io.logging.trace
 import bvanseg.kotlincommons.io.logging.warn
 import bvanseg.kotlincommons.lang.command.argument.CommandArguments
 import bvanseg.kotlincommons.lang.command.context.CommandContext
@@ -129,7 +130,7 @@ class CommandDispatcher(val prefix: String) {
         execute(prefix, input, commandContext)
 
     fun execute(prefix: String, input: String, commandContext: CommandContext = CommandContext(this)): Any? {
-        logger.info { "Executing command with input '$input'..." }
+        logger.trace { "Executing command with input '$input'..." }
         if (input.isBlank()) return null
         if (!input.startsWith(prefix)) return null
         val trimmedInput = input.trim()
