@@ -24,7 +24,7 @@
 package bvanseg.kotlincommons.lang.command.transformer
 
 import bvanseg.kotlincommons.lang.command.context.CommandContext
-import bvanseg.kotlincommons.lang.command.exception.TransformerException
+import bvanseg.kotlincommons.lang.command.exception.TransformerParseException
 import bvanseg.kotlincommons.lang.command.token.buffer.ArgumentTokenBuffer
 import bvanseg.kotlincommons.lang.command.token.buffer.PeekingTokenBuffer
 import java.math.BigDecimal
@@ -58,7 +58,7 @@ abstract class DecimalTransformer<T : Number>(
         }
         val bigDeci = BigDecimal(text)
         if (bigDeci !in range) {
-            throw TransformerException("Value '$bigDeci' does not fall within the range of (${range.start} to ${range.endInclusive})")
+            throw TransformerParseException("Value '$bigDeci' does not fall within the range of (${range.start} to ${range.endInclusive})")
         }
         return stringToNum(text)
     }

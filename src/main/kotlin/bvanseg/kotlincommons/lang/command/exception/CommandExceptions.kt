@@ -45,4 +45,6 @@ sealed class ExceptionCatcherException(message: String? = null) : CommandExcepti
 class DuplicateCatcherException(message: String? = null) : ExceptionCatcherException(message)
 
 // Transformers
-class TransformerException(message: String? = null) : CommandException(message)
+sealed class TransformerException(message: String? = null) : CommandException(message)
+class TransformerParseException(message: String? = null) : TransformerException(message)
+class MissingTransformerException(message: String? = null) : TransformerException(message)

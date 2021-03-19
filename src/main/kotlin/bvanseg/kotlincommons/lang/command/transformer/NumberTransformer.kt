@@ -1,7 +1,7 @@
 package bvanseg.kotlincommons.lang.command.transformer
 
 import bvanseg.kotlincommons.lang.command.context.CommandContext
-import bvanseg.kotlincommons.lang.command.exception.TransformerException
+import bvanseg.kotlincommons.lang.command.exception.TransformerParseException
 import bvanseg.kotlincommons.lang.command.token.buffer.ArgumentTokenBuffer
 import bvanseg.kotlincommons.lang.command.token.buffer.PeekingTokenBuffer
 import bvanseg.kotlincommons.math.format
@@ -35,7 +35,7 @@ abstract class NumberTransformer<T : Any> : Transformer<T> {
 		val text = buffer.next().value
 		val bigInt = text.toBigInteger()
 		if (bigInt !in range) {
-			throw TransformerException("Value '$bigInt' does not fall within the range of (${range.start.format()} to ${range.endInclusive.format()})")
+			throw TransformerParseException("Value '$bigInt' does not fall within the range of (${range.start.format()} to ${range.endInclusive.format()})")
 		}
 		return stringToNum(text)
 	}

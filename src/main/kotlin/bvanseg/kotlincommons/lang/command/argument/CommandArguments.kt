@@ -33,6 +33,7 @@ import bvanseg.kotlincommons.lang.command.dsl.DSLCommand
 import bvanseg.kotlincommons.lang.command.dsl.node.DSLCommandNode
 import bvanseg.kotlincommons.lang.command.exception.IllegalTokenTypeException
 import bvanseg.kotlincommons.lang.command.exception.MissingArgumentException
+import bvanseg.kotlincommons.lang.command.exception.MissingTransformerException
 import bvanseg.kotlincommons.lang.command.token.Token
 import bvanseg.kotlincommons.lang.command.token.TokenType
 import bvanseg.kotlincommons.lang.command.token.buffer.ArgumentTokenBuffer
@@ -95,7 +96,8 @@ class CommandArguments(
 
         // We only want the transformers relevant to the current level of arguments.
         val transformersForArguments = currentArguments.filter { it.type != String::class }.map {
-            dispatcher.transformers[it.type]!!
+            dispatcher.transformers[it.type]
+                ?: throw MissingTransformerException("Failed to find registered transformer for type '${it.type}'.")
         }
 
         // We store the argument type of the transformer that the raw argument satisfied.
