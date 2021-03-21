@@ -69,8 +69,4 @@ fun <T> linkedListOf(): LinkedList<T> = LinkedList()
  * @author Boston Vanseghi
  * @since 2.7.0
  */
-inline fun <reified T> List<T>.toLinkedList(): LinkedList<T> {
-    val llist = LinkedList<T>()
-    llist.addAll(this)
-    return llist
-}
+inline fun <reified T> List<T>.toLinkedList(): LinkedList<T> = LinkedList<T>(this)
