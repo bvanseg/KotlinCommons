@@ -74,7 +74,7 @@ import kotlin.reflect.KClass
  * @author Boston Vanseghi
  * @since 2.10.0
  */
-class CommandDispatcher(val prefix: String) {
+class CommandDispatcher(val prefix: String, val capsInsensitive: Boolean = true) {
 
     companion object {
         val logger = getLogger()
@@ -137,7 +137,11 @@ class CommandDispatcher(val prefix: String) {
 
         val parts = trimmedInput.split(" ", limit = 2)
         val commandReference = parts[0]
-        val commandName = commandReference.substring(prefix.length, commandReference.length)
+        var commandName = commandReference.substring(prefix.length, commandReference.length)
+
+        if (capsInsensitive) {
+            commandName = commandName.toLowerCase()
+        }
 
         val command = commands[commandName]
 
@@ -176,16 +180,18 @@ class CommandDispatcher(val prefix: String) {
     fun getCommandByName(name: String): DSLCommand? = commands[name]
 
     fun registerCommand(command: DSLCommand) {
-        commands.compute(command.name) { _, cmd ->
+        val name = if (capsInsensitive) command.name.toLowerCase() else command.name
+        commands.compute(name) { _, cmd ->
             if (cmd != null) {
-                logger.warn { "Attempting to register a command under name '${command.name}' but a command under that name already exists!" }
+                logger.warn { "Attempting to register a command under name '$name' but a command under that name already exists!" }
             }
             return@compute command
         }
-        command.aliases.forEach { alias ->
+        command.aliases.forEach {
+            val alias = if (capsInsensitive) it.toLowerCase() else it
             commands.compute(alias) { _, aliasedCommand ->
                 if (aliasedCommand != null) {
-                    logger.warn { "Attempting to register a command with name '${command.name}' under alias '$alias' but a command under that alias already exists!" }
+                    logger.warn { "Attempting to register a command with name '$name' under alias '$alias' but a command under that alias already exists!" }
                 }
                 return@compute command
             }
