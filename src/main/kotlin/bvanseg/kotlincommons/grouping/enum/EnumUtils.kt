@@ -23,6 +23,7 @@
  */
 package bvanseg.kotlincommons.grouping.enum
 
+import java.util.EnumMap
 import java.util.EnumSet
 
 /**
@@ -40,6 +41,18 @@ inline fun <reified E : Enum<E>> enumSetOf(vararg values: E): EnumSet<E> = when 
     values.size == 1 -> EnumSet.of(values.first())
     else -> EnumSet.of(values.first(), *values.slice(1 until values.size).toTypedArray())
 }
+
+/**
+ * Creates an [EnumMap] of the given [Enum] type [E].
+ *
+ * @param values The values to create an [EnumMap] out of.
+ *
+ * @return An [EnumMap] with the given [values].
+ *
+ * @author Boston Vanseghi
+ * @since 2.10.6
+ */
+inline fun <reified E : Enum<E>, V> enumMapOf(vararg values: E): EnumMap<E, V> = EnumMap<E, V>(E::class.java)
 
 /**
  * Gets an [Enum] value of type [T] based on the enum value's [name].

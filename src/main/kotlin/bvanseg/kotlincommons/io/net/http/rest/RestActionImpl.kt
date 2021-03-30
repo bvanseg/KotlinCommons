@@ -85,7 +85,7 @@ open class RestActionImpl<S>(
         if (strBody.isNotEmpty()) {
             return mapper.readValue(strBody, typeReference)
         } else if (type == Optional::class.java) {
-            // If the type needed is a String, the body itself can be returned as a String.
+            // If the type needed is an Optional and there is no content, the body itself can be returned as an empty Optional.
             return Optional.empty<Any>() as S
         }
 
