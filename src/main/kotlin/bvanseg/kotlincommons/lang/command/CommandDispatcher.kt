@@ -177,6 +177,8 @@ class CommandDispatcher(val prefix: String, val capsInsensitive: Boolean = true)
         return result
     }
 
+    fun getCommands(): Map<String, DSLCommand> = commands
+
     fun getCommandByName(name: String): DSLCommand? = commands[name]
 
     fun registerCommand(command: DSLCommand) {
