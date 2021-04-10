@@ -33,7 +33,7 @@ import bvanseg.kotlincommons.lang.command.dsl.node.DSLCommandNode
 import bvanseg.kotlincommons.lang.command.exception.DuplicateCatcherException
 import bvanseg.kotlincommons.lang.command.exception.MissingArgumentException
 import bvanseg.kotlincommons.lang.command.exception.MissingExecutorException
-import bvanseg.kotlincommons.lang.command.validator.ValidationResult
+import bvanseg.kotlincommons.lang.command.validator.ValidationError
 import bvanseg.kotlincommons.lang.command.validator.Validator
 import kotlin.reflect.full.isSubclassOf
 
@@ -88,9 +88,9 @@ open class DSLCommand(val name: String, vararg val aliases: String) : DSLCommand
                     argument.validators.forEach {
                         val result = (it as Validator<Any>).validate(commandArg.value)
 
-                        if (result == ValidationResult.INVALID) {
+                        if (!result) {
                             logger.debug { "Command '$name' failed on validation step for validator '$it', aborting command execution!" }
-                            return it
+                            return ValidationError(it, this, context, commandArg, argument)
                         }
                     }
                 }

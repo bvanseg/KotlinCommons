@@ -23,11 +23,19 @@
  */
 package bvanseg.kotlincommons.lang.command.validator
 
+import bvanseg.kotlincommons.lang.command.argument.CommandArgument
+import bvanseg.kotlincommons.lang.command.context.CommandContext
+import bvanseg.kotlincommons.lang.command.dsl.DSLCommand
+import bvanseg.kotlincommons.lang.command.dsl.node.DSLCommandArgument
+
 /**
  * @author Boston Vanseghi
- * @since 2.10.0
+ * @since 2.10.9
  */
-enum class ValidationResult {
-    VALID,
-    INVALID
-}
+data class ValidationError(
+    val validator: Validator<Any>,
+    val command: DSLCommand,
+    val commandContext: CommandContext,
+    val commandInput: CommandArgument<out Any>,
+    val argument: DSLCommandArgument<out Any>
+)
