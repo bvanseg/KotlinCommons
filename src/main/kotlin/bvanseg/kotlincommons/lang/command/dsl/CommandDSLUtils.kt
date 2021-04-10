@@ -34,7 +34,7 @@ fun command(name: String, vararg aliases: String, commandCallback: DSLCommand.()
     Check.all(name, "command", Checks.notBlank, Checks.noWhitespace)
     aliases.forEach { Check.all(it, "alias", Checks.notBlank, Checks.noWhitespace) }
 
-    val dslCommand = DSLCommand(name, aliases.toMutableList())
+    val dslCommand = DSLCommand(name, *aliases)
     dslCommand.apply(commandCallback)
     return dslCommand
 }
