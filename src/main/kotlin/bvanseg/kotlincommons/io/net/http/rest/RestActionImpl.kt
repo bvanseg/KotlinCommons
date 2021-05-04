@@ -72,7 +72,7 @@ open class RestActionImpl<S>(
     @Suppress("UNCHECKED_CAST")
     override fun transformBody(response: HttpResponse<*>): S {
         // Fine to invoke whether or not the body is empty.
-        if (type == HttpResponse::class.java) {
+        if (type == HttpResponse::class.java || type == Any::class.java) {
             // If the type needed is an HttpResponse, the response itself can be used in the queue callback.
             return response as S
         } else if (type == String::class.java || type == ByteArray::class.java) {
