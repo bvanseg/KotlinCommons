@@ -23,8 +23,6 @@
  */
 package bvanseg.kotlincommons.grouping.collection
 
-import java.util.HashMap
-
 /**
  * A class used in mapping multiple values [V] to a single key [K]. The values of this particular [MultiMap] can be altered.
  *
@@ -73,7 +71,7 @@ class MutableMultiValueMap<K, V> : MultiMap<K, V>() {
 
     fun remove(key: K): MutableList<V>? = backingMap.remove(key)
 
-    override fun size(): Int = backingMap.values.sumBy { it.size }
+    override fun size(): Int = backingMap.values.sumOf { it.size }
 
     fun clear() = backingMap.clear()
 

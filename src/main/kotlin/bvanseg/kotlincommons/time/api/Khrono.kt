@@ -177,7 +177,7 @@ open class Khrono(open val value: Double, open val unit: KhronoUnit) {
         fun now(): Khrono = Khrono(System.currentTimeMillis().toDouble(), KhronoUnit.MILLISECOND)
 
         fun combineAll(unit: KhronoUnit, vararg times: Khrono): Khrono =
-            Khrono(times.sumByDouble { it.convertTo(unit) }, unit)
+            Khrono(times.sumOf { it.convertTo(unit) }, unit)
 
         fun parse(input: String): Khrono {
             val groups = KHRONO_REGEX.matchEntire(input)!!.groupValues

@@ -12,7 +12,7 @@
 
     <groupId>com.github.bvanseg</groupId>
     <artifactId>kotlincommons</artifactId>
-    <version>2.10.11</version>
+    <version>2.11.0</version>
 
     <name>KotlinCommons</name>
     <description>A collection of utilities for Kotlin and various dependencies.</description>
@@ -21,7 +21,7 @@
     <licenses>
         <license>
             <name>MIT License</name>
-            <url>http://www.opensource.org/licenses/mit-license.php</url>
+            <url>https://www.opensource.org/licenses/mit-license.php</url>
         </license>
     </licenses>
 
@@ -53,8 +53,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <kotlin.version>1.4.32</kotlin.version>
-        <kotlinx.version>1.4.3</kotlinx.version>
+        <kotlin.version>1.5.0</kotlin.version>
+        <kotlinx.version>1.5.0-RC</kotlinx.version>
         <slf4j.version>2.0.0-alpha1</slf4j.version>
         <junit.version>5.0.0</junit.version>
         <junit.jupiter.version>5.1.0</junit.jupiter.version>
