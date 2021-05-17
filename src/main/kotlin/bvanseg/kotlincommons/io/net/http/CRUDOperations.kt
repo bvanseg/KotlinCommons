@@ -38,6 +38,9 @@ class Headers {
         map[key] = value.toString()
     }
 
+    fun putAll(vararg pairs: Pair<Any, Any>) = pairs.forEach { (k, v) -> addHeader(k.toString(), v.toString()) }
+    fun putAll(map: Map<String, String>) = map.forEach { (k, v) -> addHeader(k, v) }
+
     infix fun String.to(value: Any) {
         map[this] = value.toString()
     }
@@ -55,6 +58,9 @@ class Parameters {
     fun addParameter(key: String, value: Any) {
         map[key] = value.toString().replace(" ", "%20")
     }
+
+    fun putAll(vararg pairs: Pair<Any, Any>) = pairs.forEach { (k, v) -> addParameter(k.toString(), v.toString()) }
+    fun putAll(map: Map<String, String>) = map.forEach { (k, v) -> addParameter(k, v) }
 
     infix fun String.to(value: Any) {
         map[this] = value.toString().replace(" ", "%20")
