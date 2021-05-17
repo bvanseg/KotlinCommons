@@ -86,6 +86,10 @@ abstract class RestAction<F, S>(
 
     fun complete(): Result<F, S> = completeImpl()
 
+    fun completeOrNull(): S? = complete().successOrNull()
+
+    fun completeOrDefault(default: S): S = completeOrNull() ?: default
+
     protected open fun queueImpl(callback: (Result<F, S>) -> Unit = {}): RestAction<F, S> {
         try {
             future = client.sendAsync(request, bodyHandlerType).whenComplete { response, throwable ->
