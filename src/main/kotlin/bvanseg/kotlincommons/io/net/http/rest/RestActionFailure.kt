@@ -29,7 +29,16 @@ import java.net.http.HttpResponse
  * @author Boston Vanseghi
  * @since 2.9.0
  */
-data class RestActionFailure(
-    val httpResponse: HttpResponse<*>? = null,
-    val throwable: Throwable? = null
-)
+sealed class RestActionFailure
+
+/**
+ * @author Boston Vanseghi
+ * @since 2.11.0
+ */
+data class ResponseFailure(val response: HttpResponse<*>) : RestActionFailure()
+
+/**
+ * @author Boston Vanseghi
+ * @since 2.11.0
+ */
+data class ThrowableFailure(val throwable: Throwable, val response: HttpResponse<*>? = null) : RestActionFailure()

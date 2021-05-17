@@ -92,6 +92,9 @@ open class RestActionImpl<S>(
         throw IllegalStateException("Response body is empty and can not be parsed as type $type.")
     }
 
-    override fun constructFailure(response: HttpResponse<*>?, throwable: Throwable?): RestActionFailure =
-        RestActionFailure(httpResponse = response, throwable = throwable)
+    override fun constructFailure(response: HttpResponse<*>?, throwable: Throwable?): RestActionFailure = when {
+        throwable != null -> ThrowableFailure(throwable, response)
+        response != null -> ResponseFailure(response)
+        else -> throw IllegalStateException("Attempted to construct rest action failure but no response or throwable was given!")
+    }
 }
