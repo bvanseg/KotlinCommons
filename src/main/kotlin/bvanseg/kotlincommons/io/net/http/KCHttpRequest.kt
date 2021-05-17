@@ -87,9 +87,10 @@ class KCHttpRequest {
         return crud(op)
     }
 
-    fun put(target: String, block: PUT.() -> Unit = {}): PUT {
+    fun put(target: String, publisher: HttpRequest.BodyPublisher, block: PUT.() -> Unit = {}): PUT {
         val op = PUT()
         op.target = target
+        op.publisher = publisher
         op.block()
 
         requestBuilder.apply { requestBuilder.PUT(op.publisher) }
@@ -97,9 +98,10 @@ class KCHttpRequest {
         return crud(op)
     }
 
-    fun patch(target: String, block: PATCH.() -> Unit = {}): PATCH {
+    fun patch(target: String, publisher: HttpRequest.BodyPublisher, block: PATCH.() -> Unit = {}): PATCH {
         val op = PATCH()
         op.target = target
+        op.publisher = publisher
         op.block()
 
         requestBuilder.apply { requestBuilder.PATCH(op.publisher) }
