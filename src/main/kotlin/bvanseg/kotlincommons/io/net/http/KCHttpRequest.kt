@@ -59,7 +59,7 @@ class KCHttpRequest {
     fun get(target: String, block: GET.() -> Unit = {}): GET {
         val op = GET()
         op.target = target
-        op.block()
+        op.apply(block)
 
         requestBuilder.apply { requestBuilder.GET() }
 
@@ -69,7 +69,7 @@ class KCHttpRequest {
     fun delete(target: String, block: DELETE.() -> Unit = {}): DELETE {
         val op = DELETE()
         op.target = target
-        op.block()
+        op.apply(block)
 
         requestBuilder.apply { requestBuilder.DELETE() }
 
@@ -80,7 +80,7 @@ class KCHttpRequest {
         val op = POST()
         op.target = target
         op.publisher = publisher
-        op.block()
+        op.apply(block)
 
         requestBuilder.apply { requestBuilder.POST(op.publisher) }
 
@@ -91,7 +91,7 @@ class KCHttpRequest {
         val op = PUT()
         op.target = target
         op.publisher = publisher
-        op.block()
+        op.apply(block)
 
         requestBuilder.apply { requestBuilder.PUT(op.publisher) }
 
@@ -102,7 +102,7 @@ class KCHttpRequest {
         val op = PATCH()
         op.target = target
         op.publisher = publisher
-        op.block()
+        op.apply(block)
 
         requestBuilder.apply { requestBuilder.PATCH(op.publisher) }
 
