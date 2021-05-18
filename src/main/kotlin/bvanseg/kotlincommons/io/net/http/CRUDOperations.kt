@@ -73,7 +73,7 @@ class Parameters {
  * @author Boston Vanseghi
  * @since 2.3.0
  */
-open class CRUDOperation {
+sealed class CRUDOperation {
     var target: String = ""
     var timeout: Duration = Duration.ofSeconds(30L)
     var version: HttpClient.Version = HttpClient.Version.HTTP_2
@@ -141,7 +141,7 @@ class DELETE : CRUDOperation()
  * @author Boston Vanseghi
  * @since 2.3.0
  */
-open class UpdateOperation(
+sealed class UpdateOperation(
     var publisher: HttpRequest.BodyPublisher = HttpRequest.BodyPublishers.noBody()
 ) : CRUDOperation()
 
