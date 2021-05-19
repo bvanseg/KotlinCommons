@@ -24,7 +24,7 @@
 package bvanseg.kotlincommons.io.net.http
 
 import bvanseg.kotlincommons.grouping.collection.joinToString
-import bvanseg.kotlincommons.io.net.http.rest.api.request.HttpMethod
+import bvanseg.kotlincommons.io.net.http.rest.request.HttpMethod
 import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest

@@ -1,10 +1,11 @@
-package bvanseg.kotlincommons.io.net.http.rest.api.request
+package bvanseg.kotlincommons.io.net.http.rest.request
 
 import bvanseg.kotlincommons.io.net.http.PATCH
 import bvanseg.kotlincommons.io.net.http.QueryHandler
 import bvanseg.kotlincommons.lang.string.toURI
 import com.fasterxml.jackson.databind.ObjectMapper
 import java.net.http.HttpRequest
+import java.time.Duration
 
 /**
  * @author Boston Vanseghi
@@ -15,7 +16,8 @@ open class RestRequest(
     val headers: Map<String, String> = emptyMap(),
     val pathVariables: Array<String> = emptyArray(),
     val queryParameters: Map<String, Any> = emptyMap(),
-    val requestBody: Any? = null
+    val requestBody: Any? = null,
+    val timeout: Duration = Duration.ofSeconds(30L)
 ) {
 
     fun toHttpRequest(uri: String, mapper: ObjectMapper): HttpRequest {
@@ -34,6 +36,8 @@ open class RestRequest(
             builder.setHeader(it.key, it.value)
         }
 
+        builder.timeout(timeout)
+
         return builder.build()
     }
 
@@ -42,6 +46,7 @@ open class RestRequest(
         headers + request.headers,
         pathVariables + request.pathVariables,
         queryParameters + request.queryParameters,
-        request.requestBody
+        request.requestBody,
+        request.timeout
     )
 }

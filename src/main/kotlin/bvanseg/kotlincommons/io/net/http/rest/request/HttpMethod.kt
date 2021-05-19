@@ -1,4 +1,4 @@
-package bvanseg.kotlincommons.io.net.http.rest.api.request
+package bvanseg.kotlincommons.io.net.http.rest.request
 
 /**
  * @author Boston Vanseghi

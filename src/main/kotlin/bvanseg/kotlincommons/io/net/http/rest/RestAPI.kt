@@ -1,16 +1,8 @@
-package bvanseg.kotlincommons.io.net.http.rest.api
+package bvanseg.kotlincommons.io.net.http.rest
 
 import bvanseg.kotlincommons.KotlinCommons
 import bvanseg.kotlincommons.io.logging.getLogger
-import bvanseg.kotlincommons.io.net.http.rest.ResponseFailure
-import bvanseg.kotlincommons.io.net.http.rest.RestActionFailure
-import bvanseg.kotlincommons.io.net.http.rest.ThrowableFailure
-import bvanseg.kotlincommons.io.net.http.rest.api.endpoint.DeleteEndpoint
-import bvanseg.kotlincommons.io.net.http.rest.api.endpoint.Endpoint
-import bvanseg.kotlincommons.io.net.http.rest.api.endpoint.GetEndpoint
-import bvanseg.kotlincommons.io.net.http.rest.api.endpoint.PatchEndpoint
-import bvanseg.kotlincommons.io.net.http.rest.api.endpoint.PostEndpoint
-import bvanseg.kotlincommons.io.net.http.rest.api.endpoint.PutEndpoint
+import bvanseg.kotlincommons.io.net.http.rest.endpoint.*
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import java.net.http.HttpClient
@@ -19,7 +11,7 @@ import java.net.http.HttpClient
  * @author Boston Vanseghi
  * @since 2.11.0
  */
-abstract class API(
+abstract class RestAPI(
     val baseURL: String,
     val httpClient: HttpClient = KotlinCommons.KC_HTTP_CLIENT,
     val jsonMapper: ObjectMapper = KotlinCommons.KC_JACKSON_OBJECT_MAPPER
