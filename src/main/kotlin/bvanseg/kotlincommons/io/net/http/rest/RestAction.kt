@@ -25,12 +25,15 @@ package bvanseg.kotlincommons.io.net.http.rest
 
 import bvanseg.kotlincommons.KotlinCommons
 import bvanseg.kotlincommons.io.logging.getLogger
+import bvanseg.kotlincommons.io.logging.warn
+import bvanseg.kotlincommons.lang.check.Checks
 import bvanseg.kotlincommons.time.api.Khrono
 import bvanseg.kotlincommons.util.any.delay
 import bvanseg.kotlincommons.util.functional.Result
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.net.http.HttpClient
+import java.net.http.HttpConnectTimeoutException
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 import java.util.concurrent.CompletableFuture
@@ -64,14 +67,21 @@ abstract class RestAction<F, S>(
     protected var failureCallback: ((F) -> Unit)? = null
     protected var successCallback: ((S) -> Unit)? = null
 
-    open fun onFailure(callback: (F) -> Unit): RestAction<F, S> {
+    private var maxRetry: Int = 0
+    private var retryCount: Int = 0
+
+    open fun onFailure(callback: (F) -> Unit): RestAction<F, S> = this.apply {
         failureCallback = callback
-        return this
     }
 
-    open fun onSuccess(callback: (S) -> Unit): RestAction<F, S> {
+    open fun onSuccess(callback: (S) -> Unit): RestAction<F, S> = this.apply {
         successCallback = callback
-        return this
+    }
+
+    fun retry(count: Int): RestAction<F, S> = this.apply {
+        Checks.isPositive.check(count, "count")
+        maxRetry = count
+        retryCount = count
     }
 
     fun queue(callback: (Result<F, S>) -> Unit = {}): RestAction<F, S> = queueImpl(callback)
@@ -91,54 +101,63 @@ abstract class RestAction<F, S>(
     fun completeOrDefault(default: S): S = completeOrNull() ?: default
 
     protected open fun queueImpl(callback: (Result<F, S>) -> Unit = {}): RestAction<F, S> {
+        fun handleFailure(response: HttpResponse<*>? = null, throwable: Throwable? = null) {
+            val failure = constructFailure(response = response, throwable = throwable)
+            failureCallback?.invoke(failure)
+            callback(Result.Failure(failure))
+        }
         try {
             future = client.sendAsync(request, bodyHandlerType).whenComplete { response, throwable ->
                 try {
                     throwable?.let { e ->
-                        val failure = constructFailure(response = response, throwable = e)
-                        failureCallback?.invoke(failure)
-                        callback(Result.Failure(failure))
-                        return@whenComplete
+                        if (e is HttpConnectTimeoutException && retryCount > 0) {
+                            logger.warn { "Request ($request) timed out! Retrying... (Attempt ${(maxRetry - retryCount) + 1}/$maxRetry)" }
+                            retryCount--
+                            queueImpl(callback)
+                            return@whenComplete
+                        }
+                        return@whenComplete handleFailure(response = response, throwable = e)
                     }
 
                     if (response.statusCode() in 400..599) {
-                        val failure = constructFailure(response = response)
-                        failureCallback?.invoke(failure)
-                        callback(Result.Failure(failure))
-                        return@whenComplete
+                        return@whenComplete handleFailure(response = response)
                     }
 
                     val successObject = transformBody(response)
                     successCallback?.invoke(successObject)
                     callback(Result.Success(successObject))
                 } catch (e: Exception) {
-                    val failure = constructFailure(response = response, throwable = e)
-                    failureCallback?.invoke(failure)
-                    callback(Result.Failure(failure))
+                    handleFailure(response = response, throwable = e)
                 }
             }
         } catch (e: Exception) {
-            val failure = constructFailure(throwable = e)
-            failureCallback?.invoke(failure)
-            callback(Result.Failure(failure))
+            handleFailure(throwable = e)
         }
 
         return this
     }
 
     protected open fun completeImpl(): Result<F, S> {
-        val response = try {
-            client.send(request, bodyHandlerType)
-        } catch (e: Exception) {
-            val failure = constructFailure(throwable = e)
+        fun handleFailure(response: HttpResponse<*>? = null, throwable: Throwable? = null): Result.Failure<F> {
+            val failure = constructFailure(response = response, throwable = throwable)
             failureCallback?.invoke(failure)
             return Result.Failure(failure)
         }
 
+        val response = try {
+            client.send(request, bodyHandlerType)
+        } catch (e: Exception) {
+            return if (e is HttpConnectTimeoutException && retryCount > 0) {
+                logger.warn { "Request ($request) timed out! Retrying... (Attempt ${(maxRetry - retryCount) + 1}/$maxRetry)" }
+                retryCount--
+                completeImpl()
+            } else {
+                handleFailure(throwable = e)
+            }
+        }
+
         if (response.statusCode() in 400..599) {
-            val failure = constructFailure(response = response)
-            failureCallback?.invoke(failure)
-            return Result.Failure(failure)
+            handleFailure(response = response)
         }
 
         return try {
@@ -146,9 +165,7 @@ abstract class RestAction<F, S>(
             successCallback?.invoke(successObject)
             Result.Success(successObject)
         } catch (e: Exception) {
-            val failure = constructFailure(response = response, throwable = e)
-            failureCallback?.invoke(failure)
-            Result.Failure(failure)
+            handleFailure(response = response, throwable = e)
         }
     }
 
