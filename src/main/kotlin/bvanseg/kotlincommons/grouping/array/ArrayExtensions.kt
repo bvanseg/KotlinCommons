@@ -26,7 +26,7 @@ package bvanseg.kotlincommons.grouping.array
 import bvanseg.kotlincommons.Array2D
 import bvanseg.kotlincommons.Array3D
 import bvanseg.kotlincommons.KotlinCommons
-import java.util.Random
+import java.util.*
 
 /**
  * Gets a random element from the [Array].
@@ -83,3 +83,29 @@ inline fun <reified T> Array2D<T>.anyNull(): Boolean = any { e1 -> e1.any { e2 -
  */
 inline fun <reified T> Array3D<T>.anyNull(): Boolean =
     any { e1 -> e1.any { e2 -> e2.any { e3 -> e3 == null } } }
+
+/**
+ * @author Boston Vanseghi
+ * @since 2.11.0
+ */
+inline fun <T, reified R> Array<T>.mapToTypedArray(callback: (T) -> R): Array<R> {
+    val newArray = arrayOfNulls<R>(this.size)
+    for (i in 0 until this.size) {
+        newArray[i] = callback(this[i])
+    }
+
+    return newArray as Array<R>
+}
+
+/**
+ * @author Boston Vanseghi
+ * @since 2.11.0
+ */
+inline fun <K, T> Array<out T>.associateByFlattening(selector: (T) -> Iterable<K>): Map<K, T> {
+    val map = hashMapOf<K, T>()
+    for (value in this) {
+        val iterable = selector(value)
+        iterable.forEach { iv -> map[iv] = value }
+    }
+    return map
+}
