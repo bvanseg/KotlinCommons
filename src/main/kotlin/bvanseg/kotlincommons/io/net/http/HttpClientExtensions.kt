@@ -23,13 +23,28 @@
  */
 package bvanseg.kotlincommons.io.net.http
 
+import bvanseg.kotlincommons.io.net.http.rest.RestActionImpl
 import java.net.http.HttpRequest
 
 fun HttpRequest.Builder.PATCH(publisher: HttpRequest.BodyPublisher) = this.method("PATCH", publisher)
 
-fun httpRequest(block: KCHttpRequest.() -> Unit): HttpRequest {
-    val kcRequest = KCHttpRequest()
-    kcRequest.block()
-    return kcRequest.requestBuilder.build()
+fun httpRequest(target: String, block: KCHttpRequestBuilder.(String) -> Unit): HttpRequest {
+    val kcRequest = KCHttpRequestBuilder(target)
+    kcRequest.block(target)
+    return kcRequest.build()
+}
+
+/**
+ * @author Boston Vanseghi
+ * @since 2.11.0
+ */
+inline fun <reified T> restAction(
+    target: String,
+    block: KCHttpRequestBuilder.(String) -> Unit
+): RestActionImpl<T> {
+    val kcRequest = KCHttpRequestBuilder(target)
+    kcRequest.block(target)
+    val request = kcRequest.build()
+    return RestActionImpl(request)
 }
 
