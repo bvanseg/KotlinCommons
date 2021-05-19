@@ -29,7 +29,7 @@ import java.net.http.HttpResponse
  * @author Boston Vanseghi
  * @since 2.9.0
  */
-sealed class RestActionFailure
+abstract class RestActionFailure
 
 /**
  * @author Boston Vanseghi
