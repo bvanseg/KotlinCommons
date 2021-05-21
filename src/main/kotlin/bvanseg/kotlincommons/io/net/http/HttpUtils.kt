@@ -28,7 +28,7 @@ import java.net.http.HttpRequest
 
 fun HttpRequest.Builder.PATCH(publisher: HttpRequest.BodyPublisher) = this.method("PATCH", publisher)
 
-fun httpRequest(target: String, block: KCHttpRequestBuilder.(String) -> Unit): HttpRequest {
+fun httpRequest(target: String, block: KCHttpRequestBuilder.(String) -> Unit = {}): HttpRequest {
     val kcRequest = KCHttpRequestBuilder(target)
     kcRequest.block(target)
     return kcRequest.build()
