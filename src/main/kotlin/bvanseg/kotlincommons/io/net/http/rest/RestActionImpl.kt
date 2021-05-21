@@ -49,10 +49,10 @@ import java.util.Optional
  * @since 2.3.0
  */
 open class RestActionImpl<S>(
-    override val request: HttpRequest,
-    override val type: Class<S>,
+    request: HttpRequest,
+    type: Class<S>,
     private val typeReference: TypeReference<S>,
-    override val client: HttpClient = KotlinCommons.KC_HTTP_CLIENT,
+    client: HttpClient = KotlinCommons.KC_HTTP_CLIENT,
     private val mapper: ObjectMapper = KotlinCommons.KC_JACKSON_OBJECT_MAPPER
 ) : RestAction<RestActionFailure, S>(request, type, client) {
 
@@ -93,8 +93,8 @@ open class RestActionImpl<S>(
     }
 
     override fun constructFailure(response: HttpResponse<*>?, throwable: Throwable?): RestActionFailure = when {
-        throwable != null -> ThrowableFailure(throwable, response)
-        response != null -> ResponseFailure(response)
+        throwable != null -> ThrowableFailure(request, throwable, response)
+        response != null -> ResponseFailure(request, response)
         else -> throw IllegalStateException("Attempted to construct rest action failure but no response or throwable was given!")
     }
 }

@@ -23,22 +23,24 @@
  */
 package bvanseg.kotlincommons.io.net.http.rest
 
+import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 
 /**
  * @author Boston Vanseghi
  * @since 2.9.0
  */
-abstract class RestActionFailure
+abstract class RestActionFailure(val request: HttpRequest)
 
 /**
  * @author Boston Vanseghi
  * @since 2.11.0
  */
-data class ResponseFailure(val response: HttpResponse<*>) : RestActionFailure()
+class ResponseFailure(request: HttpRequest, val response: HttpResponse<*>) : RestActionFailure(request)
 
 /**
  * @author Boston Vanseghi
  * @since 2.11.0
  */
-data class ThrowableFailure(val throwable: Throwable, val response: HttpResponse<*>? = null) : RestActionFailure()
+class ThrowableFailure(request: HttpRequest, val throwable: Throwable, val response: HttpResponse<*>? = null) :
+    RestActionFailure(request)
