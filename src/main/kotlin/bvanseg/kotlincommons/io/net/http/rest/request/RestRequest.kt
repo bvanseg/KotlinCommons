@@ -44,7 +44,7 @@ open class RestRequest(
 ) {
 
     fun toHttpRequest(uri: String, mapper: ObjectMapper): HttpRequest {
-        val url = uri.format(pathVariables) + QueryHandler.build(queryParameters)
+        val url = uri.format(*pathVariables) + QueryHandler.build(queryParameters)
         val builder = HttpRequest.newBuilder(url.toURI())
 
         when (httpMethod) {
