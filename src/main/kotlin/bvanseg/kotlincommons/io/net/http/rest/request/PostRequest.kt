@@ -21,24 +21,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package bvanseg.kotlincommons.io.net.http.rest
+package bvanseg.kotlincommons.io.net.http.rest.request
 
-import java.net.http.HttpResponse
-
-/**
- * @author Boston Vanseghi
- * @since 2.9.0
- */
-abstract class RestActionFailure
+import java.time.Duration
 
 /**
  * @author Boston Vanseghi
  * @since 2.11.0
  */
-data class ResponseFailure(val response: HttpResponse<*>) : RestActionFailure()
-
-/**
- * @author Boston Vanseghi
- * @since 2.11.0
- */
-data class ThrowableFailure(val throwable: Throwable, val response: HttpResponse<*>? = null) : RestActionFailure()
+class PostRequest(
+    headers: Map<String, String> = emptyMap(),
+    pathVariables: Array<String> = emptyArray(),
+    queryParameters: Map<String, Any> = emptyMap(),
+    requestBody: Any? = null,
+    timeout: Duration = Duration.ofSeconds(30L)
+) : RestRequest(HttpMethod.POST, headers, pathVariables, queryParameters, requestBody, timeout)

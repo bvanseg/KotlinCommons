@@ -21,24 +21,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package bvanseg.kotlincommons.io.net.http.rest
+package bvanseg.kotlincommons.io.net.http.rest.endpoint
 
-import java.net.http.HttpResponse
-
-/**
- * @author Boston Vanseghi
- * @since 2.9.0
- */
-abstract class RestActionFailure
+import bvanseg.kotlincommons.io.net.http.rest.RestActionImpl
+import bvanseg.kotlincommons.io.net.http.rest.request.PutRequest
 
 /**
  * @author Boston Vanseghi
  * @since 2.11.0
  */
-data class ResponseFailure(val response: HttpResponse<*>) : RestActionFailure()
-
-/**
- * @author Boston Vanseghi
- * @since 2.11.0
- */
-data class ThrowableFailure(val throwable: Throwable, val response: HttpResponse<*>? = null) : RestActionFailure()
+interface PutEndpoint<T> {
+    fun put(restRequest: PutRequest): RestActionImpl<T>
+}

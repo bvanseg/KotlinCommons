@@ -30,3 +30,17 @@ package bvanseg.kotlincommons.grouping.collection
  * @since 2.1.2
  */
 fun <K, V> HashMap<K, V>.toDualMap(): DualHashMap<K, V> = DualHashMap(this)
+
+/**
+ * @author Boston Vanseghi
+ * @since 2.11.0
+ */
+fun <K, V> Map<K, V>.joinToString(separator: String = ", ", callback: (Map.Entry<K, V>) -> CharSequence): String {
+    val builder = StringBuilder()
+    var count = 0
+    for (element in this) {
+        if (++count > 1) builder.append(separator)
+        builder.append(callback(element))
+    }
+    return builder.toString()
+}

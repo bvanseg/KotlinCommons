@@ -21,24 +21,30 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package bvanseg.kotlincommons.io.net.http.rest
+package bvanseg.kotlincommons.io.net.http
 
-import java.net.http.HttpResponse
+import bvanseg.kotlincommons.io.net.http.rest.RestActionImpl
+import java.net.http.HttpRequest
 
-/**
- * @author Boston Vanseghi
- * @since 2.9.0
- */
-abstract class RestActionFailure
+fun HttpRequest.Builder.PATCH(publisher: HttpRequest.BodyPublisher) = this.method("PATCH", publisher)
 
-/**
- * @author Boston Vanseghi
- * @since 2.11.0
- */
-data class ResponseFailure(val response: HttpResponse<*>) : RestActionFailure()
+fun httpRequest(target: String, block: KCHttpRequestBuilder.(String) -> Unit): HttpRequest {
+    val kcRequest = KCHttpRequestBuilder(target)
+    kcRequest.block(target)
+    return kcRequest.build()
+}
 
 /**
  * @author Boston Vanseghi
  * @since 2.11.0
  */
-data class ThrowableFailure(val throwable: Throwable, val response: HttpResponse<*>? = null) : RestActionFailure()
+inline fun <reified T> restAction(
+    target: String,
+    block: KCHttpRequestBuilder.(String) -> Unit
+): RestActionImpl<T> {
+    val kcRequest = KCHttpRequestBuilder(target)
+    kcRequest.block(target)
+    val request = kcRequest.build()
+    return RestActionImpl(request)
+}
+

@@ -140,7 +140,7 @@ class CommandDispatcher(val prefix: String, val capsInsensitive: Boolean = true)
         var commandName = commandReference.substring(prefix.length, commandReference.length)
 
         if (capsInsensitive) {
-            commandName = commandName.toLowerCase()
+            commandName = commandName.lowercase()
         }
 
         val command = commands[commandName]
@@ -182,7 +182,7 @@ class CommandDispatcher(val prefix: String, val capsInsensitive: Boolean = true)
     fun getCommandByName(name: String): DSLCommand? = commands[name]
 
     fun registerCommand(command: DSLCommand) {
-        val name = if (capsInsensitive) command.name.toLowerCase() else command.name
+        val name = if (capsInsensitive) command.name.lowercase() else command.name
         commands.compute(name) { _, cmd ->
             if (cmd != null) {
                 logger.warn { "Attempting to register a command under name '$name' but a command under that name already exists!" }
@@ -190,7 +190,7 @@ class CommandDispatcher(val prefix: String, val capsInsensitive: Boolean = true)
             return@compute command
         }
         command.aliases.forEach {
-            val alias = if (capsInsensitive) it.toLowerCase() else it
+            val alias = if (capsInsensitive) it.lowercase() else it
             commands.compute(alias) { _, aliasedCommand ->
                 if (aliasedCommand != null) {
                     logger.warn { "Attempting to register a command with name '$name' under alias '$alias' but a command under that alias already exists!" }

@@ -73,7 +73,7 @@ enum class KhronoUnit(val code: String, val max: Double = 1.0, val calendarUnit:
         const val NEVER_CONSTANT = Double.MIN_VALUE
         const val FOREVER_CONSTANT = Double.MAX_VALUE
 
-        fun fromCode(code: String): KhronoUnit = when (code.toLowerCase()) {
+        fun fromCode(code: String): KhronoUnit = when (code.lowercase()) {
             NEVER.code -> NEVER
             NANOSECOND.code -> NANOSECOND
             MICROSECOND.code -> MICROSECOND

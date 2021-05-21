@@ -21,24 +21,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package bvanseg.kotlincommons.io.net.http.rest
-
-import java.net.http.HttpResponse
-
-/**
- * @author Boston Vanseghi
- * @since 2.9.0
- */
-abstract class RestActionFailure
+package bvanseg.kotlincommons.io.net.http.rest.request
 
 /**
  * @author Boston Vanseghi
  * @since 2.11.0
  */
-data class ResponseFailure(val response: HttpResponse<*>) : RestActionFailure()
-
-/**
- * @author Boston Vanseghi
- * @since 2.11.0
- */
-data class ThrowableFailure(val throwable: Throwable, val response: HttpResponse<*>? = null) : RestActionFailure()
+enum class HttpMethod {
+    DELETE,
+    GET,
+    PATCH,
+    POST,
+    PUT
+}

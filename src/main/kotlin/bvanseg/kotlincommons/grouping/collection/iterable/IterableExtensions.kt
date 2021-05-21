@@ -74,3 +74,16 @@ inline fun <T> Iterable<T>.sumByFloat(selector: (T) -> Float): Float {
     }
     return sum
 }
+
+/**
+ * @author Boston Vanseghi
+ * @since 2.11.0
+ */
+inline fun <K, T> Iterable<T>.associateByFlattening(selector: (T) -> Iterable<K>): Map<K, T> {
+    val map = hashMapOf<K, T>()
+    for (value in this) {
+        val iterable = selector(value)
+        iterable.forEach { iv -> map[iv] = value }
+    }
+    return map
+}

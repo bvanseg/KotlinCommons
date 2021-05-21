@@ -23,11 +23,16 @@
  */
 package bvanseg.kotlincommons.io.net.http
 
+import bvanseg.kotlincommons.grouping.collection.joinToString
+
 /**
  * @author Boston Vanseghi
  * @since 2.5.1
  */
 object QueryHandler {
+
+    fun build(map: Map<String, Any?>) =
+        "?" + map.filter { it.value != null }.joinToString("&") { pair -> "${pair.key}=${pair.value}" }
 
     fun build(vararg pairs: Pair<String, Any?>) =
         "?" + pairs.filter { it.second != null }.joinToString("&") { pair -> "${pair.first}=${pair.second}" }
