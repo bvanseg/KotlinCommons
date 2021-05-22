@@ -22,3 +22,10 @@ sealed class CommandFireEvent(val command: DSLCommand, val context: CommandConte
     class POST(command: DSLCommand, context: CommandContext, dispatcher: CommandDispatcher) :
         CommandFireEvent(command, context, dispatcher)
 }
+
+class UnknownCommandEvent(
+    val commandName: String,
+    val prefix: String,
+    val context: CommandContext,
+    dispatcher: CommandDispatcher
+) : CommandEvent(dispatcher)
