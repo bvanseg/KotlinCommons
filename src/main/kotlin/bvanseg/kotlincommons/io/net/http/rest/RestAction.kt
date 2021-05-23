@@ -105,6 +105,13 @@ abstract class RestAction<F, S>(
 
     fun completeOrDefault(default: S): S = completeOrNull() ?: default
 
+    fun completeOrElse(callback: (F) -> Unit): S? = complete().let { result ->
+        return result.successOrNull() ?: run {
+            callback(result.failure().unwrap())
+            null
+        }
+    }
+
     protected open fun queueImpl(callback: (Result<F, S>) -> Unit = {}): RestAction<F, S> {
         fun handleFailure(response: HttpResponse<*>? = null, throwable: Throwable? = null) {
             val failure = constructFailure(response = response, throwable = throwable)
