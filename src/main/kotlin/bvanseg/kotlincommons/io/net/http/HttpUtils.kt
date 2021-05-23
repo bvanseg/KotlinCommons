@@ -23,7 +23,7 @@
  */
 package bvanseg.kotlincommons.io.net.http
 
-import bvanseg.kotlincommons.io.net.http.rest.RestActionImpl
+import bvanseg.kotlincommons.io.net.http.rest.impl.RestActionImpl
 import java.net.http.HttpRequest
 
 fun HttpRequest.Builder.PATCH(publisher: HttpRequest.BodyPublisher) = this.method("PATCH", publisher)

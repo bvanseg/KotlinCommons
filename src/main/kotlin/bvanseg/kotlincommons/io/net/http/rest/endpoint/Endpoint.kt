@@ -23,9 +23,14 @@
  */
 package bvanseg.kotlincommons.io.net.http.rest.endpoint
 
-import bvanseg.kotlincommons.io.net.http.rest.RestAPI
-import bvanseg.kotlincommons.io.net.http.rest.RestActionImpl
-import bvanseg.kotlincommons.io.net.http.rest.request.*
+import bvanseg.kotlincommons.io.net.http.rest.RestClient
+import bvanseg.kotlincommons.io.net.http.rest.impl.RestActionImpl
+import bvanseg.kotlincommons.io.net.http.rest.request.DeleteRequest
+import bvanseg.kotlincommons.io.net.http.rest.request.GetRequest
+import bvanseg.kotlincommons.io.net.http.rest.request.PatchRequest
+import bvanseg.kotlincommons.io.net.http.rest.request.PostRequest
+import bvanseg.kotlincommons.io.net.http.rest.request.PutRequest
+import bvanseg.kotlincommons.io.net.http.rest.request.RestRequest
 import com.fasterxml.jackson.core.type.TypeReference
 
 /**
@@ -33,25 +38,25 @@ import com.fasterxml.jackson.core.type.TypeReference
  * @since 2.11.0
  */
 class Endpoint<T>(
-    val restApi: RestAPI,
+    val restClient: RestClient,
     path: String,
     val type: Class<T>,
     private val typeReference: TypeReference<T>
 ) : DeleteEndpoint<T>, GetEndpoint<T>, PatchEndpoint<T>, PostEndpoint<T>, PutEndpoint<T> {
-    val fullPath = restApi.baseURL + path
+    val fullPath = restClient.baseURL + path
 
     private fun buildRestActionImpl(request: RestRequest): RestActionImpl<T> {
         val defaultRequest =
             RestRequest(
                 request.httpMethod,
-                headers = restApi.defaultHeaders,
-                queryParameters = restApi.defaultParameters
+                headers = restClient.defaultHeaders,
+                queryParameters = restClient.defaultParameters
             )
         val fullRequest = defaultRequest.combine(request)
-        val httpRequest = fullRequest.toHttpRequest(fullPath, restApi.jsonMapper)
+        val httpRequest = fullRequest.toHttpRequest(fullPath, restClient.jsonMapper)
         return RestActionImpl(
-            httpRequest, type, typeReference, client = restApi.httpClient, mapper = restApi.jsonMapper
-        ).onFailure(restApi.defaultFailure) as RestActionImpl<T>
+            httpRequest, type, typeReference, client = restClient.httpClient, mapper = restClient.jsonMapper
+        ).onFailure(restClient.defaultFailure) as RestActionImpl<T>
     }
 
     override fun delete(restRequest: DeleteRequest): RestActionImpl<T> = buildRestActionImpl(restRequest)

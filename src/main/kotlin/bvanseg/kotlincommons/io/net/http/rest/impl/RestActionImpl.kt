@@ -21,10 +21,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package bvanseg.kotlincommons.io.net.http.rest
+package bvanseg.kotlincommons.io.net.http.rest.impl
 
 import bvanseg.kotlincommons.KotlinCommons
 import bvanseg.kotlincommons.io.logging.getLogger
+import bvanseg.kotlincommons.io.net.http.rest.ResponseFailure
+import bvanseg.kotlincommons.io.net.http.rest.RestAction
+import bvanseg.kotlincommons.io.net.http.rest.RestActionFailure
+import bvanseg.kotlincommons.io.net.http.rest.ThrowableFailure
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
