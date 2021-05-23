@@ -129,6 +129,8 @@ open class Khrono(open val value: Double, open val unit: KhronoUnit) {
      */
     fun hasValue(): Boolean = this.value > 0.0 && this.unit != KhronoUnit.NEVER && this.unit != KhronoUnit.FOREVER
 
+    fun sleep() = Thread.sleep(this.toMillis().toLong())
+
     // INFIX
     infix fun into(unit: KhronoUnit): Khrono {
         val newValue = this.unit.convertTo(this.value, unit)
