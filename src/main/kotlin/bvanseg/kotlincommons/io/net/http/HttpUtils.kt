@@ -40,7 +40,7 @@ fun httpRequest(target: String, block: KCHttpRequestBuilder.(String) -> Unit = {
  */
 inline fun <reified T> restAction(
     target: String,
-    block: KCHttpRequestBuilder.(String) -> Unit
+    block: KCHttpRequestBuilder.(String) -> Unit = {}
 ): RestActionImpl<T> {
     val kcRequest = KCHttpRequestBuilder(target)
     kcRequest.block(target)
