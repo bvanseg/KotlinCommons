@@ -75,7 +75,7 @@ class KCHttpRequestBuilder(val target: String) {
         return requestBuilder.build()
     }
 
-    private fun crud(
+    private fun httpMethod(
         method: HttpMethod,
         bodyPublisher: HttpRequest.BodyPublisher,
         cb: KCHttpRequestBuilder.() -> Unit = {}
@@ -85,14 +85,14 @@ class KCHttpRequestBuilder(val target: String) {
         this.apply(cb)
     }
 
-    fun delete(cb: KCHttpRequestBuilder.() -> Unit = {}) = crud(HttpMethod.DELETE, bodyPublisher, cb)
-    fun get(cb: KCHttpRequestBuilder.() -> Unit = {}) = crud(HttpMethod.GET, bodyPublisher, cb)
+    fun delete(cb: KCHttpRequestBuilder.() -> Unit = {}) = httpMethod(HttpMethod.DELETE, bodyPublisher, cb)
+    fun get(cb: KCHttpRequestBuilder.() -> Unit = {}) = httpMethod(HttpMethod.GET, bodyPublisher, cb)
     fun patch(bodyPublisher: HttpRequest.BodyPublisher = this.bodyPublisher, cb: KCHttpRequestBuilder.() -> Unit = {}) =
-        crud(HttpMethod.PATCH, bodyPublisher, cb)
+        httpMethod(HttpMethod.PATCH, bodyPublisher, cb)
 
     fun post(bodyPublisher: HttpRequest.BodyPublisher = this.bodyPublisher, cb: KCHttpRequestBuilder.() -> Unit = {}) =
-        crud(HttpMethod.POST, bodyPublisher, cb)
+        httpMethod(HttpMethod.POST, bodyPublisher, cb)
 
     fun put(bodyPublisher: HttpRequest.BodyPublisher = this.bodyPublisher, cb: KCHttpRequestBuilder.() -> Unit = {}) =
-        crud(HttpMethod.PUT, bodyPublisher, cb)
+        httpMethod(HttpMethod.PUT, bodyPublisher, cb)
 }
