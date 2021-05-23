@@ -28,11 +28,14 @@ import java.net.http.HttpRequest
 
 fun HttpRequest.Builder.PATCH(publisher: HttpRequest.BodyPublisher) = this.method("PATCH", publisher)
 
-fun httpRequest(target: String, block: KCHttpRequestBuilder.(String) -> Unit = {}): HttpRequest {
-    val kcRequest = KCHttpRequestBuilder(target)
-    kcRequest.block(target)
-    return kcRequest.build()
+fun httpRequestBuilder(target: String, block: KCHttpRequestBuilder.(String) -> Unit = {}): KCHttpRequestBuilder {
+    val kcRequestBuilder = KCHttpRequestBuilder(target)
+    kcRequestBuilder.block(target)
+    return kcRequestBuilder
 }
+
+fun httpRequest(target: String, block: KCHttpRequestBuilder.(String) -> Unit = {}): HttpRequest =
+    httpRequestBuilder(target, block).build()
 
 /**
  * @author Boston Vanseghi
