@@ -48,3 +48,42 @@ inline fun <reified T> restAction(
     return RestActionImpl(request)
 }
 
+inline fun <reified T> httpMethod(
+    target: String,
+    block: KCHttpRequestBuilder.(String) -> Unit = {},
+    methodBlock: (KCHttpRequestBuilder) -> Unit
+): RestActionImpl<T> {
+    val kcRequest = KCHttpRequestBuilder(target)
+    kcRequest.block(target)
+    methodBlock(kcRequest)
+    val request = kcRequest.build()
+    return RestActionImpl(request)
+}
+
+inline fun <reified T> delete(
+    target: String,
+    block: KCHttpRequestBuilder.(String) -> Unit = {}
+): RestActionImpl<T> = httpMethod(target, block = block) { it.delete() }
+
+inline fun <reified T> get(
+    target: String,
+    block: KCHttpRequestBuilder.(String) -> Unit = {}
+): RestActionImpl<T> = httpMethod(target, block = block) { it.get() }
+
+inline fun <reified T> patch(
+    target: String,
+    bodyPublisher: HttpRequest.BodyPublisher = HttpRequest.BodyPublishers.noBody(),
+    block: KCHttpRequestBuilder.(String) -> Unit = {}
+): RestActionImpl<T> = httpMethod(target, block) { it.patch(bodyPublisher) }
+
+inline fun <reified T> post(
+    target: String,
+    bodyPublisher: HttpRequest.BodyPublisher = HttpRequest.BodyPublishers.noBody(),
+    block: KCHttpRequestBuilder.(String) -> Unit = {}
+): RestActionImpl<T> = httpMethod(target, block) { it.post(bodyPublisher) }
+
+inline fun <reified T> put(
+    target: String,
+    bodyPublisher: HttpRequest.BodyPublisher = HttpRequest.BodyPublishers.noBody(),
+    block: KCHttpRequestBuilder.(String) -> Unit = {}
+): RestActionImpl<T> = httpMethod(target, block) { it.put(bodyPublisher) }
