@@ -29,19 +29,10 @@ import bvanseg.kotlincommons.io.net.http.rest.RestAction
 import bvanseg.kotlincommons.io.net.http.rest.RestActionFactory
 import bvanseg.kotlincommons.io.net.http.rest.RestActionFailure
 import com.fasterxml.jackson.core.type.TypeReference
-import com.fasterxml.jackson.databind.ObjectMapper
-import java.net.http.HttpClient
 
-class RestActionFactoryImpl(
-    httpClient: HttpClient = KotlinCommons.KC_HTTP_CLIENT,
-    jsonMapper: ObjectMapper = KotlinCommons.KC_JACKSON_OBJECT_MAPPER,
-    defaultParameters: Map<String, String> = emptyMap(),
-    defaultHeaders: Map<String, String> = emptyMap()
-) : RestActionFactory<RestActionFailure>(
-    httpClient,
-    jsonMapper,
-    defaultHeaders = defaultHeaders,
-    defaultParameters = defaultParameters
+class RestActionFactoryImpl : RestActionFactory<RestActionFailure>(
+    KotlinCommons.KC_HTTP_CLIENT,
+    KotlinCommons.KC_JACKSON_OBJECT_MAPPER
 ) {
     override fun <S> create(
         requestBuilder: KCHttpRequestBuilder,

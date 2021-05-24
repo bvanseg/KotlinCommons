@@ -53,10 +53,7 @@ abstract class RestClient(
 
     open val defaultBuilderCallback: KCHttpRequestBuilder.() -> Unit = {}
 
-    open val factory: RestActionFactory<RestActionFailure> = RestActionFactoryImpl(
-        httpClient = httpClient,
-        jsonMapper = jsonMapper
-    )
+    open val factory: RestActionFactory<RestActionFailure> = RestActionFactoryImpl()
 
     open val defaultFailure: (RestActionFailure) -> Unit = {
         when (it) {
