@@ -23,13 +23,13 @@
  */
 package bvanseg.kotlincommons.io.net.http.rest.endpoint
 
+import bvanseg.kotlincommons.io.net.http.KCHttpRequestBuilder
 import bvanseg.kotlincommons.io.net.http.rest.impl.RestActionImpl
-import bvanseg.kotlincommons.io.net.http.rest.request.PatchRequest
 
 /**
  * @author Boston Vanseghi
  * @since 2.11.0
  */
 interface PatchEndpoint<T> {
-    fun patch(restRequest: PatchRequest): RestActionImpl<T>
+    fun patch(body: Any? = null, callback: KCHttpRequestBuilder.() -> Unit = {}): RestActionImpl<T>
 }

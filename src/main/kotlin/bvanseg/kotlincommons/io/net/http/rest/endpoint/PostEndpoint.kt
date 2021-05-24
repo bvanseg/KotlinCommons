@@ -23,13 +23,13 @@
  */
 package bvanseg.kotlincommons.io.net.http.rest.endpoint
 
+import bvanseg.kotlincommons.io.net.http.KCHttpRequestBuilder
 import bvanseg.kotlincommons.io.net.http.rest.impl.RestActionImpl
-import bvanseg.kotlincommons.io.net.http.rest.request.PostRequest
 
 /**
  * @author Boston Vanseghi
  * @since 2.11.0
  */
 interface PostEndpoint<T> {
-    fun post(restRequest: PostRequest): RestActionImpl<T>
+    fun post(body: Any? = null, callback: KCHttpRequestBuilder.() -> Unit = {}): RestActionImpl<T>
 }

@@ -24,9 +24,9 @@
 package bvanseg.kotlincommons.io.net.http
 
 import bvanseg.kotlincommons.grouping.collection.joinToString
+import bvanseg.kotlincommons.lang.string.toURI
 import bvanseg.kotlincommons.time.api.Khrono
 import bvanseg.kotlincommons.time.api.seconds
-import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
 
@@ -36,13 +36,14 @@ import java.net.http.HttpRequest
  */
 class KCHttpRequestBuilder(val target: String) {
     private val requestBuilder: HttpRequest.Builder = HttpRequest.newBuilder()
-    private var targetBuilder = StringBuilder()
+    var targetBuilder = StringBuilder()
 
     var method: HttpMethod = HttpMethod.GET
         private set
 
     val headers = hashMapOf<String, String>()
     val parameters = hashMapOf<String, String>()
+    val pathVariables = mutableListOf<String>()
 
     private var bodyPublisher = HttpRequest.BodyPublishers.noBody()
 
@@ -62,7 +63,8 @@ class KCHttpRequestBuilder(val target: String) {
 
         targetBuilder.append(parameters.joinToString("&") { (key, value) -> "${key}=${value}" })
 
-        requestBuilder.uri(URI.create(targetBuilder.toString())).timeout(timeout.toDuration()).version(version)
+        val url = targetBuilder.toString().format(*pathVariables.toTypedArray())
+        requestBuilder.uri(url.toURI()).timeout(timeout.toDuration()).version(version)
 
         when (method) {
             HttpMethod.DELETE -> requestBuilder.DELETE()
@@ -108,5 +110,5 @@ class KCHttpRequestBuilder(val target: String) {
             httpMethod(HttpMethod.PUT, bodyPublisher, cb)
         }
 
-    override fun toString(): String = "$targetBuilder $method"
+    override fun toString(): String = "${targetBuilder.toString().format(*pathVariables.toTypedArray())} $method"
 }

@@ -25,12 +25,14 @@ package bvanseg.kotlincommons.io.net.http.rest
 
 import bvanseg.kotlincommons.KotlinCommons
 import bvanseg.kotlincommons.io.logging.getLogger
+import bvanseg.kotlincommons.io.net.http.KCHttpRequestBuilder
 import bvanseg.kotlincommons.io.net.http.rest.endpoint.DeleteEndpoint
 import bvanseg.kotlincommons.io.net.http.rest.endpoint.Endpoint
 import bvanseg.kotlincommons.io.net.http.rest.endpoint.GetEndpoint
 import bvanseg.kotlincommons.io.net.http.rest.endpoint.PatchEndpoint
 import bvanseg.kotlincommons.io.net.http.rest.endpoint.PostEndpoint
 import bvanseg.kotlincommons.io.net.http.rest.endpoint.PutEndpoint
+import bvanseg.kotlincommons.io.net.http.rest.impl.RestActionFactoryImpl
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import java.net.http.HttpClient
@@ -49,8 +51,12 @@ abstract class RestClient(
         private val logger = getLogger()
     }
 
-    val defaultHeaders = hashMapOf<String, String>()
-    val defaultParameters = hashMapOf<String, String>()
+    open val defaultBuilderCallback: KCHttpRequestBuilder.() -> Unit = {}
+
+    open val factory: RestActionFactory<RestActionFailure> = RestActionFactoryImpl(
+        httpClient = httpClient,
+        jsonMapper = jsonMapper
+    )
 
     open val defaultFailure: (RestActionFailure) -> Unit = {
         when (it) {

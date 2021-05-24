@@ -23,13 +23,13 @@
  */
 package bvanseg.kotlincommons.io.net.http.rest.endpoint
 
+import bvanseg.kotlincommons.io.net.http.KCHttpRequestBuilder
 import bvanseg.kotlincommons.io.net.http.rest.impl.RestActionImpl
-import bvanseg.kotlincommons.io.net.http.rest.request.GetRequest
 
 /**
  * @author Boston Vanseghi
  * @since 2.11.0
  */
 interface GetEndpoint<T> {
-    fun get(restRequest: GetRequest = GetRequest()): RestActionImpl<T>
+    fun get(callback: KCHttpRequestBuilder.() -> Unit = {}): RestActionImpl<T>
 }
