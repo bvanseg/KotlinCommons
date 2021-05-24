@@ -45,10 +45,9 @@ inline fun <reified T> restAction(
     target: String,
     block: KCHttpRequestBuilder.(String) -> Unit = {}
 ): RestActionImpl<T> {
-    val kcRequest = KCHttpRequestBuilder(target)
-    kcRequest.block(target)
-    val request = kcRequest.build()
-    return RestActionImpl(request)
+    val kcRequestBuilder = KCHttpRequestBuilder(target)
+    kcRequestBuilder.block(target)
+    return RestActionImpl(kcRequestBuilder)
 }
 
 inline fun <reified T> httpMethod(
@@ -56,11 +55,10 @@ inline fun <reified T> httpMethod(
     block: KCHttpRequestBuilder.(String) -> Unit = {},
     methodBlock: (KCHttpRequestBuilder) -> Unit
 ): RestActionImpl<T> {
-    val kcRequest = KCHttpRequestBuilder(target)
-    kcRequest.block(target)
-    methodBlock(kcRequest)
-    val request = kcRequest.build()
-    return RestActionImpl(request)
+    val kcRequestBuilder = KCHttpRequestBuilder(target)
+    kcRequestBuilder.block(target)
+    methodBlock(kcRequestBuilder)
+    return RestActionImpl(kcRequestBuilder)
 }
 
 inline fun <reified T> delete(

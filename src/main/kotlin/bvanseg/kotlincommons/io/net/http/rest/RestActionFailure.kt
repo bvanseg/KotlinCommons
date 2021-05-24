@@ -23,24 +23,29 @@
  */
 package bvanseg.kotlincommons.io.net.http.rest
 
-import java.net.http.HttpRequest
+import bvanseg.kotlincommons.io.net.http.KCHttpRequestBuilder
 import java.net.http.HttpResponse
 
 /**
  * @author Boston Vanseghi
  * @since 2.9.0
  */
-abstract class RestActionFailure(val request: HttpRequest)
+abstract class RestActionFailure(val requestBuilder: KCHttpRequestBuilder)
 
 /**
  * @author Boston Vanseghi
  * @since 2.11.0
  */
-class ResponseFailure(request: HttpRequest, val response: HttpResponse<*>) : RestActionFailure(request)
+class ResponseFailure(requestBuilder: KCHttpRequestBuilder, val response: HttpResponse<*>) :
+    RestActionFailure(requestBuilder)
 
 /**
  * @author Boston Vanseghi
  * @since 2.11.0
  */
-class ThrowableFailure(request: HttpRequest, val throwable: Throwable, val response: HttpResponse<*>? = null) :
-    RestActionFailure(request)
+class ThrowableFailure(
+    requestBuilder: KCHttpRequestBuilder,
+    val throwable: Throwable,
+    val response: HttpResponse<*>? = null
+) :
+    RestActionFailure(requestBuilder)

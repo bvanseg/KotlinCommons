@@ -60,7 +60,7 @@ object KotlinCommons {
     /**
      * The version of KotlinCommons.
      */
-    val VERSION = Version(2, 11, 5)
+    val VERSION = Version(2, 12, 0)
 
     /**
      * A default logger provided by KotlinCommons.

@@ -25,10 +25,11 @@ package bvanseg.kotlincommons.io.net.http
 
 import bvanseg.kotlincommons.grouping.collection.joinToString
 import bvanseg.kotlincommons.io.net.http.rest.request.HttpMethod
+import bvanseg.kotlincommons.time.api.Khrono
+import bvanseg.kotlincommons.time.api.seconds
 import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
-import java.time.Duration
 
 /**
  * @author Boston Vanseghi
@@ -46,7 +47,7 @@ class KCHttpRequestBuilder(val target: String) {
 
     private var bodyPublisher = HttpRequest.BodyPublishers.noBody()
 
-    var timeout: Duration = Duration.ofSeconds(30L)
+    var timeout: Khrono = 30.seconds
     var version: HttpClient.Version = HttpClient.Version.HTTP_2
 
     fun build(): HttpRequest {
@@ -62,7 +63,7 @@ class KCHttpRequestBuilder(val target: String) {
 
         targetBuilder.append(parameters.joinToString("&") { (key, value) -> "${key}=${value}" })
 
-        requestBuilder.uri(URI.create(targetBuilder.toString())).timeout(timeout).version(version)
+        requestBuilder.uri(URI.create(targetBuilder.toString())).timeout(timeout.toDuration()).version(version)
 
         when (method) {
             HttpMethod.DELETE -> requestBuilder.DELETE()
@@ -107,4 +108,6 @@ class KCHttpRequestBuilder(val target: String) {
         this.apply {
             httpMethod(HttpMethod.PUT, bodyPublisher, cb)
         }
+
+    override fun toString(): String = "$targetBuilder $method"
 }

@@ -25,6 +25,7 @@ package bvanseg.kotlincommons.io.net.http.rest.impl
 
 import bvanseg.kotlincommons.KotlinCommons
 import bvanseg.kotlincommons.io.logging.getLogger
+import bvanseg.kotlincommons.io.net.http.KCHttpRequestBuilder
 import bvanseg.kotlincommons.io.net.http.rest.ResponseFailure
 import bvanseg.kotlincommons.io.net.http.rest.RestAction
 import bvanseg.kotlincommons.io.net.http.rest.RestActionFailure
@@ -53,23 +54,23 @@ import java.util.Optional
  * @since 2.3.0
  */
 open class RestActionImpl<S>(
-    request: HttpRequest,
+    requestBuilder: KCHttpRequestBuilder,
     type: Class<S>,
     private val typeReference: TypeReference<S>,
     client: HttpClient = KotlinCommons.KC_HTTP_CLIENT,
     private val mapper: ObjectMapper = KotlinCommons.KC_JACKSON_OBJECT_MAPPER
-) : RestAction<RestActionFailure, S>(request, type, client) {
+) : RestAction<RestActionFailure, S>(requestBuilder, type, client) {
 
     companion object {
 
         val logger = getLogger()
 
         inline operator fun <reified S> invoke(
-            request: HttpRequest,
+            requestBuilder: KCHttpRequestBuilder,
             client: HttpClient = KotlinCommons.KC_HTTP_CLIENT,
             mapper: ObjectMapper = KotlinCommons.KC_JACKSON_OBJECT_MAPPER
         ): RestActionImpl<S> {
-            return RestActionImpl(request, S::class.java, jacksonTypeRef(), client = client, mapper = mapper)
+            return RestActionImpl(requestBuilder, S::class.java, jacksonTypeRef(), client = client, mapper = mapper)
         }
     }
 
@@ -97,8 +98,8 @@ open class RestActionImpl<S>(
     }
 
     override fun constructFailure(response: HttpResponse<*>?, throwable: Throwable?): RestActionFailure = when {
-        throwable != null -> ThrowableFailure(request, throwable, response)
-        response != null -> ResponseFailure(request, response)
+        throwable != null -> ThrowableFailure(requestBuilder, throwable, response)
+        response != null -> ResponseFailure(requestBuilder, response)
         else -> throw IllegalStateException("Attempted to construct rest action failure but no response or throwable was given!")
     }
 }

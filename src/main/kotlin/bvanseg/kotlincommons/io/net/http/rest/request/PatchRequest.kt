@@ -23,7 +23,8 @@
  */
 package bvanseg.kotlincommons.io.net.http.rest.request
 
-import java.time.Duration
+import bvanseg.kotlincommons.time.api.Khrono
+import bvanseg.kotlincommons.time.api.seconds
 
 /**
  * @author Boston Vanseghi
@@ -34,5 +35,5 @@ class PatchRequest(
     pathVariables: Array<String> = emptyArray(),
     queryParameters: Map<String, Any> = emptyMap(),
     requestBody: Any? = null,
-    timeout: Duration = Duration.ofSeconds(30L)
+    timeout: Khrono = 30.seconds
 ) : RestRequest(HttpMethod.PATCH, headers, pathVariables, queryParameters, requestBody, timeout)

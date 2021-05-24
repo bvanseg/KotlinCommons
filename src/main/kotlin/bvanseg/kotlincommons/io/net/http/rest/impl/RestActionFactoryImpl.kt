@@ -24,11 +24,11 @@
 package bvanseg.kotlincommons.io.net.http.rest.impl
 
 import bvanseg.kotlincommons.KotlinCommons
+import bvanseg.kotlincommons.io.net.http.KCHttpRequestBuilder
 import bvanseg.kotlincommons.io.net.http.rest.RestAction
 import bvanseg.kotlincommons.io.net.http.rest.RestActionFactory
 import bvanseg.kotlincommons.io.net.http.rest.RestActionFailure
 import com.fasterxml.jackson.core.type.TypeReference
-import java.net.http.HttpRequest
 
 class RestActionFactoryImpl(
     defaultParameters: Map<String, String> = emptyMap(),
@@ -40,8 +40,8 @@ class RestActionFactoryImpl(
     defaultParameters = defaultParameters
 ) {
     override fun <S> create(
-        request: HttpRequest,
+        requestBuilder: KCHttpRequestBuilder,
         type: Class<S>,
         typeReference: TypeReference<S>
-    ): RestAction<RestActionFailure, S> = RestActionImpl(request, type, typeReference, client, mapper)
+    ): RestAction<RestActionFailure, S> = RestActionImpl(requestBuilder, type, typeReference, client, mapper)
 }

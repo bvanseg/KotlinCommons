@@ -23,12 +23,12 @@
  */
 package bvanseg.kotlincommons.io.net.http.rest.request
 
-import bvanseg.kotlincommons.io.net.http.PATCH
+import bvanseg.kotlincommons.io.net.http.KCHttpRequestBuilder
 import bvanseg.kotlincommons.io.net.http.QueryHandler
-import bvanseg.kotlincommons.lang.string.toURI
+import bvanseg.kotlincommons.time.api.Khrono
+import bvanseg.kotlincommons.time.api.seconds
 import com.fasterxml.jackson.databind.ObjectMapper
 import java.net.http.HttpRequest
-import java.time.Duration
 
 /**
  * @author Boston Vanseghi
@@ -40,28 +40,28 @@ open class RestRequest(
     val pathVariables: Array<String> = emptyArray(),
     val queryParameters: Map<String, Any> = emptyMap(),
     val requestBody: Any? = null,
-    val timeout: Duration = Duration.ofSeconds(30L)
+    val timeout: Khrono = 30.seconds
 ) {
 
-    fun toHttpRequest(uri: String, mapper: ObjectMapper): HttpRequest {
+    fun toBuilder(uri: String, mapper: ObjectMapper): KCHttpRequestBuilder {
         val url = uri.format(*pathVariables) + QueryHandler.build(queryParameters)
-        val builder = HttpRequest.newBuilder(url.toURI())
+        val builder = KCHttpRequestBuilder(url)
 
         when (httpMethod) {
-            HttpMethod.DELETE -> builder.DELETE()
-            HttpMethod.GET -> builder.GET()
-            HttpMethod.PATCH -> builder.PATCH(HttpRequest.BodyPublishers.ofString(mapper.writeValueAsString(requestBody)))
-            HttpMethod.POST -> builder.POST(HttpRequest.BodyPublishers.ofString(mapper.writeValueAsString(requestBody)))
-            HttpMethod.PUT -> builder.PUT(HttpRequest.BodyPublishers.ofString(mapper.writeValueAsString(requestBody)))
+            HttpMethod.DELETE -> builder.delete()
+            HttpMethod.GET -> builder.get()
+            HttpMethod.PATCH -> builder.patch(HttpRequest.BodyPublishers.ofString(mapper.writeValueAsString(requestBody)))
+            HttpMethod.POST -> builder.post(HttpRequest.BodyPublishers.ofString(mapper.writeValueAsString(requestBody)))
+            HttpMethod.PUT -> builder.put(HttpRequest.BodyPublishers.ofString(mapper.writeValueAsString(requestBody)))
         }
 
         headers.forEach {
-            builder.setHeader(it.key, it.value)
+            builder.headers[it.key] = it.value
         }
 
-        builder.timeout(timeout)
+        builder.timeout = timeout
 
-        return builder.build()
+        return builder
     }
 
     fun combine(request: RestRequest) = RestRequest(

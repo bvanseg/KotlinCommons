@@ -53,9 +53,9 @@ class Endpoint<T>(
                 queryParameters = restClient.defaultParameters
             )
         val fullRequest = defaultRequest.combine(request)
-        val httpRequest = fullRequest.toHttpRequest(fullPath, restClient.jsonMapper)
+        val requestBuilder = fullRequest.toBuilder(fullPath, restClient.jsonMapper)
         return RestActionImpl(
-            httpRequest, type, typeReference, client = restClient.httpClient, mapper = restClient.jsonMapper
+            requestBuilder, type, typeReference, client = restClient.httpClient, mapper = restClient.jsonMapper
         ).onFailure(restClient.defaultFailure) as RestActionImpl<T>
     }
 

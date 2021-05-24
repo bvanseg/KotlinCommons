@@ -43,12 +43,13 @@ abstract class RestActionFactory<F>(
 ) {
 
     abstract fun <S> create(
-        request: HttpRequest,
+        requestBuilder: KCHttpRequestBuilder,
         type: Class<S>,
         typeReference: TypeReference<S>
     ): RestAction<F, S>
 
-    inline fun <reified S> create(request: HttpRequest) = create(request, S::class.java, jacksonTypeRef())
+    inline fun <reified S> create(requestBuilder: KCHttpRequestBuilder) =
+        create(requestBuilder, S::class.java, jacksonTypeRef())
 
     private val builderCallback: KCHttpRequestBuilder.() -> Unit = {
         headers.putAll(defaultHeaders)
@@ -59,7 +60,7 @@ abstract class RestActionFactory<F>(
         target: String,
         type: Class<S>,
         typeReference: TypeReference<S>
-    ): RestAction<F, S> = create(httpRequestBuilder(target).delete(builderCallback).build(), type, typeReference)
+    ): RestAction<F, S> = create(httpRequestBuilder(target).delete(builderCallback), type, typeReference)
 
     inline fun <reified S> delete(target: String) = delete(target, S::class.java, jacksonTypeRef())
 
@@ -67,7 +68,7 @@ abstract class RestActionFactory<F>(
         target: String,
         type: Class<S>,
         typeReference: TypeReference<S>
-    ): RestAction<F, S> = create(httpRequestBuilder(target).get(builderCallback).build(), type, typeReference)
+    ): RestAction<F, S> = create(httpRequestBuilder(target).get(builderCallback), type, typeReference)
 
     inline fun <reified S> get(target: String) = get(target, S::class.java, jacksonTypeRef())
 
@@ -77,7 +78,7 @@ abstract class RestActionFactory<F>(
         typeReference: TypeReference<S>,
         body: Any? = null
     ): RestAction<F, S> = create(
-        httpRequestBuilder(target).patch(bodyPublisherCallback(body), builderCallback).build(),
+        httpRequestBuilder(target).patch(bodyPublisherCallback(body), builderCallback),
         type,
         typeReference
     )
@@ -91,7 +92,7 @@ abstract class RestActionFactory<F>(
         typeReference: TypeReference<S>,
         body: Any? = null
     ): RestAction<F, S> = create(
-        httpRequestBuilder(target).post(bodyPublisherCallback(body), builderCallback).build(),
+        httpRequestBuilder(target).post(bodyPublisherCallback(body), builderCallback),
         type,
         typeReference
     )
@@ -104,7 +105,7 @@ abstract class RestActionFactory<F>(
         typeReference: TypeReference<S>,
         body: Any? = null
     ): RestAction<F, S> = create(
-        httpRequestBuilder(target).put(bodyPublisherCallback(body), builderCallback).build(),
+        httpRequestBuilder(target).put(bodyPublisherCallback(body), builderCallback),
         type,
         typeReference
     )

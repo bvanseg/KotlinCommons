@@ -26,6 +26,7 @@ package bvanseg.kotlincommons.io.net.http.rest
 import bvanseg.kotlincommons.KotlinCommons
 import bvanseg.kotlincommons.io.logging.getLogger
 import bvanseg.kotlincommons.io.logging.warn
+import bvanseg.kotlincommons.io.net.http.KCHttpRequestBuilder
 import bvanseg.kotlincommons.lang.check.Checks
 import bvanseg.kotlincommons.time.api.Khrono
 import bvanseg.kotlincommons.util.any.delay
@@ -48,7 +49,7 @@ import java.util.concurrent.CompletableFuture
  * @since 2.3.0
  */
 abstract class RestAction<F, S>(
-    open val request: HttpRequest,
+    open val requestBuilder: KCHttpRequestBuilder,
     open val type: Class<S>,
     open val client: HttpClient = KotlinCommons.KC_HTTP_CLIENT,
     private val bodyHandlerType: HttpResponse.BodyHandler<*> = when (type) {
@@ -60,6 +61,8 @@ abstract class RestAction<F, S>(
     companion object {
         private val logger = getLogger()
     }
+
+    val request: HttpRequest by lazy { requestBuilder.build() }
 
     var future: CompletableFuture<out HttpResponse<*>>? = null
         protected set
@@ -124,11 +127,11 @@ abstract class RestAction<F, S>(
             }
         }
         try {
-            future = client.sendAsync(request, bodyHandlerType).whenComplete { response, throwable ->
+            future = client.sendAsync(requestBuilder.build(), bodyHandlerType).whenComplete { response, throwable ->
                 try {
                     throwable?.let { e ->
                         if (e is HttpConnectTimeoutException && timeoutRetryCount > 0) {
-                            logger.warn { "Request ($request) timed out! Retrying... (Attempt ${(maxTimeoutRetry - timeoutRetryCount) + 1}/$maxTimeoutRetry)" }
+                            logger.warn { "Request ($requestBuilder) timed out! Retrying... (Attempt ${(maxTimeoutRetry - timeoutRetryCount) + 1}/$maxTimeoutRetry)" }
                             timeoutRetryCount--
                             queueImpl(callback)
                             return@whenComplete
@@ -163,10 +166,10 @@ abstract class RestAction<F, S>(
         }
 
         val response = try {
-            client.send(request, bodyHandlerType)
+            client.send(requestBuilder.build(), bodyHandlerType)
         } catch (e: Exception) {
             return if (e is HttpConnectTimeoutException && timeoutRetryCount > 0) {
-                logger.warn { "Request ($request) timed out! Retrying... (Attempt ${(maxTimeoutRetry - timeoutRetryCount) + 1}/$maxTimeoutRetry)" }
+                logger.warn { "Request ($requestBuilder) timed out! Retrying... (Attempt ${(maxTimeoutRetry - timeoutRetryCount) + 1}/$maxTimeoutRetry)" }
                 timeoutRetryCount--
                 completeImpl()
             } else {

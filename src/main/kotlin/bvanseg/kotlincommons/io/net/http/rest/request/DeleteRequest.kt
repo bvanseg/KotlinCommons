@@ -23,7 +23,8 @@
  */
 package bvanseg.kotlincommons.io.net.http.rest.request
 
-import java.time.Duration
+import bvanseg.kotlincommons.time.api.Khrono
+import bvanseg.kotlincommons.time.api.seconds
 
 /**
  * @author Boston Vanseghi
@@ -33,5 +34,5 @@ class DeleteRequest(
     headers: Map<String, String> = emptyMap(),
     pathVariables: Array<String> = emptyArray(),
     queryParameters: Map<String, Any> = emptyMap(),
-    timeout: Duration = Duration.ofSeconds(30L)
+    timeout: Khrono = 30.seconds
 ) : RestRequest(HttpMethod.DELETE, headers, pathVariables, queryParameters, timeout = timeout)
