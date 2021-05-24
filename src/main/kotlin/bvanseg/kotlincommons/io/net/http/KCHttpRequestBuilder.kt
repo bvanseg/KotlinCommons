@@ -36,7 +36,7 @@ import java.net.http.HttpRequest
  */
 class KCHttpRequestBuilder(val target: String) {
     private val requestBuilder: HttpRequest.Builder = HttpRequest.newBuilder()
-    var targetBuilder = StringBuilder()
+    private var targetBuilder = StringBuilder()
 
     var method: HttpMethod = HttpMethod.GET
         private set
