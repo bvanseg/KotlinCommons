@@ -24,7 +24,6 @@
 package bvanseg.kotlincommons.io.net.http
 
 import bvanseg.kotlincommons.grouping.collection.joinToString
-import bvanseg.kotlincommons.io.net.http.rest.request.HttpMethod
 import bvanseg.kotlincommons.time.api.Khrono
 import bvanseg.kotlincommons.time.api.seconds
 import java.net.URI

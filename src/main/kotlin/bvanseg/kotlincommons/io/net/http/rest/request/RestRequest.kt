@@ -23,6 +23,7 @@
  */
 package bvanseg.kotlincommons.io.net.http.rest.request
 
+import bvanseg.kotlincommons.io.net.http.HttpMethod
 import bvanseg.kotlincommons.io.net.http.KCHttpRequestBuilder
 import bvanseg.kotlincommons.io.net.http.QueryHandler
 import bvanseg.kotlincommons.time.api.Khrono

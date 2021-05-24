@@ -23,6 +23,7 @@
  */
 package bvanseg.kotlincommons.io.net.http.rest.request
 
+import bvanseg.kotlincommons.io.net.http.HttpMethod
 import bvanseg.kotlincommons.time.api.Khrono
 import bvanseg.kotlincommons.time.api.seconds
 
