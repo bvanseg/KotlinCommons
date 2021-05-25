@@ -23,16 +23,19 @@
  */
 package bvanseg.kotlincommons.io.net.http
 
-import bvanseg.kotlincommons.io.net.http.rest.RestActionImpl
+import bvanseg.kotlincommons.io.net.http.rest.impl.RestActionImpl
 import java.net.http.HttpRequest
 
 fun HttpRequest.Builder.PATCH(publisher: HttpRequest.BodyPublisher) = this.method("PATCH", publisher)
 
-fun httpRequest(target: String, block: KCHttpRequestBuilder.(String) -> Unit): HttpRequest {
-    val kcRequest = KCHttpRequestBuilder(target)
-    kcRequest.block(target)
-    return kcRequest.build()
+fun httpRequestBuilder(target: String, block: KCHttpRequestBuilder.(String) -> Unit = {}): KCHttpRequestBuilder {
+    val kcRequestBuilder = KCHttpRequestBuilder(target)
+    kcRequestBuilder.block(target)
+    return kcRequestBuilder
 }
+
+fun httpRequest(target: String, block: KCHttpRequestBuilder.(String) -> Unit = {}): HttpRequest =
+    httpRequestBuilder(target, block).build()
 
 /**
  * @author Boston Vanseghi
@@ -40,11 +43,48 @@ fun httpRequest(target: String, block: KCHttpRequestBuilder.(String) -> Unit): H
  */
 inline fun <reified T> restAction(
     target: String,
-    block: KCHttpRequestBuilder.(String) -> Unit
+    block: KCHttpRequestBuilder.(String) -> Unit = {}
 ): RestActionImpl<T> {
-    val kcRequest = KCHttpRequestBuilder(target)
-    kcRequest.block(target)
-    val request = kcRequest.build()
-    return RestActionImpl(request)
+    val kcRequestBuilder = KCHttpRequestBuilder(target)
+    kcRequestBuilder.block(target)
+    return RestActionImpl(kcRequestBuilder)
 }
 
+inline fun <reified T> httpMethod(
+    target: String,
+    block: KCHttpRequestBuilder.(String) -> Unit = {},
+    methodBlock: (KCHttpRequestBuilder) -> Unit
+): RestActionImpl<T> {
+    val kcRequestBuilder = KCHttpRequestBuilder(target)
+    kcRequestBuilder.block(target)
+    methodBlock(kcRequestBuilder)
+    return RestActionImpl(kcRequestBuilder)
+}
+
+inline fun <reified T> delete(
+    target: String,
+    block: KCHttpRequestBuilder.(String) -> Unit = {}
+): RestActionImpl<T> = httpMethod(target, block = block) { it.delete() }
+
+inline fun <reified T> get(
+    target: String,
+    block: KCHttpRequestBuilder.(String) -> Unit = {}
+): RestActionImpl<T> = httpMethod(target, block = block) { it.get() }
+
+inline fun <reified T> patch(
+    target: String,
+    bodyPublisher: HttpRequest.BodyPublisher = HttpRequest.BodyPublishers.noBody(),
+    block: KCHttpRequestBuilder.(String) -> Unit = {}
+): RestActionImpl<T> = httpMethod(target, block) { it.patch(bodyPublisher) }
+
+inline fun <reified T> post(
+    target: String,
+    bodyPublisher: HttpRequest.BodyPublisher = HttpRequest.BodyPublishers.noBody(),
+    block: KCHttpRequestBuilder.(String) -> Unit = {}
+): RestActionImpl<T> = httpMethod(target, block) { it.post(bodyPublisher) }
+
+inline fun <reified T> put(
+    target: String,
+    bodyPublisher: HttpRequest.BodyPublisher = HttpRequest.BodyPublishers.noBody(),
+    block: KCHttpRequestBuilder.(String) -> Unit = {}
+): RestActionImpl<T> = httpMethod(target, block) { it.put(bodyPublisher) }

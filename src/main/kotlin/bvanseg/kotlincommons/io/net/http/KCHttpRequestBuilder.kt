@@ -24,11 +24,11 @@
 package bvanseg.kotlincommons.io.net.http
 
 import bvanseg.kotlincommons.grouping.collection.joinToString
-import bvanseg.kotlincommons.io.net.http.rest.request.HttpMethod
-import java.net.URI
+import bvanseg.kotlincommons.lang.string.toURI
+import bvanseg.kotlincommons.time.api.Khrono
+import bvanseg.kotlincommons.time.api.seconds
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
-import java.time.Duration
 
 /**
  * @author Boston Vanseghi
@@ -43,10 +43,11 @@ class KCHttpRequestBuilder(val target: String) {
 
     val headers = hashMapOf<String, String>()
     val parameters = hashMapOf<String, String>()
+    val pathVariables = mutableListOf<String>()
 
     private var bodyPublisher = HttpRequest.BodyPublishers.noBody()
 
-    var timeout: Duration = Duration.ofSeconds(30L)
+    var timeout: Khrono = 30.seconds
     var version: HttpClient.Version = HttpClient.Version.HTTP_2
 
     fun build(): HttpRequest {
@@ -62,7 +63,8 @@ class KCHttpRequestBuilder(val target: String) {
 
         targetBuilder.append(parameters.joinToString("&") { (key, value) -> "${key}=${value}" })
 
-        requestBuilder.uri(URI.create(targetBuilder.toString())).timeout(timeout).version(version)
+        val url = targetBuilder.toString().format(*pathVariables.toTypedArray())
+        requestBuilder.uri(url.toURI()).timeout(timeout.toDuration()).version(version)
 
         when (method) {
             HttpMethod.DELETE -> requestBuilder.DELETE()
@@ -75,24 +77,38 @@ class KCHttpRequestBuilder(val target: String) {
         return requestBuilder.build()
     }
 
-    private fun crud(
+    private fun httpMethod(
         method: HttpMethod,
         bodyPublisher: HttpRequest.BodyPublisher,
-        cb: KCHttpRequestBuilder.() -> Unit
+        cb: KCHttpRequestBuilder.() -> Unit = {}
     ) {
         this.method = method
         this.bodyPublisher = bodyPublisher
         this.apply(cb)
     }
 
-    fun delete(cb: KCHttpRequestBuilder.() -> Unit) = crud(HttpMethod.DELETE, bodyPublisher, cb)
-    fun get(cb: KCHttpRequestBuilder.() -> Unit) = crud(HttpMethod.GET, bodyPublisher, cb)
-    fun patch(bodyPublisher: HttpRequest.BodyPublisher = this.bodyPublisher, cb: KCHttpRequestBuilder.() -> Unit) =
-        crud(HttpMethod.PATCH, bodyPublisher, cb)
+    fun delete(cb: KCHttpRequestBuilder.() -> Unit = {}): KCHttpRequestBuilder = this.apply {
+        httpMethod(HttpMethod.DELETE, bodyPublisher, cb)
+    }
 
-    fun post(bodyPublisher: HttpRequest.BodyPublisher = this.bodyPublisher, cb: KCHttpRequestBuilder.() -> Unit) =
-        crud(HttpMethod.POST, bodyPublisher, cb)
+    fun get(cb: KCHttpRequestBuilder.() -> Unit = {}): KCHttpRequestBuilder = this.apply {
+        httpMethod(HttpMethod.GET, bodyPublisher, cb)
+    }
 
-    fun put(bodyPublisher: HttpRequest.BodyPublisher = this.bodyPublisher, cb: KCHttpRequestBuilder.() -> Unit) =
-        crud(HttpMethod.PUT, bodyPublisher, cb)
+    fun patch(bodyPublisher: HttpRequest.BodyPublisher = this.bodyPublisher, cb: KCHttpRequestBuilder.() -> Unit = {}) =
+        this.apply {
+            httpMethod(HttpMethod.PATCH, bodyPublisher, cb)
+        }
+
+    fun post(bodyPublisher: HttpRequest.BodyPublisher = this.bodyPublisher, cb: KCHttpRequestBuilder.() -> Unit = {}) =
+        this.apply {
+            httpMethod(HttpMethod.POST, bodyPublisher, cb)
+        }
+
+    fun put(bodyPublisher: HttpRequest.BodyPublisher = this.bodyPublisher, cb: KCHttpRequestBuilder.() -> Unit = {}) =
+        this.apply {
+            httpMethod(HttpMethod.PUT, bodyPublisher, cb)
+        }
+
+    override fun toString(): String = "${targetBuilder.toString().format(*pathVariables.toTypedArray())} $method"
 }

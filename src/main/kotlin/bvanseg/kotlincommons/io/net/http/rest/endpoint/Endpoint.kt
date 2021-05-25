@@ -23,40 +23,57 @@
  */
 package bvanseg.kotlincommons.io.net.http.rest.endpoint
 
-import bvanseg.kotlincommons.io.net.http.rest.RestAPI
-import bvanseg.kotlincommons.io.net.http.rest.RestActionImpl
-import bvanseg.kotlincommons.io.net.http.rest.request.*
+import bvanseg.kotlincommons.io.net.http.HttpMethod
+import bvanseg.kotlincommons.io.net.http.KCHttpRequestBuilder
+import bvanseg.kotlincommons.io.net.http.httpRequestBuilder
+import bvanseg.kotlincommons.io.net.http.rest.RestClient
+import bvanseg.kotlincommons.io.net.http.rest.impl.RestActionImpl
 import com.fasterxml.jackson.core.type.TypeReference
+import java.net.http.HttpRequest
 
 /**
  * @author Boston Vanseghi
  * @since 2.11.0
  */
 class Endpoint<T>(
-    val restApi: RestAPI,
+    val restClient: RestClient,
     path: String,
     val type: Class<T>,
     private val typeReference: TypeReference<T>
 ) : DeleteEndpoint<T>, GetEndpoint<T>, PatchEndpoint<T>, PostEndpoint<T>, PutEndpoint<T> {
-    val fullPath = restApi.baseURL + path
+    val fullPath = restClient.baseURL + path
 
-    private fun buildRestActionImpl(request: RestRequest): RestActionImpl<T> {
-        val defaultRequest =
-            RestRequest(
-                request.httpMethod,
-                headers = restApi.defaultHeaders,
-                queryParameters = restApi.defaultParameters
-            )
-        val fullRequest = defaultRequest.combine(request)
-        val httpRequest = fullRequest.toHttpRequest(fullPath, restApi.jsonMapper)
-        return RestActionImpl(
-            httpRequest, type, typeReference, client = restApi.httpClient, mapper = restApi.jsonMapper
-        ).onFailure(restApi.defaultFailure) as RestActionImpl<T>
+    private fun buildRestActionImpl(
+        httpMethod: HttpMethod,
+        body: Any?,
+        callback: KCHttpRequestBuilder.() -> Unit = {}
+    ): RestActionImpl<T> {
+        val requestBuilder = httpRequestBuilder(fullPath).apply(restClient.defaultBuilderCallback)
+        val bodyPublisher = body?.let { restClient.factory.bodyPublisherCallback(body) }
+            ?: HttpRequest.BodyPublishers.noBody()
+        when (httpMethod) {
+            HttpMethod.DELETE -> requestBuilder.delete(callback)
+            HttpMethod.GET -> requestBuilder.get(callback)
+            HttpMethod.PATCH -> requestBuilder.patch(bodyPublisher, callback)
+            HttpMethod.POST -> requestBuilder.post(bodyPublisher, callback)
+            HttpMethod.PUT -> requestBuilder.put(bodyPublisher, callback)
+        }
+        val rest = restClient.factory.create(requestBuilder, type, typeReference)
+        return rest.onFailure(restClient.defaultFailure) as RestActionImpl<T>
     }
 
-    override fun delete(restRequest: DeleteRequest): RestActionImpl<T> = buildRestActionImpl(restRequest)
-    override fun get(restRequest: GetRequest): RestActionImpl<T> = buildRestActionImpl(restRequest)
-    override fun patch(restRequest: PatchRequest): RestActionImpl<T> = buildRestActionImpl(restRequest)
-    override fun post(restRequest: PostRequest): RestActionImpl<T> = buildRestActionImpl(restRequest)
-    override fun put(restRequest: PutRequest): RestActionImpl<T> = buildRestActionImpl(restRequest)
+    override fun delete(callback: KCHttpRequestBuilder.() -> Unit): RestActionImpl<T> =
+        buildRestActionImpl(HttpMethod.DELETE, null, callback)
+
+    override fun get(callback: KCHttpRequestBuilder.() -> Unit): RestActionImpl<T> =
+        buildRestActionImpl(HttpMethod.GET, null, callback)
+
+    override fun patch(body: Any?, callback: KCHttpRequestBuilder.() -> Unit): RestActionImpl<T> =
+        buildRestActionImpl(HttpMethod.PATCH, body, callback)
+
+    override fun post(body: Any?, callback: KCHttpRequestBuilder.() -> Unit): RestActionImpl<T> =
+        buildRestActionImpl(HttpMethod.POST, body, callback)
+
+    override fun put(body: Any?, callback: KCHttpRequestBuilder.() -> Unit): RestActionImpl<T> =
+        buildRestActionImpl(HttpMethod.PUT, body, callback)
 }

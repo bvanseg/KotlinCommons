@@ -23,13 +23,13 @@
  */
 package bvanseg.kotlincommons.io.net.http.rest.endpoint
 
-import bvanseg.kotlincommons.io.net.http.rest.RestActionImpl
-import bvanseg.kotlincommons.io.net.http.rest.request.DeleteRequest
+import bvanseg.kotlincommons.io.net.http.KCHttpRequestBuilder
+import bvanseg.kotlincommons.io.net.http.rest.impl.RestActionImpl
 
 /**
  * @author Boston Vanseghi
  * @since 2.11.0
  */
 interface DeleteEndpoint<T> {
-    fun delete(restRequest: DeleteRequest): RestActionImpl<T>
+    fun delete(callback: KCHttpRequestBuilder.() -> Unit = {}): RestActionImpl<T>
 }

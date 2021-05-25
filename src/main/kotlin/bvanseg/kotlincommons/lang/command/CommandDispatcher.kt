@@ -32,6 +32,7 @@ import bvanseg.kotlincommons.lang.command.argument.CommandArguments
 import bvanseg.kotlincommons.lang.command.context.CommandContext
 import bvanseg.kotlincommons.lang.command.dsl.DSLCommand
 import bvanseg.kotlincommons.lang.command.event.CommandFireEvent
+import bvanseg.kotlincommons.lang.command.event.UnknownCommandEvent
 import bvanseg.kotlincommons.lang.command.token.TokenParser
 import bvanseg.kotlincommons.lang.command.transformer.Transformer
 import bvanseg.kotlincommons.lang.command.transformer.impl.ArgumentTokenBufferTransformer
@@ -147,6 +148,11 @@ class CommandDispatcher(val prefix: String, val capsInsensitive: Boolean = true)
 
         if (command == null) {
             logger.debug { "Attempted to execute input for command '$commandName' but no such command exists." }
+            val event = UnknownCommandEvent(commandName, prefix, commandContext, this)
+            eventBus.fire(event)
+            if (event.isCancelled) {
+                return CommandDispatchResult.COMMAND_FIRING_CANCELLED
+            }
             return CommandDispatchResult.UNKNOWN_COMMAND
         }
 

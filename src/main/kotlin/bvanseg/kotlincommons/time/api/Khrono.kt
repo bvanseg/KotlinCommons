@@ -25,6 +25,7 @@ package bvanseg.kotlincommons.time.api
 
 import bvanseg.kotlincommons.lang.check.Check
 import bvanseg.kotlincommons.lang.check.Checks
+import bvanseg.kotlincommons.lang.thread.sleep
 import bvanseg.kotlincommons.util.HashCodeBuilder
 import java.time.Duration
 import java.time.temporal.ChronoUnit
@@ -128,6 +129,9 @@ open class Khrono(open val value: Double, open val unit: KhronoUnit) {
      * @return True if the current [Khrono] has value, false otherwise.
      */
     fun hasValue(): Boolean = this.value > 0.0 && this.unit != KhronoUnit.NEVER && this.unit != KhronoUnit.FOREVER
+
+    suspend fun delay() = bvanseg.kotlincommons.util.any.delay(this)
+    fun sleep() = Thread.currentThread().sleep(this)
 
     // INFIX
     infix fun into(unit: KhronoUnit): Khrono {

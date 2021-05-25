@@ -26,6 +26,7 @@ package bvanseg.kotlincommons.io.net.http.rest
 import bvanseg.kotlincommons.KotlinCommons
 import bvanseg.kotlincommons.io.logging.getLogger
 import bvanseg.kotlincommons.io.logging.warn
+import bvanseg.kotlincommons.io.net.http.KCHttpRequestBuilder
 import bvanseg.kotlincommons.lang.check.Checks
 import bvanseg.kotlincommons.time.api.Khrono
 import bvanseg.kotlincommons.util.any.delay
@@ -48,7 +49,7 @@ import java.util.concurrent.CompletableFuture
  * @since 2.3.0
  */
 abstract class RestAction<F, S>(
-    open val request: HttpRequest,
+    open val requestBuilder: KCHttpRequestBuilder,
     open val type: Class<S>,
     open val client: HttpClient = KotlinCommons.KC_HTTP_CLIENT,
     private val bodyHandlerType: HttpResponse.BodyHandler<*> = when (type) {
@@ -61,14 +62,17 @@ abstract class RestAction<F, S>(
         private val logger = getLogger()
     }
 
+    val request: HttpRequest by lazy { requestBuilder.build() }
+
     var future: CompletableFuture<out HttpResponse<*>>? = null
         protected set
 
     protected var failureCallback: ((F) -> Unit)? = null
     protected var successCallback: ((S) -> Unit)? = null
+    protected var retryIfCallback: ((HttpResponse<*>?, Throwable?) -> Boolean)? = null
 
-    private var maxRetry: Int = 0
-    private var retryCount: Int = 0
+    private var maxTimeoutRetry: Int = 0
+    private var timeoutRetryCount: Int = 0
 
     open fun onFailure(callback: (F) -> Unit): RestAction<F, S> = this.apply {
         failureCallback = callback
@@ -78,10 +82,14 @@ abstract class RestAction<F, S>(
         successCallback = callback
     }
 
-    fun retry(count: Int): RestAction<F, S> = this.apply {
+    open fun retryIf(callback: (HttpResponse<*>?, Throwable?) -> Boolean): RestAction<F, S> = this.apply {
+        retryIfCallback = callback
+    }
+
+    fun retryOnTimeout(count: Int): RestAction<F, S> = this.apply {
         Checks.isPositive.check(count, "count")
-        maxRetry = count
-        retryCount = count
+        maxTimeoutRetry = count
+        timeoutRetryCount = count
     }
 
     fun queue(callback: (Result<F, S>) -> Unit = {}): RestAction<F, S> = queueImpl(callback)
@@ -100,19 +108,31 @@ abstract class RestAction<F, S>(
 
     fun completeOrDefault(default: S): S = completeOrNull() ?: default
 
+    fun completeOrElse(callback: (F) -> Unit): S? = complete().let { result ->
+        return result.successOrNull() ?: run {
+            callback(result.failure().unwrap())
+            null
+        }
+    }
+
     protected open fun queueImpl(callback: (Result<F, S>) -> Unit = {}): RestAction<F, S> {
         fun handleFailure(response: HttpResponse<*>? = null, throwable: Throwable? = null) {
             val failure = constructFailure(response = response, throwable = throwable)
-            failureCallback?.invoke(failure)
-            callback(Result.Failure(failure))
+
+            if (retryIfCallback?.invoke(response, throwable) == true) {
+                queueImpl(callback)
+            } else {
+                failureCallback?.invoke(failure)
+                callback(Result.Failure(failure))
+            }
         }
         try {
-            future = client.sendAsync(request, bodyHandlerType).whenComplete { response, throwable ->
+            future = client.sendAsync(requestBuilder.build(), bodyHandlerType).whenComplete { response, throwable ->
                 try {
                     throwable?.let { e ->
-                        if (e is HttpConnectTimeoutException && retryCount > 0) {
-                            logger.warn { "Request ($request) timed out! Retrying... (Attempt ${(maxRetry - retryCount) + 1}/$maxRetry)" }
-                            retryCount--
+                        if (e is HttpConnectTimeoutException && timeoutRetryCount > 0) {
+                            logger.warn { "Request ($requestBuilder) timed out! Retrying... (Attempt ${(maxTimeoutRetry - timeoutRetryCount) + 1}/$maxTimeoutRetry)" }
+                            timeoutRetryCount--
                             queueImpl(callback)
                             return@whenComplete
                         }
@@ -138,18 +158,19 @@ abstract class RestAction<F, S>(
     }
 
     protected open fun completeImpl(): Result<F, S> {
-        fun handleFailure(response: HttpResponse<*>? = null, throwable: Throwable? = null): Result.Failure<F> {
+        fun handleFailure(response: HttpResponse<*>? = null, throwable: Throwable? = null): Result<F, S> {
             val failure = constructFailure(response = response, throwable = throwable)
             failureCallback?.invoke(failure)
-            return Result.Failure(failure)
+
+            return if (retryIfCallback?.invoke(response, throwable) == true) completeImpl() else Result.Failure(failure)
         }
 
         val response = try {
-            client.send(request, bodyHandlerType)
+            client.send(requestBuilder.build(), bodyHandlerType)
         } catch (e: Exception) {
-            return if (e is HttpConnectTimeoutException && retryCount > 0) {
-                logger.warn { "Request ($request) timed out! Retrying... (Attempt ${(maxRetry - retryCount) + 1}/$maxRetry)" }
-                retryCount--
+            return if (e is HttpConnectTimeoutException && timeoutRetryCount > 0) {
+                logger.warn { "Request ($requestBuilder) timed out! Retrying... (Attempt ${(maxTimeoutRetry - timeoutRetryCount) + 1}/$maxTimeoutRetry)" }
+                timeoutRetryCount--
                 completeImpl()
             } else {
                 handleFailure(throwable = e)
@@ -157,7 +178,7 @@ abstract class RestAction<F, S>(
         }
 
         if (response.statusCode() in 400..599) {
-            handleFailure(response = response)
+            return handleFailure(response = response)
         }
 
         return try {

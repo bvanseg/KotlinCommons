@@ -21,18 +21,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package bvanseg.kotlincommons.io.net.http.rest.request
+package bvanseg.kotlincommons.io.net.http.rest.impl
 
-import java.time.Duration
+import bvanseg.kotlincommons.KotlinCommons
+import bvanseg.kotlincommons.io.net.http.KCHttpRequestBuilder
+import bvanseg.kotlincommons.io.net.http.rest.RestAction
+import bvanseg.kotlincommons.io.net.http.rest.RestActionFactory
+import bvanseg.kotlincommons.io.net.http.rest.RestActionFailure
+import com.fasterxml.jackson.core.type.TypeReference
 
-/**
- * @author Boston Vanseghi
- * @since 2.11.0
- */
-class PutRequest(
-    headers: Map<String, String> = emptyMap(),
-    pathVariables: Array<String> = emptyArray(),
-    queryParameters: Map<String, Any> = emptyMap(),
-    requestBody: Any? = null,
-    timeout: Duration = Duration.ofSeconds(30L)
-) : RestRequest(HttpMethod.PUT, headers, pathVariables, queryParameters, requestBody, timeout)
+class RestActionFactoryImpl : RestActionFactory<RestActionFailure>(
+    KotlinCommons.KC_HTTP_CLIENT,
+    KotlinCommons.KC_JACKSON_OBJECT_MAPPER
+) {
+    override fun <S> create(
+        requestBuilder: KCHttpRequestBuilder,
+        type: Class<S>,
+        typeReference: TypeReference<S>
+    ): RestAction<RestActionFailure, S> = RestActionImpl(requestBuilder, type, typeReference, client, mapper)
+}
